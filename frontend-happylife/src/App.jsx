@@ -1,19 +1,31 @@
-import { Header, Body, Footer } from "./login";
-import Nav from "./components/Nav";
-const App = () => (
-    <main className='relative'>
+import {Nav, Header, Footer} from './components';
+import {BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+import Home from './pages/home/home.jsx'
+import AboutUs from './pages/aboutus/aboutus.jsx'
+import Contact from './pages/contact/contact.jsx'
+import Plan from './pages/plan/plan.jsx'
+import Login from './pages/login/login.jsx'
+
+export default function App() {
+      
+  return(
+  <div >
+    <Router>
       <Nav/>
-      <section className='xl:padding-1 wide:padding-r padding-b'>
       <Header/>
-      </section>
-      <section className='xl:padding-1 wide:padding-r padding-b'>
-      <Body/>
-      </section>
-      <section className='xl:padding-1 wide:padding-r padding-b'>
+      <Routes>
+        
+        <Route path ='/home' element ={<Home/>} />
+        <Route path='/aboutus' element ={<AboutUs/>} />
+        <Route path='/contact' element ={<Contact/>} />
+        <Route path='/plan' element ={<Plan/>} />
+        <Route exact path='/' element ={<Login/>} />
+      </Routes>
+
       <Footer/>
-      </section>
 
-
-    </main>
+    </Router>
+  </div>
+ 
   )
-export default App
+}
