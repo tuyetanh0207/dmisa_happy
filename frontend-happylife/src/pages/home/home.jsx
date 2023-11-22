@@ -4,6 +4,7 @@ export default function Home() {
       <div className='w-screen h-screen  '>
         <h1>HOME</h1>
 
+
       </div>
      
       )

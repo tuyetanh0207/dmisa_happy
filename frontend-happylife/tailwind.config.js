@@ -8,6 +8,10 @@ export default {
     extend: {
       backgroundColor: {
         'custom-blue': '#142255',
+        'custom-blue-3':'#EEF1FE',
+      },
+      textColor: {
+        'custom-blue-2': '#64CEC9',
       },
     },
   },
