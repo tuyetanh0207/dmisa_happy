@@ -1,15 +1,16 @@
-import { Nav, Header, Body, Footer } from "./sections";
+import { Header, Body, Footer } from "./login";
+import Nav from "./components/Nav";
 const App = () => (
     <main className='relative'>
-      Nav
+      <Nav/>
       <section className='xl:padding-1 wide:padding-r padding-b'>
-      Header
+      <Header/>
       </section>
-      <section className='padding'>
-      Body
+      <section className='xl:padding-1 wide:padding-r padding-b'>
+      <Body/>
       </section>
-      <section className='padding'>
-      Footer
+      <section className='xl:padding-1 wide:padding-r padding-b'>
+      <Footer/>
       </section>
 
 
