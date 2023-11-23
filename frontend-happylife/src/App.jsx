@@ -5,6 +5,7 @@ import AboutUs from './pages/aboutus/aboutus.jsx'
 import Contact from './pages/contact/contact.jsx'
 import Plan from './pages/plan/plan.jsx'
 import Login from './pages/login/login.jsx'
+import Signup from './pages/signup/signup.jsx'
 
 export default function App() {
       
@@ -19,7 +20,8 @@ export default function App() {
         <Route path='/aboutus' element ={<AboutUs/>} />
         <Route path='/contact' element ={<Contact/>} />
         <Route path='/plan' element ={<Plan/>} />
-        <Route exact path='/' element ={<Login/>} />
+        <Route exact path='/login' element ={<Login/>} />
+        <Route exact path='/' element ={<Signup/>} />
       </Routes>
 
       <Footer/>
