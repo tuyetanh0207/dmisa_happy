@@ -26,6 +26,10 @@ export default {
         '2px' : '2px',
         '631px' : '631px',
       },
+      listStyleImage: {
+        'store' : 'url("/src/assets/chevronright.svg") ',
+
+      },
     },
   },
   plugins: [],

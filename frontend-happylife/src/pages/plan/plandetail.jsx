@@ -33,7 +33,7 @@ export default function Help() {
                         <div className="basis-1/2">
 
                             <div className="grid-rows-3">
-                                <h3 className="pb-5 pt-3 text-2xl font-semibold  text-custom-blue">Get Medical Excellence Every Day. Let's Book an Appointment by Phone!</h3>
+                                <h3 className="pb-5 pt-3 text-2xl font-semibold  text-custom-blue">Get Medical Excellence Every Day Let's Book an Appointment by Phone!</h3>
                                 <div className='flex flex-row space-x-4' >
                                     <img src={Phone} alt="LOGO" ></img>
                                     <h3 className="pb-5 text-4xl font-sans font-bold text-custom-blue-3">123 45 67 890</h3>
