@@ -1,12 +1,17 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.entity.User;
+import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.UserRepo;
+import com.example.happylife.backendhappylife.service.MyService;
 import com.example.happylife.backendhappylife.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,7 +25,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
-        return userRepo.save(user);
+        if (user.getFullName() == null || user.getFullName().isEmpty()) {
+            throw new UserCreationException("Full name is required.");
+        }
+        if (user.getGender() == null || !(user.getGender().equals("Male") || user.getGender().equals("Female"))) {
+            throw new UserCreationException("Invalid gender. Please specify 'Male' or 'Female'.");
+        }
+        if (!MyService.isValidPhoneNumber(user.getPhone())) {
+            throw new UserCreationException("Invalid phone number format.");
+        }
+        try {
+            user.setCreatedAt(ZonedDateTime.from(Instant.now()));
+            user.setUpdatedAt(ZonedDateTime.from(Instant.now()));
+            return userRepo.save(user);
+        }
+        catch (Exception e) {
+            throw new UserCreationException("Error creating user:" + e.getMessage());
+
+        }
+
     }
 
 //    @Override
@@ -39,3 +62,4 @@ public class UserServiceImpl implements UserService {
 //        return oldUser;
 //    }
 }
+
