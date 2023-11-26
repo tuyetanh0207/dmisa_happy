@@ -8,6 +8,7 @@ export default {
     extend: {
       backgroundColor: {
         'custom-blue': '#142255',
+        'custom-blue-2': '#CAD6FD',
         'custom-blue-3':'#EEF1FE',
         'button-blue': '#5576F5',
         'bgr-white': '#F5F9FD',
@@ -28,7 +29,6 @@ export default {
       },
       listStyleImage: {
         'store' : 'url("/src/assets/chevronright.svg") ',
-
       },
     },
   },
