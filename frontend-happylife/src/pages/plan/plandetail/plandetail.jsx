@@ -1,10 +1,12 @@
 import Insurance from '../../../assets/Insurance.jpg'
 import Review from './review'
 import Contact  from './contact'
+import Header from '../header.jsx'
 
 export default function Plandetail() {
     return (
         <div className=" bg-custom-blue-3">
+            <Header/>
             <div className='pt-20 pb-20 container mx-auto '>
                 <h1 className="pb-14  text-center text-4xl font-semibold font-serif text-custom-blue">PLAN TITLE</h1>
                     <div className="flex items-center justify-center ">

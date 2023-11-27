@@ -14,7 +14,7 @@ export default function App() {
       <div >
         <Router>
           <Nav/>
-          <Header/>
+          {/* <Header/> */}
           <Routes>
             <Route exact path='/' element ={<Home/>} />
             <Route path='/aboutus' element ={<AboutUs/>} />
