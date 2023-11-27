@@ -1,0 +1,8 @@
+.slick-slide > div {
+    margin: 0 10px
+}
+
+.slick-slider-no-arrows .slick-prev,
+.slick-slider-no-arrows .slick-next {
+  display: none !important;
+}

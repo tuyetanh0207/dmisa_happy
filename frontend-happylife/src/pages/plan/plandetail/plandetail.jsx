@@ -1,15 +1,16 @@
-import Insurance from '../../assets/Insurance.jpg'
-
+import Insurance from '../../../assets/Insurance.jpg'
+import Review from './review'
+import Contact  from './contact'
 
 export default function Plandetail() {
     return (
         <div className=" bg-custom-blue-3">
-            <div className='pt-20 pb-20 container mx-auto bg-green-500 '>
+            <div className='pt-20 pb-20 container mx-auto '>
                 <h1 className="pb-14  text-center text-4xl font-semibold font-serif text-custom-blue">PLAN TITLE</h1>
                     <div className="flex items-center justify-center ">
                         <img src={Insurance} alt="LOGO" className="item-center" ></img>
                     </div>
-                <div className="pt-6 pb-14 container mx-auto bg-red-300 max-w-6xl">
+                <div className="pt-6 pb-14 container mx-auto  max-w-6xl">
                     <h1 className="pt-14 pb-4 text-3xl font-semibold font-serif text-custom-blue">PLAN TITLE</h1>
                     <p className="pt-5 pb-10 text-2xl">Decription</p>
                     <div className="grid grid-cols-2 gap-4">
@@ -28,12 +29,20 @@ export default function Plandetail() {
                     </div>
                     <h1 className="pt-14 pb-4 text-3xl font-semibold font-serif text-custom-blue">PLAN TITLE</h1>
                     <p className="pt-5 pb-10 text-2xl">Decription</p>
-                    <div className="pt-6 pb-14 container mx-auto bg-custom-blue-2 max-w-6xl"></div>
+                    <div className="pt-6 pb-14 container mx-auto bg-custom-blue-2 max-w-6xl">
+                        <div className="pt-5 container mx-auto max-w-[900px]">
+                            <h1 className="pt-14 pb-4 text-3xl  font-semibold font-serif text-custom-blue"> Quote Temp </h1>
+                            <p className="pt-5  text-2xl text-custom-blue">Name</p>
+                        </div>
+                    </div>
+                    <p className="pt-10 pb-10 text-2xl">Decription</p>
                 </div>
                 
             </div>
+            <Review/>
+            <Contact/>
         </div>
-
+        
 
     )
   }

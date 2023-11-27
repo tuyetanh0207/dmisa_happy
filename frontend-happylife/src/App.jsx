@@ -6,7 +6,7 @@ import AboutUs from './pages/aboutus/aboutus.jsx'
 import Contact from './pages/contact/contact.jsx'
 import Plan from './pages/plan/plan.jsx'
 import Footer from './components/footer.jsx'
-import Plandetail from './pages/plan/plandetail.jsx'
+import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 
 export default function App() {
       
