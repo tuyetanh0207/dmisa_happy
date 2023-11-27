@@ -7,7 +7,7 @@ export default function Login() {
         <form className="font-sans  font-medium text-base">
             <div>
                 <label className="ml-[208px]">
-                    Username
+                    Username    
                 </label>
             </div>
             <div className="flex items-center justify-center">
@@ -26,7 +26,7 @@ export default function Login() {
             
             <div className="ml-[208px] font-normal italic text-[#5576F5]">
                 Forgot password?
-            </div>
+            </div>  
             <div className="flex items-center justify-center font-bold text-xl">
             <button className="bg-button-blue w-[208px] h-[56px] mt-[29px] text-white rounded-lg">
                 Login
@@ -35,7 +35,6 @@ export default function Login() {
             </div>
         </form>
         </div>
-    </div>
-   
+    </div>   
     )
 }

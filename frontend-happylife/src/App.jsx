@@ -6,22 +6,22 @@ import Contact from './pages/contact/contact.jsx'
 import Plan from './pages/plan/plan.jsx'
 import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
+import {useState} from 'react'
 
 export default function App() {
-      
+  const [isLogin, setLogin] = useState(false)
   return(
   <div >
-    <Router>
+      <Router>
       <Nav/>
       <Header/>
       <Routes>
-        
         <Route path ='/home' element ={<Home/>} />
         <Route path='/aboutus' element ={<AboutUs/>} />
         <Route path='/contact' element ={<Contact/>} />
         <Route path='/plan' element ={<Plan/>} />
-        <Route exact path='/login' element ={<Login/>} />
-        <Route exact path='/' element ={<Signup/>} />
+        <Route path='/login' element ={<Login/>} />
+        <Route path='/signup' element ={<Signup/>} />
       </Routes>
 
       <Footer/>
