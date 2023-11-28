@@ -1,11 +1,15 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.controller.auth.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.UserRepo;
 import com.example.happylife.backendhappylife.service.MyService;
 import com.example.happylife.backendhappylife.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,6 +17,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Date;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,8 +26,12 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
 
     @Override
-    public List<User> getUsers() {
-        return userRepo.findAll();
+    public List<UserResDTO> getUsers() {
+        List<User> users = userRepo.findAll();
+        List<UserResDTO> userResDTOs = users.stream()
+                .map(User::convertFromUserToUserResDTO)
+                .collect(Collectors.toList());
+        return userResDTOs;
     }
 
     @Override
@@ -46,6 +56,28 @@ public class UserServiceImpl implements UserService {
             throw new UserCreationException("Error creating user:" + e.getMessage());
 
         }
+
+    }
+
+    @Override
+    public UserResDTO getUserById(UserResDTO user, String id) {
+        // check if user._id == id, it means a user is getting their infomation
+        try {
+            if (user.getId().equals(id)) {
+                Optional<User> userVar = userRepo.findById(id);
+                return userVar.get().convertFromUserToUserResDTO();
+            }
+            // check if getting user is manager, DBA or accountant, it means they can get information of any user
+            if (user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT || user.getRole() == Role.DBA) {
+                Optional<User> userVar = userRepo.findById(id);
+                return userVar.get().convertFromUserToUserResDTO();
+            }
+            throw new UserCreationException("Error getting user information, you not have permission, please sign in with permitted account to do it.");
+        } catch (Exception e) {
+
+            throw new UserCreationException("Error getting user information: " + e.getMessage());
+        }
+
 
     }
 
