@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.entity;
 
+import com.example.happylife.backendhappylife.controller.auth.UserResDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -87,5 +88,21 @@ public class User implements UserDetails {
  public boolean isEnabled() {
 
   return true;
+ }
+
+ public UserResDTO convertFromUserToUserResDTO() {
+  UserResDTO userResDTO = new UserResDTO();
+  userResDTO.setId(id);
+  userResDTO.setDOB(DOB);
+  userResDTO.setAddress(address);
+  userResDTO.setEmail(email);
+  userResDTO.setPhoneNumber(phoneNumber);
+  userResDTO.setGender(gender);
+  userResDTO.setRole(role);
+  userResDTO.setAvatarUrl(avatarUrl);
+  userResDTO.setCreatedAt(createdAt);
+  userResDTO.setUpdatedAt(updatedAt);
+  userResDTO.setFullName(fullName);
+  return userResDTO;
  }
 }
