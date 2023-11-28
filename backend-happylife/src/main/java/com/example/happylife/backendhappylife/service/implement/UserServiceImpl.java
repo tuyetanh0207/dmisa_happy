@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Date;
@@ -31,12 +32,14 @@ public class UserServiceImpl implements UserService {
         if (user.getGender() == null || !(user.getGender().equals("Male") || user.getGender().equals("Female"))) {
             throw new UserCreationException("Invalid gender. Please specify 'Male' or 'Female'.");
         }
-        if (!MyService.isValidPhoneNumber(user.getPhone())) {
+        if (!MyService.isValidPhoneNumber(user.getPhoneNumber())||user.getPhoneNumber().length()!=10) {
             throw new UserCreationException("Invalid phone number format.");
         }
         try {
-            user.setCreatedAt(ZonedDateTime.from(Instant.now()));
-            user.setUpdatedAt(ZonedDateTime.from(Instant.now()));
+            Instant instantNow = Instant.now();
+
+            user.setCreatedAt(instantNow);
+            user.setUpdatedAt(instantNow);
             return userRepo.save(user);
         }
         catch (Exception e) {
