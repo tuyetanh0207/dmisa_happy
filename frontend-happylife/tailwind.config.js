@@ -20,6 +20,7 @@ export default {
         'custom-blue-2': '#64CEC9',
         'custom-blue-3': '#5576F5',
       },
+       
       space: {
         '76px' : '76px',
         '45px' : '45px',
@@ -30,6 +31,7 @@ export default {
       listStyleImage: {
         'store' : 'url("/src/assets/chevronright.svg") ',
       },
+
     },
   },
   plugins: [],
