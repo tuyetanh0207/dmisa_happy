@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/Plans")
+@RequestMapping("/api/v1/plans")
 public class PlanController {
     @Autowired
     private PlanService planService;
@@ -17,11 +17,11 @@ public class PlanController {
  /*   @Autowired
     private SearchService searchService;*/
 
-    @GetMapping("/all")
+    @GetMapping("")
     public List<Plan> getAllPlan(){
         return planService.getAllPlan();
     };
-    @GetMapping("/getPlan/{PlanId}")
+    @GetMapping("/{PlanId}")
     public Plan getPlan(@PathVariable ObjectId PlanId){
         return planService.getPlan(PlanId);
     };
@@ -44,7 +44,7 @@ public class PlanController {
         return filteredPlans;*//*
         return null;
     };*/
-    @PostMapping("/insert")
+    @PostMapping("/create")
     public Plan addPlan(@RequestBody Plan Plan){
         return planService.addPlan(Plan);
     };
