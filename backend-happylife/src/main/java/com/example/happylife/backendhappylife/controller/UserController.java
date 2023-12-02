@@ -1,15 +1,17 @@
-package com.example.happylife.backendhappylife.controller.auth;
+package com.example.happylife.backendhappylife.controller;
 
+import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.auth.AuthenticationRequest;
+import com.example.happylife.backendhappylife.DTO.auth.AuthenticationResponse;
+import com.example.happylife.backendhappylife.controller.auth.AuthenticationService;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")

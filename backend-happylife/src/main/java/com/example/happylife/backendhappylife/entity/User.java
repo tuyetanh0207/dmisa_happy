@@ -1,6 +1,6 @@
 package com.example.happylife.backendhappylife.entity;
 
-import com.example.happylife.backendhappylife.controller.auth.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserResDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;

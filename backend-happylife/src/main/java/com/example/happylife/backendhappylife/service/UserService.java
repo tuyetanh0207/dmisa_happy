@@ -1,8 +1,7 @@
 package com.example.happylife.backendhappylife.service;
 
-import com.example.happylife.backendhappylife.controller.auth.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 

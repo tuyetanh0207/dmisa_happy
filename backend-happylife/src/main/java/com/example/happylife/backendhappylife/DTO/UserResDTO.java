@@ -1,4 +1,4 @@
-package com.example.happylife.backendhappylife.controller.auth;
+package com.example.happylife.backendhappylife.DTO;
 
 import com.example.happylife.backendhappylife.entity.Role;
 import com.example.happylife.backendhappylife.entity.User;

@@ -1,6 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
-import com.example.happylife.backendhappylife.controller.auth.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -8,15 +8,10 @@ import com.example.happylife.backendhappylife.repo.UserRepo;
 import com.example.happylife.backendhappylife.service.MyService;
 import com.example.happylife.backendhappylife.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

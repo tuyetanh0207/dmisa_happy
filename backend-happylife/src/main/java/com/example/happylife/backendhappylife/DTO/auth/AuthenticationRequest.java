@@ -1,4 +1,4 @@
-package com.example.happylife.backendhappylife.controller.auth;
+package com.example.happylife.backendhappylife.DTO.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
