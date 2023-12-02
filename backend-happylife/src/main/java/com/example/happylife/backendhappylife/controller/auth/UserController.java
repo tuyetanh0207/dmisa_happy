@@ -2,11 +2,14 @@ package com.example.happylife.backendhappylife.controller.auth;
 
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -19,8 +22,20 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/")
-    public List<User> getUsers(){
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResDTO> getUserById(@PathVariable String id, HttpServletRequest request) {
+        User userVar = (User) request.getAttribute("userDetails");
+        UserResDTO user = userVar.convertFromUserToUserResDTO();
+//        System.out.println("path id");
+//        System.out.println(id);
+//        System.out.println("user infor");
+//        System.out.println(user);
+        return ResponseEntity.ok(userService.getUserById(user, id));
+    }
+
+    @GetMapping("")
+    public List<UserResDTO> getUsers() {
+
         return userService.getUsers();
     }
     @PostMapping("/create")
@@ -39,6 +54,7 @@ public class UserController {
     ){
         return ResponseEntity.ok(service.authentication(request));
     }
+
 
     /*
 

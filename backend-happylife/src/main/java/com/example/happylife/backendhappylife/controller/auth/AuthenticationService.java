@@ -76,10 +76,6 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse authentication(AuthenticationRequest request) {
-        System.out.println("phone");
-        System.out.println(request.getPhoneNumber());
-        System.out.println("password");
-        System.out.println(request.getPassword());
         try {
             authenticationManager.authenticate(
 
@@ -93,6 +89,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+
                     .userInfo(user.convertFromUserToUserResDTO())
                     .build();
         } catch (AuthenticationException e) {
