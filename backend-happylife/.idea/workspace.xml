@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="done 2 endpoint: get user list and get user by id">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="done 2 endpoint: get user list and get user by id" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,6 +134,7 @@
       <workItem from="1701060133260" duration="3187000" />
       <workItem from="1701137591961" duration="4079000" />
       <workItem from="1701148691917" duration="6999000" />
+      <workItem from="1701500360630" duration="200000" />
     </task>
     <task id="LOCAL-00001" summary="done 2 endpoints: /register and /signin">
       <option name="closed" value="true" />
