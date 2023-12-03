@@ -8,15 +8,15 @@ import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
-import { Provider } from 'react-redux';
-import {persister, store} from '../redux/store';
-import { PersistGate } from 'redux-persist/integration/react';
+// import { Provider } from 'react-redux';
+// import {persister, store} from '../redux/store';
+// import { PersistGate } from 'redux-persist/integration/react';
 
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
   return(
-    <Provider store={store}>
-       <PersistGate loading={null} persistor={persister}>
+    // <Provider store={store}>
+    //    <PersistGate loading={null} persistor={persister}>
       <div>
         <Router>
           <Nav />
@@ -35,8 +35,8 @@ export default function App() {
           <Footer />
         </Router>
       </div>
-    </PersistGate>
-  </Provider>
+  //   </PersistGate>
+  // </Provider>
  
   )
 }
