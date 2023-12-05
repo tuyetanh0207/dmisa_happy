@@ -16,11 +16,13 @@ export const loginUser = async(user, dispatch, router) => {
     dispatch(loginStart());
     try{
         const res = await UserAPI.login(user);
+        console.log("res in loginUnser",res)
         dispatch(loginSuccess(res.data));
-        if(res.data.user.role ==='CUSTOMER'){
-            router.push('/');
+        if(res.data.userInfo.role ==='CUSTOMER'){
+            console.log('role is ' + res.data.userInfo.role)
+          router('/');
         }
-        return 1;
+        return res.data;
 
     } catch(err){
         dispatch(loginFail())
