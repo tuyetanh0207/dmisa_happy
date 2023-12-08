@@ -12,8 +12,7 @@ import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
   return(
-    // <Provider store={store}>
-    //     <PersistGate loading={null} persistor={persister}>
+
           <div >
               <Router>
               <Nav/>
@@ -34,7 +33,6 @@ export default function App() {
 
             </Router>
           </div>
-    //   </PersistGate>
-    // </Provider>
+
   )
 }
