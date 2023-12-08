@@ -18,6 +18,7 @@ export default function TestUser() {
       }
       useEffect(() => {
         fetchUser();
+        
       },[])
       return(
       <div className='w-screen h-screen  '>
