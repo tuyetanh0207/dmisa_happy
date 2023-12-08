@@ -10,6 +10,10 @@ const UserAPI = {
         const url = `${apiV1}/users/auth/register`;
         return post(url, user,"");
     },
+    getUser: function(token, userId) {
+        const url = `${apiV1}/users/${userId}`;
+        return get(url, token)
+    }
 }
 
 export default UserAPI;
