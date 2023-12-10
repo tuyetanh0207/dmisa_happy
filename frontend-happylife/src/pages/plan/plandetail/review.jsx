@@ -15,6 +15,17 @@ export default function Review() {
 
   };
 
+  // const review = [
+  //   {
+  //     descriptionTitle: "Description ",
+  //     description: "Description ",
+  //     image:Avatar,
+  //     customerName:"Name",
+  //     customerRole:"Role",
+  //   },
+
+  // ];
+
   return (
     <div className="pt-14 pb-14 bg-custom-blue">
       <div className="pt-6 pb-14 container mx-auto bg-custom-blue-3">
