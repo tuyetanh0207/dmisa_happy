@@ -10,8 +10,8 @@ import Signup from './pages/signup/signup.jsx'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuaranceManagementLayout.jsx';
 import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
-import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
+import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
 
@@ -33,10 +33,10 @@ export default function App() {
                   path="/staff/insuarancemanagement/*"
                   element={
                     <InsuaranceManagementLayout>
-                      <Route index element={<IMPlan />} />
+                      <Route index element={<IMPlan/>} />
                       <Route path="plan" element={<IMPlan />} />
-                      <Route path="/registration" element={<IMRegistration/>} />
-                      <Route path="claim" element={<IMClaim />} />
+                      <Route path="registration" element={<IMRegistration/>} />
+                      <Route path="claim" element={<IMClaim/>} />
                       
                     </InsuaranceManagementLayout>
                   }
