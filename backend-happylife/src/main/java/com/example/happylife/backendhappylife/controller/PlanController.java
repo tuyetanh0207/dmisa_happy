@@ -1,9 +1,15 @@
 package com.example.happylife.backendhappylife.controller;
 
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.PlanService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,15 +23,14 @@ public class PlanController {
  /*   @Autowired
     private SearchService searchService;*/
 
-    @GetMapping("")
-    public List<Plan> getAllPlan(){
-        return planService.getAllPlan();
-    };
     @GetMapping("/{PlanId}")
     public Plan getPlan(@PathVariable ObjectId PlanId){
         return planService.getPlan(PlanId);
     };
-
+    @GetMapping("/")
+    public ResponseEntity<List<PlanResDTO>> getAllPlans() {
+        return ResponseEntity.ok(planService.getAllPlans());
+    }
 /*    @GetMapping("/getPlanByName/{PlanName}")
     public  List<Plan> getPlanByName(String PlanName){
         return searchService.getPlanByName(PlanName);
@@ -45,9 +50,14 @@ public class PlanController {
         return null;
     };*/
     @PostMapping("/create")
-    public Plan addPlan(@RequestBody Plan Plan){
-        return planService.addPlan(Plan);
-    };
+    public ResponseEntity<PlanCreateDTO> addPlan(@RequestBody PlanCreateDTO planCreateDTO) {
+        Plan plan = new Plan();
+        plan.convertToPlan(planCreateDTO);
+        Plan savedPlan = planService.addPlan(plan);
+        PlanCreateDTO planCreDTO = plan.convertToPlanCreateDTO();
+        return ResponseEntity.ok(planCreDTO);
+    }
+
     @PutMapping("/update/{PlanId}")
     public Plan updatePlan(@PathVariable ObjectId PlanId, @RequestBody Plan Plan){
         return planService.updatePlan(PlanId,Plan);
