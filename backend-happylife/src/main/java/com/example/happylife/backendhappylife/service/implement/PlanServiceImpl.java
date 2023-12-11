@@ -1,22 +1,23 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
+import com.example.happylife.backendhappylife.service.MyService;
 import com.example.happylife.backendhappylife.service.PlanService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
     @Autowired
     private PlanRepo planRepo;
-    @Override
-    public List<Plan> getAllPlan() {
-        return planRepo.findAll();
-    }
 
     @Override
     public Plan getPlan(ObjectId PlanId) {
@@ -26,11 +27,11 @@ public class PlanServiceImpl implements PlanService {
     public List<Plan> getPlanByName(String PlanName) {
         return PlanRepo.getPlanByName(PlanName);
     }*/
-    @Override
+ /*   @Override
     public Plan addPlan(Plan Plan) {
         return planRepo.save(Plan);
     }
-
+*/
     @Override
     public Plan deletePlan(ObjectId PlanId) {
         Plan Plan = planRepo.findById(PlanId).get();
@@ -44,7 +45,7 @@ public class PlanServiceImpl implements PlanService {
 
         PlanVar.setPlanName(Plan.getPlanName());
         PlanVar.setPlanAbout(Plan.getPlanAbout());
-        PlanVar.setPlanAboutupdatedAt(Plan.getPlanAboutupdatedAt());
+        PlanVar.setPlanUpdatedAt(Plan.getPlanUpdatedAt());
         PlanVar.setPlanPrice(Plan.getPlanPrice());
         PlanVar.setPlanType(Plan.getPlanType());
         PlanVar.setPlanRecommended(Plan.getPlanRecommended());
@@ -55,5 +56,41 @@ public class PlanServiceImpl implements PlanService {
 
         planRepo.save(PlanVar);
         return PlanVar;
+    }
+
+    @Override
+    public List<PlanResDTO> getAllPlans() {
+        List<Plan> plans = planRepo.findAll();
+        List<PlanResDTO> planResDTOS = plans.stream()
+                .map(plan -> plan.convertToPlanResDTO()) // Sửa ở đây
+                .collect(Collectors.toList());
+        return planResDTOS;
+    }
+
+    @Override
+    public Plan addPlan(Plan plan) {
+        if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
+            throw new UserCreationException("Plan name is required.");
+        }
+        if (plan.getPlanAbout() == null || plan.getPlanAbout().isEmpty()) {
+            throw new UserCreationException("Plan description is required.");
+        }
+        if (plan.getPlanPrice() == null) {
+            throw new UserCreationException("Plan price is required.");
+        }
+        if (plan.getPlanType() == null || plan.getPlanType().isEmpty()) {
+            throw new UserCreationException("Plan type is required.");
+        }
+        if (plan.getPlanDuration() == null || plan.getPlanDuration().isEmpty()) {
+            throw new UserCreationException("Plan duration is required.");
+        }
+        try {
+            Instant instantNow = Instant.now();
+            plan.setPlanCreatedAt(instantNow);
+            plan.setPlanUpdatedAt(instantNow);
+            return planRepo.save(plan);
+        } catch (Exception e) {
+            throw new UserCreationException("Error creating new Plan: " + e.getMessage());
+        }
     }
 }
