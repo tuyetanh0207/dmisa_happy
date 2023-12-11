@@ -1,6 +1,6 @@
 //  import {Routes, Route, Link} from 'react-router-dom';
  import logoTitle from '../assets/logoTitle.png';
-
+import { useLocation } from 'react-router-dom';
 const navigationLeft = [
   { name: 'Home', href: '/home', current: true },
   { name: 'About', href: '/aboutus', current: true },
@@ -17,6 +17,11 @@ const navigationRight =[
 //   setLogin(true);
 //}
 const Nav = () => {
+  const location = useLocation()
+  const pathname = location.pathname
+  if (!pathname.includes('staff')){
+
+  
     return (
     <nav className="h-20 bg-custom-blue flex justify-between items-center px-8  border-[0.25px] border-blue-500">
      <img src={logoTitle} alt="LOGO" className='ml-[226px]'></img>  
@@ -47,6 +52,7 @@ const Nav = () => {
       </div>
     </nav>
   )
+  }
 }
 
 export default Nav

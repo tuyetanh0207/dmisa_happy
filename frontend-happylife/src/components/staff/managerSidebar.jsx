@@ -14,7 +14,9 @@ const ManagerSidebar = () => {
         {name: 'Claim', icon: <CreditCardIcon key="3" className='w-8 h-8 mr-4'/>, pathname: 'claim'},
     ]
     const handleClickNavigation = (navPath) => {
+      
         const path = '/staff/insuarancemanagement/' + navPath
+    
         navigate(path);
     }
     return (
@@ -31,8 +33,8 @@ const ManagerSidebar = () => {
             <ul className='mt-16'>
                 {navTitles.map((e)=>(
                 <li className={`flex font-semibold ml-8 mb-8 ${pathname.includes(e.pathname) ? 'text-blue-600' : ''}`} 
-                key=''
-                onClick={handleClickNavigation(e.pathname)}
+                key={e.pathname}
+                onClick={()=>handleClickNavigation(e.pathname)}
                 
                 >
                 {e.icon}

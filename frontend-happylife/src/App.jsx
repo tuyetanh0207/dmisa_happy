@@ -8,8 +8,10 @@ import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
-import InsuaranceManager_Registration from './pages/staff/insurancemanagement/registration/registrations.jsx';
 import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuaranceManagementLayout.jsx';
+import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
+import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
+import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
 
@@ -17,7 +19,7 @@ export default function App() {
 
           <div >
               <Router>            
-              
+              <Nav/>
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
                 <Route path ='/home' element ={<Home/>} />
@@ -28,17 +30,18 @@ export default function App() {
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plandetail' element ={<Plandetail/>} />
                 <Route
-                  path="/admin/*"
+                  path="/staff/insuarancemanagement/*"
                   element={
                     <InsuaranceManagementLayout>
-                      <Route path="plan" element={<AdminDashboard />} />
-                      <Route path="registration" element={<InsuaranceManager_Registration />} />
+                      <Route index element={<IMPlan />} />
+                      <Route path="plan" element={<IMPlan />} />
+                      <Route path="/registration" element={<IMRegistration/>} />
+                      <Route path="claim" element={<IMClaim />} />
                       
                     </InsuaranceManagementLayout>
                   }
                 />
-                <Route path='/staff/insuarancemanagement/registration' element ={<InsuaranceManager_Registration/>} />
-
+               
               </Routes>
 
               <Footer/>
