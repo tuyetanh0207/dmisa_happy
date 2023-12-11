@@ -8,6 +8,7 @@ import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
+import Buyplan from './pages/plan/buyplan/buyplan.jsx'
 import TestUser from './pages/testuser/testuser.jsx';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
                 <Route path='/login' element ={<Login/>} />
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plandetail' element ={<Plandetail/>} />
+                <Route path='/buyplan' element ={<Buyplan/>} />
                 <Route path='/testuser' element ={<TestUser/>} />
 
               </Routes>
