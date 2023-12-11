@@ -21,7 +21,12 @@ export const loginUser = async(user, dispatch, router) => {
         if(res.data.userInfo.role ==='CUSTOMER'){
             console.log('role is ' + res.data.userInfo.role)
           router('/');
+        } else if (res.data.userInfo.role ==='INSUARANCE_MANAGER'){
+            router('/staff/insuarancemanagement/registration');
+        } else {
+            console.log('role is ' + res.data.userInfo.role)
         }
+
         return res.data;
 
     } catch(err){

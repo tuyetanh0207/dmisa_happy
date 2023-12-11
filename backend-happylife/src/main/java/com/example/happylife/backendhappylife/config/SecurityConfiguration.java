@@ -21,9 +21,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/users/**", "/api/v1/plans/**", "/api/vi/registrations/**")
+                        .requestMatchers("/api/v1/users/**", "/api/v1/plans/**", "/api/v1/registrations/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

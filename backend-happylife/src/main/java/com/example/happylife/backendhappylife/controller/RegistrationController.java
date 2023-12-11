@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
 @RestController
 @RequestMapping("/api/v1/registrations")
@@ -26,7 +27,7 @@ public class RegistrationController {
     public List<Registration> getRegistrations(HttpServletRequest request){
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO user = userVar.convertFromUserToUserResDTO();
-        return ResponseEntity.ok(registrationService.getRegistrations(user)).getBody();
+        return registrationService.getRegistrations(user);
 
 
     }

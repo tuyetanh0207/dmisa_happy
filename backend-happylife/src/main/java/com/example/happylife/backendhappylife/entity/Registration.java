@@ -5,6 +5,8 @@ import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserResDTO;
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +28,8 @@ import java.util.Date;
 public class Registration {
 
     @Id
-    private ObjectId regisID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     private UserResDTO customerInfo;
     private PlanBasicDTO productInfo;
