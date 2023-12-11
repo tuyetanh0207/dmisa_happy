@@ -1,0 +1,12 @@
+.container {
+    width: 16%;
+    min-height: 100vh;
+    background-color: azure;
+}
+.container ul{
+    color: #5D6679;
+
+}
+.container li:hover{
+    color: #90b3e4;
+}

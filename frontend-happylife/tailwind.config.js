@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+  
     extend: {
+      screens:{
+        'sm1': '400px',
+      },
       backgroundColor: {
         'custom-blue': '#142255',
         'custom-blue-2': '#CAD6FD',

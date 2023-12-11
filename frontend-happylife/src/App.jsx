@@ -8,15 +8,16 @@ import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
-
+import InsuaranceManager_Registration from './pages/staff/insurancemanagement/registration/registrations.jsx';
+import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuaranceManagementLayout.jsx';
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
+
   return(
 
           <div >
-              <Router>
-              <Nav/>
-              {/* <Header/> */}
+              <Router>            
+              
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
                 <Route path ='/home' element ={<Home/>} />
@@ -26,6 +27,17 @@ export default function App() {
                 <Route path='/login' element ={<Login/>} />
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plandetail' element ={<Plandetail/>} />
+                <Route
+                  path="/admin/*"
+                  element={
+                    <InsuaranceManagementLayout>
+                      <Route path="plan" element={<AdminDashboard />} />
+                      <Route path="registration" element={<InsuaranceManager_Registration />} />
+                      
+                    </InsuaranceManagementLayout>
+                  }
+                />
+                <Route path='/staff/insuarancemanagement/registration' element ={<InsuaranceManager_Registration/>} />
 
               </Routes>
 

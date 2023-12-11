@@ -2,7 +2,12 @@ import logoTitle from '../assets/logoTitle.png';
 import In from '../assets/LinkedIn.png';
 import Instagram from '../assets/Instagram.png';
 import Fb from '../assets/Facebook.png';
+import { useLocation } from 'react-router-dom';
 export default function Footer() {
+    const location = useLocation()
+    const pathname = location.pathname
+
+  if (!pathname.includes('staff')) {
   return (
     <div className=" bg-custom-blue">
         <div className="flex flex-col divide-y divide-slate-600  " >
@@ -34,6 +39,7 @@ export default function Footer() {
         
     </div>
   )
+  }
 }
 
 
