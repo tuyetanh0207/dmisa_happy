@@ -40,9 +40,12 @@ public class UserServiceImpl implements UserService {
         if (!MyService.isValidPhoneNumber(user.getPhoneNumber())||user.getPhoneNumber().length()!=10) {
             throw new UserCreationException("Invalid phone number format.");
         }
+        if (userRepo.findByPhoneNumber(user.getPhoneNumber()).isPresent()){
+            throw new UserCreationException("Phone number is already existed.");
+        }
         try {
             Instant instantNow = Instant.now();
-
+            user.setRole(Role.CUSTOMER);
             user.setCreatedAt(instantNow);
             user.setUpdatedAt(instantNow);
             return userRepo.save(user);
