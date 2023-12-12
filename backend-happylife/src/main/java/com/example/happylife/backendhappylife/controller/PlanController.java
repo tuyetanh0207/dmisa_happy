@@ -33,6 +33,12 @@ public class PlanController {
     public ResponseEntity<List<PlanResDTO>> getAllPlans() {
         return ResponseEntity.ok(planService.getAllPlans());
     }
+    /*public List<Plan> getAllPlans() {
+        return planService.getalls();
+    }*/
+    //public List<Plan> getAllPlan() {
+    /*    return planService.getAllPlan();
+    }*/
 /*    @GetMapping("/getPlanByName/{PlanName}")
     public  List<Plan> getPlanByName(String PlanName){
         return searchService.getPlanByName(PlanName);
@@ -54,13 +60,18 @@ public class PlanController {
     @PostMapping("/create")
     public ResponseEntity<PlanCreateDTO> addPlan(@RequestBody PlanCreateDTO planCreateDTO) {
         Plan plan = new Plan();
-        plan.convertToPlan(planCreateDTO);
-        Plan savedPlan = planService.addPlan(plan);
-        PlanCreateDTO planCreDTO = plan.convertToPlanCreateDTO();
+        Plan updatedPlan = plan.convertToPlan(planCreateDTO); // Sử dụng đối tượng này
+        Plan savedPlan = planService.addPlan(updatedPlan); // Lưu đối tượng đã cập nhật
+        PlanCreateDTO planCreDTO = savedPlan.convertToPlanCreateDTO(); // Chuyển đổi từ đối tượng đã lưu
         return ResponseEntity.ok(planCreDTO);
     }
 
+<<<<<<< Updated upstream
     @PutMapping("/update/{PlanId}")
+=======
+
+    /*@PutMapping("/update/{PlanId}")
+>>>>>>> Stashed changes
     public Plan updatePlan(@PathVariable ObjectId PlanId, @RequestBody Plan Plan){
         return planService.updatePlan(PlanId,Plan);
     }
