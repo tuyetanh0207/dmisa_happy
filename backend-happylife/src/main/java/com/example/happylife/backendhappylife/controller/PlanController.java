@@ -66,12 +66,7 @@ public class PlanController {
         return ResponseEntity.ok(planCreDTO);
     }
 
-<<<<<<< Updated upstream
     @PutMapping("/update/{PlanId}")
-=======
-
-    /*@PutMapping("/update/{PlanId}")
->>>>>>> Stashed changes
     public Plan updatePlan(@PathVariable ObjectId PlanId, @RequestBody Plan Plan){
         return planService.updatePlan(PlanId,Plan);
     }

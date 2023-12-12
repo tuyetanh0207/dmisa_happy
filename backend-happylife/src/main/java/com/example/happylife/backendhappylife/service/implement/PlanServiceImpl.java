@@ -2,6 +2,7 @@ package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.MyService;
@@ -93,9 +94,6 @@ public class PlanServiceImpl implements PlanService {
             throw new UserCreationException("Error creating new Plan: " + e.getMessage());
         }
     }
-<<<<<<< Updated upstream
-=======
-
     @Override
     public Plan buyPlan(Plan plan, User user) {
         if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
@@ -123,5 +121,4 @@ public class PlanServiceImpl implements PlanService {
     public List<Plan> getAllPlan() {
         return planRepo.findAll();
     }*/
->>>>>>> Stashed changes
 }
