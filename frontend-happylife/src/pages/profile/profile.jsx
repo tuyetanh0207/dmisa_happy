@@ -1,11 +1,19 @@
+import {BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import Header from './header.jsx'
 import Navprofile from './navprofile.jsx'
-import Header from './header.jsx'
+import Information from './information.jsx'
+import Claims from './claims.jsx'
+import Registration from './registration.jsx'
 const profile = () => {
   return (
     <div >
-        <Header/>
-        <Navprofile/>
+          <Navprofile/>
+          <Routes>
+            <Route path ='information' element ={<Information/>} />
+            <Route path='registration' element ={<Registration/>} />
+            <Route path='claims' element ={<Claims/>} />
+          </Routes>
+      
     </div>
 
     

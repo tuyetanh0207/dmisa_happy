@@ -50,11 +50,21 @@ const signup = () => {
                 
             </div>
             <div>
-                <input className="text-black w-[253px] h-[48px] mb-[38px] ml-[208px] border border-input-border-grey rounded">
+                <input className="text-black w-[253px] h-[48px] mb-[12px] ml-[208px] border border-input-border-grey rounded">
                 </input>
-                <input className="text-black w-[253px] h-[48px] mb-[38px] ml-[13px] border border-input-border-grey rounded">
+                <input className="text-black w-[253px] h-[48px] mb-[12px] ml-[13px] border border-input-border-grey rounded">
                 </input>
             </div>
+            <div>
+                <label className="ml-[208px] ">
+                    Identity Number
+                </label>
+            </div>
+            <div  className="flex items-center justify-center">
+                <input className="text-black w-[519px] h-[48px] mb-[38px] border border-input-border-grey rounded">
+                </input>
+            </div>
+            
 
             <div className="flex items-center justify-center font-bold text-xl">
             <button className="bg-button-blue w-[520px] h-[56px] text-white rounded-lg">

@@ -1,7 +1,7 @@
 const information = () => {
   return (
     <div className="h-screen flex justify-center h-[631px] bg-bgr-white my-auto">
-        <form className="font-sans  font-medium text-base mt-[40px]">
+        <form className="font-sans font-medium text-base mt-[40px]">
             <div>
                 <label>
                     Full name
