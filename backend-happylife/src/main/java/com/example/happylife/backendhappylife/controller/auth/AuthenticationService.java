@@ -30,6 +30,9 @@ public class AuthenticationService {
         if (request.getFullName() == null) {
             throw new UserCreationException("Full name is required.");
         }
+        if (request.getCitizenId() == null) {
+            throw new UserCreationException("CitizenId is required.");
+        }
         if (request.getGender() == null || !(request.getGender().equals("Male") || request.getGender().equals("Female"))) {
             throw new UserCreationException("Invalid gender. Please specify 'Male' or 'Female'.");
         }
@@ -55,6 +58,7 @@ public class AuthenticationService {
                     .phoneNumber(request.getPhoneNumber())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .fullName(request.getFullName())
+                    .citizenId(request.getCitizenId())
                     .DOB(request.getDOB())
                     .address(request.getAddress())
                     .createdAt(instantNow)

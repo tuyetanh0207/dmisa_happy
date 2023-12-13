@@ -30,6 +30,7 @@ public class UserResDTO {
 
 
     private String phoneNumber;
+    private String citizenId;
 
     private String email;
     private String address;

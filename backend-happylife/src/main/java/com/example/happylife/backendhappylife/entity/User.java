@@ -41,6 +41,8 @@ public class User implements UserDetails {
 
      @Column(nullable = false)
      private String phoneNumber;
+     //Column(nullable = false)
+     private String citizenId;
      @Column(nullable = false)
      private String email;
      private String address;
