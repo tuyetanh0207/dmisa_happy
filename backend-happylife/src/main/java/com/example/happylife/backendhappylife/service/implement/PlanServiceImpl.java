@@ -2,6 +2,7 @@ package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.MyService;
@@ -93,4 +94,31 @@ public class PlanServiceImpl implements PlanService {
             throw new UserCreationException("Error creating new Plan: " + e.getMessage());
         }
     }
+    @Override
+    public Plan buyPlan(Plan plan, User user) {
+        if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
+            throw new UserCreationException("Plan name is required.");
+        }
+        if (plan.getPlanPrice() == null) {
+            throw new UserCreationException("Plan price is required.");
+        }
+        if (plan.getPlanType() == null || plan.getPlanType().isEmpty()) {
+            throw new UserCreationException("Plan type is required.");
+        }
+        if (plan.getPlanDuration() == null || plan.getPlanDuration().isEmpty()) {
+            throw new UserCreationException("Plan duration is required.");
+        }
+        try {
+            //Kiểm tra kết quả user
+
+
+            return planRepo.save(plan);
+        } catch (Exception e) {
+            throw new UserCreationException("Error creating new Plan: " + e.getMessage());
+        }
+    }
+    /*@Override
+    public List<Plan> getAllPlan() {
+        return planRepo.findAll();
+    }*/
 }
