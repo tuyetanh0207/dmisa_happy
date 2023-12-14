@@ -46,16 +46,18 @@ const Nav = () => {
                {item.name}
               </button>
             ) : item.name === 'Signup' ? (
-              <button className="bg-button-blue text-white px-4 py-2 rounded items-center mr-[268px]">
+              <button className="bg-button-white text-white px-4 py-2 rounded items-center mr-[268px]">
               {item.name}
             </button>
-            ) : (
+            ) 
+            : (
               <button
               className={"bg-button-blue text-white px-4 py-2 rounded items-center mr-[2px] ${isButtonVisible ? 'hidden' : ''}"}
               >
                 {item.name}
               </button>
-            )}
+            )
+            }
           </a>
         ))}
       </div>

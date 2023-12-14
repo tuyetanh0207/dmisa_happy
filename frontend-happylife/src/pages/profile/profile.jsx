@@ -6,9 +6,10 @@ import Claims from './claims.jsx'
 import Registration from './registration.jsx'
 const profile = () => {
   return (
-    <div >
+    <div>
           <Navprofile/>
           <Routes>
+            <Route path ='/' element ={<Information/>} />
             <Route path ='information' element ={<Information/>} />
             <Route path='registration' element ={<Registration/>} />
             <Route path='claims' element ={<Claims/>} />

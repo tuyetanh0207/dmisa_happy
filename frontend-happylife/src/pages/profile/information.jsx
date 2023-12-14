@@ -1,6 +1,6 @@
 const information = () => {
   return (
-    <div className="h-screen flex justify-center h-[631px] bg-bgr-white my-auto">
+    <div className="max-h-full flex justify-center bg-bgr-white my-auto">
         <form className="font-sans font-medium text-base mt-[40px]">
             <div>
                 <label>
