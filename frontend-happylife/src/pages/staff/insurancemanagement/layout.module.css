@@ -1,9 +1,13 @@
+
 .container{
     width: 100%;
     display: flex;
+    
 }
 .mainContainer {
- width: 100%; 
-    display: flex; 
+    width: 100%; 
+    display: block; 
+    /* background-color: rgb(29, 128, 214); */
+    /* padding: 0; */
 
 }

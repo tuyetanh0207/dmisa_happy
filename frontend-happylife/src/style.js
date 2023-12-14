@@ -13,8 +13,18 @@ const styles = {
   
     marginX: "sm:mx-16 mx-6",
     marginY: "sm:my-16 my-6",
-  };
   
+    customBlue: "#142255",
+    customBlue2: "#CAD6FD",
+    customBlue3:'#EEF1FE',
+    buttonBlue: '#5576F5',
+    bgWhite: '#F5F9FD',
+    headerBlue : '#182256',
+    inputBorderGrey : '#E1E1E1',
+    textCustomBlue: '#142255',
+    textCustomBlue2: '#64CEC9',
+    textCustomBlue3: '#5576F5',
+};
   export const layout = {
     section: `flex md:flex-row flex-col ${styles.paddingY}`,
     sectionReverse: `flex md:flex-row flex-col-reverse ${styles.paddingY}`,

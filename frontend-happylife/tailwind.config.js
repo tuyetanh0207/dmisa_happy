@@ -23,6 +23,7 @@ export default {
         'custom-blue': '#142255',
         'custom-blue-2': '#64CEC9',
         'custom-blue-3': '#5576F5',
+        'slight-black': "#383E49"
       },
        
       space: {

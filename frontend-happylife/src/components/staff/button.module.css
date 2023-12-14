@@ -1,0 +1,8 @@
+.button{
+
+}
+.button:hover {
+    transition: all 0.5 ease-in-out;
+    text-shadow: 1px 1px 15px rgba(135, 142, 204, 0.5);
+
+}
