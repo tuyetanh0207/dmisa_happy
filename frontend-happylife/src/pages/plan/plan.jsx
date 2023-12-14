@@ -5,7 +5,6 @@ import Header from './header.jsx'
 import PlanAPI from '../../../api/plansApi.jsx'
 import { useEffect,useState } from 'react'
 
-
 export default function Plan() {
     // Gọi API lấy data -> có rhwe63 phải jsonfy nó
     // plans = jsonfy function (result of API Call)
