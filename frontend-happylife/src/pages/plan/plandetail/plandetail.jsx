@@ -2,60 +2,71 @@ import Insurance from '../../../assets/Insurance.jpg'
 import Review from './review'
 import Contact  from './contact'
 import Header from '../header.jsx'
-
+import { useEffect,useState } from 'react'
+import axios from 'axios'
+import { useParams } from 'react-router-dom'
 export default function Plandetail() {
     
-    const plansdetail = [
-        {
-          planName: "Title",
-          image:Insurance,
-          title1:"Title",
-          title2:"Title",
-          description: "Description ",
-          description2: "Description ",
-          description3: "Description ",
-          benefits: ["Temp", "Temp", "Temp", "Temp", "Temp"],
-          quote:"Quote temp",
-          customerName:"Name"
-        },
+    const {planId} = useParams();
 
-      ];
+    const [plansDetail,setPlansDetailAPI]=useState([]);
+    
+
+    const fetchPlanDetailAPI = () => {
+        fetch("http://localhost:8090/api/v1/plans")
+        // fetch(`http://localhost:8090/api/v1/plans/${planId}`)
+        // fetch(`http://localhost:8090/api/v1/plans/657b4121493c373b91eb3c11`)
+        .then((res)=>res.json())
+        .then((data)=>{
+            console.log(data)
+            setPlansDetailAPI(data);
+        });
+    }
+    useEffect(() => {
+        fetchPlanDetailAPI();
+    
+    },[planId])
+    
+    
+    
 
 
     return (
         <div className=" bg-custom-blue-3">
             <Header/>
-            {plansdetail.map((plandetail, index) => ( 
+            
+            {plansDetail.length > 0 && plansDetail.map((plansDetail, index) => (
+
             <div key={index} className='pt-20 pb-20 container mx-auto '>
                                 
-                <h1 className="pb-14  text-center text-4xl font-semibold font-serif text-custom-blue">{plandetail.planName}</h1>
+                <h1 className="pb-14  text-center text-4xl font-semibold font-serif text-custom-blue">{plansDetail.planName}</h1>
                     <div className="flex items-center justify-center ">
-                        <img src={plandetail.image} alt="LOGO" className="item-center" ></img>
+                        <img src={Insurance} alt="LOGO" className="item-center" ></img>
                     </div>
                 <div className="pt-6 pb-14 container mx-auto  max-w-6xl">
-                    <h1 className="pt-14 pb-4 text-3xl font-semibold font-serif text-custom-blue">{plandetail.title1}</h1>
-                    <p className="pt-5 pb-10 text-2xl">{plandetail.description}</p>
+                    <h1 className="pt-14 pb-4 text-3xl font-semibold font-serif text-custom-blue">Benefit</h1>
+                    <p className="pt-5 pb-10 text-2xl">{plansDetail.planAbout}</p>
                     <div className="grid grid-cols-2 gap-4">
                         <div className=" p-4">
                         <ul className="pl-7 text-xl list-image-store">
-                            {plandetail.benefits.map((benefit, i) => (
+                            {plansDetail.planBenefits.map((benefit, i) => (
                             <li key={i}>{benefit}</li>
                             ))}
                 </ul>
                         </div>
                         <div className=" p-4">
-                            <img src={plandetail.image} alt="LOGO" className="item-center" ></img>
+                            <img src={Insurance} alt="LOGO" className="item-center" ></img>
                         </div>
                     </div>
-                    <h1 className="pt-14 pb-4 text-3xl font-semibold font-serif text-custom-blue">{plandetail.title2}</h1>
-                    <p className="pt-5 pb-10 text-2xl">{plandetail.description2}</p>
+                    <h1 className="pt-14 pb-4 text-3xl font-semibold font-serif text-custom-blue">{plansDetail.planName}</h1>
+                    <p className="pt-5 pb-10 text-2xl">{plansDetail.planAbout}</p>
                     <div className="pt-6 pb-14 container mx-auto bg-custom-blue-2 max-w-6xl">
                         <div className="pt-5 container mx-auto max-w-[900px]">
-                            <h1 className="pt-14 pb-4 text-3xl  font-semibold font-serif text-custom-blue"> {plandetail.quote} </h1>
-                            <p className="pt-5  text-2xl text-custom-blue">{plandetail.customerName}</p>
+                            <h1 className="pt-14 pb-4 text-3xl  font-semibold font-serif text-custom-blue"> {plansDetail.planAbout} </h1>
+                            <p className="pt-5  text-2xl text-custom-blue">{plansDetail.planType}</p>
                         </div>
                     </div>
-                    <p className="pt-10 pb-10 text-2xl">{plandetail.description3}</p>
+                    <p className="pt-10 pb-10 text-2xl">{plansDetail.planAbout}</p>
                 </div>
                 
             </div>
