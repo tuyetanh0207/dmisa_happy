@@ -1,6 +1,6 @@
 package com.example.happylife.backendhappylife.DTO.auth;
 
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

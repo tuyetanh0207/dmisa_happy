@@ -1,15 +1,10 @@
-package com.example.happylife.backendhappylife.DTO;
+package com.example.happylife.backendhappylife.DTO.UserDTO;
 
-import com.example.happylife.backendhappylife.entity.Role;
-import com.example.happylife.backendhappylife.entity.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.Instant;
 import java.util.Date;

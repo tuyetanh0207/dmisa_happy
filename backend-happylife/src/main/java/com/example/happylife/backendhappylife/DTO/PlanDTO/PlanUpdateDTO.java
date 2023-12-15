@@ -1,26 +1,12 @@
 package com.example.happylife.backendhappylife.DTO.PlanDTO;
 
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
-import jakarta.persistence.Column;
-import lombok.*;
 import org.bson.types.ObjectId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import jakarta.persistence.*;
 
-import java.time.ZonedDateTime;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-
-public class PlanCreateDTO {
+public class PlanUpdateDTO {
+    private ObjectId planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
@@ -31,6 +17,14 @@ public class PlanCreateDTO {
     private List<String> planBenefits;
     private String planServiceCoverage;
     private String planURL;
+
+    public ObjectId getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(ObjectId planId) {
+        this.planId = planId;
+    }
 
     public String getPlanName() {
         return planName;

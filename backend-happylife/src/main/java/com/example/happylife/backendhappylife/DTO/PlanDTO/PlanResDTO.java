@@ -1,36 +1,36 @@
 package com.example.happylife.backendhappylife.DTO.PlanDTO;
 
-import com.example.happylife.backendhappylife.entity.Plan;
-import com.example.happylife.backendhappylife.entity.Role;
-import com.example.happylife.backendhappylife.entity.User;
+import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
-import java.net.URL;
-import java.util.Date;
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlanResDTO {
-    private String planId;
+    private ObjectId planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
     private String planType;
     private String planRecommended;
-    private String planDuration;
-    private String planBenefits;
+    private Integer planDuration;
+    private DateUnit planDurationUnit;
+    private List<String> planBenefits;
     private String planServiceCoverage;
     private String planURL;
 
-    public String getPlanId() {
+    public ObjectId getPlanId() {
         return planId;
     }
 
-    public void setPlanId(String planId) {
+    public void setPlanId(ObjectId planId) {
         this.planId = planId;
     }
 
@@ -74,19 +74,27 @@ public class PlanResDTO {
         this.planRecommended = planRecommended;
     }
 
-    public String getPlanDuration() {
+    public Integer getPlanDuration() {
         return planDuration;
     }
 
-    public void setPlanDuration(String planDuration) {
+    public void setPlanDuration(Integer planDuration) {
         this.planDuration = planDuration;
     }
 
-    public String getPlanBenefits() {
+    public DateUnit getPlanDurationUnit() {
+        return planDurationUnit;
+    }
+
+    public void setPlanDurationUnit(DateUnit planDurationUnit) {
+        this.planDurationUnit = planDurationUnit;
+    }
+
+    public List<String> getPlanBenefits() {
         return planBenefits;
     }
 
-    public void setPlanBenefits(String planBenefits) {
+    public void setPlanBenefits(List<String> planBenefits) {
         this.planBenefits = planBenefits;
     }
 

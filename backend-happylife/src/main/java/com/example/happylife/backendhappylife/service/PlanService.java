@@ -1,6 +1,7 @@
 package com.example.happylife.backendhappylife.service;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.entity.User;
 import org.bson.types.ObjectId;
@@ -8,13 +9,12 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 public interface PlanService {
-    public Plan getPlan(ObjectId PlanId);
     //public List<Plan> getPlanByName(String PlanName);
     public Plan addPlan(Plan plan);
     public Plan deletePlan(ObjectId PlanId);
-    public Plan updatePlan(ObjectId PlanId, Plan plan);
-    List<PlanResDTO> getAllPlans();
 
-    public Plan buyPlan(Plan plan, User user);
-    //public List<Plan> getAllPlan();
+    List<PlanResDTO> getAllPlans();
+    public PlanResDTO getPlan(ObjectId planId);
+
+    Plan updatePlan(Plan planUpdateDTO, ObjectId planId);
 }

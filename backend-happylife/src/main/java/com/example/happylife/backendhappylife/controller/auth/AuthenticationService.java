@@ -3,7 +3,7 @@ package com.example.happylife.backendhappylife.controller.auth;
 import com.example.happylife.backendhappylife.DTO.auth.AuthenticationRequest;
 import com.example.happylife.backendhappylife.DTO.auth.AuthenticationResponse;
 import com.example.happylife.backendhappylife.config.JwtService;
-import com.example.happylife.backendhappylife.entity.Role;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.UserRepo;
 import com.example.happylife.backendhappylife.service.MyService;
