@@ -56,7 +56,7 @@ const ManagerSidebar = (props) => {
 
     
     return (
-      <div className={`relative ${isSidebarOpen?'w-[16%]':'w-[4%]'}`}>
+      <div className={`relative ${isSidebarOpen?'w-[16%]':'w-[4%]'} transition-all ease-in-out duration-5000`}>
         <menu className={`${isSidebarOpen ? styles.container: styles.smallContainer}`}  id="sidebar">
             <div className="logo flex flex-2 flex-row p-4 mt-12">
               <div className={`

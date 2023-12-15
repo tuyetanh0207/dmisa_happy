@@ -1,6 +1,6 @@
 .container, .smallContainer {
     background-color: white;
-    transition: width 0.5s ease; 
+    transition: width 1s ease; 
     max-height: 100vh;
 }
 .container {

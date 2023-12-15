@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import styles from './button.module.css'
 const AppButton = (props) => {
-    const {title, bgColor, borderColor, textColor, width, height, paddingX, paddingY, borderRadius} = props;
+    const {title, bgColor, borderColor, textColor, width, height, paddingX, paddingY, borderRadius,
+        handleSelectingRow,
+        data} = props;
     const buttonStyle = {
         backgroundColor: bgColor,
         border: `1px solid ${borderColor}`,
@@ -15,7 +17,13 @@ const AppButton = (props) => {
     }
 
     return (
-        <button style={{ ...buttonStyle }} className={styles.button}>{title}</button>
+        <button 
+        style={{ ...buttonStyle }} 
+        className={styles.button}
+        onClick={()=>handleSelectingRow(data)}
+        >
+            {title}
+            </button>
     )
 }
 
@@ -28,7 +36,8 @@ AppButton.propTypes = {
     height: PropTypes.string,
     paddingX: PropTypes.string,
     paddingY: PropTypes.string,
-    borderRadius: PropTypes.string
+    borderRadius: PropTypes.string,
+    // handleSelectingRow: PropTypes.function
 
 };
 

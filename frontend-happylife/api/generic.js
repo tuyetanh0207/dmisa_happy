@@ -51,8 +51,23 @@ export const put = function (url,data,token) {
             return resolve({data: response.data});
         })
         .catch((error)=>{
-            if(!error.response) return reject(error.message);
-            return reject(error.response.data.message);
+
+
+
+            if (error.response) {
+              // The request was made and the server responded with a status code
+              //console.error('API error status:', error.response.status);
+              //console.error('API error data:', error.response.data);
+              return reject(error.response.data);
+            } else if (error.request) {
+              // The request was made but no response was received
+              //console.error('Network error:', error.request);
+              return reject('Network error');
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              //console.error('Error:', error.message);
+              return reject(error.message);
+            }
         })
     });
 }
