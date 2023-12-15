@@ -9,9 +9,10 @@ import RegistrationManagerPopup from '../../../../components/staff/popup/regisMa
 const IMRegistration = () => {
   console.log('kk')
   const user = useSelector((state) => state.auth.login.currentUser)
-
+  const [firstTime, setFirstTime] = useState(true)
   const [registrations, setRegistrations] = useState([]);
   const [rejectingReason, setRejectingReason] = useState("");
+  const [loadingBtns, setLoadingBtns] = useState([])
   const fetchRegistrations = async () => {
     try{
       console.log('token', user.token)
@@ -34,20 +35,26 @@ const IMRegistration = () => {
   };
  
   useEffect(()=>{
+    // if(firstTime) {
+    //   fetchRegistrations(); 
+    // }
     setTimeout(()=>{
       console.log('use Effect')
       fetchRegistrations(); 
+      setFirstTime(false);
     },5000)
     
   },[registrations]);
   const handleUpdateStatusOfRegistration = async (regisId, approvalStatus, message)=>{
+    setLoadingBtns((t) => [...t, regisId]); 
     try {
+
       const res = await RegistrationAPI.updateStatusOfRegistration(user.token,regisId, approvalStatus, message);
       console.log('res:', res)
+      setLoadingBtns((t) =>t.filter((id) => id !==regisId))
       if(res.data){
        // setRegistrations()
       }
-      
     } catch (e) {
         console.log('', e)
     }
@@ -73,7 +80,7 @@ const IMRegistration = () => {
         
         <tbody >
           {registrations?.map((item, index) => (
-            <tr key={index}>
+            <tr key={index} >
               <td className="border-t border-gray-300 pl-8 pr-2 py-2">{index + 1}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.fullName}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.phoneNumber}</td>
@@ -84,7 +91,7 @@ const IMRegistration = () => {
               <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planServiceCoverage}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planDuration}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.createdAt.toString().slice(0, 10)}</td>
-              <td className="border-t border-gray-300 px-2 py-2">{item.approvalStatus}</td>
+              <td className={`border-t border-gray-300 px-2 py-2 font-bold ${item.approvalStatus==="Approved"?'text-custom-blue-2': item.approvalStatus==='Pending'? 'text-custom-blue-3':'text-custom-red-2'}`}>{item.approvalStatus}</td>
               <td className="border-t border-gray-300 px-2 py-2">
                 <AppButton 
                 title="View" 
@@ -97,6 +104,23 @@ const IMRegistration = () => {
                 data={item}
                 handleSelectingRow = {()=>handleSelectingRow(item)}
                 
+                
+                />
+              </td>
+              <td className="border-t border-gray-300 px-2 py-2">
+                <AppButton 
+                title="Pending" 
+                textColor={gStyles.buttonBlue}  
+                borderColor={gStyles.buttonBlue} 
+                bgColor={gStyles.customBlue3}
+                borderRadius={"5px"} 
+                width={"6em"}
+                height={"2em"}
+                data={item}
+               
+                loading={loadingBtns.includes(item.id)?"1": ""}
+                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(item.id, "Pending", "")}
+
                 />
               </td>
               {item.approvalStatus==="Pending"?
@@ -110,6 +134,8 @@ const IMRegistration = () => {
                 borderRadius={"5px"} 
                 width={"6em"}
                 height={"2em"}
+
+                loading={loadingBtns.includes(item.id)?"1": ""}
                 handleSelectingRow = {()=>handleUpdateStatusOfRegistration(item.id, "Approved", "")}
                 />
               </td>
@@ -122,6 +148,7 @@ const IMRegistration = () => {
                 borderRadius={"5px"} 
                 width={"6em"}
                 height={"2em"}
+                loading={loadingBtns.includes(item.id)?"1": ""}
                 handleSelectingRow = {()=>handleUpdateStatusOfRegistration(item.id, "Rejected", rejectingReason)}
                 />
               </td>
@@ -137,6 +164,7 @@ const IMRegistration = () => {
                 borderRadius={"5px"} 
                 width={"6em"}
                 height={"2em"}
+                loading={loadingBtns.includes(item.id)?"1": ""}
                 handleSelectingRow = {()=>handleUpdateStatusOfRegistration(item.id, "Revoked", rejectingReason)}
                 />
               </td>
@@ -152,6 +180,7 @@ const IMRegistration = () => {
                 borderRadius={"5px"} 
                 width={"6em"}
                 height={"2em"}
+                loading={loadingBtns.includes(item.id)?"1": ""}
                 handleSelectingRow = {()=>handleUpdateStatusOfRegistration(item.id, "Approved", "")}
                 />
               </td>

@@ -17,7 +17,7 @@ export default function App() {
 
   return(
 
-          <div >
+          <div className='font-inter'>
               <Router>            
               <Nav/>
               <Routes>

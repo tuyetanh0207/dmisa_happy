@@ -3,7 +3,8 @@ import styles from './button.module.css'
 const AppButton = (props) => {
     const {title, bgColor, borderColor, textColor, width, height, paddingX, paddingY, borderRadius,
         handleSelectingRow,
-        data} = props;
+        data,
+        loading} = props;
     const buttonStyle = {
         backgroundColor: bgColor,
         border: `1px solid ${borderColor}`,
@@ -17,13 +18,16 @@ const AppButton = (props) => {
     }
 
     return (
+       
         <button 
-        style={{ ...buttonStyle }} 
-        className={styles.button}
-        onClick={()=>handleSelectingRow(data)}
-        >
-            {title}
-            </button>
+            style={{ ...buttonStyle }} 
+            className={styles.button}
+            onClick={()=>handleSelectingRow(data)}
+            disabled={loading===1}
+            >
+                {loading==="1"?<div className={styles.loader}></div>:title}
+                
+        </button>
     )
 }
 

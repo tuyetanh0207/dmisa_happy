@@ -17,13 +17,19 @@ export default {
         'button-blue': '#5576F5',
         'bgr-white': '#F5F9FD',
         'header-blue' : '#182256',
-        'input-border-grey' : '#E1E1E1'
+        'input-border-grey' : '#E1E1E1',
+        'custom-red-1': '#F8D8D8',
+        'custom-red-2': '#D07372',
+        'custom-red-3': '#B93735'
       },
       textColor: {
         'custom-blue': '#142255',
         'custom-blue-2': '#64CEC9',
         'custom-blue-3': '#5576F5',
-        'slight-black': "#383E49"
+        'slight-black': "#383E49",
+        'custom-red-1': '#F8D8D8',
+        'custom-red-2': '#D07372',
+        'custom-red-3': '#B93735'
       },
        
       space: {
@@ -35,6 +41,9 @@ export default {
       },
       listStyleImage: {
         'store' : 'url("/src/assets/chevronright.svg") ',
+      },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
       },
 
     },
