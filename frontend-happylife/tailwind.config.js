@@ -33,6 +33,7 @@ export default {
         'store' : 'url("/src/assets/chevronright.svg") ',
       },
 
+
     },
   },
   plugins: [

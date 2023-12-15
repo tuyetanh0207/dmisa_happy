@@ -18,7 +18,7 @@ export default function App() {
   // const [isLogin, setLogin] = useState(false)
   return(
 
-          <div >
+          <div className='gap-y-px'>
               <Router>
               <Nav/>
               {/* <Header/> */}
@@ -36,9 +36,8 @@ export default function App() {
                 {/* <Route path='/testuser' element ={<TestUser/>} /> */}
  
               </Routes>
-
               <Footer/>
-
+      
             </Router>
           </div>
 
