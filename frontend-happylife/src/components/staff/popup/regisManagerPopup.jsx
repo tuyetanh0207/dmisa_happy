@@ -10,15 +10,16 @@ import RegistrationAPI from "../../../../api/registrationApi";
 const RegistrationManagerPopup = (props)=> {
   const {data, onClose} =props
   
-    const [loadingBtns, setLoadingBtns] = useState(0)
+    const [loadingBtns, setLoadingBtns] = useState("0")
     const user = useSelector((state) => state.auth.login.currentUser)
     const [rejectingReason, setRejectingReason] = useState("")
     const handleUpdateStatusOfRegistration = async (regisId, approvalStatus, message)=>{
-      setLoadingBtns(1); 
+      setLoadingBtns("1"); 
       try {
         const res = await RegistrationAPI.updateStatusOfRegistration(user.token,regisId, approvalStatus, message);
         console.log('res:', res)
-        setLoadingBtns(0)
+        setLoadingBtns("0")
+        data.approvalStatus = res.data.approvalStatus
         if(res.data){
          // setRegistrations()
         }
@@ -44,7 +45,7 @@ const RegistrationManagerPopup = (props)=> {
           {/* Hiển thị thông tin chi tiết tùy thuộc vào dữ liệu (data) */}
           <h2 className="text-[1.2em] font-semibold">Registration details</h2>
           {/* 2 colums */}
-          <div className="lg:flex lg:flex-col-2 md:flex-1 sm:h-[80%] lg:h-auto md:h-auto lg:block">
+          <div className="lg:flex lg:flex-col-2 md:flex-1 sm:h-[80%] lg:h-auto md:h-auto relative">
             {/* col1 - user */}
             
             <EntityVerticalDisplay 
@@ -60,7 +61,8 @@ const RegistrationManagerPopup = (props)=> {
               "Email", 
               "Birthday",
               "Gender", 
-              "Health status",
+             // "Health status",
+              "Registration Status",
               "Registration Date"]}
             values = {["",
             data.customerInfo.id, 
@@ -70,10 +72,11 @@ const RegistrationManagerPopup = (props)=> {
             data.customerInfo.address, 
             data.customerInfo.phoneNumber, 
             data.customerInfo.email, 
-            data.customerInfo.dob, 
+            data.customerInfo.dob.slice(0, 10), 
             data.customerInfo.gender, 
-            // data.customerInfo., 
-            data.createdAt, 
+          //  data.customerInfo.healthStatus
+            data.approvalStatus,
+            data.createdAt.slice(0,10), 
             ]}
             />
             <EntityVerticalDisplay 
@@ -95,7 +98,7 @@ const RegistrationManagerPopup = (props)=> {
             data.productInfo.planType, 
             data.productInfo.planPrice, 
             data.productInfo.planRecommended, 
-            data.productInfo.planDuration + " "+ data.productInfo.planDuration, 
+            data.productInfo.planDuration + " "+ data.productInfo.planDurationUnit + "s", 
             data.productInfo.planServiceCoverage, 
             data.productInfo.planBenefits, 
             ]}
@@ -118,7 +121,7 @@ const RegistrationManagerPopup = (props)=> {
                 height={"2em"}
 
                 loading={loadingBtns}
-                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.id, "Approved", "")}
+                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.regisId, "Approved", "")}
                 />
 
          
@@ -131,7 +134,7 @@ const RegistrationManagerPopup = (props)=> {
                 width={"6em"}
                 height={"2em"}
                 loading={loadingBtns}
-                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.id, "Rejected", rejectingReason)}
+                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.regisId, "Rejected", rejectingReason)}
                 />
  
               </>:<></>}
@@ -147,7 +150,7 @@ const RegistrationManagerPopup = (props)=> {
                 width={"6em"}
                 height={"2em"}
                 loading={loadingBtns}
-                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.id, "Revoked", rejectingReason)}
+                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.regisId, "Revoked", rejectingReason)}
                 />
          
               </>:<></>}
@@ -163,7 +166,7 @@ const RegistrationManagerPopup = (props)=> {
                 width={"6em"}
                 height={"2em"}
                 loading={loadingBtns}
-                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.id, "Approved", "")}
+                handleSelectingRow = {()=>handleUpdateStatusOfRegistration(data.regisId, "Approved", "")}
                 />
               </>:<></>}
                 

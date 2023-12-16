@@ -4,7 +4,9 @@ import logo from '../../assets/logo-staff.svg'
 import styles from './managerSidebar.module.css'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 import {HeartIcon, ArrowLeftOnRectangleIcon,  CreditCardIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
+import { loginSuccess } from '../../../redux/authSlice'
 const ManagerSidebar = (props) => {
     const {isSidebarOpen} = props
     const location = useLocation()
@@ -21,6 +23,11 @@ const ManagerSidebar = (props) => {
         const path = '/staff/insuarancemanagement/' + navPath
     
         navigate(path);
+    }
+    const dispatch = useDispatch()
+    const handleSignOutBtn = () =>{
+      dispatch(loginSuccess(null));
+      navigate('/login')
     }
     useEffect(() => {
         // Function to make the sidebar sticky
@@ -92,7 +99,7 @@ const ManagerSidebar = (props) => {
               
             </ul>
             <ul className='mb-24 absolute bottom-0'>
-                <li className='flex font-semibold ml-6' key=''>
+                <li className='flex font-semibold ml-6' key='' onClick={() => handleSignOutBtn()}>
                     <ArrowRightOnRectangleIcon className='w-8 h-8 mr-4 '/>
                     {isSidebarOpen?"Sign out": ""}
                     

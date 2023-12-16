@@ -12,6 +12,7 @@ import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuar
 import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
 import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
+import NotFound404 from './pages/404/404.jsx';
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
 
@@ -32,7 +33,9 @@ export default function App() {
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={
-                    <InsuaranceManagementLayout>
+                    <InsuaranceManagementLayout
+                    requiredRoles={['INSUARANCE_MANAGER']}
+                    >
                       <Route index element={<IMPlan/>} />
                       <Route path="plan" element={<IMPlan />} />
                       <Route path="registration" element={<IMRegistration/>} />
@@ -41,6 +44,7 @@ export default function App() {
                     </InsuaranceManagementLayout>
                   }
                 />
+                <Route path='/notfound' element ={<NotFound404/>} />
                
               </Routes>
 
