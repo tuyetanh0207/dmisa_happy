@@ -15,6 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlanResDTO {
+    private String planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
@@ -24,6 +25,14 @@ public class PlanResDTO {
     private String planBenefits;
     private String planServiceCoverage;
     private String planURL;
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
 
     public String getPlanName() {
         return planName;

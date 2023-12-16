@@ -67,6 +67,7 @@ public class Plan {
     }
     public PlanResDTO convertToPlanResDTO() {
         PlanResDTO dto = new PlanResDTO();
+        dto.setPlanId(this.planId.toString());
         dto.setPlanName(this.planName); // set name
         dto.setPlanAbout(this.planAbout); // set about
         dto.setPlanPrice(this.planPrice); // set price

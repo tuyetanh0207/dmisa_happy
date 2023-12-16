@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
+
 @RestController
 @RequestMapping("/api/v1/plans")
 public class PlanController {
@@ -33,12 +33,6 @@ public class PlanController {
     public ResponseEntity<List<PlanResDTO>> getAllPlans() {
         return ResponseEntity.ok(planService.getAllPlans());
     }
-    /*public List<Plan> getAllPlans() {
-        return planService.getalls();
-    }*/
-    //public List<Plan> getAllPlan() {
-    /*    return planService.getAllPlan();
-    }*/
 /*    @GetMapping("/getPlanByName/{PlanName}")
     public  List<Plan> getPlanByName(String PlanName){
         return searchService.getPlanByName(PlanName);
@@ -60,16 +54,23 @@ public class PlanController {
     @PostMapping("/create")
     public ResponseEntity<PlanCreateDTO> addPlan(@RequestBody PlanCreateDTO planCreateDTO) {
         Plan plan = new Plan();
-        Plan updatedPlan = plan.convertToPlan(planCreateDTO); // Sử dụng đối tượng này
-        Plan savedPlan = planService.addPlan(updatedPlan); // Lưu đối tượng đã cập nhật
-        PlanCreateDTO planCreDTO = savedPlan.convertToPlanCreateDTO(); // Chuyển đổi từ đối tượng đã lưu
+        plan.convertToPlan(planCreateDTO);
+        Plan savedPlan = planService.addPlan(plan);
+        PlanCreateDTO planCreDTO = plan.convertToPlanCreateDTO();
         return ResponseEntity.ok(planCreDTO);
     }
 
-    @PutMapping("/update/{PlanId}")
+    /*@PutMapping("/update/{PlanId}")
     public Plan updatePlan(@PathVariable ObjectId PlanId, @RequestBody Plan Plan){
         return planService.updatePlan(PlanId,Plan);
-    }
+    }*/
+  /*  @PutMapping("/update/{planId}")
+    public ResponseEntity<PlanResDTO> updatePlan(@PathVariable ObjectId planId,
+                                                 @RequestBody PlanUpdateDTO planUpdateDTO) {
+        Plan updatedPlan = planService.updatePlan(planId, planUpdateDTO);
+        PlanResDTO planResDTO = updatedPlan.convertToPlanResDTO();
+        return ResponseEntity.ok(planResDTO);
+    }*/
     @DeleteMapping("/delete/{PlanId}")
     public Plan deletePlan(@PathVariable ObjectId PlanId){
         return planService.deletePlan(PlanId);
