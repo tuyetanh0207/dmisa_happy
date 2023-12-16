@@ -8,6 +8,7 @@ import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
+import Buyplan from './pages/plan/buyplan/buyplan.jsx'
 import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuaranceManagementLayout.jsx';
 import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
@@ -29,7 +30,8 @@ export default function App() {
                 <Route path='/plan' element ={<Plan/>} />
                 <Route path='/login' element ={<Login/>} />
                 <Route path='/signup' element ={<Signup/>} />            
-                <Route path='/plandetail' element ={<Plandetail/>} />
+                <Route path='/plan/:planId' element ={<Plandetail/>} />
+                <Route path='/buyplan' element ={<Buyplan/>} />
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={
