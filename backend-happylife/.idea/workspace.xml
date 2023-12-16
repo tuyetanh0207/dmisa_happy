@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="done 3 first endpoint of registration">
+    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="merge fix get plan from sprint2.be.Phuc.New">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/UserResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/UserResDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/auth/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/managerSidebar.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/managerSidebar.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/registration/registration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/registration/registration.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegistrationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegistrationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Registration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +25,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="sprint2.be.Phuc.New" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="KubernetesApiProvider">{
@@ -67,7 +71,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;sprint2.be&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/HCMUS/Code/dmisa_happy/backend-happylife&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/web_source/dmisa_happy/backend-happylife&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -142,6 +146,10 @@
       <workItem from="1702344976165" duration="764000" />
       <workItem from="1702379329679" duration="1136000" />
       <workItem from="1702476332402" duration="1176000" />
+      <workItem from="1702576492800" duration="730000" />
+      <workItem from="1702593192531" duration="625000" />
+      <workItem from="1702618018959" duration="1124000" />
+      <workItem from="1702622498263" duration="4675000" />
     </task>
     <task id="LOCAL-00001" summary="done 3 first endpoint of registration">
       <option name="closed" value="true" />

@@ -71,9 +71,10 @@ public class RegistrationImpl implements RegistrationService {
     public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, String status, String message) {
         try {
             if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT ) {
-                if (status=="Approved" || status == "Rejected" || status == "Expired" || status== "Revoked"){
+                if (status.equals("Approved") || status.equals("Rejected") || status.equals("Expired") || status.equals("Revoked") || status.equals("Pending")){
                     Registration regisVar = registrationRepo.findById(regisId).get();
                     regisVar.setApprovalStatus(status);
+                    regisVar.setMessage(message);
                     return registrationRepo.save(regisVar);
                 } else{
                     throw  new UserCreationException("Error updating status of registration: status is invalid.");

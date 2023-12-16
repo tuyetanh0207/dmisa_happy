@@ -57,5 +57,7 @@ public class Registration {
     @Field(targetType = FieldType.DATE_TIME)
     private Instant updatedAt;
 
+    private String message;
+
 }
 
