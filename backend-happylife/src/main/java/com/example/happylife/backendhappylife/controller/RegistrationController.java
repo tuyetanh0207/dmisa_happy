@@ -1,12 +1,10 @@
 package com.example.happylife.backendhappylife.controller;
 
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegistrationDTO;
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
-import com.example.happylife.backendhappylife.repo.RegistrationRepo;
 import com.example.happylife.backendhappylife.service.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;

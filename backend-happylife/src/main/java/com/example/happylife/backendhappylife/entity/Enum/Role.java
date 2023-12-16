@@ -1,4 +1,4 @@
-package com.example.happylife.backendhappylife.entity;
+package com.example.happylife.backendhappylife.entity.Enum;
 
 public enum Role {
     CUSTOMER,

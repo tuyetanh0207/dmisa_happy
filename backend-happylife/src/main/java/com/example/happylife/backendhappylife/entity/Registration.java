@@ -2,8 +2,11 @@ package com.example.happylife.backendhappylife.entity;
 
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,11 +31,10 @@ import java.util.Date;
 public class Registration {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private ObjectId regisId;
 
     private UserResDTO customerInfo;
-    private PlanBasicDTO productInfo;
+    private PlanInvoiceDTO productInfo;
     private UserResDTO managerInfo;
 
     @Column(nullable = false)
@@ -59,5 +61,16 @@ public class Registration {
 
     private String message;
 
+    public RegisResDTO convertToRegisResDTO() {
+        RegisResDTO dto = new RegisResDTO();
+        dto.setRegisId(this.regisId);
+        dto.setManagerInfo(this.managerInfo);
+        dto.setCustomerInfo(this.customerInfo);
+        dto.setProductInfo(this.productInfo);
+        dto.setApprovalStatus(this.approvalStatus);
+        dto.setStartDate(this.startDate);
+        dto.setEndDate(this.endDate);
+        return dto;
+    }
 }
 

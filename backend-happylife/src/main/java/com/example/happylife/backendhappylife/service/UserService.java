@@ -1,6 +1,6 @@
 package com.example.happylife.backendhappylife.service;
 
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.User;
 
 import java.util.List;

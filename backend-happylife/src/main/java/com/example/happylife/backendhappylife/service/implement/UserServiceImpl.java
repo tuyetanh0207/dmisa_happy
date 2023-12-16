@@ -1,7 +1,7 @@
 package com.example.happylife.backendhappylife.service.implement;
 
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
-import com.example.happylife.backendhappylife.entity.Role;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.UserRepo;

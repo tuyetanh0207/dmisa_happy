@@ -1,6 +1,6 @@
 package com.example.happylife.backendhappylife.controller;
 
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.DTO.auth.AuthenticationRequest;
 import com.example.happylife.backendhappylife.DTO.auth.AuthenticationResponse;
 import com.example.happylife.backendhappylife.controller.auth.AuthenticationService;

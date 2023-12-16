@@ -1,30 +1,33 @@
 package com.example.happylife.backendhappylife.service.implement;
 
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegistrationDTO;
-import com.example.happylife.backendhappylife.DTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Registration;
-import com.example.happylife.backendhappylife.entity.Role;
-import com.example.happylife.backendhappylife.entity.User;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
+import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Optional;
 
 import com.example.happylife.backendhappylife.exception.UserCreationException;
-import javax.swing.text.html.Option;
+
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
 public class RegistrationImpl implements RegistrationService {
     @Autowired
     private RegistrationRepo registrationRepo;
+
+    @Autowired
+    private InvoiceService invoiceService;
+
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
         try {
@@ -42,7 +45,7 @@ public class RegistrationImpl implements RegistrationService {
     }
 
     @Override
-    public Registration addRegistration(UserResDTO authUser, UserResDTO registerUser, PlanBasicDTO plan) {
+    public Registration addRegistration(UserResDTO authUser, UserResDTO registerUser, PlanInvoiceDTO plan) {
         if (registerUser.getId() == null || registerUser.getId().isEmpty()){
             throw new UserCreationException("User ID is required.");
         }
@@ -75,6 +78,21 @@ public class RegistrationImpl implements RegistrationService {
                     Registration regisVar = registrationRepo.findById(regisId).get();
                     regisVar.setApprovalStatus(status);
                     regisVar.setMessage(message);
+                    if (status.equals("Approved")) {
+                        // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
+                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
+                        invoiceCreateDTO.setTotalPrice(regisVar.getProductInfo().getPlanPrice());
+
+                        Instant instantNow= Instant.now();
+
+                        Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
+                        invoiceCreateDTO.setDueDate(dueDateInstant);
+                        invoiceCreateDTO.setPaymentStatus("Pending");
+                        Invoice invoice = new Invoice();
+                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
+                        invoiceService.addInvoice(invoiceCreated);
+                    }
                     return registrationRepo.save(regisVar);
                 } else{
                     throw  new UserCreationException("Error updating status of registration: status is invalid.");
