@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 public class PlanUpdateDTO {
-    private ObjectId planId;
+    private String planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
@@ -18,11 +18,11 @@ public class PlanUpdateDTO {
     private String planServiceCoverage;
     private String planURL;
 
-    public ObjectId getPlanId() {
+    public String getPlanId() {
         return planId;
     }
 
-    public void setPlanId(ObjectId planId) {
+    public void setPlanId(String planId) {
         this.planId = planId;
     }
 

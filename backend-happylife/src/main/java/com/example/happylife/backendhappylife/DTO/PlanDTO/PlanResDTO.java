@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlanResDTO {
-    private ObjectId planId;
+    private String planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
@@ -26,11 +26,11 @@ public class PlanResDTO {
     private String planServiceCoverage;
     private String planURL;
 
-    public ObjectId getPlanId() {
+    public String getPlanId() {
         return planId;
     }
 
-    public void setPlanId(ObjectId planId) {
+    public void setPlanId(String planId) {
         this.planId = planId;
     }
 

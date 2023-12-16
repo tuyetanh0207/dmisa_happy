@@ -92,7 +92,7 @@ public class Plan {
     // Convert Plan sang PlanResDTO
     public PlanResDTO convertToPlanResDTO() {
         PlanResDTO dto = new PlanResDTO();
-        dto.setPlanId(this.planId); // set id
+        dto.setPlanId(this.planId.toString()); // set id
         dto.setPlanName(this.planName); // set name
         dto.setPlanAbout(this.planAbout); // set about
         dto.setPlanPrice(this.planPrice); // set price
@@ -122,7 +122,7 @@ public class Plan {
 
     public PlanUpdateDTO convertToPlanUpdateDTO() {
         PlanUpdateDTO dto = new PlanUpdateDTO();
-        dto.setPlanId(this.planId);
+        dto.setPlanId(this.planId.toString());
         dto.setPlanName(this.planName); // set name
         dto.setPlanAbout(this.planAbout); // set about
         dto.setPlanPrice(this.planPrice); // set price

@@ -3,18 +3,18 @@ package com.example.happylife.backendhappylife.DTO.PlanDTO;
 import org.bson.types.ObjectId;
 
 public class PlanInvoiceDTO {
-    private ObjectId planId;
+    private String planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
     private String planType;
     private String planBenefits;
 
-    public ObjectId getPlanId() {
+    public String getPlanId() {
         return planId;
     }
 
-    public void setPlanId(ObjectId planId) {
+    public void setPlanId(String planId) {
         this.planId = planId;
     }
 

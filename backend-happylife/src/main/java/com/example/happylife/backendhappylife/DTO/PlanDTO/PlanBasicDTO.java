@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlanBasicDTO {
-    private Object planId;
+    private String planId;
     private String planName;
     private String planAbout;
     private Integer planPrice;
