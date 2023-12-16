@@ -17,7 +17,7 @@ export default function Plan() {
             fetch("http://localhost:8090/api/v1/plans")
             .then((res)=>res.json())
             .then((data)=>{
-                console.log(data)
+                console.log("data:", data)
                 setPlansAPI(data);
             });
         }
@@ -25,21 +25,22 @@ export default function Plan() {
             fetchPlan();
         
         },[])
-      
+      console.log("PLANS:",plans);
   
     return (
       <div className="bg-custom-blue-3">
         <Header />
         <div className="pt-20 pb-20 container mx-auto items-center">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-            {plans.map((plan, index) => (
+            { plans.map((plan, index) => (
               <div key={index} className="bg-white p-4 rounded-lg flex flex-col">
                 <div>
                   <input type="hidden" value="3" />
                   <img src={Insurance} alt="LOGO" className="rounded-lg" />
                   <h5 className="pb-3 pt-5 pl-3 text-2xl font-medium">{plan.planName}</h5>
                   <p className="pb-3 pl-3 text-2xl">{plan.planAbout}</p>
-                  <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">{plan.planId} </h5>
+                  {/* <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">{plan.planId} </h5> */}
+                  <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">Benefit </h5>
                   {plan.planBenefits.map((benefit, index) => (
                     <ul key={index} className="pl-7 text-xl list-image-store">
                       <li>{benefit}</li>
@@ -48,7 +49,7 @@ export default function Plan() {
                 </div>
                 <div className="flex-grow"></div>
                 <div className="pt-4 flex flex-row flex-wrap justify-end">
-                  <Link to={`/plandetail/${plan.planId}`} >
+                  <Link to={`/plan/${plan.planId}`} >
                     <img src={Arrow}  />
                   </Link>
                 </div>

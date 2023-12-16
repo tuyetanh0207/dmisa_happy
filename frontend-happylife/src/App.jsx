@@ -29,7 +29,7 @@ export default function App() {
                 <Route path='/plan' element ={<Plan/>} />
                 <Route path='/login' element ={<Login/>} />
                 <Route path='/signup' element ={<Signup/>} />            
-                <Route path='/plandetail/:planId' element ={<Plandetail/>} />
+                <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />
                 <Route
                   path="/staff/insuarancemanagement/*"
