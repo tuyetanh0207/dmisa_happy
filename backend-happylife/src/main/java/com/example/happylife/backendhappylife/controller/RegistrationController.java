@@ -36,7 +36,7 @@ public class RegistrationController {
         return ResponseEntity.ok(registrationService.addRegistration(user, regisCreateDTO.getCustomerInfo(), regisCreateDTO.getProductInfo())).getBody();
     }
     @PutMapping("/{id}/update-status")
-    public Registration updateRegisStatus(@PathVariable ObjectId id, HttpServletRequest request, @RequestBody RegistrationDTO info){
+    public Registration updateRegisStatus(@PathVariable String id, HttpServletRequest request, @RequestBody RegistrationDTO info){
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO user = userVar.convertFromUserToUserResDTO();
         return ResponseEntity.ok(registrationService.updateRegisStatus(user, id, info.getApprovalStatus(), info.getMessage())).getBody();

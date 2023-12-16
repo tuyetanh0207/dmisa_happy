@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistrationDTO {
-    private ObjectId regisID;
+    private String regisID;
 
     private UserResDTO customerInfo;
     private PlanBasicDTO productInfo;

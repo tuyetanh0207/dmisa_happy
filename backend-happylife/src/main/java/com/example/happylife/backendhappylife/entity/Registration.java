@@ -31,7 +31,8 @@ import java.util.Date;
 public class Registration {
 
     @Id
-    private ObjectId regisId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String regisId;
 
     private UserResDTO customerInfo;
     private PlanBasicDTO productInfo;

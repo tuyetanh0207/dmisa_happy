@@ -13,5 +13,5 @@ public interface RegistrationService {
 
     Registration addRegistration(UserResDTO authUser, UserResDTO registerUser, PlanBasicDTO plan);
 
-    public Registration updateRegisStatus(UserResDTO user, ObjectId regisId, String status, String message);
+    public Registration updateRegisStatus(UserResDTO user, String regisId, String status, String message);
 }

@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import java.time.Instant;
 
 public class RegisResDTO {
-    private ObjectId regisId;
+    private String regisId;
     private UserResDTO customerInfo;
     private PlanBasicDTO productInfo;
     private UserResDTO managerInfo;
@@ -17,11 +17,11 @@ public class RegisResDTO {
     private Instant startDate;
     private Instant endDate;
 
-    public ObjectId getRegisId() {
+    public String getRegisId() {
         return regisId;
     }
 
-    public void setRegisId(ObjectId regisId) {
+    public void setRegisId(String regisId) {
         this.regisId = regisId;
     }
 
