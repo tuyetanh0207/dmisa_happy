@@ -14,16 +14,24 @@ import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
 import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
 import NotFound404 from './pages/404/404.jsx';
+import TestUser from './pages/testuser/testuser.jsx'
+import Profile from './pages/profile/profile.jsx'
+import Information from './pages/profile/information.jsx'
+import Registration from './pages/profile/registration.jsx'
+import Claims from './pages/profile/claims.jsx'
+
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
 
   return(
 
-          <div className='font-inter'>
+          <div className='font-inter gap-y-px'>
               <Router>            
               <Nav/>
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
+              {/* <Header/> */}
+                <Route path ='/' element ={<Home/>} />
                 <Route path ='/home' element ={<Home/>} />
                 <Route path='/aboutus' element ={<AboutUs/>} />
                 <Route path='/contact' element ={<Contact/>} />
@@ -48,10 +56,14 @@ export default function App() {
                 />
                 <Route path='/notfound' element ={<NotFound404/>} />
                
+                <Route path='/plandetail' element ={<Plandetail/>} />
+                <Route path='/profile/*' element ={<Profile/>} />
+              
+                {/* <Route path='/testuser' element ={<TestUser/>} /> */}
+ 
               </Routes>
-
               <Footer/>
-
+      
             </Router>
           </div>
 

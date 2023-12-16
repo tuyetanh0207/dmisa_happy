@@ -14,7 +14,7 @@ export default function Login() {
         const newUser = {
             phoneNumber: username,
             password: password
-        }
+        } // 0123456789/123456
         console.log('new User', newUser);
         try {
             const loginRes = await loginUser(newUser, dispatch, router);
@@ -65,7 +65,7 @@ export default function Login() {
             </div>  
             <div className="flex items-center justify-center font-bold text-xl">
             <button 
-            //onClick={()=>handleSubmit} 
+            onClick={()=>handleSubmit} 
             className="bg-button-blue w-[208px] h-[56px] mt-[29px] text-white rounded-lg">
                 Login
             </button>

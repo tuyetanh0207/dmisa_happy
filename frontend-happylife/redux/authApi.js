@@ -42,7 +42,7 @@ export const registerUser = async(user, dispatch, router)=>{
         const res = await UserAPI.register(user);
         console.log('res in registerUser', res);
         dispatch(registerSuccess());
-        router.push('/');
+        router('/');
 
     } catch(err){
         dispatch(registerFail());
