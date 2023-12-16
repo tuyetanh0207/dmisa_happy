@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import org.bson.types.ObjectId;
@@ -9,7 +10,7 @@ import java.time.Instant;
 public class RegisResDTO {
     private ObjectId regisId;
     private UserResDTO customerInfo;
-    private PlanInvoiceDTO productInfo;
+    private PlanBasicDTO productInfo;
     private UserResDTO managerInfo;
 
     private String approvalStatus;
@@ -32,11 +33,11 @@ public class RegisResDTO {
         this.customerInfo = customerInfo;
     }
 
-    public PlanInvoiceDTO getProductInfo() {
+    public PlanBasicDTO getProductInfo() {
         return productInfo;
     }
 
-    public void setProductInfo(PlanInvoiceDTO productInfo) {
+    public void setProductInfo(PlanBasicDTO productInfo) {
         this.productInfo = productInfo;
     }
 

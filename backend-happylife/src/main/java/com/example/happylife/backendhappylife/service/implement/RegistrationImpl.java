@@ -1,7 +1,7 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Registration;
@@ -45,7 +45,7 @@ public class RegistrationImpl implements RegistrationService {
     }
 
     @Override
-    public Registration addRegistration(UserResDTO authUser, UserResDTO registerUser, PlanInvoiceDTO plan) {
+    public Registration addRegistration(UserResDTO authUser, UserResDTO registerUser, PlanBasicDTO plan) {
         if (registerUser.getId() == null || registerUser.getId().isEmpty()){
             throw new UserCreationException("User ID is required.");
         }

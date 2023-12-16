@@ -34,7 +34,7 @@ public class Registration {
     private ObjectId regisId;
 
     private UserResDTO customerInfo;
-    private PlanInvoiceDTO productInfo;
+    private PlanBasicDTO productInfo;
     private UserResDTO managerInfo;
 
     @Column(nullable = false)
