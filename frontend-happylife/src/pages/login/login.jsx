@@ -2,13 +2,14 @@ import {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {loginUser} from '../../../redux/authApi';
 import { useNavigate } from 'react-router-dom';
-export default function Login() {
+export default function Login({onInputChange}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const [noti, setNoti] = useState('');
     const router = useNavigate();
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
         console.log('glooin')
         const newUser = {
@@ -27,12 +28,19 @@ export default function Login() {
         }
 
     }
+
+
+    const test = (event) =>{
+        event.preventDefault();
+        const value = true;
+        onInputChange(value);
+    } 
     return(
     <div className="h-screen flex items-center justify-center h-[631px] bg-bgr-white mx-auto">
         <div className="w-[936px] h-[479px] bg-white rounded-lg">
         <h2 className="text-center text-header-blue text-[40px] font-serif font-semibold mb-6 mt-[51px] mb-[53]">User Login</h2>
         <form className="font-sans  font-medium text-base"
-          onSubmit={handleSubmit}
+          //onSubmit={handleSubmit}
          >
             <div>
                 <label className="ml-[208px]">
@@ -65,7 +73,7 @@ export default function Login() {
             </div>  
             <div className="flex items-center justify-center font-bold text-xl">
             <button 
-            onClick={()=>handleSubmit} 
+            onClick={test} 
             className="bg-button-blue w-[208px] h-[56px] mt-[29px] text-white rounded-lg">
                 Login
             </button>

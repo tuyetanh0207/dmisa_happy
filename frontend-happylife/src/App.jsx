@@ -19,15 +19,18 @@ import Profile from './pages/profile/profile.jsx'
 import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
-
+import { useState } from 'react'
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
-
+  const [isProfileVisible, setIsProfileVisible] = useState(false);
+  const handleSetIsProfileVisible = (value) => {
+    setIsProfileVisible(value);
+  }
+  console.log(isProfileVisible);
   return(
-
           <div className='font-inter gap-y-px'>
               <Router>            
-              <Nav/>
+              <Nav isProfileVisible={isProfileVisible}/>
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
               {/* <Header/> */}
@@ -36,7 +39,7 @@ export default function App() {
                 <Route path='/aboutus' element ={<AboutUs/>} />
                 <Route path='/contact' element ={<Contact/>} />
                 <Route path='/plan' element ={<Plan/>} />
-                <Route path='/login' element ={<Login/>} />
+                <Route path='/login' element ={<Login onInputChange={handleSetIsProfileVisible}/>} />
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />
