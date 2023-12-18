@@ -10,9 +10,7 @@ export default function Buyplan() {
       <div className=" bg-custom-blue-3 ">
         <Header/>
         <div className="pt-6 pb-14 container mx-auto bg-white">
-          <h1 className="pt-10 text-center text-4xl font-semibold font-serif text-custom-blue-3">Fill Form</h1>
-          
-          <form className="pt-6 pb-4container mx-auto pl-24 pr-24 max-w-3xl ">
+          <form className="pt-6 pb-4 container mx-auto pl-24 pr-24 max-w-6xl bg-green-700 ">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-3">
                       <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -92,5 +90,6 @@ export default function Buyplan() {
         </div>
         
       </div>
+
     );
   }

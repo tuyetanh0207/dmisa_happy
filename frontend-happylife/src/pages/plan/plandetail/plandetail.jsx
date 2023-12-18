@@ -5,40 +5,12 @@ import Header from '../header.jsx'
 import { useEffect,useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 export default function Plandetail() {
     
     const {planId} = useParams();
     console.log(planId);
     const [plansDetail, setPlansDetailAPI] = useState(null);
-
-
-
-    // const fetchPlanDetailAPI = () => {
-    //     // // fetch("http://localhost:8090/api/v1/plans")
-    //     // fetch(`http://localhost:8090/api/v1/plans/${planId}`)
-    //     // // fetch(`http://localhost:8090/api/v1/plans/657b4121493c373b91eb3c11`)
-    //     // .then((res)=>res.json())
-    //     // .then((data)=>{
-    //     //     console.log(data)
-    //     //     setPlansDetailAPI(data);
-    //     // });
-    //     axios.get(`http://localhost:8090/api/v1/plans/${planId}`)
-    //     // axios.get("http://localhost:8090/api/v1/plans")
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setPlansDetailAPI(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error fetching plan detail:', error);
-    //   });
-    // }
-    // useEffect(() => {
-    //     fetchPlanDetailAPI();
-    
-    // },[planId])
-    
-    //console.log(plansDetail)
-    
 
     useEffect(() => {
         const fetchPlanDetailAPI = async () => {
@@ -56,18 +28,6 @@ export default function Plandetail() {
         fetchPlanDetailAPI();
       }, [planId]);
 
-    // const fetchPlanDetailAPI = () => {
-    //     fetch(`http://localhost:8090/api/v1/plans/${planId}`)
-    //     .then((res)=>res.json())
-    //     .then((data)=>{
-    //         console.log("data:", data)
-    //         setPlansDetailAPI(data);
-    //     });
-    // }
-    // useEffect(() => {
-    //     fetchPlanDetailAPI();
-    
-    // },[])
 
       console.log("plandetail:",plansDetail)
       console.log("planName:",plansDetail?.planName)
@@ -81,7 +41,7 @@ export default function Plandetail() {
             {/* {Array.isArray(plansDetail) && plansDetail?.map((plan, index) => ( */}
 
             {/* <div key={index} className='pt-20 pb-20 container mx-auto '> */}
-            <div  className='pt-20 pb-20 container mx-auto '>
+            <div  className='pt-20 pb-20 container mx-auto'>
                 <h1 className="pb-14  text-center text-4xl font-semibold font-serif text-custom-blue">{plansDetail?.planName}</h1>
                     <div className="flex items-center justify-center ">
                         <img src={Insurance} alt="LOGO" className="item-center" ></img>
@@ -110,6 +70,32 @@ export default function Plandetail() {
                         </div>
                     </div>
                     <p className="pt-10 pb-10 text-2xl">{plansDetail?.planAbout}</p>
+                    <div className="pt-10 container mx-auto">
+                        <div className="pb-10 flex flex-row justify-end">
+                            <div className="basis-1/3">
+                                <div className="px-7 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
+                                    <div className="justify-start items-center flex">
+                                        <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
+                                            <Link to="/plan">Back to Plan page</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="basis-1/3"></div>
+                            <div className="basis-1/3 flex justify-end">
+                                <div className="px-24 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
+                                    <div className="justify-end items-center flex">
+                                        <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
+                                            <Link to="/buyplan">Register</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+ 
                 </div>
                 
             </div>
