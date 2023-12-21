@@ -1,9 +1,11 @@
 
 import authReducer from "./authSlice";
+import navigationReducer from "./navReducer";
 
 export default configureStore({
     reducer:{
         auth:authReducer,
+        nav:navigationReducer,
     },
 })
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -22,7 +24,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-const rootReducer = combineReducers({ auth: authReducer });
+const rootReducer = combineReducers({ auth: authReducer, nav: navigationReducer });
 
 const persistConfig = {
   key: "root",

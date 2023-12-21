@@ -6,6 +6,7 @@ import Contact from './pages/contact/contact.jsx'
 import Plan from './pages/plan/plan.jsx'
 import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
+import Header from './components/header.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 import Buyplan from './pages/plan/buyplan/buyplan.jsx'
@@ -20,17 +21,36 @@ import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
 import { useState } from 'react'
+import { createContext } from 'react';
+const DataContext = createContext();
+
 export default function App() {
-  // const [isLogin, setLogin] = useState(false)
-  const [isProfileVisible, setIsProfileVisible] = useState(false);
-  const handleSetIsProfileVisible = (value) => {
-    setIsProfileVisible(value);
-  }
-  console.log(isProfileVisible);
+ 
+  // const [isProfilePage, setIsProfilePage] = useState(false);
+  // const [isSignupPage, setIsSignupPage] = useState(false);
+  // const [isLoginPage, setIsLoginPage] = useState(false);
+  // //console.log('isProfilePage: ', isProfilePage);
+  // const handleSetIsProfilePage = (value) => {
+  //   setIsProfilePage(value);
+  // }
+  // const handleSetIsSignupPage = (value) =>{
+  //   setIsSignupPage(value);
+  // }
+  // const handleSetIsLoginPage = (value) =>{
+  //   setIsLoginPage(value);
+  // }
+  // const callbackObject = {
+  //   isProfilePage: handleSetIsProfilePage,
+  //   isSignupPage: handleSetIsSignupPage,
+  //   isLoginPage: handleSetIsLoginPage
+  // }
+  
+  // console.log('isLoginPage in App:', isLoginPage);
   return(
           <div className='font-inter gap-y-px'>
               <Router>            
-              <Nav isProfileVisible={isProfileVisible}/>
+              <Nav/>
+              <Header/>
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
               {/* <Header/> */}
@@ -39,7 +59,7 @@ export default function App() {
                 <Route path='/aboutus' element ={<AboutUs/>} />
                 <Route path='/contact' element ={<Contact/>} />
                 <Route path='/plan' element ={<Plan/>} />
-                <Route path='/login' element ={<Login onInputChange={handleSetIsProfileVisible}/>} />
+                <Route path='/login' element ={<Login/>} />
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />

@@ -3,12 +3,16 @@ import In from '../assets/LinkedIn.png';
 import Instagram from '../assets/Instagram.png';
 import Fb from '../assets/Facebook.png';
 import { useLocation } from 'react-router-dom';
-export default function Footer() {
+import { connect } from 'react-redux';
+
+const Footer = ({navigationRight, setCurrent}) => {
     const location = useLocation()
   const pathname = location.pathname
   if (!pathname.includes('staff')){
   return (
-    <div className=" bg-custom-blue">
+    <div className={`${navigationRight.find((navItem) => navItem.name === 'Login' && navItem.current) ? 'hidden':''}
+    ${navigationRight.find((navItem) => navItem.name === 'Signup' && navItem.current) ? 'hidden':''} 
+    bg-custom-blue`}>
         <div className="flex flex-col divide-y divide-slate-600  " >
             <div className="pt-10 container mx-auto ">
             
@@ -42,3 +46,12 @@ export default function Footer() {
 }
 
 
+const mapStateToProps = (state) => ({
+    navigationRight: state.nav.navigationRight,
+  });
+  const mapDispatchToProps = (dispatch) => ({
+    setCurrent: (name) => dispatch({ type: 'SET_CURRENT', payload: name }),
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+   
