@@ -33,6 +33,12 @@ export default {
         'custom-red-2': '#D07372',
         'custom-red-3': '#B93735'
       },
+      borderColor:{
+        'custom-blue': '#EEF1FE',
+      },
+      ringColor: {
+        'custom-blue': '#EEF1FE',
+      },
        
       space: {
         '76px' : '76px',

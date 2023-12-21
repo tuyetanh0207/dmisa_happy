@@ -73,23 +73,26 @@ export default function Plandetail() {
                     <div className="pt-10 container mx-auto">
                         <div className="pb-10 flex flex-row justify-end">
                             <div className="basis-1/3">
-                                <div className="px-7 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
-                                    <div className="justify-start items-center flex">
-                                        <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
-                                            <Link to="/plan">Back to Plan page</Link>
+                                <Link to="/plan">
+                                    <div className="px-7 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
+                                        <div className="justify-start items-center flex">
+                                            <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
+                                                <p>Back to Plan page</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
+                                
                             </div>
                             <div className="basis-1/3"></div>
                             <div className="basis-1/3 flex justify-end">
-                                <div className="px-24 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
+                                <Link to="/buyplan" className="px-24 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
                                     <div className="justify-end items-center flex">
                                         <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
-                                            <Link to="/buyplan">Register</Link>
+                                            <p>Register</p>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
