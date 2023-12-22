@@ -78,7 +78,7 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
            {item.name === 'Login' ? (
              <button 
              onClick={() => handleRightNavClick(item.name)}
-             className={`${loginSuccess  ? 'hidden' : ''} bg-button-blue text-white px-4 py-2 rounded items-center mr-[1px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
+             className={`${isLoginSuccess  ? 'hidden' : ''} bg-button-blue text-white px-4 py-2 rounded items-center mr-[1px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
              >
              {item.name}
              </button>
@@ -86,7 +86,7 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
              <button 
              key={item.name}
              onClick={() => handleRightNavClick(item.name)}
-             className={`${loginSuccess ? 'hidden' : ''} bg-button-white text-white px-4 py-2 rounded items-center mr-[268px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
+             className={`${isLoginSuccess ? 'hidden' : ''} bg-button-white text-white px-4 py-2 rounded items-center mr-[268px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
              >
              {item.name}
            </button>
