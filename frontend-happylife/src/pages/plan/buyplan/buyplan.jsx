@@ -2,6 +2,7 @@ import Insurance from '../../../assets/Insurance.jpg'
 import Header from '../header.jsx'
 import {Link} from 'react-router-dom'
 import { useEffect,useState } from 'react'
+import Shopingcar from '../../../assets/shopingcar.png'
 export default function Buyplan() {
     const [plans,setPlansAPI]=useState([]);
     const [selectedPlan, setSelectedPlan] = useState(null);
@@ -26,26 +27,26 @@ export default function Buyplan() {
       <div className=" bg-custom-blue-3 ">
         {/* <div className=" bg-red-900"> */}
         <Header/>
-        <div className="mt-14  pt-6 pb-14 container mx-auto bg-white">
-          <form className="pt-6 pb-4 container mx-auto pl-24 pr-24 max-w-6xl  ">
+        <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
+          <form className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-3">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Full Name
                       </label>
                       <div className="mt-2">
-                          <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          placeholder='Your Name'
-                          />
-                      </div>
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            className="block w-full h-10 px-4 border-0 py-2 text-lg text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder='Your Name'
+                        />
+                    </div>
                   </div>
   
                   <div className="sm:col-span-3">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Citizen ID
                       </label>
                       <div className="mt-2">
@@ -59,7 +60,7 @@ export default function Buyplan() {
                       </div>
                   </div>
                   <div className="sm:col-span-3">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Phone Number
                       </label>
                       <div className="mt-2">
@@ -73,7 +74,7 @@ export default function Buyplan() {
                       </div>
                   </div>
                   <div className="sm:col-span-1">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Gender
                       </label>
                       <div className="mt-2">
@@ -87,7 +88,7 @@ export default function Buyplan() {
                       </div>
                   </div>
                   <div className="sm:col-span-2">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Date of birth
                       </label>
                       <div className="mt-2">
@@ -101,7 +102,7 @@ export default function Buyplan() {
                       </div>
                   </div>
                   <div className="sm:col-start-1 col-end-7">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Email
                       </label>
                       <div className="mt-2">
@@ -115,7 +116,7 @@ export default function Buyplan() {
                       </div>
                   </div>
                   <div className="sm:col-start-1 col-end-7">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Address
                       </label>
                       <div className="mt-2">
@@ -129,7 +130,7 @@ export default function Buyplan() {
                       </div>
                   </div>
                   <div className="sm:col-start-1 col-end-7">
-                      <label className="block text-sm font-medium leading-6 text-gray-900">
+                      <label className="block text-xl font-medium leading-6 text-gray-900">
                           Health Status
                       </label>
                       <div className="mt-2">
@@ -170,7 +171,7 @@ export default function Buyplan() {
                     </form> */}
                     {/* ------------------------- */}
                     <form className="sm:col-start-1 col-end-7">
-                        <label className="block text-sm font-medium leading-6 text-gray-900">Choose your Plan</label>
+                        <label className=" pb-2 block text-xl font-medium leading-6 text-gray-900">Choose your Plan</label>
                         <select value={selectedPlan} onChange={handlePlanChange} className="sm:col-start-1 col-end-7 block w-full border-0 py-3 text-custom-blue-3 shadow-sm ring-1 ring-inset ring-custom-blue- placeholder:text-custom-blue-3 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm">
                             {plans.map((plan, index) => (
                             <option key={index} value={plan.planId}>
@@ -188,13 +189,13 @@ export default function Buyplan() {
                                     <img className="pl-4 pt-4 pb-4 object-cover w-full h-96 rounded-t-lg  " src={Insurance} alt="" />
                                 </div>
                                 <div className="basis-1/2">
-                                    <div className="flex flex-col justify-evenly p-4 leading-normal">
-                                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{selectedPlanObject.planName}</h5>
-                                        <p className="mb-3 font-normal ">{selectedPlanObject.planAbout}</p>
-                                        <p className="mb-3 font-normal text-custom-blue-3 ">Benefit</p>
+                                    <div className=" pl-14 flex flex-col justify-evenly p-4 leading-normal">
+                                        <h5 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{selectedPlanObject.planName}</h5>
+                                        <p className="mb-3 text-2xl font-normal ">{selectedPlanObject.planAbout}</p>
+                                        <p className="mb-3 text-2xl font-normal text-custom-blue-3 ">Benefit</p>
                                         {selectedPlanObject.planBenefits.map((benefit, index) => (
                                             <ul key={index} className="pl-7 text-xl list-image-store">
-                                            <li className="font-normal text-base ">{benefit}</li>
+                                            <li className="text-xl font-normal  ">{benefit}</li>
                                             </ul>
                                         ))}
                                     </div>
@@ -214,7 +215,10 @@ export default function Buyplan() {
             </div>
             <div className="flex items-center justify-between">
                 <div></div>
-                <button className="px-36 py-4 text-2xl bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">Payment</button>
+                <button className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
+                    <img src={Shopingcar} alt="LOGO" className="item-center" ></img>
+                    <p className="pl-6">Payment</p>
+                </button>
             </div>
             
 

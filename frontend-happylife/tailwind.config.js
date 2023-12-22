@@ -16,6 +16,7 @@ export default {
         'custom-blue': '#142255',
         'custom-blue-2': '#CAD6FD',
         'custom-blue-3':'#EEF1FE',
+        'custom-blue-4':'#5576F5',
         'button-blue': '#5576F5',
         'bgr-white': '#F5F9FD',
         'header-blue' : '#182256',
