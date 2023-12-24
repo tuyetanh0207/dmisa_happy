@@ -4,8 +4,10 @@ package com.example.happylife.backendhappylife.entity;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -31,11 +33,10 @@ import java.util.Date;
 public class Registration {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String regisId;
+    private ObjectId regisId;
 
     private UserResDTO customerInfo;
-    private PlanBasicDTO productInfo;
+    private PlanResDTO productInfo;
     private UserResDTO managerInfo;
 
     @Column(nullable = false)
@@ -62,15 +63,84 @@ public class Registration {
 
     private String message;
 
+    public Registration convertToRegis(RegisResDTO dto) {
+        Registration regis = new Registration();
+        regis.setManagerInfo(dto.getManagerInfo());
+        regis.setCustomerInfo(dto.getCustomerInfo());
+        regis.setProductInfo(dto.getProductInfo());
+        regis.setApprovalStatus(dto.getApprovalStatus());
+        regis.setStartDate(dto.getStartDate());
+        regis.setEndDate(dto.getEndDate());
+        regis.setPrice(dto.getPrice());
+        regis.setPaymentDetails(dto.getPaymentDetails());
+        regis.setRenewalReminder(dto.getRenewalReminder());
+        regis.setMessage(dto.getMessage());
+        //Còn thiếu tương đối nhiều
+        return regis;
+    }
+
     public RegisResDTO convertToRegisResDTO() {
         RegisResDTO dto = new RegisResDTO();
-        dto.setRegisId(this.regisId);
+        dto.setRegisID(this.regisId.toString());
         dto.setManagerInfo(this.managerInfo);
         dto.setCustomerInfo(this.customerInfo);
         dto.setProductInfo(this.productInfo);
+
         dto.setApprovalStatus(this.approvalStatus);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
+        dto.setPrice(this.price);
+        dto.setPaymentDetails(this.paymentDetails);
+        dto.setRenewalReminder(this.renewalReminder);
+        dto.setMessage(this.message);
+        return dto;
+    }
+
+    public RegisCreateDTO convertToRegisCreateDTO() {
+        RegisCreateDTO dto = new RegisCreateDTO();
+        dto.setRegisId(this.regisId.toString());
+        dto.setManagerInfo(this.managerInfo);
+        dto.setCustomerInfo(this.customerInfo);
+        dto.setProductInfo(this.productInfo);
+
+        dto.setApprovalStatus(this.approvalStatus);
+        dto.setStartDate(this.startDate);
+        dto.setEndDate(this.endDate);
+        return dto;
+    }
+
+    public Registration convertCreToRegistrations(RegisCreateDTO dto) {
+        Registration regis = new Registration();
+        if(dto.getRegisId() != null){
+            ObjectId dtoId = new ObjectId(dto.getRegisId());
+            regis.setRegisId(dtoId);
+        }
+
+        regis.setManagerInfo(dto.getManagerInfo());
+        regis.setCustomerInfo(dto.getCustomerInfo());
+        regis.setProductInfo(dto.getProductInfo());
+
+        regis.setApprovalStatus(dto.getApprovalStatus());
+        regis.setStartDate(dto.getStartDate());
+        regis.setEndDate(dto.getEndDate());
+        return regis;
+    }
+    public Registration convertUpdToRegistrations(RegisUpdateDTO dto) {
+        Registration regis = new Registration();
+        if(dto.getRegisID() != null){
+            ObjectId dtoId = new ObjectId(dto.getRegisID());
+            regis.setRegisId(dtoId);
+        }
+
+        regis.setApprovalStatus(dto.getApprovalStatus());
+        regis.setMessage(dto.getMessage());
+        return regis;
+    }
+    public RegisUpdateDTO convertToRegisUpdateDTO() {
+        RegisUpdateDTO dto = new RegisUpdateDTO();
+        dto.setRegisID(this.regisId.toString());
+        dto.setApprovalStatus(this.approvalStatus);
+        dto.setMessage(this.message);
         return dto;
     }
 }
