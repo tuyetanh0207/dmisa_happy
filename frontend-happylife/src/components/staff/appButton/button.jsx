@@ -21,7 +21,7 @@ const AppButton = (props) => {
        
         <button 
             style={{ ...buttonStyle }} 
-            className={styles.button}
+            className={`{$styles.button}` }
             onClick={()=>handleSelectingRow(data)}
             disabled={loading===1}
             >
