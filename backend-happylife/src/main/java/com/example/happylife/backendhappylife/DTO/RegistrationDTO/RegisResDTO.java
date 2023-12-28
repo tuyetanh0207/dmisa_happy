@@ -2,27 +2,34 @@ package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import org.bson.types.ObjectId;
 
 import java.time.Instant;
+import java.util.Date;
 
 public class RegisResDTO {
-    private String regisId;
+    private String regisID;
     private UserResDTO customerInfo;
-    private PlanBasicDTO productInfo;
+    private PlanResDTO productInfo;
     private UserResDTO managerInfo;
-
+    private Integer price;
     private String approvalStatus;
     private Instant startDate;
     private Instant endDate;
+    private String paymentDetails;
+    private Date renewalReminder;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private String message;
 
-    public String getRegisId() {
-        return regisId;
+    public String getRegisID() {
+        return regisID;
     }
 
-    public void setRegisId(String regisId) {
-        this.regisId = regisId;
+    public void setRegisID(String regisID) {
+        this.regisID = regisID;
     }
 
     public UserResDTO getCustomerInfo() {
@@ -33,11 +40,11 @@ public class RegisResDTO {
         this.customerInfo = customerInfo;
     }
 
-    public PlanBasicDTO getProductInfo() {
+    public PlanResDTO getProductInfo() {
         return productInfo;
     }
 
-    public void setProductInfo(PlanBasicDTO productInfo) {
+    public void setProductInfo(PlanResDTO productInfo) {
         this.productInfo = productInfo;
     }
 
@@ -71,5 +78,53 @@ public class RegisResDTO {
 
     public void setEndDate(Instant endDate) {
         this.endDate = endDate;
+    }
+
+    public String getPaymentDetails() {
+        return paymentDetails;
+    }
+
+    public void setPaymentDetails(String paymentDetails) {
+        this.paymentDetails = paymentDetails;
+    }
+
+    public Date getRenewalReminder() {
+        return renewalReminder;
+    }
+
+    public void setRenewalReminder(Date renewalReminder) {
+        this.renewalReminder = renewalReminder;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }
