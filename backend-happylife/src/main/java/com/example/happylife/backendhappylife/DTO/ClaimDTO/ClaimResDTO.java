@@ -16,22 +16,29 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import java.time.Instant;
 import java.util.List;
 
+@Getter
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-public class ClaimCreateDTO {
+public class ClaimResDTO {
+    private String claimId;
     private RegisResDTO regisInfo;
     private String status;
     private List<String> claimCategories;
     private Integer claimAmount;
     private String content;
+    private List<Claim.documentClaims> documentUrls;
     private List<Claim.ClaimInvoices> claimInvoices;
     private float claimTotalRequest;
     private Instant approvalDate;
     private List<Message> message;
     private String hospitalName;
-    private List<Claim.documentClaims> documentUrls;
+    private Instant createdAt;
+    private Instant updatedAt;
+
+    public void setClaimId(String claimId) {
+        this.claimId = claimId;
+    }
 
     public void setRegisInfo(RegisResDTO regisInfo) {
         this.regisInfo = regisInfo;
@@ -51,6 +58,10 @@ public class ClaimCreateDTO {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setDocumentUrls(List<Claim.documentClaims> documentUrls) {
+        this.documentUrls = documentUrls;
     }
 
     public void setClaimInvoices(List<Claim.ClaimInvoices> claimInvoices) {
@@ -73,7 +84,11 @@ public class ClaimCreateDTO {
         this.hospitalName = hospitalName;
     }
 
-    public void setDocumentUrls(List<Claim.documentClaims> documentUrls) {
-        this.documentUrls = documentUrls;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

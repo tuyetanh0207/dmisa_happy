@@ -1,5 +1,9 @@
 package com.example.happylife.backendhappylife.entity;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import jakarta.persistence.Column;
@@ -108,5 +112,76 @@ public class Claim {
         public void setClaimAmount(float claimAmount) {
             this.claimAmount = claimAmount;
         }
+    }
+
+    public Claim convertCreToClaim(ClaimCreateDTO dto) {
+        Claim claim = new Claim();
+        claim.setClaimCategories(dto.getClaimCategories()); // set name
+        claim.setClaimAmount(dto.getClaimAmount()); // set about
+        claim.setClaimInvoices(dto.getClaimInvoices());
+        claim.setClaimTotalRequest(dto.getClaimTotalRequest());
+        claim.setContent(dto.getContent());
+        claim.setApprovalDate(dto.getApprovalDate()); // set recommended
+        claim.setMessage(dto.getMessage()); // set duration
+        claim.setDocumentUrls(dto.getDocumentUrls()); //set duration unit
+        claim.setHospitalName(dto.getHospitalName());
+        claim.setRegisInfo(dto.getRegisInfo());
+        claim.setStatus(dto.getStatus()); // set benefits
+        return claim;
+    }
+    public Claim convertResToClaim(ClaimResDTO dto) {
+        Claim claim = new Claim();
+        if(dto.getClaimId() != null){
+            ObjectId dtoId = new ObjectId(dto.getClaimId());
+            claim.setClaimId(dtoId);
+        }
+        claim.setClaimCategories(dto.getClaimCategories()); // set name
+        claim.setClaimAmount(dto.getClaimAmount()); // set about
+        claim.setClaimInvoices(dto.getClaimInvoices());
+        claim.setClaimTotalRequest(dto.getClaimTotalRequest());
+        claim.setContent(dto.getContent());
+        claim.setApprovalDate(dto.getApprovalDate()); // set recommended
+        claim.setMessage(dto.getMessage()); // set duration
+        claim.setDocumentUrls(dto.getDocumentUrls()); //set duration unit
+        claim.setHospitalName(dto.getHospitalName());
+        claim.setRegisInfo(dto.getRegisInfo());
+        claim.setStatus(dto.getStatus()); // set benefits
+        claim.setUpdatedAt(dto.getUpdatedAt());
+        claim.setCreatedAt(dto.getCreatedAt()); // set benefits
+        return claim;
+    }
+
+    public ClaimResDTO convertToClaimResDTO() {
+        ClaimResDTO dto = new ClaimResDTO();
+        dto.setApprovalDate(this.approvalDate);
+        dto.setClaimCategories(this.claimCategories); // set name
+        dto.setClaimAmount(this.claimAmount); // set about
+        dto.setClaimInvoices(this.claimInvoices);
+        dto.setContent(this.content);
+        dto.setClaimTotalRequest(this.claimTotalRequest);
+        dto.setClaimId(this.claimId.toString()); // set recommended
+        dto.setMessage(this.message); // set duration
+        dto.setHospitalName(this.hospitalName); //set duration unit
+        dto.setDocumentUrls(this.documentUrls);
+        dto.setCreatedAt(this.createdAt);
+        dto.setUpdatedAt(this.updatedAt); // set benefits
+        dto.setStatus(this.status); // set service coverage
+        dto.setRegisInfo(this.regisInfo);
+        return dto;
+    }
+    public ClaimCreateDTO convertToClaimCreateDTO() {
+        ClaimCreateDTO dto = new ClaimCreateDTO();
+        dto.setApprovalDate(this.approvalDate);
+        dto.setClaimCategories(this.claimCategories); // set name
+        dto.setClaimAmount(this.claimAmount); // set about
+        dto.setClaimInvoices(this.claimInvoices);
+        dto.setContent(this.content);
+        dto.setClaimTotalRequest(this.claimTotalRequest);
+        dto.setMessage(this.message); // set duration
+        dto.setHospitalName(this.hospitalName); //set duration unit
+        dto.setDocumentUrls(this.documentUrls);
+        dto.setStatus(this.status); // set service coverage
+        dto.setRegisInfo(this.regisInfo);
+        return dto;
     }
 }
