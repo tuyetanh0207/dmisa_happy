@@ -1,15 +1,12 @@
 package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 
-import javax.swing.text.html.ObjectView;
 import java.time.Instant;
 
 @Data

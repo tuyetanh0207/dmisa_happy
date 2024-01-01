@@ -2,36 +2,29 @@ package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Object.Message;
+import com.example.happylife.backendhappylife.entity.Registration;
+import lombok.Getter;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
+@Getter
 public class RegisUpdateDTO {
-    private String regisID;
+    private String regisId;
     private String approvalStatus;
-    private String message;
+    private List<Message> message;
 
-    public String getRegisID() {
-        return regisID;
-    }
-
-    public void setRegisID(String regisID) {
-        this.regisID = regisID;
-    }
-
-    public String getApprovalStatus() {
-        return approvalStatus;
+    public void setRegisId(String regisId) {
+        this.regisId = regisId;
     }
 
     public void setApprovalStatus(String approvalStatus) {
         this.approvalStatus = approvalStatus;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
+    public void setMessage(List<Message> message) {
         this.message = message;
     }
 }

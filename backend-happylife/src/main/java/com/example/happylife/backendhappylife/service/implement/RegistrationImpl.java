@@ -44,7 +44,6 @@ public class RegistrationImpl implements RegistrationService {
         catch (Exception e) {
             throw new UserCreationException("Error getting registrations: " + e.getMessage());
         }
-
     }
 
     @Override
@@ -58,7 +57,6 @@ public class RegistrationImpl implements RegistrationService {
         try {
 
             Instant instantNow= Instant.now();
-            regis.setPrice(regis.getProductInfo().getPlanPrice());
             regis.setApprovalStatus("Pending");
             regis.setCreatedAt(instantNow);
             regis.setUpdatedAt(instantNow);
@@ -100,7 +98,6 @@ public class RegistrationImpl implements RegistrationService {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
                         InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
                         invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-                        invoiceCreateDTO.setTotalPrice(regisVar.getProductInfo().getPlanPrice());
 
                         Instant instantNow= Instant.now();
 

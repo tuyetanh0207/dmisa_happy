@@ -1,21 +1,15 @@
 package com.example.happylife.backendhappylife.entity;
 
 
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanInvoiceDTO;
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,6 +18,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,6 +47,9 @@ public class Registration {
     private Instant endDate;
 
     @Column(nullable = false)
+    private Integer insuranceAmount;
+
+    @Column(nullable = false)
     private String paymentDetails;
 
     private Date renewalReminder;
@@ -61,8 +59,21 @@ public class Registration {
     @Field(targetType = FieldType.DATE_TIME)
     private Instant updatedAt;
 
-    private String message;
+    private List<Message> message;
 
+    private List<parHistory> participantHistory;
+
+    private ContractResDTO contractIdInfo;
+
+    public static class parHistory {
+        @Field(targetType = FieldType.DATE_TIME)
+        private Instant startDate;
+        @Field(targetType = FieldType.DATE_TIME)
+        private Instant endDate;
+        @Column(nullable = false)
+        private String status;
+        private ContractResDTO contractInfo;
+    }
     public Registration convertToRegis(RegisResDTO dto) {
         Registration regis = new Registration();
         regis.setManagerInfo(dto.getManagerInfo());
@@ -81,7 +92,7 @@ public class Registration {
 
     public RegisResDTO convertToRegisResDTO() {
         RegisResDTO dto = new RegisResDTO();
-        dto.setRegisID(this.regisId.toString());
+        dto.setRegisId(this.regisId.toString());
         dto.setManagerInfo(this.managerInfo);
         dto.setCustomerInfo(this.customerInfo);
         dto.setProductInfo(this.productInfo);
@@ -127,8 +138,8 @@ public class Registration {
     }
     public Registration convertUpdToRegistrations(RegisUpdateDTO dto) {
         Registration regis = new Registration();
-        if(dto.getRegisID() != null){
-            ObjectId dtoId = new ObjectId(dto.getRegisID());
+        if(dto.getRegisId() != null){
+            ObjectId dtoId = new ObjectId(dto.getRegisId());
             regis.setRegisId(dtoId);
         }
 
@@ -138,7 +149,7 @@ public class Registration {
     }
     public RegisUpdateDTO convertToRegisUpdateDTO() {
         RegisUpdateDTO dto = new RegisUpdateDTO();
-        dto.setRegisID(this.regisId.toString());
+        dto.setRegisId(this.regisId.toString());
         dto.setApprovalStatus(this.approvalStatus);
         dto.setMessage(this.message);
         return dto;

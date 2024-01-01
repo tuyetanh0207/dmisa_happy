@@ -3,14 +3,19 @@ package com.example.happylife.backendhappylife.controller;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.PlanService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
 
@@ -20,16 +25,28 @@ public class PlanController {
     @Autowired
     private PlanService planService;
 
-    //Lấy thông tin chi tiết 1 plan dựa trên planId
+/*
+    public ResponseEntity<PlanCreateDTO> create(HttpServletRequest request){
+        User userVar = (User) request.getAttribute("userDetails");
+        UserResDTO user = userVar.convertFromUserToUserResDTO();
+*/
+
+
+
+        //Lấy thông tin chi tiết 1 plan dựa trên planId
     @GetMapping("/{planId}")
     public ResponseEntity<PlanResDTO> getPlan(@PathVariable ObjectId planId){
-        return ResponseEntity.ok(planService.getPlan(planId));
+        PlanResDTO planResDTOS = planService.getPlan(planId).convertToPlanResDTO();
+        return ResponseEntity.ok(planResDTOS);
     };
 
     //Lấy thông tin toàn bộ plan
     @GetMapping("")
     public ResponseEntity<List<PlanResDTO>> getAllPlans() {
-        return ResponseEntity.ok(planService.getAllPlans());
+        List<PlanResDTO> planResDTOS = planService.getAllPlans().stream()
+                .map(plan -> plan.convertToPlanResDTO())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(planResDTOS);
     };
 
     //Tạp mới một plan

@@ -8,6 +8,7 @@ import com.example.happylife.backendhappylife.repo.UserRepo;
 import com.example.happylife.backendhappylife.service.MyService;
 import com.example.happylife.backendhappylife.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
