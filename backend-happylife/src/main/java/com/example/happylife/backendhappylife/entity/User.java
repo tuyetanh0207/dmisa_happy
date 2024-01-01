@@ -4,10 +4,7 @@ import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -50,6 +47,8 @@ public class User implements UserDetails {
      @Column(nullable = false)
      private String password;
 
+     private HealthStatus healthStatus;
+
      private String avatarUrl;
      @Field(targetType = FieldType.DATE_TIME)
      private Instant createdAt;
@@ -57,54 +56,79 @@ public class User implements UserDetails {
      private Instant updatedAt;
      @Enumerated(EnumType.STRING)
      private Role role;
+     @Getter
+     public static class Address {
+         private String province;
+         private String district;
+         private String ward;
+         private String streetAddress;
+      public void setProvince(String province) {this.province = province;}
+      public void setDistrict(String district) {this.district = district;}
+      public void setWard(String ward) {this.ward = ward;}
+      public void setStreetAddress(String streetAddress) {this.streetAddress = streetAddress;}
+     }
 
- @Override
- public Collection<? extends GrantedAuthority> getAuthorities() {
+     @Getter
+     public static class HealthStatus {
+      private String generalHealthStatus;
+      private String managerReviewStatus;
+      @Field(targetType = FieldType.DATE_TIME)
+      private Instant updatedAt;
+      private List<String> details;
+      public void setGeneralHealthStatus(String generalHealthStatus) {this.generalHealthStatus = generalHealthStatus;}
+      public void setManagerReviewStatus(String managerReviewStatus) {this.managerReviewStatus = managerReviewStatus;}
+      public void setUpdatedAt(Instant updatedAt) {this.updatedAt = updatedAt;}
+      public void setDetails(List<String> details) {this.details = details;}
+     }
 
-  return List.of(new SimpleGrantedAuthority(role.name()));
- }
 
- @Override
- public String getUsername() {
-  return phoneNumber;
- }
+  @Override
+     public Collection<? extends GrantedAuthority> getAuthorities() {
 
- @Override
- public boolean isAccountNonExpired() {
-  return true;
- }
+      return List.of(new SimpleGrantedAuthority(role.name()));
+     }
 
- @Override
- public boolean isAccountNonLocked() {
+     @Override
+     public String getUsername() {
+      return phoneNumber;
+     }
 
-  return true;
- }
+     @Override
+     public boolean isAccountNonExpired() {
+      return true;
+     }
 
- @Override
- public boolean isCredentialsNonExpired() {
+     @Override
+     public boolean isAccountNonLocked() {
 
-  return true;
- }
+      return true;
+     }
 
- @Override
- public boolean isEnabled() {
+     @Override
+     public boolean isCredentialsNonExpired() {
 
-  return true;
- }
+      return true;
+     }
 
- public UserResDTO convertFromUserToUserResDTO() {
-  UserResDTO userResDTO = new UserResDTO();
-  userResDTO.setId(id);
-  userResDTO.setDOB(DOB);
-  userResDTO.setAddress(address);
-  userResDTO.setEmail(email);
-  userResDTO.setPhoneNumber(phoneNumber);
-  userResDTO.setGender(gender);
-  userResDTO.setRole(role);
-  userResDTO.setAvatarUrl(avatarUrl);
-  userResDTO.setCreatedAt(createdAt);
-  userResDTO.setUpdatedAt(updatedAt);
-  userResDTO.setFullName(fullName);
-  return userResDTO;
- }
+     @Override
+     public boolean isEnabled() {
+
+      return true;
+     }
+
+     public UserResDTO convertFromUserToUserResDTO() {
+      UserResDTO userResDTO = new UserResDTO();
+      userResDTO.setId(id);
+      userResDTO.setDOB(DOB);
+      userResDTO.setAddress(address);
+      userResDTO.setEmail(email);
+      userResDTO.setPhoneNumber(phoneNumber);
+      userResDTO.setGender(gender);
+      userResDTO.setRole(role);
+      userResDTO.setAvatarUrl(avatarUrl);
+      userResDTO.setCreatedAt(createdAt);
+      userResDTO.setUpdatedAt(updatedAt);
+      userResDTO.setFullName(fullName);
+      return userResDTO;
+     }
 }

@@ -12,9 +12,7 @@ public interface PlanService {
     //public List<Plan> getPlanByName(String PlanName);
     public Plan addPlan(Plan plan);
     public Plan deletePlan(ObjectId PlanId);
-
-    List<PlanResDTO> getAllPlans();
-    public PlanResDTO getPlan(ObjectId planId);
-
-    Plan updatePlan(Plan planUpdateDTO, ObjectId planId);
+    List<Plan> getAllPlans();
+    public Plan getPlan(ObjectId planId);
+    Plan updatePlan(Plan planUpdate, ObjectId planId);
 }
