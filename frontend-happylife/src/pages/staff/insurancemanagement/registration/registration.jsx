@@ -71,7 +71,7 @@ const IMRegistration = () => {
       //console.log('use Effect')
       fetchRegistrations(); 
       setFirstTime(false);
-    },1000)
+    },5000)
   //}
     
   },[registrations]);
@@ -81,7 +81,7 @@ const IMRegistration = () => {
     setLoadingBtns((t) => [...t, regisId]); 
     try {
 
-      const res = await RegistrationAPI.updateStatusOfRegistration(user.token,regisId, approvalStatus, message);
+      const res = await RegistrationAPI.updateStatusOfRegistration(user.token,regisId, approvalStatus, {content: message});
     //  console.log('res:', res)
       setLoadingBtns((t) =>t.filter((id) => id !==regisId))
     } catch (e) {

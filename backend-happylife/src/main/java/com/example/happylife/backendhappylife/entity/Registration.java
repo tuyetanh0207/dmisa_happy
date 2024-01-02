@@ -64,7 +64,20 @@ public class Registration {
     private List<parHistory> participantHistory;
 
     private ContractResDTO contractIdInfo;
+    private List<documentRegiss> documentUrls;
+    public static class documentRegiss{
+        @Column(nullable = false)
+        private String docCategory;
+        @Column(nullable = false)
+        private List<String> urls;
 
+        public void setDocCategory(String docCategory) {
+            this.docCategory = docCategory;
+        }
+        public void setUrls(List<String> urls) {
+            this.urls = urls;
+        }
+    }
     public static class parHistory {
         @Field(targetType = FieldType.DATE_TIME)
         private Instant startDate;
@@ -100,6 +113,7 @@ public class Registration {
         dto.setApprovalStatus(this.approvalStatus);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
+        dto.setDocumentUrls(this.getDocumentUrls());
         dto.setPrice(this.price);
         dto.setPaymentDetails(this.paymentDetails);
         dto.setRenewalReminder(this.renewalReminder);

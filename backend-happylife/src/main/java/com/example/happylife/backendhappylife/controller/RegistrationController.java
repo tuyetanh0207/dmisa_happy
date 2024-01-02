@@ -3,10 +3,7 @@ package com.example.happylife.backendhappylife.controller;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegistrationDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.*;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.entity.Registration;
@@ -59,13 +56,12 @@ public class RegistrationController {
     @PutMapping("/{id}/update-status")
     public ResponseEntity<RegisUpdateDTO> updateRegisStatus(@PathVariable ObjectId id,
                                                             HttpServletRequest request,
-                                                            @RequestBody RegisUpdateDTO regisUpdateDTO){
+                                                            @RequestBody RegisUpdateStatusDTO regisUpdateDTO){
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO user = userVar.convertFromUserToUserResDTO();
 
-        Registration regis = new Registration();
-        Registration regisUpdated = regis.convertUpdToRegistrations(regisUpdateDTO);
-        Registration savedRegis = registrationService.updateRegisStatus(user,id,regisUpdated);
+
+        Registration savedRegis = registrationService.updateRegisStatus(user,id,regisUpdateDTO);
         RegisUpdateDTO regisUpdDTO = savedRegis.convertToRegisUpdateDTO();
         return ResponseEntity.ok(regisUpdDTO);
     }
@@ -79,8 +75,6 @@ public class RegistrationController {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         if (planId == null && status == null) {
-            // Both planId and status are null, return an error response or handle accordingly
-            // You might want to define your specific behavior here
             return ResponseEntity.badRequest().build();
         }
         List<RegisResDTO> enrollments;

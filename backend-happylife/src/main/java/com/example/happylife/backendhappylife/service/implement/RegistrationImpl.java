@@ -4,9 +4,11 @@ import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateStatusDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Invoice;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
@@ -24,6 +26,7 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,8 +94,11 @@ public class RegistrationImpl implements RegistrationService {
         }
     }
     @Override
-    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, Registration regis) {
+    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
         try {
+            RegisResDTO regis = regisUpdateStatusDTO.getRegis();
+            Message msg = regisUpdateStatusDTO.getMessage();
+            Instant instantNow = Instant.now();
             if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT ) {
                 if (regis.getApprovalStatus().equals("Approved") || regis.getApprovalStatus().equals("Rejected") ||
                         regis.getApprovalStatus().equals("Expired") || regis.getApprovalStatus().equals("Revoked") ||
@@ -100,13 +106,18 @@ public class RegistrationImpl implements RegistrationService {
                     Registration regisVar = registrationRepo.findById(regisId)
                             .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
                     regisVar.setApprovalStatus(regis.getApprovalStatus());
-                    regisVar.setMessage(regis.getMessage());
+                    msg.setDateMessage(instantNow);
+                    if(regis.getMessage()!=null){
+                        regis.getMessage().add(msg);
+                        regis.setMessage(regis.getMessage());
+                    } else{
+
+                        regis.setMessage(Arrays.asList(msg));
+                    }
                     if (regis.getApprovalStatus().equals("Approved")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
                         InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
                         invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-
-                        Instant instantNow= Instant.now();
 
                         Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
                         invoiceCreateDTO.setDueDate(dueDateInstant);

@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Object.Message;
@@ -33,6 +34,7 @@ public class RegisResDTO {
     private Instant endDate;
 //    @Getter
     private String paymentDetails;
+    private Integer insuranceAmount;
 //    @Getter
     private Date renewalReminder;
 //    @Getter
@@ -40,5 +42,8 @@ public class RegisResDTO {
 //    @Getter
     private Instant updatedAt;
     private List<Message> message;
+    private List<Registration.parHistory> participantHistory;
+    private List<Registration.documentRegiss> documentUrls;
+    private ContractResDTO contractIdInfo;
 
 }
