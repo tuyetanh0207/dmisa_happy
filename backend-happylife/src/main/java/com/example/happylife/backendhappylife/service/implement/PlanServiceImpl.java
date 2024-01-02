@@ -1,6 +1,7 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.entity.Registration;
@@ -40,7 +41,7 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public Plan addPlan(Plan plan) {
+    public Plan addPlan(UserResDTO user, Plan plan) {
         try {
             if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
                 throw new UserCreationException("Plan name is required.");

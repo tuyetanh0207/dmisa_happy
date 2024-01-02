@@ -4,6 +4,7 @@ import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Plan;
 import lombok.*;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Document
 public class PlanResDTO {
     private String planId;
     private String planName;

@@ -1,5 +1,7 @@
 package com.example.happylife.backendhappylife.entity;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import jakarta.persistence.Column;
@@ -108,5 +110,27 @@ public class Claim {
         public void setClaimAmount(float claimAmount) {
             this.claimAmount = claimAmount;
         }
+    }
+    // convert funcs
+    public ClaimResDTO convertClaimToRes(Claim claim){
+        ClaimResDTO claimRes = new ClaimResDTO();
+        claimRes.setClaimId(claim.getClaimId().toString());
+        claimRes.setRegisInfo(claim.getRegisInfo());
+        claimRes.setStatus(claim.getStatus());
+        claimRes.setClaimCategories(claim.getClaimCategories());
+        claimRes.setClaimAmount(claim.getClaimAmount());
+        claimRes.setContent(claim.getContent());
+        claimRes.setDocumentUrls(claim.getDocumentUrls());
+        claimRes.setClaimInvoices(claim.getClaimInvoices());
+        claimRes.setClaimTotalRequest(claim.getClaimTotalRequest());
+        claimRes.setApprovalDate(claim.getApprovalDate());
+        claimRes.setMessage(claim.getMessage());
+        claimRes.setHospitalName(claim.getHospitalName());
+        claimRes.setCreatedAt(claim.getCreatedAt());
+        claimRes.setUpdatedAt(claim.getUpdatedAt());
+        return claimRes;
+
+
+
     }
 }

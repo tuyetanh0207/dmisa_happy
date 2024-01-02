@@ -5,12 +5,15 @@ import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.entity.User;
+import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.service.PlanService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +27,6 @@ import java.util.stream.Collectors;
 public class PlanController {
     @Autowired
     private PlanService planService;
-
-/*
-    public ResponseEntity<PlanCreateDTO> create(HttpServletRequest request){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO user = userVar.convertFromUserToUserResDTO();
-*/
-
 
 
         //Lấy thông tin chi tiết 1 plan dựa trên planId
@@ -51,12 +47,24 @@ public class PlanController {
 
     //Tạp mới một plan
     @PostMapping("/create")
-    public ResponseEntity<PlanCreateDTO> addPlan(@RequestBody PlanCreateDTO planCreateDTO) {
-        Plan plan = new Plan();
-        Plan planCreated = plan.convertCreToPlan(planCreateDTO);
-        Plan savedPlan = planService.addPlan(planCreated);
-        PlanCreateDTO planCreDTO = savedPlan.convertToPlanCreateDTO();
-        return ResponseEntity.ok(planCreDTO);
+    public ResponseEntity<?> addPlan(HttpServletRequest request, @RequestBody PlanCreateDTO planCreateDTO) {
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO user = userVar.convertFromUserToUserResDTO();
+            if (user.getRole()!= Role.INSUARANCE_MANAGER){
+
+            }
+            Plan plan = new Plan();
+            Plan planCreated = plan.convertCreToPlan(planCreateDTO);
+            Plan savedPlan = planService.addPlan(user, planCreated);
+            PlanResDTO resPlan = savedPlan.convertToPlanResDTO();
+            return ResponseEntity.ok(resPlan);
+        } catch (UserCreationException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+
     };
 
     //Update 1 plan dựa trên planId

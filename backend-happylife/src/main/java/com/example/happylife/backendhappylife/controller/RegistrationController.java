@@ -15,6 +15,7 @@ import com.example.happylife.backendhappylife.service.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/registrations")
 public class RegistrationController {
-    @Autowired
-    private RegistrationService registrationService;
+
+
+    private final RegistrationService registrationService;
+
+
+    public RegistrationController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
     @GetMapping("")
     public ResponseEntity<List<RegisResDTO>> getRegistrations(HttpServletRequest request){
         User userVar = (User) request.getAttribute("userDetails");
@@ -61,5 +68,49 @@ public class RegistrationController {
         Registration savedRegis = registrationService.updateRegisStatus(user,id,regisUpdated);
         RegisUpdateDTO regisUpdDTO = savedRegis.convertToRegisUpdateDTO();
         return ResponseEntity.ok(regisUpdDTO);
+    }
+    @GetMapping("/enroll")
+    public ResponseEntity<?> getEnrollOfPlan(
+            HttpServletRequest request,
+            @RequestParam(required = false) String planId,
+            @RequestParam(required = false) String status
+    )
+    {
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        if (planId == null && status == null) {
+            // Both planId and status are null, return an error response or handle accordingly
+            // You might want to define your specific behavior here
+            return ResponseEntity.badRequest().build();
+        }
+        List<RegisResDTO> enrollments;
+        System.out.println("planid");
+        System.out.println(planId);
+        ObjectId planObjectId;
+        if(planId!=null){
+            System.out.println("planid object kk");
+            planObjectId = new ObjectId(planId);
+            System.out.println("planid object kkkk");
+            System.out.println(planObjectId);
+            if ( status != null) {
+                // Both planId and status are provided
+                enrollments = registrationService.getEnrollOfPlan(userResDTO,planObjectId, status);
+                return ResponseEntity.ok(enrollments);
+            }
+        }
+
+
+
+        // Call the service method to retrieve enrollments based on planId and status
+
+//        else if (planId != null) {
+//            // Only planId is provided
+//            enrollments = registrationService.getEnrollmentsByPlanId(planId);
+//        } else {
+//            // Only status is provided
+//            enrollments = registrationService.getEnrollmentsByStatus(status);
+//        }
+
+        return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
     }
 }

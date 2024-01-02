@@ -1,6 +1,9 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Invoice;
@@ -22,6 +25,7 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistrationImpl implements RegistrationService {
@@ -30,6 +34,9 @@ public class RegistrationImpl implements RegistrationService {
 
     @Autowired
     private InvoiceService invoiceService;
+
+
+
 
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
@@ -119,6 +126,21 @@ public class RegistrationImpl implements RegistrationService {
         } catch (Exception e){
             throw  new UserCreationException("Error updating status of registration: "+ e.getMessage());
         }
+    }
+
+    @Override
+    public List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, String status) {
+        PlanResDTO plan = new PlanResDTO();
+        plan.setPlanId(planId.toString());
+        List<Registration> regiss =registrationRepo.findAllByProductInfoAndApprovalStatus(plan.getPlanId(), status);
+
+        System.out.println("size regis");
+        System.out.println(regiss.size());
+        List<RegisResDTO> registrations = regiss.stream().
+                map(regis -> regis.convertToRegisResDTO())
+                .collect(Collectors.toList());
+
+        return registrations;
     }
 
 }
