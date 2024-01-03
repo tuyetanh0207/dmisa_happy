@@ -4,7 +4,8 @@ const AppButton = (props) => {
     const {title, bgColor, borderColor, textColor, width, height, paddingX, paddingY, borderRadius,
         handleSelectingRow,
         data,
-        loading} = props;
+        onMouseOver,
+        loading,} = props;
     const buttonStyle = {
         backgroundColor: bgColor,
         border: `1px solid ${borderColor}`,
@@ -24,6 +25,7 @@ const AppButton = (props) => {
             className={`{$styles.button}` }
             onClick={()=>handleSelectingRow(data)}
             disabled={loading===1}
+            onMouseEnter={onMouseOver}
             >
                 {loading==="1"?<div className={styles.loader}></div>:title}
                 

@@ -8,7 +8,7 @@ const RegistrationAPI = {
     updateStatusOfRegistration: function(token, regisId, approvalStatus, message) {
         const url = `${apiV1}/registrations/${regisId}/update-status`;
         return put(url, {
-            approvalStatus,
+            regis: {approvalStatus:approvalStatus},
             message
         } ,token);
     }

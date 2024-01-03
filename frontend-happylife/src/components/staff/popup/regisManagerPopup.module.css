@@ -10,9 +10,9 @@
     align-items: center;
 
 }
-.popupContent{
+.popup{
     background-color: white;
-    padding: 20px;
+    padding: 0% 4% 2% 4%;
     border-radius: 8px;
     height: 90%;
     box-sizing: border-box;
@@ -21,24 +21,45 @@
     justify-content: center;
     align-items: center;
     gap: 10px; /* Adjust the gap between buttons as needed */
-    overflow-y: auto;
+    min-width: 60%;
     z-index: 20;
+
+}
+.content{
+    /* display: flex;
+    position: relative; */
+    overflow-y: auto;
+    max-height: 94%;
+    min-width: 100%;
+
+
 
 }
 .buttons{
     display: flex;
-    /* justify-content: center;
-    align-items: center; */
-    gap: 20px; 
-    margin-bottom: 0.5em;
+    gap: 20px;
+    /* margin-top: auto; Push buttons to the bottom */
     position: absolute;
-    bottom: 1em;
+    bottom: -60px; 
+
     left: 50%;
     transform: translateX(-50%);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
 }
 .closeButton{
     position: absolute;
     top: 10px;
     right: 10px;
     cursor: pointer;
+   
+}
+.h2{
+    position: sticky;
+    top: 0;
+}
+.nav{
+    position: sticky;
+    top: 6%;
 }

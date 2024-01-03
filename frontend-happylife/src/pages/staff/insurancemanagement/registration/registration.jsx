@@ -9,7 +9,6 @@ import RegistrationManagerPopup from '../../../../components/staff/popup/regisMa
 import StatusFilter from '../../../../components/staff/filter/status/statusFilter';
 import { statusArrayOfRegistration } from '../../../../resource/status';
 const IMRegistration = () => {
-  console.log('kk')
   const user = useSelector((state) => state.auth.login.currentUser)
   const [firstTime, setFirstTime] = useState(true)
   const [registrations, setRegistrations] = useState(null);
@@ -24,7 +23,7 @@ const IMRegistration = () => {
       //console.log('token', user.token)
       const res = await RegistrationAPI.getAllRegistration(user.token);
       let data= res.data
-
+ console.log('res data', res.data);
       if(filterStatus !== 'All'){
         // data = data.filter(a => a.approvalStatus===filterStatus);
        
@@ -39,11 +38,11 @@ const IMRegistration = () => {
 
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setRegistrations(res.sortedArray)
+        setRegistrations(sortedArray)
       
       }
  
-   // console.log('res data', res.data);
+  
     } catch(err){
       console.log('error in fetchRegistrations', err);
     }
@@ -89,7 +88,7 @@ const IMRegistration = () => {
     }
     
   }
-  const colTitle = ['No.', 'Cus. Name', 'Cus. Phone', 'Birthday','Address', 'Plan', 'Plan Coverage', 'Plan Duration', 'Created At', 'Status']
+  const colTitle = ['No.', 'Cus. Name', 'Cus. Phone', 'Birthday','Address', 'Plan', 'Plan Type', 'Insurance Amount', 'Created At', 'Status']
   const handleChangeFilterStatus = (status)=>{
     setFilterStatus(status)
   }
@@ -127,12 +126,13 @@ const IMRegistration = () => {
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.fullName}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.phoneNumber}</td>
               {/* <td className="border border-gray-300 px-2 py-2">{item.customerInfo.citizenID}</td> */}
-              <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.dob.slice(0,10)}</td>
+              <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.dob?item.customerInfo.dob.slice(0,10):""}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.address}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planName}</td>
-              <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planServiceCoverage}</td>
+              <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planType[0].typeName}</td>
+              <td className="border-t border-gray-300 px-2 py-2">{item.insuranceAmount}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planDuration + " " + item.productInfo.planDurationUnit + "s"}</td>
-              {/* <td className="border-t border-gray-300 px-2 py-2">{item.createdAt.toString().slice(0, 10)}</td> */}
+              <td className="border-t border-gray-300 px-2 py-2">{item.createdAt?item.createdAt.toString().slice(0, 10):''}</td>
               <td className={`border-t border-gray-300 px-2 py-2 font-bold ${item.approvalStatus==="Approved"?'text-custom-blue-2': item.approvalStatus==='Pending'? 'text-custom-blue-3':'text-custom-red-2'}`}>{item.approvalStatus}</td>
               <td className="border-t border-gray-300 px-2 py-2">
                 <AppButton 
