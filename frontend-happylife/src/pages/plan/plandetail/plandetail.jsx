@@ -48,7 +48,7 @@ export default function Plandetail() {
                 <div className="pt-6 pb-14 container mx-auto  max-w-6xl">
                     <div className="pb-14 flex items-center justify-between">
                         <div  className="px-20 py-2.5 text-2xl flex flex-row bg-custom-blue-2 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
-                            {plansDetail?.planType}
+                            {/* {plansDetail?.planType} */}
                         </div>
                         <div className="px-20 py-2.5 text-2xl flex flex-row bg-custom-blue-2 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">   
                             {plansDetail?.planDuration} {plansDetail?.planDurationUnit}
@@ -88,10 +88,10 @@ export default function Plandetail() {
                     </div>
                     
                     <div className="pt-12 container mx-auto  max-w-6xl">
-                        <div className="pb-7 flex items-center justify-between">
-                        <div></div>
+                        {/* <div className="pb-7 flex items-center justify-between">
+                                <div></div>
                                 <div className="pt-2 pb-1 px-5 py-4  text-3xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {plansDetail?.planPrice} VND</div>
-                        </div>
+                        </div> */}
                         <div className="pb-7 flex items-center justify-between">
                             <Link to="/plan"  className="px-20 py-4 text-2xl flex flex-row bg-custom-blue-4 rounded border font-bold font-['IBM Plex Sans'] text-white border-indigo-500">
                                 <img src={Arrowcircleleft} alt="LOGO" className="pr-7 item-center filter brightness-0 invert " ></img>
