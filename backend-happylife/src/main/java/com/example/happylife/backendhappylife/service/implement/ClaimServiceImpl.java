@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
@@ -18,6 +19,11 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     public List<Claim> getAllClaim() {
         List<Claim> claims = claimRepo.findAll();
+        return claims;
+    }
+    @Override
+    public List<Claim> getAllClaimUser(UserResDTO user) {
+        List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo(user.getId());
         return claims;
     }
     @Override

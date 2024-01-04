@@ -5,6 +5,7 @@ import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -26,7 +27,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private String id;
+     private ObjectId id;
 
      @Column(nullable = false)
      private String fullName;
@@ -118,7 +119,7 @@ public class User implements UserDetails {
 
      public UserResDTO convertFromUserToUserResDTO() {
       UserResDTO userResDTO = new UserResDTO();
-      userResDTO.setId(id);
+      userResDTO.setId(id.toString());
       userResDTO.setDOB(DOB);
       userResDTO.setAddress(address);
       userResDTO.setEmail(email);

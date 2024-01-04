@@ -10,5 +10,9 @@ public interface ClaimService {
 
     List<Claim> getAllClaim();
 
+    List<Claim> getAllClaimUser();
+
+    List<Claim> getAllClaimUser(UserResDTO user);
+
     Claim addClaim(Claim claim);
 }

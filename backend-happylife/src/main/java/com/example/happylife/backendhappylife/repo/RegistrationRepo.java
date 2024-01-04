@@ -4,6 +4,8 @@ import com.example.happylife.backendhappylife.entity.Registration;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface RegistrationRepo extends MongoRepository<Registration, ObjectId> {
+import java.util.List;
 
+public interface RegistrationRepo extends MongoRepository<Registration, ObjectId> {
+    List<Registration> findByCustomerInfo_Id(String id);
 }
