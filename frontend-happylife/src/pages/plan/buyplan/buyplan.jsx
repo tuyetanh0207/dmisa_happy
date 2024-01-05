@@ -20,17 +20,71 @@ export default function Buyplan() {
     const [email,setEmail] =useState('');
     const [address,setAddress] =useState('');
     // const [healthStatus,setHealthStatus] =useState('');
+    const buyPlan = 
+    {
+        customerInfo: {
+            id: "6565591616433655e5ad110f",
+            fullName: "default  "
+        },
+        productInfo: {
+            planId: "658f2a657bd7a6390b228f24",
+            planDuration: 12,
+            planDurationUnit: "Month"
 
+
+        }
+
+    }
 
     const selectedPlanObject = plans.find((plan) => plan.planId === selectedPlan);
     const handlePlanChange = (event) => {
         setSelectedPlan(event.target.value);
     };
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        console.log("//////////////////////////////////////////////////////////")
+        // const buyPlan = {
+        //     fullName: fullName,
+        //     citizenId: citizenId,
+        //     phoneNumber: phoneNumber,
+        //     gender: gender,
+        //     dob: dob,
+        //     email: email,
+        //     address: address,
+        //     planId:selectedPlan,
+        // }
+        // const buyPlan = 
+        // {
+        //     customerInfo: {
+        //         id: "6565591616433655e5ad110f",
+        //         fullName: "default  "
+        //     },
+        //     productInfo: {
+        //         planId: "658f2a657bd7a6390b228f24",
+        //         planDuration: 12,
+        //         planDurationUnit: "Month"
+    
+    
+        //     }
+    
+        // }
+        const buyPlan = 
+        {"customerInfo":{"id":"6565591616433655e5ad110f","fullName":"default321  "},"productInfo":{"planId":"658f2a657bd7a6390b228f24","planDuration":12,"planDurationUnit":"Month"}}
+        
+        console.log('buyplan:',buyPlan)
+        try{
+            const res = await RegistrationAPI.createRegistration(buyPlan,user.token) ;
+            console.log("Res", res);
+        } catch(err){
+            console.log("err: ", err);
+        }
+    }
+    
     const fetchPlan = async () => {
         fetch("http://localhost:8090/api/v1/plans")
         .then((res)=>res.json())
         .then((data)=>{
-            console.log("data:", data)
+            // console.log("data:", data)
             setPlansAPI(data);
             if (data.length > 0) {
                 setSelectedPlan(data[0].planId);
@@ -73,11 +127,13 @@ export default function Buyplan() {
     // },[registrations])
     
 
-    console.log("PLANS:",plans);
-    console.log("selectplan:",selectedPlan);
-    console.log("registrations:",registrations);
+    // console.log("PLANS:",plans);
+    // console.log("selectplan:",selectedPlan);
+    // console.log("registrations:",registrations);
     console.log("User:",user);
-    console.log("UserLogin:",user.userInfo.fullName);
+    // console.log("UserLogin:",user.userInfo.fullName);
+    const jsonString = JSON.parse(JSON.stringify(buyPlan));
+    console.log("buypplan:",jsonString);
         
 
     return (
@@ -85,9 +141,9 @@ export default function Buyplan() {
         {/* <div className=" bg-red-900"> */}
         <Header/>
         <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
-          <form className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
+          <form onSubmit={handleSubmit} className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  <div className="sm:col-span-3">
+                  <div className="sm:col-span-3">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
                           Full Name
                         </label>
@@ -255,16 +311,17 @@ export default function Buyplan() {
                             
                         </div>
                         )} 
+                        <div className="flex items-center justify-between">
+                            <div></div>
+                            <button className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
+                                <img src={Shopingcar} alt="LOGO" className="item-center" ></img>
+                                <p className="pl-6">Payment</p>
+                            </button>
+                        </div>
                     </form>
                     
             </div>
-            <div className="flex items-center justify-between">
-                <div></div>
-                <button className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
-                    <img src={Shopingcar} alt="LOGO" className="item-center" ></img>
-                    <p className="pl-6">Payment</p>
-                </button>
-            </div>
+            
             
 
 
@@ -277,6 +334,7 @@ export default function Buyplan() {
           <div>{dob}</div>
           <div>{email}</div>
           <div>{address}</div>
+          <div>{selectedPlan}</div>
           <div>Temp</div>
           {/* test get registion */}
           {registrations?.map((item, index) => (
@@ -285,7 +343,7 @@ export default function Buyplan() {
                 <div >{item.customerInfo.fullName}</div>
                 <div >{item.customerInfo.phoneNumber}</div>
                 
-                <div >{item.customerInfo.dob.slice(0,10)}</div>
+                <div >{item.customerInfo.dob}</div>
                 <div >{item.customerInfo.address}</div>
                 <div >{item.productInfo.planName}</div>
                 <div >{item.productInfo.planServiceCoverage}</div>

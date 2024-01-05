@@ -6,11 +6,11 @@ import Header from './header.jsx'
 //import PlanAPI from '../../../api/plansApi.jsx'
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { useSelector } from 'react-redux';
 export default function Plan() {
     // Gọi API lấy data -> có rhwe63 phải jsonfy nó
     // plans = jsonfy function (result of API Call)
-
+    const user = useSelector((state) => state.auth.login.currentUser);
         const [plans,setPlansAPI]=useState([]);
 
         const fetchPlan = () => {
@@ -26,6 +26,7 @@ export default function Plan() {
         
         },[])
       console.log("PLANS:",plans);
+      console.log("user:",user);
   
     return (
       <div className="bg-custom-blue-3">
