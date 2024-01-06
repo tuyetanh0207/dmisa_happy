@@ -8,9 +8,17 @@ import org.bson.types.ObjectId;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface ClaimService {
-    Claim addClaim(UserResDTO authUser, Claim claim);
+    //Claim addClaim(UserResDTO authUser, Claim claim);
     List<Claim> getAllClaim();
+    
     Claim updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg);
 
+    List<Claim> getAllClaimUser();
+
+    List<Claim> getAllClaimUser(UserResDTO user);
+
+    Claim addClaim(Claim claim);
 }

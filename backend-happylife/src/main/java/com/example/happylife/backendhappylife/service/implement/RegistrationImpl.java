@@ -25,7 +25,6 @@ import java.time.Instant;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +46,18 @@ public class RegistrationImpl implements RegistrationService {
             if (user.getRole()== Role.INSUARANCE_MANAGER|| user.getRole() == Role.ACCOUNTANT ){
                 List<Registration> registrations = registrationRepo.findAll();
                 return registrations;
-            } else {
+            }
+            else if ((user.getRole()== Role.CUSTOMER)) {
+                //List<Registration> registrationsUser = new ArrayList<Registration>();
+                List<Registration> registrationsUser = registrationRepo.findByCustomerInfo_Id(user.getId());
+
+                /*ObjectId userIdObject = user.getId() != null ? new ObjectId(user.getId()) : null;
+                for (Registration regis : registrations) {
+                    registrationRepo.findById(userIdObject).ifPresent(registrationsUser::add);
+                }*/
+                return registrationsUser;
+            }
+            else {
                 throw new UserCreationException("You need authenticated account to access this infomation.");
             }
         }

@@ -27,17 +27,30 @@ public class ClaimServiceImpl implements ClaimService {
     @Autowired
     private ClaimRepo claimRepo;
 
+  
     @Override
-    public Claim addClaim(UserResDTO authUser, Claim claim){
+    public List<Claim> getAllClaimUser(UserResDTO user) {
+        List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo(user.getId());
+        return claims;
+    }
+    @Override
+    public Claim addClaim(Claim claim){ //UserResDTO authUser,
         try {
-            if (authUser.getRole() == Role.CUSTOMER) {
-                return null;
+            // if (authUser.getRole() == Role.CUSTOMER) {
+            //     return null;
                 /*} else{
                     throw  new UserCreationException("Error updating status of claimtration: status is invalid.");
+            /*if (authUser.getRole() == Role.CUSTOMER) {*/
+                Instant instantNow = Instant.now();
+                claim.setCreatedAt(instantNow);
+                claim.setUpdatedAt(instantNow);
+                return claimRepo.save(claim);
+               /* } else{
+                    throw  new UserCreationException("Error updating status of registration: status is invalid.");
                 }*/
-            } else {
+          /*  } else {
                 throw  new UserCreationException("Error to request the new claim, you need an authenticated account to do this action.");
-            }
+            }*/
         } catch (Exception e){
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }

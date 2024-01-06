@@ -1,12 +1,12 @@
 package com.example.happylife.backendhappylife.controller;
 
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStatusRes;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
-import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.ClaimService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
+
 @RestController
 @RequestMapping("/api/v1/claims")
-
 public class ClaimController {
     @Autowired
     private ClaimService claimService;
@@ -53,4 +53,12 @@ public class ClaimController {
         return ResponseEntity.ok(claimRes);
 
     }
+    @PostMapping("/create")
+    public ResponseEntity<ClaimCreateDTO> addClaim(@RequestBody ClaimCreateDTO claimCreateDTO) {
+        Claim claim = new Claim();
+        Claim claimCreated = claim.convertCreToClaim(claimCreateDTO);
+        Claim savedClaim = claimService.addClaim(claimCreated);
+        ClaimCreateDTO claimCreatedDTO = savedClaim.convertToClaimCreateDTO();
+        return ResponseEntity.ok(claimCreatedDTO);
+    };
 }
