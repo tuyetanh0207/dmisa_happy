@@ -34,9 +34,18 @@ export default function Buyplan() {
     //planType
     const [planTypeName,setPlanTypeName]=useState('');
     const [benefitsBenefitsName,setBenefitsBenefitsName]=useState('');
+    const [benefitsDependencies,setBenefitsDependencies]=useState('');
+    const [benefitsInsuranceAmount,setBenefitsInsuranceAmounts]=useState();
+    const [benefitsUnit,setBenefitsUnit]=useState('');
+    //planType/FeeType
+    const [benefitsFeeType,setBenefitsFeeType]=useState('');
+    const [benefitsStartAge,setBenefitsStartAge]=useState();
+    const [benefitsEndAge,setBenefitsEndAge]=useState();
+    const [benefitsFee,setBenefitsFee]=useState();
+
     
     const [selectedPlanType, setSelectedPlanType] = useState(null);
-    const [selectedBenefits, setSelectedBenefits] = useState([]);
+    const [selectedBenefits, setSelectedBenefits] = useState();
 
 
 
@@ -57,10 +66,27 @@ export default function Buyplan() {
         setPlanTypeName(selectedType);
     
         const selectedTypeObject = selectedPlanObject.planType.find((type) => type.typeName === selectedType);
-    
+        // console.log('Temp test:',selectedTypeObject)
         if (selectedTypeObject) {
             setSelectedPlanType(selectedTypeObject);
             setSelectedBenefits(selectedTypeObject.benefits);
+            if (selectedTypeObject.benefits.length > 0) {
+                setBenefitsBenefitsName(selectedTypeObject.benefits[0].benefitName);
+                setBenefitsDependencies(selectedTypeObject.benefits[0].dependencies);
+                setBenefitsInsuranceAmounts(selectedTypeObject.benefits[0].insuranceAmount);
+                setBenefitsUnit(selectedTypeObject.benefits[0].unit);
+            }
+            console.log('benefit:',selectedTypeObject.benefits);
+        }
+    };
+    const [selectedFeeType, setSelectedFeeType] = useState(null);
+    const handleFeeType = (selectedFeeTypeObj) => {
+        setSelectedFeeType(selectedFeeTypeObj);
+        if (selectedFeeTypeObj) {
+            setBenefitsFeeType(selectedFeeTypeObj.type );
+            setBenefitsStartAge(selectedFeeTypeObj.startAge );
+            setBenefitsEndAge(selectedFeeTypeObj.endAge );
+            setBenefitsFee(selectedFeeTypeObj.fee );
         }
     };
 
@@ -89,18 +115,18 @@ export default function Buyplan() {
                         typeName: planTypeName,
                         benefits: [
                             {
-                                benefitName: "Hỗ trợ y tế",
-                                // dependencies: "age",
-                                // feeType: [
-                                //     {
-                                //         // type: "ageBased",
-                                //         // startAge: 1,
-                                //         // endAge: 3,
-                                //         // fee: 3370000
-                                //     }
-                                // ],
-                                // unit: "VND",
-                                // insuranceAmount: 500000
+                                benefitName: benefitsBenefitsName,
+                                dependencies: benefitsDependencies,
+                                feeType: [
+                                    {
+                                        type: benefitsFeeType,
+                                        startAge: benefitsStartAge,
+                                        endAge: benefitsEndAge,
+                                        fee: benefitsFee
+                                    }
+                                ],
+                                unit: benefitsUnit,
+                                insuranceAmount: benefitsInsuranceAmount
                             }
                         ]
                     }
@@ -426,21 +452,22 @@ export default function Buyplan() {
                                                 </div> */}
                                                 <div className="pt-10 grid grid-cols-4 grid-flow-col gap-4">
                                                     {benefit.feeType.map((item3, index) => (
-                                                        <button key={index} className="border-gray-600 border-2 rounded-lg w-full h-full" onClick={handlePlanTypeNameChange} >
-                                                        
+                                                        // <button key={index} onClick={handleFeeType} className="border-gray-600 border-2 rounded-lg w-full h-full"  >
+                                                        <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedFeeType === item3 ? 'bg-gray-200' : ''}`}onClick={() => handleFeeType(item3)}>
                                                             <div>{item3.type}</div>
                                                             <div>{item3.startAge}-{item3.endAge}</div>
                                                             <div>{item3.fee}</div>
                                                         </button>
                                                     ))}
                                                     </div>
-
+                                                <div>{benefit.insuranceAmount} {benefit.unit}</div>         
                                             </div>
                                         ))}
                                     </div>
                                 )}
                             </div>
                         )}
+                        
                         <div >
                         </div>
                         
@@ -479,7 +506,15 @@ export default function Buyplan() {
           <div>{planID}</div>
           <div>{planName}</div>
           <div>{planTypeName}</div>
-          {/* <div>{planTypeArr}</div> */}
+          <div>{benefitsBenefitsName}</div>
+          <div>{benefitsDependencies}</div>
+          <div>{benefitsInsuranceAmount} {benefitsUnit}</div>
+          <div>{benefitsFeeType}</div>
+          <div>{benefitsStartAge} {benefitsEndAge}</div>
+          <div>{benefitsFee}</div>
+          
+                                                        
+
 
           {/* test get registion */}
           {/* {registrations?.map((item, index) => (
