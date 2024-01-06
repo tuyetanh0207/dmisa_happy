@@ -1,7 +1,8 @@
 // AdminDashboard.jsx
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import ClaimAPI from '../../../../../api/ClaimApi';
+import ClaimAPI from '../../../../../api/claimApi';
+// import RegistrationAPI from '../../../../../api/registrationApi';
 import UserAPI from '../../../../../api/userApi';
 import AppButton from '../../../../components/staff/appButton/button';
 import gStyles from '../../../../style'
