@@ -3,15 +3,23 @@ import Header from '../header.jsx'
 import {Link} from 'react-router-dom'
 import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
+import axios from 'axios'
 import RegistrationAPI from '../../../../api/registrationApi.jsx';
 import Shopingcar from '../../../assets/shopingcar.png'
 export default function Buyplan() {
     const user = useSelector((state) => state.auth.login.currentUser);
     const [isLogin,setIsLogin]=useState(false);
     const [plans,setPlansAPI]=useState([]);
-    const [selectedPlan, setSelectedPlan] = useState();
-    const [registrations, setRegistrations] = useState(null);
+    //const [selectPlan, setSelectPlan] = useState(null);
+
+
+    
+    const [planID, setplanID] = useState();//planID
+    //const [planTypeArr,setPlanTypeARR]=useState([]);//planTypeName
+    
+    //const [registrations, setRegistrations] = useState(null);
     // const [filterStatus, setFilterStatus]= useState('All');
+    //user
     const [fullName,setFullName] =useState('');
     const [citizenId,setCitizenId] =useState('');
     const [phoneNumber,setPhoneNumber] =useState('');
@@ -20,64 +28,99 @@ export default function Buyplan() {
     const [email,setEmail] =useState('');
     const [address,setAddress] =useState('');
     // const [healthStatus,setHealthStatus] =useState('');
-    const buyPlan = 
-    {
-        customerInfo: {
-            id: "6565591616433655e5ad110f",
-            fullName: "default  "
-        },
-        productInfo: {
-            planId: "658f2a657bd7a6390b228f24",
-            planDuration: 12,
-            planDurationUnit: "Month"
+    //const [address,setAddress] =useState('');
+    //plan
+    const [planName,setPlanName] =useState('');
+    //planType
+    const [planTypeName,setPlanTypeName]=useState('');
+
+    
 
 
-        }
+    const selectedPlanObject = plans.find((plan) => plan.planId === planID);
+    const selectedPlanObject2 = plans.find((plan) => plan.planId === planID);
 
-    }
-
-    const selectedPlanObject = plans.find((plan) => plan.planId === selectedPlan);
     const handlePlanChange = (event) => {
-        setSelectedPlan(event.target.value);
+        setplanID(event.target.value);
+        const selectedPlan = plans.find((plan) => plan.planId === event.target.value);
+        if (selectedPlan) {
+            setPlanName(selectedPlan.planName);
+            console.log("Selected plan ID:", event.target.value);
+        }
     };
+    const handlePlanTypeNameChange = (event) => {
+        setPlanTypeName(event.target.value);
+    };
+
     const handleSubmit = async(e)=>{
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
-        // const buyPlan = {
-        //     fullName: fullName,
-        //     citizenId: citizenId,
-        //     phoneNumber: phoneNumber,
-        //     gender: gender,
-        //     dob: dob,
-        //     email: email,
-        //     address: address,
-        //     planId:selectedPlan,
-        // }
-        // const buyPlan = 
-        // {
-        //     customerInfo: {
-        //         id: "6565591616433655e5ad110f",
-        //         fullName: "default  "
-        //     },
-        //     productInfo: {
-        //         planId: "658f2a657bd7a6390b228f24",
-        //         planDuration: 12,
-        //         planDurationUnit: "Month"
-    
-    
-        //     }
-    
-        // }
         const buyPlan = 
-        {"customerInfo":{"id":"6565591616433655e5ad110f","fullName":"default321  "},"productInfo":{"planId":"658f2a657bd7a6390b228f24","planDuration":12,"planDurationUnit":"Month"}}
-        
-        console.log('buyplan:',buyPlan)
-        try{
-            const res = await RegistrationAPI.createRegistration(buyPlan,user.token) ;
-            console.log("Res", res);
-        } catch(err){
-            console.log("err: ", err);
+        {
+            customerInfo: {
+                id: user.userInfo.id,
+                fullName: fullName,
+                citizenId: citizenId,
+                phoneNumber: phoneNumber,
+                gender: gender,
+                dob: dob,
+                email: email,
+                address: address,
+            },
+            productInfo: {
+                planId: planID,
+                planName:planName,
+                planDuration: 12,
+                planDurationUnit: "Month",
+                planType: [
+                    {
+                        typeName: planTypeName,
+                        benefits: [
+                            {
+                                benefitName: "Hỗ trợ y tế",
+                                // dependencies: "age",
+                                // feeType: [
+                                //     {
+                                //         // type: "ageBased",
+                                //         // startAge: 1,
+                                //         // endAge: 3,
+                                //         // fee: 3370000
+                                //     }
+                                // ],
+                                // unit: "VND",
+                                // insuranceAmount: 500000
+                            }
+                        ]
+                    }
+                ],
+            }
+
         }
+        // const buyPlan = 
+        // {"customerInfo":{"id":"6565591616433655e5ad110f","fullName":"default321  "},"productInfo":{"planId":"658f2a657bd7a6390b228f24","planDuration":12,"planDurationUnit":"Month"}}
+        
+        // console.log('buyplan:',buyPlan)
+        // try{
+        //     const res = await RegistrationAPI.createRegistration(buyPlan,user.token) ;
+        //     console.log("Res", res);
+        // } catch(err){
+        //     console.log("err: ", err);
+        // }
+
+        const url = 'http://localhost:8090/api/v1/registrations/create';
+        axios.post(url, buyPlan, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
+        }
+        })
+        .then(response => {
+            console.log('Success:', response.data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
     }
     
     const fetchPlan = async () => {
@@ -87,58 +130,87 @@ export default function Buyplan() {
             // console.log("data:", data)
             setPlansAPI(data);
             if (data.length > 0) {
-                setSelectedPlan(data[0].planId);
+                setplanID(data[0].planId);
                 }
             });
     }
-    const fetchRegistrations = async () => {
-        try{
-          //console.log('token', user.token)
-          const res = await RegistrationAPI.getAllRegistration(user.token);
-          let data= res.data
-          setIsLogin(true)
-          const sortedArray = data.sort((a, b) => {
-            // Assuming createdAt is a string in ISO 8601 format, you can directly compare them
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          });
-          setRegistrations(sortedArray)
+    // const fetchSelectPlanAPI = async () => {
+    //     // try {
+    //     //     // const response = await axios.get(`http://localhost:8090/api/v1/plans/${planID}`);
+    //     //     // console.log('planID in fetching plan detail:',planID)
+    //     //     const response = await axios.get("http://localhost:8090/api/v1/plans/65991199ba435b64fa42bff1");
+    //     //     console.log(response.data);
+    //     //     setSelectPlan(response.data);
+    //     //   } catch (error) {
+    //     //     console.error('Error fetching plan detail:', error);
+    //     //     console.log('planID in fetching plan detail:',planID);
+    //     //   }
+    //     setSelectPlan(plans[0].planId);
+    // };
 
-          setFullName(user.userInfo.fullName);
-          setCitizenId(user.userInfo.citizenId);
-          setPhoneNumber(user.userInfo.phoneNumber);
-          setGender(user.userInfo.gender);
-          setDob(user.userInfo.dob.slice(0,10));
-          setEmail(user.userInfo.email);
-          setAddress(user.userInfo.address);
+    const fetchUserInfo = async()=>{
+        setIsLogin(true)
+
+        setFullName(user.userInfo.fullName);
+        setCitizenId(user.userInfo.citizenId);
+        setPhoneNumber(user.userInfo.phoneNumber);
+        setGender(user.userInfo.gender);
+        setDob(user.userInfo.dob.slice(0,10));
+        setEmail(user.userInfo.email);
+        setAddress(user.userInfo.address);
+    }
+    // const fetchRegistrations = async () => {
+    //     try{
+    //       //console.log('token', user.token)
+    //       const res = await RegistrationAPI.getAllRegistration(user.token);
+    //       let data= res.data
           
-          //console.log('res data', res.data);
-        } catch(err){
-          console.log('error in fetchRegistrations', err);
-        }
+    //       const sortedArray = data.sort((a, b) => {
+    //         // Assuming createdAt is a string in ISO 8601 format, you can directly compare them
+    //         return new Date(b.createdAt) - new Date(a.createdAt);
+    //       });
+    //       setRegistrations(sortedArray)
+
+
+          
+    //       //console.log('res data', res.data);
+    //     } catch(err){
+    //       console.log('error in fetchRegistrations', err);
+    //     }
         
-      }
-    useEffect(() => {
-        fetchPlan();
-        fetchRegistrations(); 
-    },[])
+    //   }
 
     // useEffect(() => {
-    //     fetchRegistrations();
-    // },[registrations])
-    
+    //     fetchPlan();
+    //     fetchUserInfo();
+    //     fetchSelectPlanAPI();
+    //     //fetchRegistrations(); 
+    // },[])
 
-    // console.log("PLANS:",plans);
-    // console.log("selectplan:",selectedPlan);
+    useEffect(() => {
+        fetchUserInfo();
+        fetchPlan(); // Fetch plans
+         // Fetch user info
+            
+        //fetchSelectPlanAPI(); // Fetch the selected plan details based on the current planID
+       
+    }, []); 
+    
+    
+    
+    console.log("PLANS:",plans);
+     //console.log("planID:",planID);
     // console.log("registrations:",registrations);
     console.log("User:",user);
     // console.log("UserLogin:",user.userInfo.fullName);
-    const jsonString = JSON.parse(JSON.stringify(buyPlan));
-    console.log("buypplan:",jsonString);
+    // console.log("UserID:",user.userInfo.id);
+    //console.log("Select plan:",selectPlan);
+    //console.log("Select plan.type:",selectPlan.planId);
+
         
 
     return (
       <div className=" bg-custom-blue-3 ">
-        {/* <div className=" bg-red-900"> */}
         <Header/>
         <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
           <form onSubmit={handleSubmit} className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
@@ -272,48 +344,71 @@ export default function Buyplan() {
                   </div>
                     <form className="sm:col-start-1 col-end-7">
                         <label className=" pb-5 block text-xl font-medium leading-6 text-gray-900">Choose your Plan</label>
-                        <select value={selectedPlan} onChange={handlePlanChange} className="sm:col-start-1 col-end-7 block w-full border-0 py-3 text-custom-blue-3 shadow-sm ring-1 ring-inset ring-custom-blue- placeholder:text-custom-blue-3 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm">
+                        <select value={planID} onChange={handlePlanChange} className="sm:col-start-1 col-end-7 block w-full border-0 py-3 text-custom-blue-3 shadow-sm ring-1 ring-inset ring-custom-blue- placeholder:text-custom-blue-3 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm">
                             {plans.map((plan, index) => (
                             <option key={index} value={plan.planId}>
+                                
                                 {plan.planName}
                             </option>
                             ))}
                         </select>
 
-                    {selectedPlan && ( 
-                    <div className="pt-12" >
+                    {planID && ( 
+                    <div className="pt-12 " >
                     
                             {selectedPlanObject && (
-                            <Link to={`/plan/${selectedPlan}`} className="flex flex-row items-center bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <Link to={`/plan/${planID}`} className="flex flex-row items-center bg-white border-2 border-gray-600  rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                                 <div className="basis-1/2">
                                     <img className="pl-4 pt-4 pb-4 object-cover w-full h-96 rounded-t-lg  " src={Insurance} alt="" />
                                 </div>
                                 <div className="basis-1/2">
                                     <div className=" pl-14 flex flex-col justify-evenly p-4 leading-normal">
-                                        <h5 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">{selectedPlanObject.planName}</h5>
+                                        <h5 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"  >{selectedPlanObject.planName}</h5>
                                         <p className="mb-3 text-2xl font-normal ">{selectedPlanObject.planAbout}</p>
+                                        <p className="mb-3 text-2xl font-normal" >{selectedPlanObject.planType.typeName}</p>
                                         <p className="mb-3 text-2xl font-normal text-custom-blue-3 ">Benefit</p>
                                         {selectedPlanObject.planBenefits.map((benefit, index) => (
                                             <ul key={index} className="pl-7 text-xl list-image-store">
                                             <li className="text-xl font-normal  ">{benefit}</li>
                                             </ul>
                                         ))}
+                                        
                                     </div>
                                 </div>   
                             </Link>
                             
                             )} 
-                            <div className="flex items-center justify-between">
-                                <div></div>
-                                <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {selectedPlanObject.planPrice} VND</div>
+                            
+                            {selectedPlanObject2 && (                               
+                                <select value={planTypeName} onChange={handlePlanTypeNameChange}  className="pt-10 grid grid-cols-4 grid-flow-col gap-4">
+                                    {selectedPlanObject2.planType.map((item, index) => (
+                                        <option key={index} value={item.typeName}  className="border-gray-600 border-2 rounded-lg shadow item-center te dark:border-gray-700 dark:bg-gray-800 ">
+                                                <div className="text-xl font-normal text-center  ">{item.typeName}</div>
+                                        </option>
+                                        
+                                    ))}
+                                </select>                              
+                            )} 
+                            {selectedPlanObject2 && ( 
+                            <div>Benefits: {}</div>
+                            )}
+                        <div >
                                 
-                            </div>
+                            
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                            <div></div>
+                            <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {selectedPlanObject.planPrice} VND</div>   
+                        </div>
                             
                         </div>
                         )} 
+
+
                         <div className="flex items-center justify-between">
                             <div></div>
-                            <button className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
+                            <button onClick={handleSubmit} className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
                                 <img src={Shopingcar} alt="LOGO" className="item-center" ></img>
                                 <p className="pl-6">Payment</p>
                             </button>
@@ -334,10 +429,13 @@ export default function Buyplan() {
           <div>{dob}</div>
           <div>{email}</div>
           <div>{address}</div>
-          <div>{selectedPlan}</div>
-          <div>Temp</div>
+          <div>{planID}</div>
+          <div>{planName}</div>
+          <div>{planTypeName}</div>
+          {/* <div>{planTypeArr}</div> */}
+
           {/* test get registion */}
-          {registrations?.map((item, index) => (
+          {/* {registrations?.map((item, index) => (
             <div key={index}>
                 <div className="border-t border-gray-300 pl-8 pr-2 py-2">{index + 1}</div>
                 <div >{item.customerInfo.fullName}</div>
@@ -350,7 +448,8 @@ export default function Buyplan() {
                 <div >{item.productInfo.planDuration + " " + item.productInfo.planDurationUnit + "s"}</div>
                 
             </div>
-            ))}
+            ))} */}
+
             
         </div>
         

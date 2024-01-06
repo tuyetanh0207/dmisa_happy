@@ -34,7 +34,7 @@ export default function Plandetail() {
       console.log("plandetail:",plansDetail)
       console.log("planName:",plansDetail?.planName)
       console.log("planAbout:",plansDetail?.planAbout)
-      console.log("planName:",plansDetail?.planType)
+      console.log("planType:",plansDetail?.planType)
 
     return (
         <div className=" bg-custom-blue-3">
