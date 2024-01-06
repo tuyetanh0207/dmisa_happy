@@ -33,12 +33,15 @@ export default function Buyplan() {
     const [planName,setPlanName] =useState('');
     //planType
     const [planTypeName,setPlanTypeName]=useState('');
-
+    const [benefitsBenefitsName,setBenefitsBenefitsName]=useState('');
     
+    const [selectedPlanType, setSelectedPlanType] = useState(null);
+    const [selectedBenefits, setSelectedBenefits] = useState([]);
+
 
 
     const selectedPlanObject = plans.find((plan) => plan.planId === planID);
-    const selectedPlanObject2 = plans.find((plan) => plan.planId === planID);
+   
 
     const handlePlanChange = (event) => {
         setplanID(event.target.value);
@@ -49,7 +52,16 @@ export default function Buyplan() {
         }
     };
     const handlePlanTypeNameChange = (event) => {
-        setPlanTypeName(event.target.value);
+        // setPlanTypeName(event.target.value);
+        const selectedType = event.target.value;
+        setPlanTypeName(selectedType);
+    
+        const selectedTypeObject = selectedPlanObject.planType.find((type) => type.typeName === selectedType);
+    
+        if (selectedTypeObject) {
+            setSelectedPlanType(selectedTypeObject);
+            setSelectedBenefits(selectedTypeObject.benefits);
+        }
     };
 
     const handleSubmit = async(e)=>{
@@ -379,22 +391,57 @@ export default function Buyplan() {
                             
                             )} 
                             
-                            {selectedPlanObject2 && (                               
-                                <select value={planTypeName} onChange={handlePlanTypeNameChange}  className="pt-10 grid grid-cols-4 grid-flow-col gap-4">
-                                    {selectedPlanObject2.planType.map((item, index) => (
-                                        <option key={index} value={item.typeName}  className="border-gray-600 border-2 rounded-lg shadow item-center te dark:border-gray-700 dark:bg-gray-800 ">
-                                                <div className="text-xl font-normal text-center  ">{item.typeName}</div>
-                                        </option>
-                                        
+                            {selectedPlanObject && (
+                            <div>
+                                <label className="block text-xl font-medium leading-6 text-gray-900">
+                                    Choose Plan Type
+                                </label>
+                                <div className="grid grid-cols-3 gap-4">
+                                    {selectedPlanObject.planType.map((item, index) => (
+                                        <div key={index} className="border-gray-600 border-2 rounded-lg text-center">
+                                        <button value={item.typeName} onClick={handlePlanTypeNameChange} className="w-full h-full">
+                                            {item.typeName}
+                                        </button>
+                                        </div>
                                     ))}
-                                </select>                              
-                            )} 
-                            {selectedPlanObject2 && ( 
-                            <div>Benefits: {}</div>
-                            )}
+                                </div>
+
+
+                                {selectedPlanType && (
+                                    <div>
+                                        <p className="mb-3 text-2xl font-normal">Selected Benefits:</p>
+                                        {selectedBenefits.map((benefit, index) => (
+                                            <div key={index} className="text-xl font-normal">
+                                                <div>{benefit.benefitName}</div>
+                                                <div>{benefit.dependencies}</div>
+                                                {/* <div className="pt-10  grid grid-cols-4 grid-flow-col gap-4">
+                                                    {benefit.feeType.map((item3, index) => (
+                                                            <div className="border-gray-600 border-2 rounded-lg">
+                                                                <div>{item3.type}</div>
+                                                                <div>{item3.startAge}-{item3.endAge}</div>
+                                                                <div>{item3.fee}</div>
+                                                                
+                                                            </div>
+                                                        ))}
+                                                </div> */}
+                                                <div className="pt-10 grid grid-cols-4 grid-flow-col gap-4">
+                                                    {benefit.feeType.map((item3, index) => (
+                                                        <button key={index} className="border-gray-600 border-2 rounded-lg w-full h-full" onClick={handlePlanTypeNameChange} >
+                                                        
+                                                            <div>{item3.type}</div>
+                                                            <div>{item3.startAge}-{item3.endAge}</div>
+                                                            <div>{item3.fee}</div>
+                                                        </button>
+                                                    ))}
+                                                    </div>
+
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         <div >
-                                
-                            
                         </div>
                         
                         <div className="flex items-center justify-between">
