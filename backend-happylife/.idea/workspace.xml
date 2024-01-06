@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="merge fix get plan from sprint2.be.Phuc.New">
+    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="fix get Regis and update status of regis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Registration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +59,13 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="enabledProfiles">
+      <list>
+        <option value="native" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -95,6 +104,12 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.happylife.backendhappylife.DTO.RegistrationDTO" />
+      <recent name="com.example.happylife.backendhappylife.DTO.ClaimDTO" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.BackendHappylifeApplication">
     <configuration name="BackendHappylifeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-21" />
@@ -165,6 +180,15 @@
       <workItem from="1703013510075" duration="661000" />
       <workItem from="1703336094228" duration="671000" />
       <workItem from="1703520630107" duration="607000" />
+      <workItem from="1704161336097" duration="14803000" />
+      <workItem from="1704193603569" duration="1120000" />
+      <workItem from="1704200766255" duration="1068000" />
+      <workItem from="1704207878734" duration="6410000" />
+      <workItem from="1704270808133" duration="3112000" />
+      <workItem from="1704290585207" duration="1594000" />
+      <workItem from="1704510942485" duration="294000" />
+      <workItem from="1704512359488" duration="86000" />
+      <workItem from="1704513515783" duration="140000" />
     </task>
     <task id="LOCAL-00001" summary="done 3 first endpoint of registration">
       <option name="closed" value="true" />
@@ -174,7 +198,23 @@
       <option name="project" value="LOCAL" />
       <updated>1702328761039</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="done apis of manager">
+      <option name="closed" value="true" />
+      <created>1704208598820</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704208598820</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix get Regis and update status of regis">
+      <option name="closed" value="true" />
+      <created>1704216369117</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704216369117</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,7 +233,20 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="done 3 first endpoint of registration" />
-    <option name="LAST_COMMIT_MESSAGE" value="done 3 first endpoint of registration" />
+    <MESSAGE value="done apis of manager" />
+    <MESSAGE value="fix get Regis and update status of regis" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix get Regis and update status of regis" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend_happylife$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1701110077184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

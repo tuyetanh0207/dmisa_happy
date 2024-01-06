@@ -129,7 +129,7 @@ const IMRegistration = () => {
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.dob?item.customerInfo.dob.slice(0,10):""}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.customerInfo.address}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planName}</td>
-              <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planType[0].typeName}</td>
+              {/* <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planType[0].typeName}</td> */}
               <td className="border-t border-gray-300 px-2 py-2">{item.insuranceAmount}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.productInfo.planDuration + " " + item.productInfo.planDurationUnit + "s"}</td>
               <td className="border-t border-gray-300 px-2 py-2">{item.createdAt?item.createdAt.toString().slice(0, 10):''}</td>

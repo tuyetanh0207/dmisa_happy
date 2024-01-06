@@ -108,23 +108,23 @@ public class RegistrationImpl implements RegistrationService {
                     regisVar.setApprovalStatus(regis.getApprovalStatus());
                     msg.setDateMessage(instantNow);
                     if(regis.getMessage()!=null){
-                        regis.getMessage().add(msg);
-                        regis.setMessage(regis.getMessage());
+                        regisVar.getMessage().add(msg);
+                        regisVar.setMessage(regis.getMessage());
                     } else{
 
-                        regis.setMessage(Arrays.asList(msg));
+                        regisVar.setMessage(Arrays.asList(msg));
                     }
                     if (regis.getApprovalStatus().equals("Approved")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
-                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
-                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-
-                        Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
-                        invoiceCreateDTO.setDueDate(dueDateInstant);
-                        invoiceCreateDTO.setPaymentStatus("Pending");
-                        Invoice invoice = new Invoice();
-                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
-                        invoiceService.addInvoice(invoiceCreated);
+//                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+//                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
+//
+//                        Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
+//                        invoiceCreateDTO.setDueDate(dueDateInstant);
+//                        invoiceCreateDTO.setPaymentStatus("Pending");
+//                        Invoice invoice = new Invoice();
+//                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
+//                        invoiceService.addInvoice(invoiceCreated);
                     }
                     return registrationRepo.save(regisVar);
                 } else{

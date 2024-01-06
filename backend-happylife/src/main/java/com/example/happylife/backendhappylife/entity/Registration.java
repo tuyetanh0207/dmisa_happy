@@ -95,6 +95,8 @@ public class Registration {
         regis.setApprovalStatus(dto.getApprovalStatus());
         regis.setStartDate(dto.getStartDate());
         regis.setEndDate(dto.getEndDate());
+        regis.setCreatedAt(dto.getCreatedAt());
+        regis.setUpdatedAt(dto.getUpdatedAt());
         regis.setPrice(dto.getPrice());
         regis.setPaymentDetails(dto.getPaymentDetails());
         regis.setRenewalReminder(dto.getRenewalReminder());
@@ -111,6 +113,7 @@ public class Registration {
         dto.setProductInfo(this.productInfo);
 
         dto.setApprovalStatus(this.approvalStatus);
+        dto.setCreatedAt(this.createdAt);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
         dto.setDocumentUrls(this.getDocumentUrls());
@@ -146,6 +149,7 @@ public class Registration {
         regis.setProductInfo(dto.getProductInfo());
 
         regis.setApprovalStatus(dto.getApprovalStatus());
+
         regis.setStartDate(dto.getStartDate());
         regis.setEndDate(dto.getEndDate());
         return regis;

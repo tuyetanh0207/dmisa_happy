@@ -10,22 +10,32 @@ import { useSelector } from 'react-redux';
 import RegistrationAPI from "../../../../api/registrationApi";
 import {LockOpenIcon, LockClosedIcon } from '@heroicons/react/24/solid'
 import { calculateAge, createMessageForRegistration } from "../../../supportFunctions";
-import { Worker, Viewer } from '@react-pdf-viewer/core';
-import '@react-pdf-viewer/core/lib/styles/index.css';
+import { Document, Page } from 'react-pdf';
+import { ssfile } from "./files";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 const RegistrationManagerPopup = (props)=> {
+
   const {data, onClose} =props
   const [currentTab, setCurrentTab] = useState('Overview')
   const [message, setMessage] = useState('')
   const tabNames= ['Overview', 'Documents', 'Messages']
   const [isLock, setIsLock] = useState(false)
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const renderNoPageNumber = () => null;
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
     const [loadingBtns, setLoadingBtns] = useState("0")
     const user = useSelector((state) => state.auth.login.currentUser)
     const [rejectingReason, setRejectingReason] = useState("")
-    const handleUpdateStatusOfRegistration = async (regisId, approvalStatus, message)=>{
+    const handleUpdateStatusOfRegistration = async (regisId, approvalStatus, _message)=>{
       setLoadingBtns("1"); 
       try {
+        console.log('message: ' + message)
         const res = await RegistrationAPI.updateStatusOfRegistration(user.token,regisId, approvalStatus, {content:message});
-        console.log('res:', res)
+       // console.log('res:', res)
         setLoadingBtns("0")
         data.approvalStatus = res.data.approvalStatus
         if(res.data){
@@ -38,8 +48,9 @@ const RegistrationManagerPopup = (props)=> {
     
     
   }
-  const pdfUrl='https://drive.usercontent.google.com/download?id=1Oemo7CNXVKn8IAN41GQ0ilv8p_dbK22g&export=download&authuser=0&confirm=t&uuid=16d71014-7d34-4857-bdf8-c57d55204c30&at=APZUnTXxRYLEnEOm0jOczcyUNgrg:1704303335736'
-  // const pdfUrl='https://studenthcmusedu-my.sharepoint.com/:b:/g/personal/20120249_student_hcmus_edu_vn/EYoKTaQO2XZKh66O5WGCZ5IBS-Nw6tO9CbbxMcNGdGvXBQ?e=04zfML'
+  const pdfUrl = 'blob:chrome-extension://bfdogplmndidlpjfhoijckpakkdjkkil/1aed405b-7e63-4078-a4e5-4d34ac8e3c77'
+  //const pdfUrl='https://drive.usercontent.google.com/download?id=1Oemo7CNXVKn8IAN41GQ0ilv8p_dbK22g&export=download&authuser=0&confirm=t&uuid=16d71014-7d34-4857-bdf8-c57d55204c30&at=APZUnTXxRYLEnEOm0jOczcyUNgrg:1704303335736'
+  //const pdfUrl='https://studenthcmusedu-my.sharepoint.com/:b:/g/personal/20120249_student_hcmus_edu_vn/EYoKTaQO2XZKh66O5WGCZ5IBS-Nw6tO9CbbxMcNGdGvXBQ?e=04zfML'
   //const pdfUrl='https://studenthcmusedu-my.sharepoint.com/personal/20120249_student_hcmus_edu_vn/Documents/BaoHiemYTe.pdf'
     return (
     <div className={styles.popupOverlay} 
@@ -148,23 +159,84 @@ const RegistrationManagerPopup = (props)=> {
         {currentTab==='Documents'&&
           <div className={`${styles.content} lg:flex lg:flex-col-2 md:flex-1 sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`} >
           {/* min images */}
-          <div className="w-1/2 bg-black">
-          <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-            <Viewer fileUrl={pdfUrl} />
-          </Worker>
+          <div className="w-1/5">
+           <div >
+              <Document file={pdfUrl} 
+              className={styles.document_small}
+              noData
+                onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page 
+                  renderAnnotationLayer={renderNoPageNumber}
+                  pageNumber={pageNumber} 
+                  renderTextLayer={false}
+                  className={styles.page_small}/>
+              </Document>
+              <Document file={ssfile} 
+              className={styles.document_small}
+              noData
+                onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page 
+                  renderAnnotationLayer={renderNoPageNumber}
+                  pageNumber={pageNumber} 
+                  renderTextLayer={false}
+                  className={styles.page_small}/>
+              </Document>
+              <Document file={ssfile} 
+              className={styles.document_small}
+              noData
+                onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page 
+                  renderAnnotationLayer={renderNoPageNumber}
+                  pageNumber={pageNumber} 
+                  renderTextLayer={false}
+                  className={styles.page_small}/>
+              </Document>
+           </div>
+    
+          <div>
+   
+    </div>
           </div>
           {/* large images */}
-          <div className="w-1/2"></div>
+          <div className="w-4/5">
+          <Document file={ssfile} 
+              className={styles.document_large}
+              noData
+                onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page 
+                  renderAnnotationLayer={renderNoPageNumber}
+                  pageNumber={pageNumber} 
+                  renderTextLayer={false}
+                  className={styles.page_large}/>
+              </Document>
+          </div>
         </div>}
-
-          
+        {currentTab==='Messages'&&
+          <div className={`${styles.content} lg:flex lg:flex-col-2 md:flex-1 sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`} >
+          {data.message && 
+          <div>
+          {data.message.map(msg => 
+          <div key={msg} className="mb-4">
+            <p className="italic text-sm">{msg.dateMessage?msg.dateMessage.slice(0,19):''}:</p>
+            <p className="">{msg.content}</p>
+          </div>
+            )}
+          </div>}
+         
+          {/* large images */}
            
-          {/* <div className="sm:h-[35em] lg:h-0 md:h-0"></div> */}
+        </div>}
+          
+
           
         </div>
          {/* 2 buttons */}
         {/* <div className="flex"> */}
-          <div className={`${styles.buttons} sm:pb-20`}>
+        <div className={`${styles.buttons} sm:pb-20`}>
 
           {data.approvalStatus==="Pending"?
           <>

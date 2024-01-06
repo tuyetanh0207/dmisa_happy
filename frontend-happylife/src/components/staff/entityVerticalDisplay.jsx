@@ -10,17 +10,17 @@ const EntityVerticalDisplay = (props) => {
                 <div className="relative right-6 w-20 h-20 bg-bgr-white border border-grey"/>}
                 <div className=" ">
                   <span className="text-[0.8em]">{attributes[1]}: <span className="font-semibold">{values[1]}</span></span>
-                  <p> <p className="font-bold text-md text-custom-blue-3">{values[2]}</p></p>
+                  <p className="font-bold text-md text-custom-blue-3">{values[2]}</p>
                 </div>
 
               </div>
               {/* rows */}
-              <div className="h">
+              <div className="">
                 {attributes.map((a, index)=>( 
                   index>=3 &&
                   <div className="flex mb-7" key ={a}>
                   <p className="text-md w-40 font-[500]">{a}</p>
-                  <p 
+                  <div 
                   className={`text-md font-[700] ${values[index]==="Approved"?'text-custom-blue-2': values[index]==='Pending'? 'text-custom-blue-3':values[index]==='Rejected'||values[index]==='Revoked'?'text-custom-red-2':''}`}
                   >
                     {values[index]
@@ -32,7 +32,7 @@ const EntityVerticalDisplay = (props) => {
                     // plan type display
                     values[index].map((e, idx)=>
                     <div key={e.typeName}>
-                      <di className="flex mb-7" ><p className="mr-1">{idx + 1} .Type Name:</p> <p>{e.typeName}</p></di>
+                      <div className="flex mb-7" ><p className="mr-1">{idx + 1} .Type Name:</p> <p>{e.typeName}</p></div>
                     </div>
                     )
                     : 
@@ -53,7 +53,7 @@ const EntityVerticalDisplay = (props) => {
                     values[index]
                     :
                     "Empty"}
-                  </p>
+                  </div>
                 </div>
                 ))}
                 

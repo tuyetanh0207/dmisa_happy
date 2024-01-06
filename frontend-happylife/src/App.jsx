@@ -19,7 +19,7 @@ import Profile from './pages/profile/profile.jsx'
 import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
-
+import '../pdfSetup'
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
 
