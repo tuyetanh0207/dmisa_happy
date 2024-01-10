@@ -1,7 +1,13 @@
 package com.example.happylife.backendhappylife.DTO.PlanDTO;
 
+import lombok.*;
 import org.bson.types.ObjectId;
 
+@Getter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PlanInvoiceDTO {
     private String planId;
     private String planName;
@@ -10,48 +16,24 @@ public class PlanInvoiceDTO {
     private String planType;
     private String planBenefits;
 
-    public String getPlanId() {
-        return planId;
-    }
-
     public void setPlanId(String planId) {
         this.planId = planId;
-    }
-
-    public String getPlanName() {
-        return planName;
     }
 
     public void setPlanName(String planName) {
         this.planName = planName;
     }
 
-    public String getPlanAbout() {
-        return planAbout;
-    }
-
     public void setPlanAbout(String planAbout) {
         this.planAbout = planAbout;
-    }
-
-    public Integer getPlanPrice() {
-        return planPrice;
     }
 
     public void setPlanPrice(Integer planPrice) {
         this.planPrice = planPrice;
     }
 
-    public String getPlanType() {
-        return planType;
-    }
-
     public void setPlanType(String planType) {
         this.planType = planType;
-    }
-
-    public String getPlanBenefits() {
-        return planBenefits;
     }
 
     public void setPlanBenefits(String planBenefits) {

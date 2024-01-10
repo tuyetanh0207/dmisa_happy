@@ -1,7 +1,9 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.PlanService;
@@ -26,39 +28,32 @@ public class PlanServiceImpl implements PlanService {
         return Plan;
     }
     @Override
-    public List<PlanResDTO> getAllPlans() {
+    public List<Plan> getAllPlans() {
         List<Plan> plans = planRepo.findAll();
-        List<PlanResDTO> planResDTOS = plans.stream()
-                .map(plan -> plan.convertToPlanResDTO()) // Sửa ở đây
-                .collect(Collectors.toList());
-        return planResDTOS;
+        return plans;
     }
 
     @Override
-    public PlanResDTO getPlan(ObjectId planId) {
+    public Plan getPlan(ObjectId planId) {
         Plan plans = planRepo.findById(planId).get();
-        PlanResDTO planResDTOS = plans.convertToPlanResDTO();
-        return planResDTOS;
+        return plans;
     }
 
     @Override
     public Plan addPlan(Plan plan) {
-        if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
-            throw new UserCreationException("Plan name is required.");
-        }
-        if (plan.getPlanAbout() == null || plan.getPlanAbout().isEmpty()) {
-            throw new UserCreationException("Plan description is required.");
-        }
-        if (plan.getPlanPrice() == null) {
-            throw new UserCreationException("Plan price is required.");
-        }
-        if (plan.getPlanType() == null || plan.getPlanType().isEmpty()) {
-            throw new UserCreationException("Plan type is required.");
-        }
-        if (plan.getPlanDuration() == null) {
-            throw new UserCreationException("Plan duration is required.");
-        }
         try {
+            if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
+                throw new UserCreationException("Plan name is required.");
+            }
+            if (plan.getPlanAbout() == null || plan.getPlanAbout().isEmpty()) {
+                throw new UserCreationException("Plan description is required.");
+            }
+            if (plan.getPlanType() == null || plan.getPlanType().isEmpty()) {
+                throw new UserCreationException("Plan type is required.");
+            }
+            if (plan.getPlanDuration() == null) {
+                throw new UserCreationException("Plan duration is required.");
+            }
             Instant instantNow = Instant.now();
             plan.setPlanCreatedAt(instantNow);
             plan.setPlanUpdatedAt(instantNow);
@@ -69,22 +64,77 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
-    public Plan updatePlan(Plan planUpdateDTO, ObjectId planId) {
+    public Plan updatePlan(Plan planUpdate, ObjectId planId) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
-        existingPlan.setPlanName(planUpdateDTO.getPlanName());
-        existingPlan.setPlanAbout(planUpdateDTO.getPlanAbout());
-        existingPlan.setPlanPrice(planUpdateDTO.getPlanPrice());
-        existingPlan.setPlanType(planUpdateDTO.getPlanType());
-        existingPlan.setPlanRecommended(planUpdateDTO.getPlanRecommended());
-        existingPlan.setPlanDuration(planUpdateDTO.getPlanDuration());
-        existingPlan.setPlanDurationUnit(planUpdateDTO.getPlanDurationUnit());
-        existingPlan.setPlanBenefits(planUpdateDTO.getPlanBenefits());
-        existingPlan.setPlanServiceCoverage(planUpdateDTO.getPlanServiceCoverage());
-        existingPlan.setPlanURL(planUpdateDTO.getPlanURL());
-        Instant instantNow = Instant.now();
-        existingPlan.setPlanUpdatedAt(instantNow);
-        planRepo.save(existingPlan);
-        return existingPlan;
+        /*existingPlan.setPlanName(planUpdate.getPlanName());
+        existingPlan.setPlanAbout(planUpdate.getPlanAbout());
+        existingPlan.setPlanSlogan(planUpdate.getPlanSlogan());
+        existingPlan.setPlanType(planUpdate.getPlanType());
+        existingPlan.setOptionalBenefits(planUpdate.getOptionalBenefits());
+        existingPlan.setPlanRecommended(planUpdate.getPlanRecommended());
+        existingPlan.setPlanDuration(planUpdate.getPlanDuration());
+        existingPlan.setPlanDurationUnit(planUpdate.getPlanDurationUnit());
+        existingPlan.setClaimScenarios(planUpdate.getClaimScenarios());
+        existingPlan.setDocumentName(planUpdate.getDocumentName());
+        existingPlan.setPlanBenefits(planUpdate.getPlanBenefits());
+        existingPlan.setPlanServiceCoverage(planUpdate.getPlanServiceCoverage());
+        existingPlan.setPlanURL(planUpdate.getPlanURL());
+        existingPlan.setPlanAdvertisement(planUpdate.getPlanAdvertisement());
+        existingPlan.setPlanDocuments(planUpdate.getPlanDocuments());*/
+        try {
+            if (planUpdate.getPlanName() != null) {
+                existingPlan.setPlanName(planUpdate.getPlanName());
+            }
+            if (planUpdate.getPlanAbout() != null) {
+                existingPlan.setPlanAbout(planUpdate.getPlanAbout());
+            }
+            if (planUpdate.getPlanSlogan() != null) {
+                existingPlan.setPlanSlogan(planUpdate.getPlanSlogan());
+            }
+            if (planUpdate.getPlanType() != null) {
+                existingPlan.setPlanType(planUpdate.getPlanType());
+            }
+            if (planUpdate.getOptionalBenefits() != null) {
+                existingPlan.setOptionalBenefits(planUpdate.getOptionalBenefits());
+            }
+            if (planUpdate.getPlanRecommended() != null) {
+                existingPlan.setPlanRecommended(planUpdate.getPlanRecommended());
+            }
+            if (planUpdate.getPlanDuration() != null) {
+                existingPlan.setPlanDuration(planUpdate.getPlanDuration());
+            }
+            if (planUpdate.getPlanDurationUnit() != null) {
+                existingPlan.setPlanDurationUnit(planUpdate.getPlanDurationUnit());
+            }
+            if (planUpdate.getClaimScenarios() != null) {
+                existingPlan.setClaimScenarios(planUpdate.getClaimScenarios());
+            }
+            if (planUpdate.getDocumentName() != null) {
+                existingPlan.setDocumentName(planUpdate.getDocumentName());
+            }
+            if (planUpdate.getPlanBenefits() != null) {
+                existingPlan.setPlanBenefits(planUpdate.getPlanBenefits());
+            }
+            if (planUpdate.getPlanServiceCoverage() != null) {
+                existingPlan.setPlanServiceCoverage(planUpdate.getPlanServiceCoverage());
+            }
+            if (planUpdate.getPlanURL() != null) {
+                existingPlan.setPlanURL(planUpdate.getPlanURL());
+            }
+            if (planUpdate.getPlanAdvertisement() != null) {
+                existingPlan.setPlanAdvertisement(planUpdate.getPlanAdvertisement());
+            }
+            if (planUpdate.getPlanDocuments() != null) {
+                existingPlan.setPlanDocuments(planUpdate.getPlanDocuments());
+            }
+
+            Instant instantNow = Instant.now();
+            existingPlan.setPlanUpdatedAt(instantNow);
+            planRepo.save(existingPlan);
+            return existingPlan;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Plan: " + e.getMessage());
+        }
     }
 }

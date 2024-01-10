@@ -1,7 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanBasicDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Invoice;
@@ -10,6 +9,7 @@ import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
 import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,70 +38,78 @@ public class RegistrationImpl implements RegistrationService {
             if (user.getRole()== Role.INSUARANCE_MANAGER|| user.getRole() == Role.ACCOUNTANT ){
                 List<Registration> registrations = registrationRepo.findAll();
                 return registrations;
-            } else {
+            }
+            else if ((user.getRole()== Role.CUSTOMER)) {
+                //List<Registration> registrationsUser = new ArrayList<Registration>();
+                List<Registration> registrationsUser = registrationRepo.findByCustomerInfo_Id(user.getId());
+
+                /*ObjectId userIdObject = user.getId() != null ? new ObjectId(user.getId()) : null;
+                for (Registration regis : registrations) {
+                    registrationRepo.findById(userIdObject).ifPresent(registrationsUser::add);
+                }*/
+                return registrationsUser;
+            }
+            else {
                 throw new UserCreationException("You need authenticated account to access this infomation.");
             }
         }
         catch (Exception e) {
             throw new UserCreationException("Error getting registrations: " + e.getMessage());
         }
-
     }
 
     @Override
-    public Registration addRegistration(UserResDTO authUser, UserResDTO registerUser, PlanBasicDTO plan) {
-        if (registerUser.getId() == null || registerUser.getId().isEmpty()){
+    public Registration addRegistration(UserResDTO authUser, Registration regis) {
+        if (regis.getCustomerInfo().getId() == null || regis.getCustomerInfo().getId().isEmpty()){
             throw new UserCreationException("User ID is required.");
         }
-        if (plan.getPlanId()==null){
+        if (regis.getProductInfo().getPlanId()==null){
             throw new UserCreationException("Plan ID is required.");
         }
         try {
+
             Instant instantNow= Instant.now();
-            Registration regisCreateDTO = new Registration();
-            regisCreateDTO.setCustomerInfo(registerUser);
-            regisCreateDTO.setProductInfo(plan);
-            regisCreateDTO.setPrice(plan.getPlanPrice());
-            regisCreateDTO.setApprovalStatus("Pending");
-            regisCreateDTO.setCreatedAt(instantNow);
-            regisCreateDTO.setUpdatedAt(instantNow);
+            regis.setApprovalStatus("Pending");
+            regis.setCreatedAt(instantNow);
+            regis.setUpdatedAt(instantNow);
+
             Instant startDate = instantNow.plus(Duration.ofDays(30));
             Instant endDate = startDate ;
-            if (plan.getPlanDurationUnit().equals(DateUnit.Day)){
-                endDate = startDate.plus(Duration.ofDays(plan.getPlanDuration()));
+            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Day)){
+                endDate = startDate.plus(Duration.ofDays(regis.getProductInfo().getPlanDuration()));
             }
-            if (plan.getPlanDurationUnit().equals(DateUnit.Month)){
-                long months = plan.getPlanDuration();
+            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Month)){
+                long months = regis.getProductInfo().getPlanDuration();
                 endDate = startDate.atZone(ZoneId.systemDefault()).plusMonths(months).toInstant();
             }
-            if (plan.getPlanDurationUnit().equals(DateUnit.Year)){
-                long years= plan.getPlanDuration();
+            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Year)){
+                long years= regis.getProductInfo().getPlanDuration();
                 endDate = startDate.atZone(ZoneId.systemDefault()).plusYears(years).toInstant();
             }
-            regisCreateDTO.setStartDate(startDate);
-            regisCreateDTO.setEndDate(endDate);
-            return registrationRepo.save(regisCreateDTO);
+            regis.setStartDate(startDate);
+            regis.setEndDate(endDate);
+            return registrationRepo.save(regis);
 
         }
         catch (Exception e) {
             throw new UserCreationException("Error creating registration: " + e.getMessage());
         }
     }
-
-
     @Override
-    public Registration updateRegisStatus(UserResDTO authUser, String regisId, String status, String message) {
+    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, Registration regis) {
         try {
             if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT ) {
-                if (status.equals("Approved") || status.equals("Rejected") || status.equals("Expired") || status.equals("Revoked") || status.equals("Pending")){
-                    Registration regisVar = registrationRepo.findById(regisId).get();
-                    regisVar.setApprovalStatus(status);
-                    regisVar.setMessage(message);
-                    if (status.equals("Approved")) {
+                if (regis.getApprovalStatus().equals("Approved") || regis.getApprovalStatus().equals("Rejected") ||
+                        regis.getApprovalStatus().equals("Expired") || regis.getApprovalStatus().equals("Revoked") ||
+                        regis.getApprovalStatus().equals("Pending")){
+                    Registration regisVar = registrationRepo.findById(regisId)
+                            .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+                    regisVar.setApprovalStatus(regis.getApprovalStatus());
+                    regisVar.setMessage(regis.getMessage());
+                    if (regis.getApprovalStatus().equals("Approved")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
                         InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
                         invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-                        invoiceCreateDTO.setTotalPrice(regisVar.getProductInfo().getPlanPrice());
 
                         Instant instantNow= Instant.now();
 
@@ -123,4 +132,5 @@ public class RegistrationImpl implements RegistrationService {
             throw  new UserCreationException("Error updating status of registration: "+ e.getMessage());
         }
     }
+
 }
