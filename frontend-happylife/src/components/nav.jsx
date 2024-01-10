@@ -1,5 +1,9 @@
 import {Routes, Route, Link} from 'react-router-dom';
 import logoTitle from '../assets/logoTitle.png';
+import notification from '../assets/notifications.png';
+import logout from '../assets/logout.png';
+import Noti from '../components/notification.jsx'
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -56,7 +60,7 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
        ) : item.name === 'About' ? (
         <button
         onClick={() => handleLeftNavClick(item.name)}
-        className={`${item.current ? 'current focus:outline-none underline underline-offset-8' : ''} x-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800 `}> 
+        className={`${item.current ? 'current focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800 `}> 
         {item.name}</button>
        ) : item.name === 'Plans' ? (
         <button
@@ -92,16 +96,22 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
            </button>
            ) 
            : (
-             <button
-             onClick={() => handleRightNavClick(item.name)}
-             className={`${isLoginSuccess ? '' : 'hidden'} bg-button-blue text-white px-4 py-2 rounded items-center mr-[226px] rounded-full`}
-             >
-              T 
-             </button>
+            <div className='flex gap-[27px]'>
+              <button
+              onClick={() => handleRightNavClick(item.name)}
+              className={`${isLoginSuccess ? '' : 'hidden'} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
+              >
+                T 
+              </button>
+             </div>
            )
            }
          </Link>
        ))}
+          <Noti/>
+          <button>
+            <img src={logout}></img>
+          </button>
      </div>
    </nav>
  )

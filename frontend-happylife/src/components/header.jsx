@@ -2,7 +2,7 @@
 import { useLocation } from "react-router-dom"
 import { connect } from 'react-redux';
 
-const Header = ({navigationLeft, navigationRight}) => {
+const Header = ({navigationLeft, navigationRight, navigationProfile}) => {
   const location = useLocation()
   const pathname = location.pathname
 
@@ -38,7 +38,10 @@ const Header = ({navigationLeft, navigationRight}) => {
           </div>
           <div>
             <h1 className={`
-              ${navigationRight.find((navItem) => navItem.name === 'Profile' && navItem.current) ? 
+              ${navigationProfile.find((navItem) => navItem.name === 'Profile' && navItem.current) 
+              || navigationProfile.find((navItem) => navItem.name === 'Information' && navItem.current) 
+              || navigationProfile.find((navItem) => navItem.name === 'Claims' && navItem.current)
+              || navigationProfile.find((navItem) => navItem.name === 'Registration' && navItem.current) ? 
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>Profile</h1>
           </div>
@@ -51,6 +54,7 @@ const Header = ({navigationLeft, navigationRight}) => {
 const mapStateToProps = (state) => ({
   navigationLeft: state.nav.navigationLeft,
   navigationRight: state.nav.navigationRight,
+  navigationProfile: state.nav.navigationProfile,
 });
 const mapDispatchToProps = (dispatch) => ({
   setCurrent: (name) => dispatch({ type: 'SET_CURRENT', payload: name }),

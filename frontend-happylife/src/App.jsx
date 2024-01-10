@@ -20,6 +20,9 @@ import Profile from './pages/profile/profile.jsx'
 import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
+import PaymentBank from './pages/payment/paymentBank.jsx'
+import PaymentConfirm from './pages/payment/paymentConfirm.jsx'
+
 import { useState } from 'react'
 import { createContext } from 'react';
 const DataContext = createContext();
@@ -63,6 +66,8 @@ export default function App() {
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />
+                <Route path='/paymentbank' element ={<PaymentBank/>} />
+                <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={

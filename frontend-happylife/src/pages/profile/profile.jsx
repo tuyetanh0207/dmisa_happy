@@ -4,6 +4,7 @@ import Navprofile from './navprofile.jsx'
 import Information from './information.jsx'
 import Claims from './claims.jsx'
 import Registration from './registration.jsx'
+import PaymentBank from '../payment/paymentBank.jsx'
 import Footer from '../../components/footer.jsx'
 const profile = () => {
   return (
@@ -14,6 +15,7 @@ const profile = () => {
             <Route path ='information' element ={<Information/>} />
             <Route path='registration' element ={<Registration/>} />
             <Route path='claims' element ={<Claims/>} />
+            {/* <Route path='paymentbank' element ={<PaymentBank/>} /> */}
           </Routes>
       
     </div>

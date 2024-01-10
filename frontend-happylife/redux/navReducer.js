@@ -9,8 +9,13 @@ const initialState = {
     navigationRight: [
       { name: 'Login', href:'/login', current: false },
       { name: 'Signup', href:'/signup', current: false },
-      { name: 'T', href:'/profile', current: false },
+      { name: 'Profile', href:'/profile', current: false },
     ],
+    navigationProfile: [
+      { name: 'Information', href:'/profile/information', current: false },
+      { name: 'Claims', href:'/profile/claims', current: false },
+      { name: 'Registration', href:'/profile/registration', current: false },
+    ]
   };
   
   const navigationReducer = (state = initialState, action) => {
@@ -42,6 +47,18 @@ const initialState = {
 
             return newItem;
         }),
+        navigationProfile: state.navigationProfile.map(item => {
+          // Tạo 1 bản sao của item
+          const newItem = {...item};
+          // Kiểm tra nếu tên của item trùng với action.payload
+          if (item.name === action.payload) {
+              newItem.current = true; // Nếu trùng, đặt current là true
+          } else {
+              newItem.current = false; // Nếu không trùng, đặt current là false
+          }
+
+          return newItem;
+         }),
         };
       default:
         return state;
