@@ -1,0 +1,1 @@
+export const copayRates = [100, 80, 0]

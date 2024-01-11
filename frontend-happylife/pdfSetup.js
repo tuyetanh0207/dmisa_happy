@@ -1,6 +1,2 @@
-import { pdfjs } from 'react-pdf';
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
-).toString();
+import pdfjs from 'pdfjs-dist';
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@2.11.338/build/pdf.worker.min.js`;
