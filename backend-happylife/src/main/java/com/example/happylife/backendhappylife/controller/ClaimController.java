@@ -3,6 +3,7 @@ package com.example.happylife.backendhappylife.controller;
 
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStatusRes;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
@@ -60,5 +61,23 @@ public class ClaimController {
         Claim savedClaim = claimService.addClaim(claimCreated);
         ClaimCreateDTO claimCreatedDTO = savedClaim.convertToClaimCreateDTO();
         return ResponseEntity.ok(claimCreatedDTO);
+    };
+    @PutMapping("/staff/{claimId}/update")
+    public ResponseEntity<?> updateClaimByStaff(HttpServletRequest request,
+                                                          @PathVariable String claimId,
+                                                          @RequestBody ClaimUpdateStaffDTO claimUpdateStaffDTO) {
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        ObjectId objectIdClaimId = new ObjectId(claimId);
+        if (userResDTO.getRole()==Role.INSUARANCE_MANAGER || userResDTO.getRole()==Role.ACCOUNTANT){
+            Claim claimToSave = claimService.updateClaimByStaff(userResDTO, objectIdClaimId, claimUpdateStaffDTO);
+            ClaimResDTO claimRes = claimToSave.convertClaimToRes(claimToSave);
+            return ResponseEntity.ok(claimRes);
+        } else {
+           // return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Your account is not of staff.");
+        }
+
+
     };
 }

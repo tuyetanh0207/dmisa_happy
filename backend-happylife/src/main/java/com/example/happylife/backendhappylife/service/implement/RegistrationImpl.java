@@ -117,9 +117,10 @@ public class RegistrationImpl implements RegistrationService {
                             .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
                     regisVar.setApprovalStatus(regis.getApprovalStatus());
                     msg.setDateMessage(instantNow);
-                    if(regis.getMessage()!=null){
-                        regisVar.getMessage().add(msg);
-                        regisVar.setMessage(regis.getMessage());
+                    if(regisVar.getMessage()!=null){
+                        List<Message> msgList = regisVar.getMessage();
+                        msgList.add(msg);
+                        regisVar.setMessage(msgList);
                     } else{
 
                         regisVar.setMessage(Arrays.asList(msg));

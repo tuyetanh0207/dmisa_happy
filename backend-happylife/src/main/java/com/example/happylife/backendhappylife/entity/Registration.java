@@ -65,6 +65,8 @@ public class Registration {
 
     private ContractResDTO contractIdInfo;
     private List<documentRegiss> documentUrls;
+
+    @Getter
     public static class documentRegiss{
         @Column(nullable = false)
         private String docCategory;
@@ -78,6 +80,7 @@ public class Registration {
             this.urls = urls;
         }
     }
+    @Getter
     public static class parHistory {
         @Field(targetType = FieldType.DATE_TIME)
         private Instant startDate;
@@ -101,6 +104,7 @@ public class Registration {
         regis.setPaymentDetails(dto.getPaymentDetails());
         regis.setRenewalReminder(dto.getRenewalReminder());
         regis.setMessage(dto.getMessage());
+        regis.setDocumentUrls(dto.getDocumentUrls());
         //Còn thiếu tương đối nhiều
         return regis;
     }
@@ -134,6 +138,7 @@ public class Registration {
         dto.setApprovalStatus(this.approvalStatus);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
+        dto.setDocumentUrls(this.documentUrls);
         return dto;
     }
 
@@ -152,6 +157,7 @@ public class Registration {
 
         regis.setStartDate(dto.getStartDate());
         regis.setEndDate(dto.getEndDate());
+        regis.setDocumentUrls(dto.getDocumentUrls());
         return regis;
     }
     public Registration convertUpdToRegistrations(RegisUpdateDTO dto) {

@@ -1,13 +1,11 @@
 package com.example.happylife.backendhappylife.service.implement;
 
-import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
-import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
-import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
@@ -18,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,10 +80,12 @@ public class ClaimServiceImpl implements ClaimService {
                     // msg process
                     msg.setDateMessage(instantNow);
                     if(claimVar.getMessage()!=null){
-                        claimVar.getMessage().add(msg);
-                        claimVar.setMessage(claim.getMessage());
+                        System.out.println("not null");
+                        List<Message> msgList = claimVar.getMessage();
+                        msgList.add(msg);
+                        claimVar.setMessage(msgList);
                     } else{
-
+                        System.out.println("null");
                         claimVar.setMessage(Arrays.asList(msg));
                     }
 
@@ -113,4 +112,37 @@ public class ClaimServiceImpl implements ClaimService {
             throw new UserCreationException("Error updating status of claim."+e.getMessage());
         }
     }
+
+    @Override
+    public Claim updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim){
+        Claim existingClaim = claimRepo.findById(claimId)
+                .orElseThrow(() ->new EntityNotFoundException("Claim not found with id: " + claimId));
+        try {
+            if(claim.getRegisInfo()!=null){
+                existingClaim.setRegisInfo(claim.getRegisInfo());
+            }
+            if(claim.getClaimCategories()!=null){
+                existingClaim.setClaimCategories(claim.getClaimCategories());
+            }
+            if(claim.getClaimAmount()!=null){
+                existingClaim.setClaimAmount(claim.getClaimAmount());
+            }
+            if(claim.getClaimInvoices()!=null){
+                existingClaim.setClaimInvoices(claim.getClaimInvoices());
+            }
+            if(claim.getClaimTotalRequest()!=0){
+                existingClaim.setClaimTotalRequest(claim.getClaimTotalRequest());
+            }
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
+            claimRepo.save(existingClaim);
+            return existingClaim;
+
+
+        } catch (Exception e){
+            throw new UserCreationException("Error updating claim: " + e.getMessage());
+        }
+    }
+
+
 }

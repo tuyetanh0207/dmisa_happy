@@ -2,12 +2,14 @@ package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Registration;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,6 +24,7 @@ public class RegisCreateDTO {
     private String approvalStatus;
     private Instant startDate;
     private Instant endDate;
+    private List<Registration.documentRegiss> documentUrls;
 
     public String getRegisId() {
         return regisId;
@@ -77,5 +80,12 @@ public class RegisCreateDTO {
 
     public void setEndDate(Instant endDate) {
         this.endDate = endDate;
+    }
+
+    public List<Registration.documentRegiss>  getDocumentUrls() {
+        return documentUrls;
+    }
+    public void setDocumentUrls(List<Registration.documentRegiss> documentUrls) {
+        this.documentUrls = documentUrls;
     }
 }

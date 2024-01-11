@@ -2,6 +2,8 @@ package com.example.happylife.backendhappylife.entity;
 
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
@@ -114,7 +116,7 @@ public class Claim {
         }
     }
     // convert funcs
-    public ClaimResDTO convertClaimToRes(Claim claim){
+    public ClaimResDTO convertClaimToRes(Claim claim) {
         ClaimResDTO claimRes = new ClaimResDTO();
         claimRes.setClaimId(claim.getClaimId().toString());
         claimRes.setRegisInfo(claim.getRegisInfo());
@@ -132,7 +134,7 @@ public class Claim {
         claimRes.setUpdatedAt(claim.getUpdatedAt());
         return claimRes;
 
-
+    }
 
 
     public Claim convertCreToClaim(ClaimCreateDTO dto) {
@@ -146,6 +148,31 @@ public class Claim {
         claim.setMessage(dto.getMessage()); // set duration
         claim.setDocumentUrls(dto.getDocumentUrls()); //set duration unit
         claim.setHospitalName(dto.getHospitalName());
+        claim.setRegisInfo(dto.getRegisInfo());
+        claim.setStatus(dto.getStatus()); // set benefits
+        return claim;
+    }
+    public Claim convertUpToClaim(ClaimUpdateDTO dto) {
+        Claim claim = new Claim();
+        claim.setClaimCategories(dto.getClaimCategories()); // set name
+        claim.setClaimAmount(dto.getClaimAmount()); // set about
+        claim.setClaimInvoices(dto.getClaimInvoices());
+        claim.setClaimTotalRequest(dto.getClaimTotalRequest());
+        claim.setContent(dto.getContent());
+        claim.setApprovalDate(dto.getApprovalDate()); // set recommended
+        claim.setDocumentUrls(dto.getDocumentUrls()); //set duration unit
+        claim.setHospitalName(dto.getHospitalName());
+        claim.setRegisInfo(dto.getRegisInfo());
+        claim.setStatus(dto.getStatus()); // set benefits
+        return claim;
+    }
+    public Claim convertUpStaffToClaim(ClaimUpdateStaffDTO dto) {
+        Claim claim = new Claim();
+        claim.setClaimCategories(dto.getClaimCategories()); // set name
+        claim.setClaimAmount(dto.getClaimAmount()); // set about
+        claim.setClaimInvoices(dto.getClaimInvoices());
+        claim.setClaimTotalRequest(dto.getClaimTotalRequest());
+        claim.setApprovalDate(dto.getApprovalDate()); // set recommended
         claim.setRegisInfo(dto.getRegisInfo());
         claim.setStatus(dto.getStatus()); // set benefits
         return claim;
