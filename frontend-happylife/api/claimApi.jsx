@@ -5,12 +5,17 @@ const ClaimAPI = {
         const url = `${apiV1}/claims`;
         return get(url, token);
     },
-    updateStatusOfClaim: function(token, claimId, approvalStatus, message) {
+    updateStatusOfClaim: function(token, claimId, status, message) {
         const url = `${apiV1}/claims/${claimId}/update-status`;
         return put(url, {
-            regis: {approvalStatus:approvalStatus},
+            claim: {status:status},
             message
         } ,token);
+    },
+    ///staff/{claimId}/update
+    updateClaimByStaff: function (token, claimId, claim){
+        const url = `${apiV1}/claims/staff/${claimId}/update`;
+        return put(url, claim ,token);
     }
 }
 export default ClaimAPI;

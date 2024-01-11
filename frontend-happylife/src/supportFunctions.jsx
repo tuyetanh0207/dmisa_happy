@@ -15,36 +15,58 @@ export function calculateAge(dob) {
     return age;
 }
 
-export function createMessageForRegistration(currentMsg, isLock,actionName) {
-  var message='';
-  if (isLock===true){
+export function createMessageForRegistration(currentMsg, isLock, actionName) {
+  var message = '';
+  if (isLock === true) {
     return currentMsg;
   }
-  if (actionName==='Accept'){
-    message = 'Your registration has been accepted, please review the contract and confirm it before continuing.'
-  }
-  if (actionName==='Reject'){
-    message = 'Your registration has been rejected.'
-  }
-  if (actionName==='Revoke'){
-    message = 'Your registration has been revoked'
+  switch (actionName) {
+    case 'Approved':
+      message = 'Your registration has been accepted. Please review the contract and confirm it before continuing.';
+      break;
+    case 'Rejected':
+      message = 'Your registration has been rejected.';
+      break;
+    case 'Revoked':
+      message = 'Your registration has been revoked.';
+      break;
+    default:
+      message = 'Your registration has just been updated by manager.';
   }
   return message;
 }
 
-export function createMessageForClaim(currentMsg, isLock,actionName) {
-  var message='';
-  if (isLock===true){
+
+export function createMessageForClaim(currentMsg, isLock, actionName) {
+  var message = '';
+  if (isLock === true) {
     return currentMsg;
   }
-  if (actionName==='Accept'){
-    message = 'Your registration has been accepted, please review the contract and confirm it before continuing.'
-  }
-  if (actionName==='Reject'){
-    message = 'Your registration has been rejected.'
-  }
-  if (actionName==='Revoke'){
-    message = 'Your registration has been revoked'
+  switch (actionName) {
+    case 'Approved':
+      message = 'Your claim has been approved.';
+      break;
+    case 'Reject':
+      message = 'Your claim has been rejected.';
+      break;
+    case 'Pending Review':
+      message = 'Your claim is under review. Please wait for further updates.';
+      break;
+    case 'Pending Additional Information':
+      message = 'Additional information is required for your claim. Please provide the necessary details.';
+      break;
+    case 'Process':
+      message = 'Your claim is in process.';
+      break;
+    case 'Denied':
+      message = 'Your claim has been denied.';
+      break;
+    case 'Payment Issued':
+      message = 'Payment for your claim has been issued.';
+      break;
+    default:
+      // Default message for unknown action
+      message = 'Your claim has just been updated by manager.';
   }
   return message;
 }

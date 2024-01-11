@@ -17,7 +17,7 @@
     "axios": "^1.6.2",
     "flowbite": "^2.2.0",
     "flowbite-react": "^0.7.2",
-    "pdfjs-dist": "^4.0.379",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-pdf": "^7.6.0",
