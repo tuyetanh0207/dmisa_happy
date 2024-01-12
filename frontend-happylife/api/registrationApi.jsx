@@ -5,6 +5,10 @@ const RegistrationAPI = {
         const url = `${apiV1}/registrations`;
         return get(url, token);
     },
+    getUserRegistration: function(token){
+        const url = `${apiV1}/registrations`;
+        return get(url, token);
+    },
     updateStatusOfRegistration: function(token, regisId, approvalStatus, message) {
         const url = `${apiV1}/registrations/${regisId}/update-status`;
         return put(url, {

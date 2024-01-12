@@ -15,7 +15,7 @@ const notification = () => {
         notificationId: null,
         userInfo: null,
         notiTitle: 'Payment 2 successfull',
-        notiContent: 'Your payment was successfull! Let"s check it now!',
+        notiContent: 'Your payment was successfull! Let"s check it now and uou jạ l ja3 jd! Let"s check it now and uou jạ l ja3 jd! Let"s check it now and uou jạ l ja3 jd!',
         notiStatus: null,
         notiType: null,
         notiPrio: null
@@ -45,21 +45,21 @@ const notification = () => {
         
         <body className='block relative'>
             <button onClick={()=>{setIsToggleOpen(!isToggleOpen)}}
-                    className='block ml-[520px]'
+                    className='block'
             >
                 <img src={NotiBell} alt="notification bell" />
             </button>
-            <section className={`${isToggleOpen ? "":"hidden"} rounded-[9px] bg-white shadow max-w-lg w-full gap-y-px absolute z-10`}>
-            {MessageNoti.map((item)=>(
-                <div className='flex pt-[46px] pb-[46px] pl-[14px] gap-3.5 border-b-2'>
-                    <img src={NotiIcon} alt="NotiIcon" className='w-16' />
-                   <div>
+            <section className={`${isToggleOpen ? "":"hidden"} left-[-520px] top-[56px] rounded-[9px] bg-white shadow gap-y-px absolute z-10`}>
+            {MessageNoti.map((item)=>(  
+                <div className='flex pt-[46px] pb-[46px] pl-[14px] pr-[14px] border-b-2'>
+                    <img src={NotiIcon} alt="NotiIcon" className='object-contain w-16 pr-[14px] max-h-[64px] max-w-[64px]' />
+                   <div className='text-black'>
                      <strong>{item.notiTitle}</strong>
                      <p className='text-sm'>{item.notiContent}</p>
                     </div>
                 </div>
             ))}    
-                <button className="w-full h-[61px] text-center bg-indigo-50 font-bold hover:text-blue-600">
+                <button className="w-full h-[61px] text-black text-center bg-indigo-50 font-bold hover:text-blue-600">
                     View all
                 </button>
             </section>            

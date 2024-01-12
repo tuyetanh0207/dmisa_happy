@@ -1,19 +1,46 @@
 // import Productteaser from '../../components/productteaser.jsx'
 import Registrationteaser from '../../components/registrationteaser'
+import { useEffect, useState } from 'react';
+import {useSelector} from 'react-redux'
+import RegistrationAPI from '../../../api/registrationApi'
 
 const registration = () => {
+  const user1 = useSelector((state) =>state.auth.login.currentUser);
+  const [realtimeRegis, setRealtimeRegis] = useState([]);
+  const fetchRegis = async () => {
+    try{
+      const res = await RegistrationAPI.getUserRegistration(user1?.token);
+      setRealtimeRegis(res.data);
+      console.log('res', res.data);
+
+    }
+    catch (error){
+      console.log("error in fetchUser", error);
+    }
+  }
+  useEffect(() => {
+    fetchRegis();
+  },[])
+  /*
+  planURL
+  planName
+  planAbout
+  planSlogan
+  createdAt
+  approvalStatus
+  */ 
+  console.log('realtimeRegis', realtimeRegis);
+  //console.log('TEST: ', realtimeRegis[].approvalStatus)
   return (
-    <div className='screen flex flex items-center flex-col  h-[1920px] bg-bgr-white my-auto'>
-      <div className='mt-[30px] mb-[50px]'>
-        <Registrationteaser paymentStatus='paid'/>
-      </div>
-      <div className='mb-[50px]'>
-        <Registrationteaser paymentStatus='pending'/>
-      </div>
-      <div className='mb-[50px]'>
-        <Registrationteaser  paymentStatus='unpaid'/>
-      </div>  
-    </div>
+    <div className='screen flex flex items-center flex-col bg-bgr-white my-auto'>
+      {realtimeRegis.map((regis, index) => (
+             <div key={index} className='mt-[30px] mb-[50px]'>
+             <Registrationteaser realtimeRegis = {regis} index={index}/>
+           </div>
+      )
+      )}
+ 
+   </div>
   )
 }
 
