@@ -48,6 +48,18 @@ const EntityVerticalDisplay = (props) => {
                     </div>
                     )
                     :
+                    a==="Plan Types"
+                    ?
+                    // plan benefit display
+                    values[index].map((e, idx)=>
+                    <div key={e.benefitName}>
+                      <div className="flex mb-7" ><p className="mr-1"></p> </div>
+                      <div className="flex mb-7" ><p className="mr-1">{idx+ 1}.</p> </div>
+                      <div className="flex mb-7" ><p className="mr-1">{"Benefit Name: " + " "}</p> <p>{e.benefitName}</p></div>
+                      <div className="flex mb-7" ><p className="mr-1">{"Insurance Amount: "}</p> <p>{e.insuranceAmount} {e.unit} </p></div>
+                    </div>
+                    )
+                    :
                     values[index].map((e)=><p key={e}>-     {e}</p>)
                     : 
                     values[index]

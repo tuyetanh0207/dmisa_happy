@@ -15,3 +15,4 @@ export const statusArrayOfClaim = [
   "Payment Issued",
 ];
 export const statusArrayOfClaimInvoice = ["Pending", "Resolved", "Denied"];
+export const statusArrayOfPlan = ["Active"];

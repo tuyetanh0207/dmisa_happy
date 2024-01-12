@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { PencilIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
