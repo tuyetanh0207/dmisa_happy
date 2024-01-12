@@ -18,8 +18,6 @@ public interface ClaimService {
     
     Claim updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg);
 
-//    List<Claim> getAllClaimUser();
-
     List<Claim> getAllClaimUser(UserResDTO user);
 
     Claim addClaim(Claim claim);

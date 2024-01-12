@@ -19,5 +19,6 @@ public interface RegistrationRepo extends MongoRepository<Registration, ObjectId
     default void setMongoTemplate(MongoTemplate mongoTemplate) {
         // Setter for MongoTemplate
     }
+    List<Registration> findAllByCustomerInfo_Id(String id);
 }
 
