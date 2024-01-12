@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RegistrationRepo extends MongoRepository<Registration, ObjectId> {
     List<Registration> findByCustomerInfo_Id(String id);
+    List<Registration> findAllByCustomerInfo_Id(String id);
 }
