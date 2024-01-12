@@ -10,10 +10,7 @@ export default function Buyplan() {
     const user = useSelector((state) => state.auth.login.currentUser);
     const [isLogin,setIsLogin]=useState(false);
     const [plans,setPlansAPI]=useState([]);
-    //const [selectPlan, setSelectPlan] = useState(null);
 
-
-    
     const [planID, setplanID] = useState();//planID
     //const [planTypeArr,setPlanTypeARR]=useState([]);//planTypeName
     
@@ -31,6 +28,10 @@ export default function Buyplan() {
     //const [address,setAddress] =useState('');
     //plan
     const [planName,setPlanName] =useState('');
+    const [planAbout,setPlanAbout] =useState('');
+    const [planDuration,setPlanDuration] =useState('');
+    const [planDurationUnit,setPlanDurationUnit] =useState('');
+
     //planType
     const [planTypeName,setPlanTypeName]=useState('');
     const [benefitsBenefitsName,setBenefitsBenefitsName]=useState('');
@@ -73,6 +74,9 @@ export default function Buyplan() {
         const selectedPlan = plans.find((plan) => plan.planId === event.target.value);
         if (selectedPlan) {
             setPlanName(selectedPlan.planName);
+            setPlanAbout(selectedPlan.planAbout);
+            setPlanDuration(selectedPlan.planDuration);
+            setPlanDurationUnit(selectedPlan.planDurationUnit);
             console.log("Selected plan ID:", event.target.value);
         }
     };
@@ -168,8 +172,9 @@ export default function Buyplan() {
             productInfo: {
                 planId: planID,
                 planName:planName,
-                planDuration: 12,
-                planDurationUnit: "Month",
+                planAbout: planAbout,
+                planDuration: planDuration,
+                planDurationUnit: planDurationUnit,
                 planType: [
                     {
                         typeName: planTypeName,
@@ -456,6 +461,7 @@ export default function Buyplan() {
                             <option key={index} value={plan.planId}>
                                 
                                 {plan.planName}
+                                
                             </option>
                             ))}
                         </select>
@@ -527,98 +533,37 @@ export default function Buyplan() {
                                 )}
                                 {/* ----------------------------- */}
                                 
-                                {/* {selectedPlanObject && (
+                               
+
+                                {selectedPlanObject && (
                                     <div>
                                         <label className="pt-10 block text-xl font-medium leading-6 text-gray-900">
                                             Choose Optional Benefit
                                         </label>
                                         <div className="grid grid-cols-3 gap-4">
                                             {selectedPlanObject.optionalBenefits.map((item, index) => (
-                                                <div key={index} className="text-xl  ">   
-                                                    <button value={item.benefitName}  onClick={handleOptionalBenefitNameChange} className="border-gray-600 border-2 rounded-lg w-full h-full"  >
+                                                <div key={index} className="text-xl">
+                                                    <button value={item.benefitName} onClick={handleOptionalBenefitChange} className="border-gray-600 border-2 rounded-lg w-full h-full">
                                                         <div>{item.benefitName}</div>
                                                         <div>{item.dependencies}</div>
-                                                    </button> 
-                                                    <div className="pt-5 grid grid-cols-4 grid-flow-col gap-4">
-                                                        {item.feeType.map((item2, index) => (
-                                                            
-                                                            <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedOptionFeeType === item2 ? 'bg-gray-200' : ''}`} onClick={() => handleOptionFeeType(item2)}>
-                                                                <div>{item2.type}</div>
-                                                                <div>{item2.startAge}-{item2.endAge}</div>
-                                                                <div>{item2.fee}</div>
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                    <div>{item.insuranceAmount} {item.unit}</div> 
+                                                    </button>
+                                                    {optionalBenefitsName === item.benefitName && (
+                                                        <div className="pt-5 grid grid-cols-4 grid-flow-col gap-4">
+                                                            {item.feeType.map((item2, index) => (
+                                                                <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedOptionalFeeType === item2.type ? 'bg-gray-200' : ''}`} onClick={() => handleOptionalFeeTypeChange(item2)}>
+                                                                    <div>{item2.type}</div>
+                                                                    <div>{item2.startAge}-{item2.endAge}</div>
+                                                                    <div>{item2.fee}</div>
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                    <div>{item.insuranceAmount} {item.unit}</div>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
-                                )} */}
-
-{selectedPlanObject && (
-    <div>
-        <label className="pt-10 block text-xl font-medium leading-6 text-gray-900">
-            Choose Optional Benefit
-        </label>
-        <div className="grid grid-cols-3 gap-4">
-            {selectedPlanObject.optionalBenefits.map((item, index) => (
-                <div key={index} className="text-xl">
-                    <button value={item.benefitName} onClick={handleOptionalBenefitChange} className="border-gray-600 border-2 rounded-lg w-full h-full">
-                        <div>{item.benefitName}</div>
-                        <div>{item.dependencies}</div>
-                    </button>
-                    {optionalBenefitsName === item.benefitName && (
-                        <div className="pt-5 grid grid-cols-4 grid-flow-col gap-4">
-                            {item.feeType.map((item2, index) => (
-                                <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedOptionalFeeType === item2.type ? 'bg-gray-200' : ''}`} onClick={() => handleOptionalFeeTypeChange(item2)}>
-                                    <div>{item2.type}</div>
-                                    <div>{item2.startAge}-{item2.endAge}</div>
-                                    <div>{item2.fee}</div>
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                    <div>{item.insuranceAmount} {item.unit}</div>
-                </div>
-            ))}
-        </div>
-    </div>
-)}
-
-
-
-{/* {selectedPlanObject && (
-    <div>
-        <label className="pt-10 block text-xl font-medium leading-6 text-gray-900">
-            Choose Optional Benefit
-        </label>
-        <div className="grid grid-cols-3 gap-4">
-            {selectedPlanObject.map((item, index) => (
-                <div key={index} className="text-xl">
-                    <button value={item.benefitName} onClick={handleOptionalBenefitNameChange} className="border-gray-600 border-2 rounded-lg w-full h-full">
-                        <div>{item.benefitName}</div>
-                        <div>{item.dependencies}</div>
-                    </button>
-                    {optionalBenefitsName === item.benefitName && selectedOptionBenefitsFeeType && (
-                        <div>
-                            <div className="pt-5 grid grid-cols-4 grid-flow-col gap-4">
-                                {item.feeType.map((item2, index) => (
-                                    <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedOptionFeeType === item2 ? 'bg-gray-200' : ''}`} onClick={(event) => handleOptionFeeType(item2, event)}>
-                                        <div>{item2.type}</div>
-                                        <div>{item2.startAge}-{item2.endAge}</div>
-                                        <div>{item2.fee}</div>
-                                    </button>
-                                ))}
-                            </div>
-                            <div>{item.insuranceAmount} {item.unit}</div>
-                        </div>
-                    )}
-                </div>
-            ))}
-        </div>
-    </div>
-)} */}
+                                )}
                             </div>
                         )}
                         
@@ -660,6 +605,8 @@ export default function Buyplan() {
           <div>{address}</div>
           <div>{planID}</div>
           <div>{planName}</div>
+          <div>{planAbout}</div>
+          <div>{planDuration}-{planDurationUnit}</div>
           <div>{planTypeName}</div>
           <div>{benefitsBenefitsName}</div>
           <div>{benefitsDependencies}</div>
