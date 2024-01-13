@@ -85,10 +85,10 @@ public class PlanController {
         PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
         return ResponseEntity.ok(planUpdDTO);
     };
-    @PutMapping("/update/{planId}/image")
-    public ResponseEntity<PlanUpdateDTO> updatePlanImage(@PathVariable ObjectId planId,
-                                                         //@RequestPart("plan") PlanUpdateDTO planUpdateDTO,
-                                                         @RequestPart("files") MultipartFile[] files) throws IOException {
+    @PutMapping("/update/{planId}/image-docUrl")
+    public ResponseEntity<PlanUpdateDTO> updatePlanImageDocUrl(@PathVariable ObjectId planId,
+                                                               //@RequestPart("plan") PlanUpdateDTO planUpdateDTO,
+                                                               @RequestPart("files") MultipartFile[] files) throws IOException {
         // Plan plan = new Plan();
         // Url gửi các thông tin cơ bản và attribute docname có và docurl chỉ mảng rỗng, docurl là mảng rỗng
         // upload file dựa vào số phần tử url của plan/regis/claims
@@ -96,6 +96,7 @@ public class PlanController {
         // Plan planUpdated = plan.convertUpdToPlan(planUpdateDTO);
         List<String> docUrls = firebaseStorageService.uploadImages(files);
         List<Plan.documents> documentList = new ArrayList<>();
+        List<String> planUrl = firebaseStorageService.uploadImages(files);
         for (String url : docUrls) {
             Plan.documents document = new Plan.documents();
             //document.setDocTitle("Document Title");
@@ -103,7 +104,22 @@ public class PlanController {
             documentList.add(document);
         }
         //planUpdated.setPlanDocuments(documentList);
-        Plan savedPlan = planService.updatePlanImage(planId, documentList);
+        Plan savedPlan = planService.updatePlanImageDocUrl(planId, documentList);
+        PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
+        return ResponseEntity.ok(planUpdDTO);
+    };
+    @PutMapping("/update/{planId}/image-planUrl")
+    public ResponseEntity<PlanUpdateDTO> updatePlanImagePlanUrl(@PathVariable ObjectId planId,
+                                                                //@RequestPart("plan") PlanUpdateDTO planUpdateDTO,
+                                                                @RequestPart("files") MultipartFile[] files) throws IOException {
+        // Plan plan = new Plan();
+        // Url gửi các thông tin cơ bản và attribute docname có và docurl chỉ mảng rỗng, docurl là mảng rỗng
+        // upload file dựa vào số phần tử url của plan/regis/claims
+        // giả dụ regis có 4 cái phần tử, nếu mà url đó rỗng thì add vào, còn nếu có rồi thì ko update
+        // Plan planUpdated = plan.convertUpdToPlan(planUpdateDTO);
+        List<String> planUrl = firebaseStorageService.uploadImages(files);
+        //planUpdated.setPlanDocuments(documentList);
+        Plan savedPlan = planService.updatePlanImagePlanUrl(planId, planUrl);
         PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
         return ResponseEntity.ok(planUpdDTO);
     };

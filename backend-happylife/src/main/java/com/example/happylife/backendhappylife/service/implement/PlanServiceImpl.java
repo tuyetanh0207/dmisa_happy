@@ -135,13 +135,27 @@ public class PlanServiceImpl implements PlanService {
         }
     }
     @Override
-    public Plan updatePlanImage(ObjectId planId, List<Plan.documents> listDoc) {
+    public Plan updatePlanImageDocUrl(ObjectId planId, List<Plan.documents> listDoc) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
         try {
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
             existingPlan.setPlanDocuments(listDoc);
+            planRepo.save(existingPlan);
+            return existingPlan;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Plan: " + e.getMessage());
+        }
+    }
+    @Override
+    public Plan updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl) {
+        Plan existingPlan = planRepo.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
+        try {
+            Instant instantNow = Instant.now();
+            existingPlan.setPlanUpdatedAt(instantNow);
+            existingPlan.setPlanURL(listPlanUrl);
             planRepo.save(existingPlan);
             return existingPlan;
         } catch (Exception e) {
