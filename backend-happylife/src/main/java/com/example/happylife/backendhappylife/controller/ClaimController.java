@@ -40,7 +40,6 @@ public class ClaimController {
         } else {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
-
     }
     @PutMapping("/{claimId}/update-status")
     public ResponseEntity<ClaimResDTO> updateClaimStatus(HttpServletRequest request,

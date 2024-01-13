@@ -13,51 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/files")
 public class FirebaseController {
-   /* @Autowired
-    private FireBaseService firebaseStorageService;
-
- *//*   public FileController(FirebaseStorageService storageService) {
-        this.storageService = storageService;
-    }*//*
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            String fileName = firebaseStorageService.uploadFile(file);
-            return ResponseEntity.ok(fileName);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed: " + e.getMessage());
-        }
-    }
-
-   *//* @GetMapping("/download/{fileName}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName) {
-        try {
-            byte[] content = storageService.downloadFile(fileName);
-            return ResponseEntity.ok()
-                    .header("Content-Type", "application/pdf")
-                    .header("Content-Disposition", "attachment; filename=" + fileName)
-                    .body(content);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }*/
-  /* @Autowired
-   private final FireBaseService fireBaseService;
-    public FirebaseController(FireBaseService fireBaseService) {
-        this.fireBaseService = fireBaseService;
-    }
-
-    @PostMapping("/upload")
-    public ResponseEntity<java.util.List<String>> uploadFiles(@RequestParam("files") MultipartFile[] files) {
-        try {
-            List<String> fileUrls = fireBaseService.uploadFiles(files);
-            return ResponseEntity.ok(fileUrls);
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }*/
-
     private final FireBaseService firebaseStorageService;
 
     @Autowired
@@ -65,10 +20,19 @@ public class FirebaseController {
         this.firebaseStorageService = firebaseStorageService;
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/files")
     public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         try {
             List<String> fileUrls = firebaseStorageService.uploadFiles(files);
+            return ResponseEntity.ok(fileUrls);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    @PostMapping("/upload/image")
+    public ResponseEntity<List<String>> uploadImages(@RequestParam("files") MultipartFile[] files) {
+        try {
+            List<String> fileUrls = firebaseStorageService.uploadImages(files);
             return ResponseEntity.ok(fileUrls);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().build();
