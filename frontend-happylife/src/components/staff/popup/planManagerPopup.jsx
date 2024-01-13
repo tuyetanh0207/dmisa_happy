@@ -19,14 +19,17 @@ const PlanManagerPopup = (props) => {
   const [updatingPlan, setUpdatingPlan] = useState(data);
   const [currentTab, setCurrentTab] = useState("Overview");
   const [isLoadingSavingOverview, setIsLoadingSavingOverview] = useState("0");
+  const [isLoadingSavingImage, setIsLoadingSavingImage] = useState("0");
   const [message, setMessage] = useState("");
   const tabNames = ["Overview", "Plan Types", "Customers", "Images"];
   const [isLock, setIsLock] = useState(false);
   const pageNumber = 1;
-  const [IdOfEnrollmentisLoading, setIdOfEnrollmentisLoading] = useState([])
+  const [IdOfEnrollmentisLoading, setIdOfEnrollmentisLoading] = useState([]);
   const [loadingBtns, setLoadingBtns] = useState("0");
   const [isEditingOverview, setIsEditingOverview] = useState(false);
   const [isEditingImage, setIsEditingImage] = useState(false);
+  const [numOfNewImage, setNumOfNewImage] = useState(0);
+  const [newImageArray, setNewImageArray] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
   const user = useSelector((state) => state.auth.login.currentUser);
   const [selectedEnrollmentRow, setSelectedEnrollmentRow] = useState(null);
@@ -77,6 +80,9 @@ const PlanManagerPopup = (props) => {
       planAdvertisement: updatedAdvertisements,
       planDocuments: updatedDocuments,
     });
+  };
+  const handleEditImageBtnClick = () => {
+    setIsEditingImage(!isEditingImage);
   };
   const handleSaveOverviewBtnClick = async () => {
     try {
@@ -350,7 +356,7 @@ const PlanManagerPopup = (props) => {
       statusArrayOfRegistration
     );
     console.log("res", res.data);
-    setEnrollments(res.data)
+    setEnrollments(res.data);
   };
   useEffect(() => {
     fetchEnrollments();
@@ -359,7 +365,6 @@ const PlanManagerPopup = (props) => {
     setTimeout(() => {
       fetchEnrollments();
     }, 5000);
-   
   }, [enrollments]);
   const handleUpdateStatusOfRegistration = async (regisId, approvalStatus) => {
     setIdOfEnrollmentisLoading((t) => [...t, regisId]);
@@ -370,17 +375,65 @@ const PlanManagerPopup = (props) => {
         approvalStatus,
         { content: message }
       );
-     // setIsLoadingUpdateStatusOfEnrollement("0");
-   
-      setIdOfEnrollmentisLoading((t) => t.filter((id) => id !== res.data.regisId));
+      // setIsLoadingUpdateStatusOfEnrollement("0");
+
+      setIdOfEnrollmentisLoading((t) =>
+        t.filter((id) => id !== res.data.regisId)
+      );
     } catch (e) {
       console.log("", e);
     }
   };
+  const findIndexOfImageInArray = (url) => {
+    return newImageArray.indexOf(url)
+  }
+  const handleClickImageWhenEditing = (idx, url) => {
+    if(findIndexOfImageInArray(url)>=0){
+      setNewImageArray([...newImageArray.filter((img) => img!= url)])
+    } else {
+      setNewImageArray([...newImageArray, url])
+    }
 
+  }
+  const  handleSaveImageBtnClick= async() => {
+   
+    try {
+      setIsLoadingSavingImage("1");
+      const newPlan = {
+        planURL: newImageArray
+      }
+      
+      
+      const res = await PlanAPI.updateOnePlanByStaff(
+        data.planId,
+        newPlan,
+        user.token
+      );
+      // console.log(res.data);
+
+      if (res) {
+        setIsLoadingSavingImage("0");
+        setIsEditingImage(false);
+        setUpdatingPlan({...res.data, planURL: res.data.planURL});
+        setNewImageArray([])
+        onUpdate();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+  const  handleCancelImageBtnClick=() => {
+    setNewImageArray([])
+    setIsEditingImage(false)
+    
+  }
   return (
     <div className={`${styles.popupOverlay}`} onClick={onClose}>
-      <div className={`${styles.popup} z-0`} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`${styles.popup} z-0`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className={styles.closeButton} onClick={onClose}>
           <XMarkIcon className="w-4 h-4" />
         </button>
@@ -928,7 +981,6 @@ const PlanManagerPopup = (props) => {
           )}
           {currentTab === "Customers" && (
             <div
-          
               className={`${styles.content} flex flex-cols-1 relative z-0 mt-[16px]`}
             >
               <table className="w-full">
@@ -949,211 +1001,231 @@ const PlanManagerPopup = (props) => {
                 </thead>
 
                 <tbody>
-                  {enrollments?.map(
-                    (item, index) =>
-                      (
-                        // item.ApprovalStatus === filterStatus ||
-                        // filterStatus === "All") &&
-                      // (startDate === "" || startDate <= item.createdAt) &&
-                      // (endDate === "" ||
-                      //   endDate >= item.createdAt.slice(0, 10)) && 
-                        // (
-                        <tr key={index} className="justify-start">
-                          <td className="border-t border-gray-300 pl-8 pr-2 py-2">
-                            {index + 1}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.customerInfo.fullName}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.customerInfo.phoneNumber}
-                          </td>
-                          {/* <td className="border border-gray-300 px-2 py-2">{item.customerInfo.citizenID}</td> */}
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.customerInfo.dob
-                              ? item.customerInfo.dob.slice(0, 10)
-                              : ""}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.customerInfo.address}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.productInfo.planName}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.productInfo.planType[0].typeName}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.insuranceAmount}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.productInfo.planDuration +
-                              " " +
-                              item.productInfo.planDurationUnit +
-                              "s"}
-                          </td>
-                          <td className="border-t border-gray-300 px-2 py-2">
-                            {item.createdAt
-                              ? item.createdAt.toString().slice(0, 10)
-                              : ""}
-                          </td>
-                          <td
-                            className={`border-t border-gray-300 px-2 py-2 font-bold ${
-                              item.approvalStatus === "Approved"
-                                ? "text-custom-blue-2"
-                                : item.approvalStatus === "Pending"
-                                ? "text-custom-blue-3"
-                                : "text-custom-red-2"
-                            }`}
-                          >
-                            {item.approvalStatus}
-                          </td>
+                  {enrollments?.map((item, index) => (
+                    // item.ApprovalStatus === filterStatus ||
+                    // filterStatus === "All") &&
+                    // (startDate === "" || startDate <= item.createdAt) &&
+                    // (endDate === "" ||
+                    //   endDate >= item.createdAt.slice(0, 10)) &&
+                    // (
+                    <tr key={index} className="justify-start">
+                      <td className="border-t border-gray-300 pl-8 pr-2 py-2">
+                        {index + 1}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.customerInfo.fullName}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.customerInfo.phoneNumber}
+                      </td>
+                      {/* <td className="border border-gray-300 px-2 py-2">{item.customerInfo.citizenID}</td> */}
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.customerInfo.dob
+                          ? item.customerInfo.dob.slice(0, 10)
+                          : ""}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.customerInfo.address}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.productInfo.planName}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.productInfo.planType[0].typeName}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.insuranceAmount}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.productInfo.planDuration +
+                          " " +
+                          item.productInfo.planDurationUnit +
+                          "s"}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        {item.createdAt
+                          ? item.createdAt.toString().slice(0, 10)
+                          : ""}
+                      </td>
+                      <td
+                        className={`border-t border-gray-300 px-2 py-2 font-bold ${
+                          item.approvalStatus === "Approved"
+                            ? "text-custom-blue-2"
+                            : item.approvalStatus === "Pending"
+                            ? "text-custom-blue-3"
+                            : "text-custom-red-2"
+                        }`}
+                      >
+                        {item.approvalStatus}
+                      </td>
+                      <td className="border-t border-gray-300 px-2 py-2">
+                        <AppButton
+                          title="View"
+                          textColor={gStyles.buttonBlue}
+                          borderColor={gStyles.buttonBlue}
+                          bgColor={gStyles.customBlue3}
+                          borderRadius={"5px"}
+                          width={"6em"}
+                          height={"2em"}
+                          data={item}
+                          handleSelectingRow={() =>
+                            handleSelectingEnrollmentRow(item)
+                          }
+                        />
+                      </td>
+
+                      {item.approvalStatus === "Pending" ? (
+                        <>
                           <td className="border-t border-gray-300 px-2 py-2">
                             <AppButton
-                              title="View"
-                              textColor={gStyles.buttonBlue}
-                              borderColor={gStyles.buttonBlue}
-                              bgColor={gStyles.customBlue3}
+                              title="Accept"
+                              textColor={"#53B271"}
+                              borderColor={"#53B271"}
+                              bgColor={"#EBFAFA"}
                               borderRadius={"5px"}
                               width={"6em"}
                               height={"2em"}
-                              data={item}
+                              loading={
+                                IdOfEnrollmentisLoading.includes(item.regisId)
+                                  ? "1"
+                                  : ""
+                              }
                               handleSelectingRow={() =>
-                                handleSelectingEnrollmentRow(item)
+                                handleUpdateStatusOfRegistration(
+                                  item.regisId,
+                                  "Approved"
+                                )
                               }
                             />
                           </td>
-
-                          {item.approvalStatus === "Pending" ? (
-                            <>
-                              <td className="border-t border-gray-300 px-2 py-2">
-                                <AppButton
-                                  title="Accept"
-                                  textColor={"#53B271"}
-                                  borderColor={"#53B271"}
-                                  bgColor={"#EBFAFA"}
-                                  borderRadius={"5px"}
-                                  width={"6em"}
-                                  height={"2em"}
-                                  loading={
-                                    IdOfEnrollmentisLoading.includes(item.regisId)
-                                      ? "1"
-                                      : ""
-                                  }
-                                  handleSelectingRow={() =>
-                                    handleUpdateStatusOfRegistration(
-                                      item.regisId,
-                                      "Approved"
-                                    )
-                                  }
-                                />
-                              </td>
-                              <td className="border-t border-gray-300 px-2 py-2">
-                                <AppButton
-                                  title="Reject"
-                                  textColor={"#B93735"}
-                                  borderColor={"#B93735"}
-                                  bgColor={"#F8D8D8"}
-                                  borderRadius={"5px"}
-                                  width={"6em"}
-                                  height={"2em"}
-                                  loading={
-                                    IdOfEnrollmentisLoading.includes(item.regisId)
-                                      ? "1"
-                                      : ""
-                                  }
-                                  handleSelectingRow={() =>
-                                    handleUpdateStatusOfRegistration(
-                                      item.regisId,
-                                      "Rejected"
-                                    )
-                                  }
-                                />
-                              </td>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                          {item.approvalStatus === "Approved" ? (
-                            <>
-                              <td className="border-t border-gray-300 px-2 py-2">
-                                <AppButton
-                                  title="Revoke"
-                                  textColor={"#B93735"}
-                                  borderColor={"#B93735"}
-                                  bgColor={"#F8D8D8"}
-                                  borderRadius={"5px"}
-                                  width={"6em"}
-                                  height={"2em"}
-                                  loading={
-                                    IdOfEnrollmentisLoading.includes(item.regisId)
-                                      ? "1"
-                                      : ""
-                                  }
-                                  handleSelectingRow={() =>
-                                    handleUpdateStatusOfRegistration(
-                                      item.regisId,
-                                      "Revoked"
-                                    )
-                                  }
-                                />
-                              </td>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                          {item.approvalStatus === "Rejected" ? (
-                            <>
-                              <td className="border-t border-gray-300 px-2 py-2">
-                                <AppButton
-                                  title="Accept"
-                                  textColor={"#53B271"}
-                                  borderColor={"#53B271"}
-                                  bgColor={"#EBFAFA"}
-                                  borderRadius={"5px"}
-                                  width={"6em"}
-                                  height={"2em"}
-                                  loading={
-                                    IdOfEnrollmentisLoading.includes(item.regisId)
-                                      ? "1"
-                                      : ""
-                                  }
-                                  handleSelectingRow={() =>
-                                    handleUpdateStatusOfRegistration(
-                                      item.regisId,
-                                      "Approved",
-                                      ""
-                                    )
-                                  }
-                                />
-                              </td>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </tr>
-                      )
-                  )}
+                          <td className="border-t border-gray-300 px-2 py-2">
+                            <AppButton
+                              title="Reject"
+                              textColor={"#B93735"}
+                              borderColor={"#B93735"}
+                              bgColor={"#F8D8D8"}
+                              borderRadius={"5px"}
+                              width={"6em"}
+                              height={"2em"}
+                              loading={
+                                IdOfEnrollmentisLoading.includes(item.regisId)
+                                  ? "1"
+                                  : ""
+                              }
+                              handleSelectingRow={() =>
+                                handleUpdateStatusOfRegistration(
+                                  item.regisId,
+                                  "Rejected"
+                                )
+                              }
+                            />
+                          </td>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      {item.approvalStatus === "Approved" ? (
+                        <>
+                          <td className="border-t border-gray-300 px-2 py-2">
+                            <AppButton
+                              title="Revoke"
+                              textColor={"#B93735"}
+                              borderColor={"#B93735"}
+                              bgColor={"#F8D8D8"}
+                              borderRadius={"5px"}
+                              width={"6em"}
+                              height={"2em"}
+                              loading={
+                                IdOfEnrollmentisLoading.includes(item.regisId)
+                                  ? "1"
+                                  : ""
+                              }
+                              handleSelectingRow={() =>
+                                handleUpdateStatusOfRegistration(
+                                  item.regisId,
+                                  "Revoked"
+                                )
+                              }
+                            />
+                          </td>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      {item.approvalStatus === "Rejected" ? (
+                        <>
+                          <td className="border-t border-gray-300 px-2 py-2">
+                            <AppButton
+                              title="Accept"
+                              textColor={"#53B271"}
+                              borderColor={"#53B271"}
+                              bgColor={"#EBFAFA"}
+                              borderRadius={"5px"}
+                              width={"6em"}
+                              height={"2em"}
+                              loading={
+                                IdOfEnrollmentisLoading.includes(item.regisId)
+                                  ? "1"
+                                  : ""
+                              }
+                              handleSelectingRow={() =>
+                                handleUpdateStatusOfRegistration(
+                                  item.regisId,
+                                  "Approved",
+                                  ""
+                                )
+                              }
+                            />
+                          </td>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               {selectedEnrollmentRow && (
-        <RegistrationManagerPopup
-          data={selectedEnrollmentRow}
-          onClose={handleCloseEnrollmentPopup}
-        />
-      )}
+                <RegistrationManagerPopup
+                  data={selectedEnrollmentRow}
+                  onClose={handleCloseEnrollmentPopup}
+                />
+              )}
             </div>
           )}
           {currentTab === "Images" && (
             <div
-              className={`${styles.content} flex flex-cols-1 sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
+              className={`${styles.content} block sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
             >
-             {updatingPlan.planURL.map((e, idx) => 
-            <span key ={"img" + idx}>
-
-              <img src={e} width={"200px"} height={"200px"}/>
-            </span>)} 
-
+              <div className="flex mb-10">
+                <PencilIcon
+                  className=" w-8 h-8 text-custom-blue-2 flex ml-auto"
+                  onClick={() => handleEditImageBtnClick()}
+                />
+              </div>
+              <div className="grid gap-2 lg:grid-cols-3 sm:grid-cols-2">
+                {updatingPlan.planURL.map((e, idx) =>
+                  !isEditingImage ? (
+                    <div key={"img" + idx} className=" w-80 h-80">
+                      <img src={e} className="gap-2 w-80 h-80 " alt="" />
+                    </div>
+                  ) : (
+                    <div key={"img" + idx} className=" w-80 h-80 flex relative">
+                      <div className="rounded-[100%] overflow-hidden  border border-white border-1 w-7 h-7  flex items-center justify-center absolute right-4 top-4">
+                      <div className={` ${findIndexOfImageInArray(e)>= 0?"bg-blue-600 text-white ":"bg-white opacity-10 "} w-full h-full  flex items-center justify-center `}  >
+                        <p className="text-sm font-bold ">{findIndexOfImageInArray(e)>= 0?findIndexOfImageInArray(e)+1:""}</p>
+                      </div>
+                      </div>
+                      <img
+                        src={e}
+                        className="gap-2 w-80 h-80 bg-gray-600"
+                        alt=""
+                        onClick={() => handleClickImageWhenEditing(idx, e)}
+                      />
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -1186,6 +1258,37 @@ const PlanManagerPopup = (props) => {
                 loading={loadingBtns}
                 handleSelectingRow={() =>
                   handleCancelOverviewBtnClick(updatingPlan.regisId, "Rejected")
+                }
+              />
+            </>
+          )}
+          {isEditingImage === true && (
+            <>
+              <AppButton
+                title="Save"
+                textColor={"#53B271"}
+                borderColor={"#53B271"}
+                bgColor={"#EBFAFA"}
+                borderRadius={"5px"}
+                width={"6em"}
+                height={"2em"}
+                loading={isLoadingSavingImage}
+                handleSelectingRow={() =>
+                  handleSaveImageBtnClick()
+                }
+              />
+
+              <AppButton
+                title="Cancel"
+                textColor={gStyles.buttonBlue}
+                borderColor={gStyles.buttonBlue}
+                bgColor={gStyles.customBlue3}
+                borderRadius={"5px"}
+                width={"6em"}
+                height={"2em"}
+                loading={isLoadingSavingImage}
+                handleSelectingRow={() =>
+                  handleCancelImageBtnClick()
                 }
               />
             </>
