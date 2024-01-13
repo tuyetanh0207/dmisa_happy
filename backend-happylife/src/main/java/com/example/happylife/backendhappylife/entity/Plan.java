@@ -230,10 +230,7 @@ public class Plan {
     // Convert PlanUpdateDTO sang Plan
     public Plan convertUpdToPlan(PlanUpdateDTO dto) {
         Plan plan = new Plan();
-        if(dto.getPlanId() != null){
-            ObjectId dtoId = new ObjectId(dto.getPlanId());
-            plan.setPlanId(dtoId);
-        }
+
         plan.setPlanName(dto.getPlanName()); // set name
         plan.setPlanAbout(dto.getPlanAbout()); // set about
         plan.setPlanSlogan(dto.getPlanSlogan());
@@ -296,7 +293,6 @@ public class Plan {
 
     public PlanUpdateDTO convertToPlanUpdateDTO() {
         PlanUpdateDTO dto = new PlanUpdateDTO();
-        dto.setPlanId(this.planId.toString());
         dto.setPlanName(this.getPlanName()); // set name
         dto.setPlanAbout(this.getPlanAbout()); // set about
         dto.setPlanSlogan(this.getPlanSlogan());

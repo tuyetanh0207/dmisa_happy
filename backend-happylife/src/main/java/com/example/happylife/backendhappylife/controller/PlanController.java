@@ -68,14 +68,25 @@ public class PlanController {
     };
 
     //Update 1 plan dựa trên planId
-    @PutMapping("/update/{planId}")
-    public ResponseEntity<PlanUpdateDTO> updatePlan(@PathVariable ObjectId planId,
+    @PutMapping("/{planId}/update")
+    public ResponseEntity<?> updatePlan(HttpServletRequest request, @PathVariable ObjectId planId,
                                                  @RequestBody PlanUpdateDTO planUpdateDTO) {
-        Plan plan = new Plan();
-        Plan planUpdated = plan.convertUpdToPlan(planUpdateDTO);
-        Plan savedPlan = planService.updatePlan(planUpdated, planId);
-        PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
-        return ResponseEntity.ok(planUpdDTO);
+        try{
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO user = userVar.convertFromUserToUserResDTO();
+            if (user.getRole()!= Role.INSUARANCE_MANAGER){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Only manager can do it!" );
+            }
+            Plan plan = new Plan();
+            Plan planUpdated = plan.convertUpdToPlan(planUpdateDTO);
+            Plan savedPlan = planService.updatePlan(planUpdated, planId);
+            PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
+            return ResponseEntity.ok(planUpdDTO);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+
     };
 
     //Xóa 1 Plan dựa trên planId

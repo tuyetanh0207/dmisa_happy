@@ -1,4 +1,4 @@
-import {apiV1, get} from './generic'
+import {apiV1, get, put} from './generic'
 
 const PlanAPI = {
 
@@ -10,6 +10,11 @@ const PlanAPI = {
         const url = `${apiV1}/plans`;
         return get(url,token)
     },
+    updateOnePlanByStaff: function(planId, data,token){
+        const url = `${apiV1}/plans/${planId}/update`;
+        return put(url,data, token)
+    },
+    
 
 
 }

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import PlanAPI from "../../../../../api/plansApi";
 import AppButton from "../../../../components/staff/appButton/button";
 import StatusFilter from "../../../../components/staff/filter/status/statusFilter";
-import PlanManagerPopup from "../../../../components/staff/popup/regisManagerPopup";
+import PlanManagerPopup from "../../../../components/staff/popup/planManagerPopup";
 import { statusArrayOfPlan } from "../../../../resource/status";
 import gStyles from "../../../../style";
 const IMPlan = () => {
@@ -51,18 +51,18 @@ const IMPlan = () => {
   }, [Plans]);
 
   const handleUpdateStatusOfPlan = async (
-    regisId,
+    planId,
     approvalStatus
   ) => {
-    setLoadingBtns((t) => [...t, regisId]);
+    setLoadingBtns((t) => [...t, planId]);
     try {
        await PlanAPI.updateStatusOfPlan(
         user.token,
-        regisId,
+        planId,
         approvalStatus,
         { content: "" }
       );
-      setLoadingBtns((t) => t.filter((id) => id !== regisId));
+      setLoadingBtns((t) => t.filter((id) => id !== planId));
     } catch (e) {
       console.log("", e);
     }
@@ -83,6 +83,11 @@ const IMPlan = () => {
   };
   const handleChangeEndDateFilter = (date) => {
     setEndDate(date);
+  };
+  const [updateFlag, setUpdateFlag] = useState(false);
+
+  const handleUpdateFlagChange = () => {
+    setUpdateFlag((prevFlag) => !prevFlag);
   };
   return (
     <div className="bg-white w-[96%] mt-12 mb-12 ml-6 mr-2 rounded-xl pt-4">
@@ -192,6 +197,7 @@ const IMPlan = () => {
         <PlanManagerPopup
           data={selectedRow}
           onClose={handleClosePopup}
+          onUpdate={handleUpdateFlagChange}
         />
       )}
     </div>

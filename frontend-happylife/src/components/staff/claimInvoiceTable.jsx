@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { PencilIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ClaimAPI from "../../../api/claimApi";
 import { copayRates } from "../../resource/insuranceParameters";
 import gStyles from "../../style";
+import { PencilIcon } from "@heroicons/react/24/solid";
+
 import AppButton from "./appButton/button";
 export default function ClaimInvoiceTable(props) {
   const {

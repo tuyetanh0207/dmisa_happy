@@ -68,21 +68,7 @@ public class PlanServiceImpl implements PlanService {
     public Plan updatePlan(Plan planUpdate, ObjectId planId) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
-        /*existingPlan.setPlanName(planUpdate.getPlanName());
-        existingPlan.setPlanAbout(planUpdate.getPlanAbout());
-        existingPlan.setPlanSlogan(planUpdate.getPlanSlogan());
-        existingPlan.setPlanType(planUpdate.getPlanType());
-        existingPlan.setOptionalBenefits(planUpdate.getOptionalBenefits());
-        existingPlan.setPlanRecommended(planUpdate.getPlanRecommended());
-        existingPlan.setPlanDuration(planUpdate.getPlanDuration());
-        existingPlan.setPlanDurationUnit(planUpdate.getPlanDurationUnit());
-        existingPlan.setClaimScenarios(planUpdate.getClaimScenarios());
-        existingPlan.setDocumentName(planUpdate.getDocumentName());
-        existingPlan.setPlanBenefits(planUpdate.getPlanBenefits());
-        existingPlan.setPlanServiceCoverage(planUpdate.getPlanServiceCoverage());
-        existingPlan.setPlanURL(planUpdate.getPlanURL());
-        existingPlan.setPlanAdvertisement(planUpdate.getPlanAdvertisement());
-        existingPlan.setPlanDocuments(planUpdate.getPlanDocuments());*/
+
         try {
             if (planUpdate.getPlanName() != null) {
                 existingPlan.setPlanName(planUpdate.getPlanName());

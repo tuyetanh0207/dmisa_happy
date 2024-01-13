@@ -69,7 +69,7 @@ public class RegistrationController {
     public ResponseEntity<?> getEnrollOfPlan(
             HttpServletRequest request,
             @RequestParam(required = false) String planId,
-            @RequestParam(required = false) String status
+            @RequestParam(required = false) List<String> status
     )
     {
         User user = (User) request.getAttribute("userDetails");
@@ -78,33 +78,25 @@ public class RegistrationController {
             return ResponseEntity.badRequest().build();
         }
         List<RegisResDTO> enrollments;
-        System.out.println("planid");
         System.out.println(planId);
         ObjectId planObjectId;
-        if(planId!=null){
-            System.out.println("planid object kk");
+        if(planId!=null && status!= null){
+
             planObjectId = new ObjectId(planId);
-            System.out.println("planid object kkkk");
+
             System.out.println(planObjectId);
-            if ( status != null) {
-                // Both planId and status are provided
-                enrollments = registrationService.getEnrollOfPlan(userResDTO,planObjectId, status);
-                return ResponseEntity.ok(enrollments);
-            }
+            enrollments = registrationService.getEnrollOfPlan(userResDTO,planObjectId, status);
+            return ResponseEntity.ok(enrollments);
+        } else if (planId!=null)  {
+            planObjectId = new ObjectId(planId);
+            // Only planId is provided
+            enrollments = registrationService.getAllRegistrationOfOnePlan(userResDTO, planObjectId);
+            return ResponseEntity.ok(enrollments);
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
         }
 
 
-
-        // Call the service method to retrieve enrollments based on planId and status
-
-//        else if (planId != null) {
-//            // Only planId is provided
-//            enrollments = registrationService.getEnrollmentsByPlanId(planId);
-//        } else {
-//            // Only status is provided
-//            enrollments = registrationService.getEnrollmentsByStatus(status);
-//        }
-
-        return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
     }
 }

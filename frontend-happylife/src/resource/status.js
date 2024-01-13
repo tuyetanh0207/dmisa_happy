@@ -4,6 +4,8 @@ export const statusArrayOfRegistration = [
   "Pending",
   "Rejected",
   "Revoked",
+  "Paid",
+  "Signed"
 ];
 export const statusArrayOfClaim = [
   "All",

@@ -52,8 +52,8 @@ const RegistrationManagerPopup = (props) => {
   };
 
   return (
-    <div className={styles.popupOverlay} onClick={onClose}>
-      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+    <div className={`${styles.popupOverlay}`} onClick={onClose}>
+      <div className={`${styles.popup}`} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeButton} onClick={onClose}>
           <XMarkIcon className="w-4 h-4" />
         </button>
@@ -64,7 +64,7 @@ const RegistrationManagerPopup = (props) => {
           </h2>
           {/* nav */}
           <div
-            className={`${styles.nav} border-b border-gray-300 w-[90%] flex mt-6 z-10`}
+            className={`${styles.nav_above} border-b border-gray-300 w-[90%] flex mt-6`}
           >
             {tabNames.map((e) => (
               <div
@@ -84,7 +84,7 @@ const RegistrationManagerPopup = (props) => {
           {/* 2 colums */}
           {currentTab === "Overview" && (
             <div
-              className={`${styles.content} lg:flex lg:flex-col-2 md:flex-1 sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
+              className={`${styles.content} lg:flex lg:flex-col-2 md:flex-1 sm:h-[80%] lg:h-[80%] md:h-auto relative mt-[16px]`}
             >
               {/* col1 - user */}
 

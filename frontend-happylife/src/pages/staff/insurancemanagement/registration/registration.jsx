@@ -7,6 +7,20 @@ import RegistrationManagerPopup from "../../../../components/staff/popup/regisMa
 import { statusArrayOfRegistration } from "../../../../resource/status";
 import gStyles from "../../../../style";
 import { createMessageForRegistration } from "../../../../supportFunctions";
+
+export const colTitlesInRegistration = [
+  "No.",
+  "Cus. Name",
+  "Cus. Phone",
+  "Birthday",
+  "Address",
+  "Plan",
+  "Plan Type",
+  "Insurance Amount",
+  "Plan Duration",
+  "Created At",
+  "Status",
+];
 const IMRegistration = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
   const [registrations, setRegistrations] = useState(null);
@@ -68,18 +82,7 @@ const IMRegistration = () => {
       console.log("", e);
     }
   };
-  const colTitle = [
-    "No.",
-    "Cus. Name",
-    "Cus. Phone",
-    "Birthday",
-    "Address",
-    "Plan",
-    "Plan Type",
-    "Insurance Amount",
-    "Created At",
-    "Status",
-  ];
+  
   const handleChangeFilterStatus = (status) => {
     setFilterStatus(status);
   };
@@ -127,7 +130,7 @@ const IMRegistration = () => {
       <table className="w-full">
         <thead>
           <tr>
-            {colTitle.map((e) =>
+            {colTitlesInRegistration.map((e) =>
               e === "No." ? (
                 <th className="pl-8 pr-2 py-4 text-left" key={e}>
                   {e}
