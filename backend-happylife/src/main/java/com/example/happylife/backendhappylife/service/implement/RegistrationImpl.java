@@ -6,12 +6,14 @@ import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateStatusDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
+import com.example.happylife.backendhappylife.service.ContractService;
 import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +27,7 @@ import java.time.Instant;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,8 +40,8 @@ public class RegistrationImpl implements RegistrationService {
     @Autowired
     private InvoiceService invoiceService;
 
-
-
+  /*  @Autowired
+    private ContractService contractService;*/
 
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
@@ -106,6 +109,7 @@ public class RegistrationImpl implements RegistrationService {
     @Override
     public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
         try {
+            //thêm một dòng để convert DTO sang entity
             RegisResDTO regis = regisUpdateStatusDTO.getRegis();
             Message msg = regisUpdateStatusDTO.getMessage();
             Instant instantNow = Instant.now();
@@ -126,16 +130,23 @@ public class RegistrationImpl implements RegistrationService {
                         regisVar.setMessage(Arrays.asList(msg));
                     }
                     if (regis.getApprovalStatus().equals("Approved")) {
-                        // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
-//                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
-//                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-//
-//                        Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
-//                        invoiceCreateDTO.setDueDate(dueDateInstant);
-//                        invoiceCreateDTO.setPaymentStatus("Pending");
-//                        Invoice invoice = new Invoice();
-//                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
-//                        invoiceService.addInvoice(invoiceCreated);
+                        //Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
+                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
+                        invoiceCreateDTO.setTotalPrice(regisVar.getInsuranceAmount());
+                        Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
+                        invoiceCreateDTO.setDueDate(dueDateInstant);
+                        invoiceCreateDTO.setPaymentStatus("Pending");
+                        Invoice invoice = new Invoice();
+                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
+                        invoiceService.addInvoice(invoiceCreated);
+
+                        //Tạo Contract
+                       /* Contract contract = new Contract();
+                        contract.setConfirmation(false);
+                        contract.setRegisInfo(regis);
+                        contract.setStatus("Waiting");
+                        contractService.addContract(contract);*/
                     }
                     return registrationRepo.save(regisVar);
                 } else{

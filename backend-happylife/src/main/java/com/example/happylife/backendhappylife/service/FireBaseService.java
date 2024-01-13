@@ -10,4 +10,5 @@ public interface FireBaseService {
 
     //public byte[] downloadFile(String fileName);
     public String generateFileName(String originalFileName);
+    public java.util.List<String> uploadImages(MultipartFile[] files) throws IOException;
 }

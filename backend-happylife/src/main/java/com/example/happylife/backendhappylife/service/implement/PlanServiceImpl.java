@@ -1,10 +1,7 @@
 package com.example.happylife.backendhappylife.service.implement;
 
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
-import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Plan;
-import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.PlanService;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
@@ -132,6 +128,20 @@ public class PlanServiceImpl implements PlanService {
 
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
+            planRepo.save(existingPlan);
+            return existingPlan;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Plan: " + e.getMessage());
+        }
+    }
+    @Override
+    public Plan updatePlanImage(ObjectId planId, List<Plan.documents> listDoc) {
+        Plan existingPlan = planRepo.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
+        try {
+            Instant instantNow = Instant.now();
+            existingPlan.setPlanUpdatedAt(instantNow);
+            existingPlan.setPlanDocuments(listDoc);
             planRepo.save(existingPlan);
             return existingPlan;
         } catch (Exception e) {

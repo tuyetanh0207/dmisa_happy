@@ -1,6 +1,7 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Invoice;
@@ -60,6 +61,19 @@ public class InvoiceServiceImpl implements InvoiceService {
                     invoiceVar.setPaymentStatus("Paid");
                     invoiceVar.setPaymentMethod(invoice.getPaymentMethod());
                     invoiceRepo.save(invoiceVar);
+
+                    ObjectId regisId = new ObjectId();
+                    if(invoice.getRegisInfo().getRegisId() != null){
+                        regisId = new ObjectId(invoice.getRegisInfo().getRegisId());
+                    }
+                    RegisResDTO regis = invoice.getRegisInfo();
+                    regis.setApprovalStatus("paid");
+                    Registration regisUpd = new Registration();
+                    Registration savedRegis = regisUpd.convertToRegis(regis);
+
+                    //registrationService.updateRegisStatus(user, regisId. savedRegis)
+                    //Chưa sử dụng được là vì phải thêm user selvet và đổi regisupdateDTO thành registration
+
                     return invoiceVar;
                 } else{
                     throw  new UserCreationException("Error updating invoice : your regis is not Approved or you didn't choose payment method");

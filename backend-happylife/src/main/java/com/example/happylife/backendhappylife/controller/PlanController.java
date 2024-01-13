@@ -3,12 +3,12 @@ package com.example.happylife.backendhappylife.controller;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
+import com.example.happylife.backendhappylife.service.FireBaseService;
 import com.example.happylife.backendhappylife.service.PlanService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +30,14 @@ import java.util.stream.Collectors;
 public class PlanController {
     @Autowired
     private PlanService planService;
+    private final FireBaseService firebaseStorageService;
+    @Autowired
+    public PlanController(FireBaseService firebaseStorageService) {
+        this.firebaseStorageService = firebaseStorageService;
+    }
 
 
-        //Lấy thông tin chi tiết 1 plan dựa trên planId
+    //Lấy thông tin chi tiết 1 plan dựa trên planId
     @GetMapping("/{planId}")
     public ResponseEntity<PlanResDTO> getPlan(@PathVariable ObjectId planId){
         PlanResDTO planResDTOS = planService.getPlan(planId).convertToPlanResDTO();
@@ -77,7 +85,28 @@ public class PlanController {
         PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
         return ResponseEntity.ok(planUpdDTO);
     };
-
+    @PutMapping("/update/{planId}/image")
+    public ResponseEntity<PlanUpdateDTO> updatePlanImage(@PathVariable ObjectId planId,
+                                                         //@RequestPart("plan") PlanUpdateDTO planUpdateDTO,
+                                                         @RequestPart("files") MultipartFile[] files) throws IOException {
+        // Plan plan = new Plan();
+        // Url gửi các thông tin cơ bản và attribute docname có và docurl chỉ mảng rỗng, docurl là mảng rỗng
+        // upload file dựa vào số phần tử url của plan/regis/claims
+        // giả dụ regis có 4 cái phần tử, nếu mà url đó rỗng thì add vào, còn nếu có rồi thì ko update
+        // Plan planUpdated = plan.convertUpdToPlan(planUpdateDTO);
+        List<String> docUrls = firebaseStorageService.uploadImages(files);
+        List<Plan.documents> documentList = new ArrayList<>();
+        for (String url : docUrls) {
+            Plan.documents document = new Plan.documents();
+            //document.setDocTitle("Document Title");
+            document.setDocUrl(url);
+            documentList.add(document);
+        }
+        //planUpdated.setPlanDocuments(documentList);
+        Plan savedPlan = planService.updatePlanImage(planId, documentList);
+        PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
+        return ResponseEntity.ok(planUpdDTO);
+    };
     //Xóa 1 Plan dựa trên planId
     @DeleteMapping("/delete/{planId}")
     public Plan deletePlan(@PathVariable ObjectId PlanId){

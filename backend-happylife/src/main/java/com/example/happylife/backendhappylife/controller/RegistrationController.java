@@ -25,10 +25,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/registrations")
 public class RegistrationController {
 
-
     private final RegistrationService registrationService;
 
-
+    @Autowired
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }

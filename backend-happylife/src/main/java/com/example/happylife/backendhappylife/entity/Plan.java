@@ -205,7 +205,6 @@ public class Plan {
         }
     }
 
-
     // Convert PlanCreateDTO sang Plan
     public Plan convertCreToPlan(PlanCreateDTO dto) {
         Plan plan = new Plan();

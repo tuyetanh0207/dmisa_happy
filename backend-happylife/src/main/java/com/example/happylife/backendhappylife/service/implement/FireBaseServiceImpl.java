@@ -8,9 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FireBaseServiceImpl implements FireBaseService {
@@ -18,60 +19,68 @@ public class FireBaseServiceImpl implements FireBaseService {
     private String jsonfile = "dmisa-410407-firebase-adminsdk-3rqdq-9e940c8506.json";
     private String bucket = "dmisa-410407.appspot.com";
 
-   /* public FirebaseStorageService() {
-        this.storage = StorageOptions.getDefaultInstance().getService();
-    }*/
 
-  /*  public String uploadFile(MultipartFile multipartFile) throws IOException {
-        String fileName = generateFileName(multipartFile.getOriginalFilename());
-        BlobId blobId = BlobId.of(bucket, fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("application/pdf").build();
-        storage.create(blobInfo, multipartFile.getBytes());
-
-        return fileName; // Return the filename to save it in database if needed
-    }
-
-    public byte[] downloadFile(String fileName) {
-        Blob blob = storage.get(BlobId.of(bucket, fileName));
-        return blob.getContent();
-    }
-
-    public String generateFileName(String originalFileName) {
-        // Generate a unique file name using UUID or another method
-        return UUID.randomUUID().toString() + "-" + originalFileName;
-    }
-*/
-  /*public java.util.List<String> uploadFiles(MultipartFile[] files) throws IOException {
-      java.util.List<String> fileUrls = new ArrayList<>();
-      Storage storage = StorageClient.getInstance().bucket().getStorage();
-
-      for (MultipartFile file : files) {
-          String objectName = generateFileName(file.getOriginalFilename());
-          Blob blob = storage.create(BlobInfo.newBuilder(bucket, objectName).build(), file.getBytes());
-          fileUrls.add(blob.getMediaLink());
-      }
-
-      return fileUrls;
-  }*/
   public java.util.List<String> uploadFiles(MultipartFile[] files) throws IOException {
+
+      //Present
       List<String> fileUrls = new ArrayList<>();
+      // Lấy đối tượng Storage từ Firebase SDK
       Storage storage = StorageClient.getInstance().bucket().getStorage();
 
       for (MultipartFile file : files) {
-          // Check if the file is not empty and is a PDF
-          if (!file.isEmpty() && "application/pdf".equals(file.getContentType())) {
-              String objectName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-              Blob blob = storage.create(BlobInfo.newBuilder(bucket, objectName).build(), file.getBytes());
-              fileUrls.add(blob.getMediaLink());
+          if (file.isEmpty() || !Objects.equals(file.getContentType(), "application/pdf")) {
+              continue; // Bỏ qua nếu file rỗng hoặc không phải PDF
           }
+
+          String objectName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+
+          BlobId blobId = BlobId.of(bucket, objectName);
+          BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                  .setContentType("application/pdf") // Set the content-type to pdf
+                  .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))) // Make the blob publicly accessible
+                  .build();
+
+          // Tạo blob trong bucket và lấy signed URL nếu cần
+          Blob blob = storage.create(blobInfo, file.getBytes());
+
+          // Lấy URL có thể truy cập công khai từ Firebase Storage
+          String publicUrl = "https://firebasestorage.googleapis.com/v0/b/" + bucket + "/o/" + URLEncoder.encode(objectName, StandardCharsets.UTF_8) + "?alt=media";
+          fileUrls.add(publicUrl);
       }
 
       return fileUrls;
   }
+
+    public java.util.List<String> uploadImages(MultipartFile[] files) throws IOException {
+
+        List<String> fileUrls = new ArrayList<>();
+        Storage storage = StorageClient.getInstance().bucket().getStorage();
+
+        for (MultipartFile file : files) {
+            String objectName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+            BlobId blobId = BlobId.of(bucket, objectName);
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                    .setContentType(file.getContentType()) // Đặt theo loại nội dung của file
+                    .setAcl(new ArrayList<>(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))) // Đặt quyền truy cập công khai
+                    .build();
+
+            // Tạo blob trong bucket
+            Blob blob = storage.create(blobInfo, file.getInputStream().readAllBytes());
+
+            // Lấy URL download từ Firebase
+            String downloadUrl = "https://firebasestorage.googleapis.com/v0/b/"
+                    + bucket
+                    + "/o/"
+                    + URLEncoder.encode(objectName, StandardCharsets.UTF_8.name())
+                    + "?alt=media&token="
+                    + blob.getGeneratedId(); // token có thể cần được tạo hoặc lấy từ một nguồn khác tùy thuộc vào cấu hình của bạn
+
+            fileUrls.add(downloadUrl);
+        }
+
+        return fileUrls;
+    }
   public String generateFileName(String originalFileName) {
       return UUID.randomUUID().toString() + "-" + originalFileName.replace(" ", "_");
   }
-    /*public String uploadMultiFile(MultipartFile multipartFile){
-        FileStor
-    }*/
 }

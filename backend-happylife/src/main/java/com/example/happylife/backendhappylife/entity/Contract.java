@@ -1,5 +1,8 @@
 package com.example.happylife.backendhappylife.entity;
 
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -28,8 +31,28 @@ public class Contract {
     @Column(nullable = false)
     private Boolean confirmation;
     @Field(targetType = FieldType.DATE_TIME)
-    private Instant planCreatedAt;
+    private Instant CreatedAt;
 
     @Field(targetType = FieldType.DATE_TIME)
-    private Instant planUpdatedAt;
+    private Instant UpdatedAt;
+
+    public Contract convertResToContract(ContractResDTO dto) {
+        Contract contract = new Contract();
+        if(dto.getContractId() != null){
+            ObjectId dtoId = new ObjectId(dto.getContractId());
+            contract.setContractId(dtoId);
+        }
+        contract.setConfirmation(dto.getConfirmation());
+        contract.setStatus(dto.getStatus());
+        contract.setRegisInfo(dto.getRegisInfo());
+        return contract;
+    }
+    public ContractResDTO convertToContractResDTO() {
+        ContractResDTO dto = new ContractResDTO();
+        dto.setContractId(this.contractId.toString());
+        dto.setConfirmation(this.confirmation);
+        dto.setStatus(this.status);
+        dto.setRegisInfo(this.regisInfo);
+        return dto;
+    }
 }

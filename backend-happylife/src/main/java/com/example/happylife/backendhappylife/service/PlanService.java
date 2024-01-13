@@ -16,4 +16,6 @@ public interface PlanService {
     List<Plan> getAllPlans();
     public Plan getPlan(ObjectId planId);
     Plan updatePlan(Plan planUpdate, ObjectId planId);
+
+    Plan updatePlanImage(ObjectId planId,List<Plan.documents> listDoc);
 }
