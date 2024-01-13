@@ -19,6 +19,23 @@ const information = () => {
       fetchUser();
       
     },[])
+
+
+    const handleDateChange = (event) => {
+        const selectedDate = event.target.value;
+      };
+    // Chuyển đổi chuỗi ISO thành đối tượng Date
+    const dateObject = new Date(realtimeUser.dob);
+
+    // Lấy ngày, tháng và năm
+    const day = dateObject.getDate();
+    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+    const year = dateObject.getFullYear();
+
+    // Định dạng lại thành chuỗi 'dd/mm/yyyy'
+    const formattedDate = `${day}/${month}/${year}`;
+
+
   return (
     <div className=" flex justify-center items-center h-[1180px] bg-slate-50 my-auto flex-col">   
         <form className="w-[1415px] h-[983px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base">
@@ -72,7 +89,11 @@ const information = () => {
                             </input>
                         </div>
                         <input className="w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
-                        value={realtimeUser.dob}
+                        id="dob"
+                        //type="date"
+                        value={formattedDate}
+                        //onChange={handleDateChange}
+                        
                         >
                         </input>
                     </div>

@@ -42,10 +42,11 @@ const Login = ({navigationRight, setCurrent}) => {
 
     }
 
-    // const handleLogin = (event) =>{
-    //     event.preventDefault();
-
-    // }
+    const navigate = useNavigate()
+    const handleLogin = () =>{
+        //event.preventDefault();
+        navigate('/home')
+    }
 
     const handleNavigateToSignup = (event) =>{
         //event.preventDefault();
@@ -100,6 +101,7 @@ const Login = ({navigationRight, setCurrent}) => {
                             //onClick={handleLogin}  
                            className="bg-button-blue w-[519px] h-[56px] mt-[29px] mb-[22px] text-white rounded-lg">
                            Sign in
+                           
                         </button>
                         </div>
                         <div className='flex justify-center'>

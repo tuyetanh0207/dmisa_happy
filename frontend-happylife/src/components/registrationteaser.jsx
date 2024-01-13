@@ -25,7 +25,7 @@ const registrationteaser = (props) =>{
    // console.log("TEST", props.realtimeRegis.approvalStatus)
    //console.log("INDEx: ", props.index)
    //console.log("MESSAGE: ", props.realtimeRegis.message[0])
-   const massage = [
+   const message = [
     'Your contract has been successfully registered 1',
     'Your contract has been successfully registered 2', 
     'Your contract has been successfully registered 3',
@@ -34,10 +34,6 @@ const registrationteaser = (props) =>{
 ]
    const [toggle, setToggle] = useState(false)
    const [arrrowClickStatus, setArrowClickStatus] = useState(false) 
-//   const [message, setMessage] = useState([])
-   
-//    setMessage(props.realtimeRegis.message.content)
-//    console.log("MESSAGE: ", message)
    return ( 
     <div className='relative'>
       <div className='flex justify-center items-center relative h-[317px] w-[1415px] bg-white rounded-lg border border-gray-200 flex'>
@@ -112,36 +108,42 @@ const registrationteaser = (props) =>{
 
       <div>
         {
-          arrrowClickStatus === false ? (
+          props.realtimeRegis.message != null  && (arrrowClickStatus === false ?  (
             <img src={DownArrowBlack} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[59px] mt-[40px] absolute z-40'></img>
           ) : (
             <img src={DownArrowBlack} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[59px] mt-[40px] absolute z-40 rotate-180'></img >
           )
-        }
-      <div className={`w-[1415px] ${toggle===true ? 'h-[500px]':'100px' } 
+        )}
+      <div className={`w-[1415px] ${toggle===true ? 'h-auto max-h-[200px]':'100px' } 
       ${props.realtimeRegis.approvalStatus === 'Paid' ? 'bg-green-100':''}
       ${props.realtimeRegis.approvalStatus === 'Pending' ? 'bg-sky-100' : ''}
       ${props.realtimeRegis.approvalStatus === 'Unpaid' ? 'bg-rose-200':''}
       ${props.realtimeRegis.approvalStatus === 'Approved' ? 'bg-orange-100':'bg-orange-100'}
-      overflow-y-scroll`}>
-        <div className='w-[1415px] h-[100px] flex items-center'>
+      overflow-y-auto`}>
+        {props.realtimeRegis.message != null &&
+            (
+                <div className='w-[1415px] h-[100px] flex items-center'>
 
-            <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
-            Your contract has been successfully registered 0
-            {/* {props.realtimeRegis.message.content} */}
-            </div>
-        </div>
-        {massage.map((massage, index) => (
-            <div className={`${toggle === true ? '':'hidden'} w-[1415px] h-[100px] flex items-center`}>
-
-                <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
-                {massage}
+                    <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
+                    {/* Your contract has been successfully registered 0 */}
+                    {props.realtimeRegis.message[0].content}
+                    {/* {props.realtimeRegis.message.content} */}
+                    </div>
                 </div>
-            </div>
-        ))
-
-        }
-      </div>
+        )}
+        {props.realtimeRegis.message !=null &&
+        props.realtimeRegis.message.slice(1).map((msg, index) => (
+                <div className={`${toggle === true ? '':'hidden'} w-[1415px] h-[100px] flex items-center`} key={index}>
+                    <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
+                    {msg.content}
+                    </div>
+                </div>
+            ))
+    
+            }
+            
+        
+        </div>
       </div>
     </div>
   )

@@ -9,13 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {useSelector} from 'react-redux'
 import { loginSuccess } from '../../redux/authSlice';
+import { useDispatch } from 'react-redux';
 
-// const navigationLeft = [
-//  { name: 'Home', href: '/home', current: true },
-//  { name: 'About', href: '/aboutus', current: true },
-//  { name: 'Plans', href: '/plan', current: true },
-//  { name: 'Contact', href: '/contact', current: true }, 
-// ]
+import { useLocation } from "react-router-dom"
+
+import UserAPI from '../../api/userApi'
+import { useEffect } from 'react';
 
 // const navigationRight =[
 //  { name: 'Login', href: '/login', current: true },
@@ -26,7 +25,40 @@ import { loginSuccess } from '../../redux/authSlice';
 
 
 const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
+  const location = useLocation()
+  const pathname = location.pathname  
+  const navigation = [
+    { name: 'Home', href: '/home'},
+    { name: 'About', href: '/aboutus'},
+    { name: 'Plans', href: '/plan'},
+    { name: 'Contact', href: '/contact'}, 
+   ]
+
+   const navRight = [
+      { name: 'Login', href: '/login'},
+      { name: 'Signup', href: '/signup'},
+    
+   ]
   
+
+   const user1 = useSelector((state) =>state.auth.login.currentUser);
+   const [realtimeUser, setRealtimeUser] = useState([]);
+
+   const fetchUser = async () => {
+     try{
+       const res = await UserAPI.getUser(user1?.token, user1?.userInfo?.id);
+       setRealtimeUser(res.data)
+       console.log('res', res)
+     }
+     catch (error){
+       console.log("error in fetchUser", error)
+     }
+   }
+   useEffect(() => {
+     fetchUser();
+     
+   },[])
+
   const isLoginSuccess = useSelector((state) =>state.auth.login.success);
 
   const handleLeftNavClick = (name) => {
@@ -35,85 +67,93 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
   const handleRightNavClick = (name) => {
     setCurrent(name);
   };
-  console.log('loginSuccess: ', isLoginSuccess)
+  console.log('Test: ', realtimeUser.id)
   
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handleSignOutBtn = () =>{
+    dispatch(loginSuccess(null));
+    navigate('/login')
+  }
+
+
+
  return (
-   <nav className={`${navigationRight.find((navItem) => navItem.name === 'Login' && navItem.current) ? 'hidden':''} 
-   ${navigationRight.find((navItem) => navItem.name === 'Signup' && navItem.current) ? 'hidden':''} 
-   mx-auto  h-20 bg-custom-blue flex justify-between items-center px-8  border-[0.25px] border-blue-500`}
-   >
+  <div>
+  {pathname.includes('login') ? 
+  (
+    <></>
+  ):(
+  <>
+   <nav className=' mx-auto  h-20 bg-custom-blue flex justify-between items-center px-8  border-[0.25px] border-blue-500'>
     <img src={logoTitle} alt="LOGO" className='ml-[226px]'></img>  
     <div className='flex space-x-76px place-content-center text-white font-sans font-medium font text-xl'>
-     {navigationLeft.map((item)=>(
+     {navigation.map((item)=>(
        <Link
        key={item.name}
        to={item.href} 
        className='flex justify-center' // underline underline-offset-8 hover:bg-button-blue active:bg-blue-800 focus:outline-none 
        >
-      
-       {item.name === 'Home' ? (
-        <button
+      <button
         onClick={() => handleLeftNavClick(item.name)}
-        className={`${item.current ? 'current  focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800`}>
+        className={`${pathname.includes(item.href) ? 'focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800`}>
         {item.name}
-        </button>
-       ) : item.name === 'About' ? (
-        <button
-        onClick={() => handleLeftNavClick(item.name)}
-        className={`${item.current ? 'current focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800 `}> 
-        {item.name}</button>
-       ) : item.name === 'Plans' ? (
-        <button
-        onClick={() => handleLeftNavClick(item.name)}
-        className={`${item.current ? 'current focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800`}>
-        {item.name}</button>
-       ) : (
-        <button
-        onClick={() => handleLeftNavClick(item.name)}
-        className={`${item.current ? 'current focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800`}>
-        {item.name}</button> 
-       )}
+      </button>
        </Link>
      ))}
     </div>
     <div className="flex space-x-6 text-white font-sans font-medium text-xl items-center">
-       {navigationRight.map((item) => (
-         <Link key={item.name} to={item.href} className='btnSignup'>
+       {realtimeUser.id ? (
+        <>
+            <div className='flex gap-[27px]'>
+              <button
+              onClick={() => handleRightNavClick(item.name)}
+              className={`${realtimeUser.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
+              >
+                T 
+              </button>
+            </div>
+            <Noti/>
+            <button onClick={() => handleSignOutBtn()}>
+              <img src={logout}></img>
+            </button>
+        </>
+       ) : 
+       (        
+       <>
+
+       {navRight.map((item) => (
+         <Link key={item.name} to={item.href}>
            {item.name === 'Login' ? (
              <button 
-             onClick={() => handleRightNavClick(item.name)}
-             className={`${isLoginSuccess  ? 'hidden' : ''} bg-button-blue text-white px-4 py-2 rounded items-center mr-[1px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
+             //onClick={() => handleRightNavClick(item.name)}
+             className={`bg-button-blue text-white px-4 py-2 rounded items-center mr-[1px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
              >
              {item.name}
              </button>
-           ) : item.name === 'Signup' ? (
+           ) : (
              <button 
              key={item.name}
-             onClick={() => handleRightNavClick(item.name)}
-             className={`${isLoginSuccess ? 'hidden' : ''} bg-button-white text-white px-4 py-2 rounded items-center mr-[268px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
+             //onClick={() => handleRightNavClick(item.name)}
+             className={`bg-button-white text-white px-4 py-2 rounded items-center mr-[150px] hover:bg-blue-700 active:bg-blue-800 focus:outline-none`}
              >
              {item.name}
            </button>
            ) 
-           : (
-            <div className='flex gap-[27px]'>
-              <button
-              onClick={() => handleRightNavClick(item.name)}
-              className={`${isLoginSuccess ? '' : 'hidden'} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
-              >
-                T 
-              </button>
-             </div>
-           )
            }
          </Link>
        ))}
-          <Noti/>
-          <button>
-            <img src={logout}></img>
-          </button>
-     </div>
-   </nav>
+       </>
+       )}
+  </div>
+  </nav>
+  </>
+  )
+}
+
+
+   </div>
  )
  
 }

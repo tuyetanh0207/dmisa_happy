@@ -44,6 +44,9 @@ const notification = () => {
     return (
         
         <body className='block relative'>
+            <div className='absolute ml-[15px] h-[20px] w-[20px] bg-rose-500 rounded-full  text-xs flex items-center justify-center'>
+                9
+            </div>
             <button onClick={()=>{setIsToggleOpen(!isToggleOpen)}}
                     className='block'
             >

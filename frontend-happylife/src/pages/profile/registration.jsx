@@ -30,7 +30,8 @@ const registration = () => {
   approvalStatus
   */ 
   console.log('realtimeRegis', realtimeRegis);
-  //console.log('TEST: ', realtimeRegis[].approvalStatus)
+  //console.log('MESSAGE:', realtimeRegis[8].message[1]);
+  //console.log('TEST: ', realtimeRegis.approvalStatus)
   return (
     <div className='screen flex flex items-center flex-col bg-bgr-white my-auto'>
       {realtimeRegis.map((regis, index) => (

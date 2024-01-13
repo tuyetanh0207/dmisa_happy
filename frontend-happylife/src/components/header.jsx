@@ -7,41 +7,42 @@ const Header = ({navigationLeft, navigationRight, navigationProfile}) => {
   const pathname = location.pathname
 
   if (!pathname.includes('staff')) {
+
       return (
         <div>
           <div>
               <h1 className={`
-              ${navigationLeft.find((navItem) => navItem.name === 'Home' && navItem.current) ? 
+               ${pathname.includes('home') ?  
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>Home</h1>
           </div>
           <div>
             <h1 className={`
-              ${navigationLeft.find((navItem) => navItem.name === 'About' && navItem.current) ? 
+               ${pathname.includes('aboutus') ?  
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>About</h1>
 
           </div>
           <div>
               <h1 className={`
-              ${navigationLeft.find((navItem) => navItem.name === 'Plans' && navItem.current) ? 
+               ${pathname.includes('plan') ?  
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>Plans</h1>
               
           </div>
           <div>
             <h1 className={`
-              ${navigationLeft.find((navItem) => navItem.name === 'Contact' && navItem.current) ? 
+               ${pathname.includes('contact') ?  
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>Contact</h1>
               
           </div>
           <div>
+
+          </div>
+          <div>
             <h1 className={`
-              ${navigationProfile.find((navItem) => navItem.name === 'Profile' && navItem.current) 
-              || navigationProfile.find((navItem) => navItem.name === 'Information' && navItem.current) 
-              || navigationProfile.find((navItem) => navItem.name === 'Claims' && navItem.current)
-              || navigationProfile.find((navItem) => navItem.name === 'Registration' && navItem.current) ? 
+              ${pathname.includes('profile') ?   
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>Profile</h1>
           </div>
