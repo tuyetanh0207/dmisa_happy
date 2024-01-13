@@ -45,9 +45,9 @@ export default function Buyplan() {
     const [benefitsFee,setBenefitsFee]=useState();
     //planType / optionbenefits
     const [optionalBenefitsName,setOptionalBenefitsName]=useState([]);
-    const [optionalBenefitsDependencies,setOptionalBenefitsDependencies]=useState('');
-    const [optionalBenefitsInsuranceAmount,setOptionalBenefitsInsuranceAmount]=useState();
-    const [optionalBenefitsUnit,setOptionalBenefitsUnit]=useState('');
+    const [optionalBenefitsDependencies,setOptionalBenefitsDependencies]=useState([]);
+    const [optionalBenefitsInsuranceAmount,setOptionalBenefitsInsuranceAmount]=useState([]);
+    const [optionalBenefitsUnit,setOptionalBenefitsUnit]=useState([]);
 
     const [optionalBenefitsFeeType,setOptionalBenefitsFeeType]=useState('');
     const [optionalBenefitsStartAge,setOptionalBenefitsStartAge]=useState();
@@ -114,6 +114,8 @@ export default function Buyplan() {
             setBenefitsStartAge(selectedFeeTypeObj.startAge );
             setBenefitsEndAge(selectedFeeTypeObj.endAge );
             setBenefitsFee(selectedFeeTypeObj.fee );
+            setOptionalBenefitsStartAge(selectedFeeTypeObj.startAge )
+            setOptionalBenefitsEndAge(selectedFeeTypeObj.endAge );
         }
     };
 
@@ -145,15 +147,40 @@ export default function Buyplan() {
     // };
     const handleOptionalBenefitChange = (selectedBenefitName) => {
         const isSelected = selectedOptionalBenefits.includes(selectedBenefitName);
-  
+        const selectedOptionalBenefit = selectedPlanObject.optionalBenefits.find(
+            (benefit) => benefit.benefitName === selectedBenefitName
+        );
         if (isSelected) {
             // Remove the selected benefit if already selected
             setSelectedOptionalBenefits((prev) => prev.filter((item) => item !== selectedBenefitName));
             setOptionalBenefitsName((prev) => prev.filter((item) => item !== selectedBenefitName));
+
+            setOptionalBenefitsDependencies((prev) => prev.filter((item) => item !== selectedOptionalBenefit.dependencies));
+
+            setOptionalBenefitsInsuranceAmount((prev) => prev.filter((item) => item !== selectedOptionalBenefit.insuranceAmount));
+
+            setOptionalBenefitsUnit((prev) => prev.filter((item) => item !== selectedOptionalBenefit.unit));
           } else {
             // Add the selected benefit if not selected
             setSelectedOptionalBenefits((prev) => [...prev, selectedBenefitName]);
             setOptionalBenefitsName((prev) => [...prev, selectedBenefitName]);
+
+            if (selectedOptionalBenefit) {
+
+            setOptionalBenefitsDependencies((prev) => [...prev, selectedOptionalBenefit.dependencies]);
+            // setOptionalBenefitsDependencies(selectedOptionalBenefit.dependencies);
+            setOptionalBenefitsInsuranceAmount((prev) => [...prev, selectedOptionalBenefit.insuranceAmount]);
+            // setOptionalBenefitsInsuranceAmount(selectedOptionalBenefit.insuranceAmount);
+            setOptionalBenefitsUnit((prev) => [...prev, selectedOptionalBenefit.unit]);
+            // setOptionalBenefitsUnit(selectedOptionalBenefit.unit);
+    
+            if (selectedOptionalBenefit.feeType.length > 0) {
+                setOptionalBenefitsFeeType(selectedOptionalBenefit.feeType[0].type);
+
+                setOptionalBenefitsFee(selectedOptionalBenefit.feeType[0].fee);
+            }
+            console.log('optional benefit:', selectedOptionalBenefit);
+        }
           }
 
       };
@@ -533,27 +560,26 @@ export default function Buyplan() {
                                                         <div>{item.dependencies}</div>
                                                     </button> */}
 
-                                                    <div className="">
-                                                        <div className="flex flex-row items-center ">
-                                                            <input id={`optionalBenefit-${index}`} type="checkbox" value={item.benefitName} onChange={() => handleOptionalBenefitChange(item.benefitName)} checked={selectedOptionalBenefits.includes(item.benefitName)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                            <div className="flex flex-col items-center ">
-                                                                <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.benefitName}</label>
-                                                                <div>
-                                                                    {item.feeType.map((item2,index)=>(
-                                                                        <div key={index} value={item2.StartAge} onChange={() => handleOptionalFeeChange(item2.startAge)}>
-                                                                            {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
-                                                                            {/* {item2.fee} */}
-                                                                            {/* {benefitsFee} */}
-                                                                            {item2.type}
-                                                                        </div>
-                                                                    ))}
+                                                <div className="">
+                                                    <div className="flex flex-row items-center ">
+                                                        <input id={`optionalBenefit-${index}`} type="checkbox" value={item.benefitName} onChange={() => handleOptionalBenefitChange(item.benefitName)} checked={selectedOptionalBenefits.includes(item.benefitName)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+                                                         <div className="flex flex-col items-center ">
+                                                            <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.benefitName}</label>
+                                                            <div>
+                                                                {item.feeType.map((item2,index)=>(
+                                                                    <div key={index} value={item2.StartAge} onChange={() => handleOptionalFeeChange(item2.startAge)}>
+                                                                        {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
+                                                                        
+                                                                        {item2.fee}
+                                                                    </div>
+                                                                ))}
                                                                     
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                        
-                                                        
                                                     </div>
+                                                        
+                                                        
+                                                </div>
 
 
                                                     {/* {optionalBenefitsName === item.benefitName && (
