@@ -44,7 +44,7 @@ export default function Buyplan() {
     const [benefitsEndAge,setBenefitsEndAge]=useState();
     const [benefitsFee,setBenefitsFee]=useState();
     //planType / optionbenefits
-    const [optionalBenefitsName,setOptionalBenefitsName]=useState('');
+    const [optionalBenefitsName,setOptionalBenefitsName]=useState([]);
     const [optionalBenefitsDependencies,setOptionalBenefitsDependencies]=useState('');
     const [optionalBenefitsInsuranceAmount,setOptionalBenefitsInsuranceAmount]=useState();
     const [optionalBenefitsUnit,setOptionalBenefitsUnit]=useState('');
@@ -58,8 +58,11 @@ export default function Buyplan() {
     const [selectedPlanType, setSelectedPlanType] = useState(null);
     const [selectedBenefits, setSelectedBenefits] = useState();
 
-   
+    // const [benefitsStartAgeTemp,setBenefitsStartAgeTemp]=useState();
+    // const [benefitsEndAgeTemp,setBenefitsEndAgeTemp]=useState();
 
+   
+    const [selectedOptionalBenefits, setSelectedOptionalBenefits] = useState([]);
     // const [selectedOptionBenefits, setSelectedOptionBenefits] = useState(null);
     // const [selectedOptionBenefitsFeeType, setSelectedOptionBenefitsFeeType] = useState();
 
@@ -71,6 +74,7 @@ export default function Buyplan() {
     const handlePlanChange = (event) => {
         event.preventDefault()
         setplanID(event.target.value);
+
         const selectedPlan = plans.find((plan) => plan.planId === event.target.value);
         if (selectedPlan) {
             setPlanName(selectedPlan.planName);
@@ -78,6 +82,7 @@ export default function Buyplan() {
             setPlanDuration(selectedPlan.planDuration);
             setPlanDurationUnit(selectedPlan.planDurationUnit);
             console.log("Selected plan ID:", event.target.value);
+            
         }
     };
     const handlePlanTypeNameChange = (event) => {
@@ -112,46 +117,69 @@ export default function Buyplan() {
         }
     };
 
-    //////////////////////////////////
-    const handleOptionalBenefitChange = (event) => {
-        event.preventDefault();
-        const selectedBenefitName = event.target.value;
-        setOptionalBenefitsName(selectedBenefitName);
+    // //////////////////////////////////
+    // const handleOptionalBenefitChange = (event) => {
+    //     event.preventDefault();
+    //     const selectedBenefitName = event.target.value;
+    //     setOptionalBenefitsName(selectedBenefitName);
     
-        const selectedOptionalBenefit = selectedPlanObject.optionalBenefits.find(
-            (benefit) => benefit.benefitName === selectedBenefitName
-        );
+    //     const selectedOptionalBenefit = selectedPlanObject.optionalBenefits.find(
+    //         (benefit) => benefit.benefitName === selectedBenefitName
+    //     );
     
-        if (selectedOptionalBenefit) {
-            // setSelectedOptionBenefits(selectedOptionalBenefit);
-            setOptionalBenefitsDependencies(selectedOptionalBenefit.dependencies);
-            setOptionalBenefitsInsuranceAmount(selectedOptionalBenefit.insuranceAmount);
-            setOptionalBenefitsUnit(selectedOptionalBenefit.unit);
+    //     if (selectedOptionalBenefit) {
+    //         // setSelectedOptionBenefits(selectedOptionalBenefit);
+    //         setOptionalBenefitsDependencies(selectedOptionalBenefit.dependencies);
+    //         setOptionalBenefitsInsuranceAmount(selectedOptionalBenefit.insuranceAmount);
+    //         setOptionalBenefitsUnit(selectedOptionalBenefit.unit);
     
-            if (selectedOptionalBenefit.feeType.length > 0) {
-                setOptionalBenefitsFeeType(selectedOptionalBenefit.feeType[0].type);
-                setOptionalBenefitsStartAge(selectedOptionalBenefit.feeType[0].startAge);
-                setOptionalBenefitsEndAge(selectedOptionalBenefit.feeType[0].endAge);
-                setOptionalBenefitsFee(selectedOptionalBenefit.feeType[0].fee);
-            }
-            console.log('optional benefit:', selectedOptionalBenefit);
+    //         if (selectedOptionalBenefit.feeType.length > 0) {
+    //             setOptionalBenefitsFeeType(selectedOptionalBenefit.feeType[0].type);
+    //             setOptionalBenefitsStartAge(selectedOptionalBenefit.feeType[0].startAge);
+    //             setOptionalBenefitsEndAge(selectedOptionalBenefit.feeType[0].endAge);
+    //             setOptionalBenefitsFee(selectedOptionalBenefit.feeType[0].fee);
+    //         }
+    //         console.log('optional benefit:', selectedOptionalBenefit);
+    //     }
+    //     console.log('optional',selectedOptionalBenefit)
+    // };
+    const handleOptionalBenefitChange = (selectedBenefitName) => {
+        const isSelected = selectedOptionalBenefits.includes(selectedBenefitName);
+  
+        if (isSelected) {
+            // Remove the selected benefit if already selected
+            setSelectedOptionalBenefits((prev) => prev.filter((item) => item !== selectedBenefitName));
+            setOptionalBenefitsName((prev) => prev.filter((item) => item !== selectedBenefitName));
+          } else {
+            // Add the selected benefit if not selected
+            setSelectedOptionalBenefits((prev) => [...prev, selectedBenefitName]);
+            setOptionalBenefitsName((prev) => [...prev, selectedBenefitName]);
+          }
+
+      };
+      const handleOptionalFeeChange = (selectStartAge) => {
+        const isSelectedStartAge = selectedOptionalBenefits.includes(selectStartAge);
+      
+        if(isSelectedStartAge==benefitsStartAge) {
+            setOptionalBenefitsStartAge(benefitsStartAge)
+            setOptionalBenefitsEndAge(benefitsEndAge)
         }
-        console.log('optional',selectedOptionalBenefit)
-    };
+
+      };
     
-    const [selectedOptionalFeeType, setSelectedOptionalFeeType] = useState(null);
-    const handleOptionalFeeTypeChange = (selectedOptionalFeeTypeObj) => {
-        event.preventDefault();
-        setSelectedOptionalFeeType(selectedOptionalFeeTypeObj);
-        if (selectedOptionalFeeTypeObj) {
-            setOptionalBenefitsFeeType(selectedOptionalFeeTypeObj.type);
-            setOptionalBenefitsStartAge(selectedOptionalFeeTypeObj.startAge);
-            setOptionalBenefitsEndAge(selectedOptionalFeeTypeObj.endAge);
-            setOptionalBenefitsFee(selectedOptionalFeeTypeObj.fee);
-        }
-        console.log('feetype',selectedOptionalFeeTypeObj)
-    };
-    
+    // const [selectedOptionalFeeType, setSelectedOptionalFeeType] = useState(null);
+    // const handleOptionalFeeTypeChange = (selectedOptionalFeeTypeObj) => {
+    //     event.preventDefault();
+    //     setSelectedOptionalFeeType(selectedOptionalFeeTypeObj);
+    //     if (selectedOptionalFeeTypeObj) {
+    //         setOptionalBenefitsFeeType(selectedOptionalFeeTypeObj.type);
+    //         setOptionalBenefitsStartAge(selectedOptionalFeeTypeObj.startAge);
+    //         setOptionalBenefitsEndAge(selectedOptionalFeeTypeObj.endAge);
+    //         setOptionalBenefitsFee(selectedOptionalFeeTypeObj.fee);
+    //     }
+    //     console.log('feetype',selectedOptionalFeeTypeObj)
+    // };
+
 
 
     const handleSubmit = async(e)=>{
@@ -178,9 +206,10 @@ export default function Buyplan() {
                 planType: [
                     {
                         typeName: planTypeName,
+                        benefitName: benefitsBenefitsName,
                         benefits: [
                             {
-                                benefitName: benefitsBenefitsName,
+                                
                                 dependencies: benefitsDependencies,
                                 feeType: [
                                     {
@@ -190,41 +219,31 @@ export default function Buyplan() {
                                         fee: benefitsFee
                                     }
                                 ],
-                                unit: benefitsUnit,
-                                insuranceAmount: benefitsInsuranceAmount
+                                // unit: benefitsUnit,
+                                // insuranceAmount: benefitsInsuranceAmount
                             }
                         ]
                     }
                 ],
-                optionalBenefits: [
-                    {
-                        benefitName: optionalBenefitsName,
-                        dependencies: optionalBenefitsDependencies,
-                        feeType: [
-                            {
-                                type: optionalBenefitsFeeType,
-                                startAge: optionalBenefitsStartAge,
-                                endAge: optionalBenefitsEndAge,
-                                fee: optionalBenefitsFee
-                            }
-                        ],
-                        unit: optionalBenefitsUnit,
-                        insuranceAmount: optionalBenefitsInsuranceAmount
-                    }
-                ],
+                // optionalBenefits: [
+                //     {
+                //         benefitName: optionalBenefitsName,
+                //         dependencies: optionalBenefitsDependencies,
+                //         feeType: [
+                //             {
+                //                 type: optionalBenefitsFeeType,
+                //                 startAge: optionalBenefitsStartAge,
+                //                 endAge: optionalBenefitsEndAge,
+                //                 fee: optionalBenefitsFee
+                //             }
+                //         ],
+                //         unit: optionalBenefitsUnit,
+                //         insuranceAmount: optionalBenefitsInsuranceAmount
+                //     }
+                // ],
             }
 
         }
-        // const buyPlan = 
-        // {"customerInfo":{"id":"6565591616433655e5ad110f","fullName":"default321  "},"productInfo":{"planId":"658f2a657bd7a6390b228f24","planDuration":12,"planDurationUnit":"Month"}}
-        
-        // console.log('buyplan:',buyPlan)
-        // try{
-        //     const res = await RegistrationAPI.createRegistration(buyPlan,user.token) ;
-        //     console.log("Res", res);
-        // } catch(err){
-        //     console.log("err: ", err);
-        // }
 
         const url = 'http://localhost:8090/api/v1/registrations/create';
         axios.post(url, buyPlan, {
@@ -253,19 +272,7 @@ export default function Buyplan() {
                 }
             });
     }
-    // const fetchSelectPlanAPI = async () => {
-    //     // try {
-    //     //     // const response = await axios.get(`http://localhost:8090/api/v1/plans/${planID}`);
-    //     //     // console.log('planID in fetching plan detail:',planID)
-    //     //     const response = await axios.get("http://localhost:8090/api/v1/plans/65991199ba435b64fa42bff1");
-    //     //     console.log(response.data);
-    //     //     setSelectPlan(response.data);
-    //     //   } catch (error) {
-    //     //     console.error('Error fetching plan detail:', error);
-    //     //     console.log('planID in fetching plan detail:',planID);
-    //     //   }
-    //     setSelectPlan(plans[0].planId);
-    // };
+
 
     const fetchUserInfo = async()=>{
         setIsLogin(true)
@@ -278,26 +285,6 @@ export default function Buyplan() {
         setEmail(user.userInfo.email);
         setAddress(user.userInfo.address);
     }
-    // const fetchRegistrations = async () => {
-    //     try{
-    //       //console.log('token', user.token)
-    //       const res = await RegistrationAPI.getAllRegistration(user.token);
-    //       let data= res.data
-          
-    //       const sortedArray = data.sort((a, b) => {
-    //         // Assuming createdAt is a string in ISO 8601 format, you can directly compare them
-    //         return new Date(b.createdAt) - new Date(a.createdAt);
-    //       });
-    //       setRegistrations(sortedArray)
-
-
-          
-    //       //console.log('res data', res.data);
-    //     } catch(err){
-    //       console.log('error in fetchRegistrations', err);
-    //     }
-        
-    //   }
 
     useEffect(() => {
         fetchUserInfo();
@@ -497,7 +484,7 @@ export default function Buyplan() {
                                 <label className="block text-xl font-medium leading-6 text-gray-900">
                                     Choose Plan Type
                                 </label>
-                                <div className="grid grid-cols-3 gap-4">
+                                <div className="grid grid-cols-4 gap-4">
                                     {selectedPlanObject.planType.map((item, index) => (
                                         <div key={index} className=" text-center">
                                         <button value={item.typeName}  onClick={handlePlanTypeNameChange} className= {`border-gray-600 border-2 rounded-lg w-full h-full ${handlePlanTypeNameChange === item ? 'bg-gray-200' : ''}`}  >
@@ -520,45 +507,69 @@ export default function Buyplan() {
                                                     {benefit.feeType.map((item3, index) => (
                                                         
                                                         <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedFeeType === item3 ? 'bg-gray-200' : ''}`} onClick={() => handleFeeType(item3)}>
-                                                            <div>{item3.type}</div>
-                                                            <div>{item3.startAge}-{item3.endAge}</div>
-                                                            <div>{item3.fee}</div>
+
+                                                            <div>Từ {item3.startAge}-{item3.endAge} tuổi </div>
+                                                            <div>{item3.fee} {benefit.unit}</div>
                                                         </button>
                                                     ))}
                                                 </div>
-                                                <div>{benefit.insuranceAmount} {benefit.unit}</div>         
+                                                {/* <div>{benefit.insuranceAmount} {benefit.unit}</div>          */}
                                             </div>
                                         ))}
                                     </div>
                                 )}
                                 {/* ----------------------------- */}
                                 
-                               
-
                                 {selectedPlanObject && (
                                     <div>
                                         <label className="pt-10 block text-xl font-medium leading-6 text-gray-900">
                                             Choose Optional Benefit
                                         </label>
-                                        <div className="grid grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-4 gap-4">
                                             {selectedPlanObject.optionalBenefits.map((item, index) => (
                                                 <div key={index} className="text-xl">
-                                                    <button value={item.benefitName} onClick={handleOptionalBenefitChange} className="border-gray-600 border-2 rounded-lg w-full h-full">
+                                                    {/* <button value={item.benefitName} onClick={handleOptionalBenefitChange} className="border-gray-600 border-2 rounded-lg w-full h-full">
                                                         <div>{item.benefitName}</div>
                                                         <div>{item.dependencies}</div>
-                                                    </button>
-                                                    {optionalBenefitsName === item.benefitName && (
+                                                    </button> */}
+
+                                                    <div className="">
+                                                        <div className="flex flex-row items-center ">
+                                                            <input id={`optionalBenefit-${index}`} type="checkbox" value={item.benefitName} onChange={() => handleOptionalBenefitChange(item.benefitName)} checked={selectedOptionalBenefits.includes(item.benefitName)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+                                                            <div className="flex flex-col items-center ">
+                                                                <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.benefitName}</label>
+                                                                <div>
+                                                                    {item.feeType.map((item2,index)=>(
+                                                                        <div key={index} value={item2.StartAge} onChange={() => handleOptionalFeeChange(item2.startAge)}>
+                                                                            {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
+                                                                            {/* {item2.fee} */}
+                                                                            {/* {benefitsFee} */}
+                                                                            {item2.type}
+                                                                        </div>
+                                                                    ))}
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        
+                                                    </div>
+
+
+                                                    {/* {optionalBenefitsName === item.benefitName && (
                                                         <div className="pt-5 grid grid-cols-4 grid-flow-col gap-4">
                                                             {item.feeType.map((item2, index) => (
-                                                                <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedOptionalFeeType === item2.type ? 'bg-gray-200' : ''}`} onClick={() => handleOptionalFeeTypeChange(item2)}>
-                                                                    <div>{item2.type}</div>
-                                                                    <div>{item2.startAge}-{item2.endAge}</div>
-                                                                    <div>{item2.fee}</div>
-                                                                </button>
+                                                                <label key={index}>
+                                                                    <input type="checkbox"  className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedOptionalFeeType === item2.type ? 'bg-gray-200' : ''}`} onClick={() => handleOptionalFeeTypeChange(item2)}>
+                                                                        <div>{item2.type}</div>
+                                                                        <div>{item2.startAge}-{item2.endAge}</div>
+                                                                        <div>{item2.fee}</div>
+                                                                    </input>
+                                                                </label>
                                                             ))}
                                                         </div>
-                                                    )}
-                                                    <div>{item.insuranceAmount} {item.unit}</div>
+                                                    )} */}
+                                                    {/* <div>{item.insuranceAmount} {item.unit}</div> */}
                                                 </div>
                                             ))}
                                         </div>
@@ -596,6 +607,7 @@ export default function Buyplan() {
 
                                             
           </form>
+          {/* <div>{abd}</div> */}
           <div>{fullName}</div>
           <div>{citizenId}</div>
           <div>{phoneNumber}</div>
@@ -623,23 +635,7 @@ export default function Buyplan() {
           <div>{optionalBenefitsFee}</div>
           {/* <div>{selectedOptionBenefits}</div> */}
                                                 
-          {/* test get registion */}
-          {/* {registrations?.map((item, index) => (
-            <div key={index}>
-                <div className="border-t border-gray-300 pl-8 pr-2 py-2">{index + 1}</div>
-                <div >{item.customerInfo.fullName}</div>
-                <div >{item.customerInfo.phoneNumber}</div>
-                
-                <div >{item.customerInfo.dob}</div>
-                <div >{item.customerInfo.address}</div>
-                <div >{item.productInfo.planName}</div>
-                <div >{item.productInfo.planServiceCoverage}</div>
-                <div >{item.productInfo.planDuration + " " + item.productInfo.planDurationUnit + "s"}</div>
-                
-            </div>
-            ))} */}
-
-            
+           
         </div>
         
       </div>

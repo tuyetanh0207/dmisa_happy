@@ -10,6 +10,7 @@ import Signup from './pages/signup/signup.jsx'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 import Buyplan from './pages/plan/buyplan/buyplan.jsx'
 import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuaranceManagementLayout.jsx';
+import CreateClaim from './pages/createclaim/createclaim.jsx';
 import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
 import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
@@ -40,6 +41,7 @@ export default function App() {
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />
+                <Route path='/createclaim' element={<CreateClaim/>}/>
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={
