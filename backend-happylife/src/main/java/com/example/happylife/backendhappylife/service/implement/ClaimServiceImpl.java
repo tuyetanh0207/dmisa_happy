@@ -1,14 +1,22 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateDTO;
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
+import com.example.happylife.backendhappylife.entity.Enum.Role;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
+import jakarta.persistence.EntityNotFoundException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -16,11 +24,7 @@ public class ClaimServiceImpl implements ClaimService {
     @Autowired
     private ClaimRepo claimRepo;
 
-    @Override
-    public List<Claim> getAllClaim() {
-        List<Claim> claims = claimRepo.findAll();
-        return claims;
-    }
+  
     @Override
     public List<Claim> getAllClaimUser(UserResDTO user) {
         List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo(user.getId());
@@ -29,6 +33,10 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     public Claim addClaim(Claim claim){ //UserResDTO authUser,
         try {
+            // if (authUser.getRole() == Role.CUSTOMER) {
+            //     return null;
+                /*} else{
+                    throw  new UserCreationException("Error updating status of claimtration: status is invalid.");
             /*if (authUser.getRole() == Role.CUSTOMER) {*/
                 Instant instantNow = Instant.now();
                 claim.setCreatedAt(instantNow);
@@ -44,4 +52,97 @@ public class ClaimServiceImpl implements ClaimService {
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }
     }
+
+    @Override
+    public List<Claim> getAllClaim() {
+        try{
+            List<Claim> claims = claimRepo.findAll();
+            return claims;
+        } catch (Exception e){
+            throw new UserCreationException("Error geting claims:" + e.getMessage());
+        }
+    }
+
+    @Override
+    public Claim updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg) {
+        try {
+            if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT) {
+                Instant instantNow = Instant.now();
+                if (claim.getStatus().equals("Pending Review") ||
+                        claim.getStatus().equals("Pending Additional Information") ||
+                        claim.getStatus().equals("In Process") ||
+                        claim.getStatus().equals("Approved") ||
+                        claim.getStatus().equals("Payment Issued") ||
+                        claim.getStatus().equals("Denied")) {
+                    Claim claimVar = claimRepo.findById(claimId)
+                            .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
+                    claimVar.setStatus(claim.getStatus());
+                    // msg process
+                    msg.setDateMessage(instantNow);
+                    if(claimVar.getMessage()!=null){
+                        System.out.println("not null");
+                        List<Message> msgList = claimVar.getMessage();
+                        msgList.add(msg);
+                        claimVar.setMessage(msgList);
+                    } else{
+                        System.out.println("null");
+                        claimVar.setMessage(Arrays.asList(msg));
+                    }
+
+                    if (claim.getStatus().equals("Approved")) {
+                        // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
+//                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+//                        Instant instantNow = Instant.now();
+//                        Instant dueDateInstant = claimVar.getEndDate().plus(10, ChronoUnit.DAYS);
+//                        invoiceCreateDTO.setDueDate(dueDateInstant);
+//                        invoiceCreateDTO.setPaymentStatus("Pending");
+//                        Invoice invoice = new Invoice();
+//                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
+//                        invoiceService.addInvoice(invoiceCreated);
+                    }
+                    return claimRepo.save(claimVar);
+                } else {
+                    throw new UserCreationException("Error updating status of claim: status is invalid.");
+                }
+            } else {
+                throw new UserCreationException("Error updating status of claim, you need an authenticated account to do this action.");
+            }
+        }
+        catch (UserCreationException e){
+            throw new UserCreationException("Error updating status of claim."+e.getMessage());
+        }
+    }
+
+    @Override
+    public Claim updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim){
+        Claim existingClaim = claimRepo.findById(claimId)
+                .orElseThrow(() ->new EntityNotFoundException("Claim not found with id: " + claimId));
+        try {
+            if(claim.getRegisInfo()!=null){
+                existingClaim.setRegisInfo(claim.getRegisInfo());
+            }
+            if(claim.getClaimCategories()!=null){
+                existingClaim.setClaimCategories(claim.getClaimCategories());
+            }
+            if(claim.getClaimAmount()!=null){
+                existingClaim.setClaimAmount(claim.getClaimAmount());
+            }
+            if(claim.getClaimInvoices()!=null){
+                existingClaim.setClaimInvoices(claim.getClaimInvoices());
+            }
+            if(claim.getClaimTotalRequest()!=0){
+                existingClaim.setClaimTotalRequest(claim.getClaimTotalRequest());
+            }
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
+            claimRepo.save(existingClaim);
+            return existingClaim;
+
+
+        } catch (Exception e){
+            throw new UserCreationException("Error updating claim: " + e.getMessage());
+        }
+    }
+
+
 }

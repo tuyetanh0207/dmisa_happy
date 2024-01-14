@@ -2,11 +2,11 @@ package com.example.happylife.backendhappylife.DTO.ClaimDTO;
 
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
-import com.example.happylife.backendhappylife.entity.Object.Message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -14,8 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClaimResDTO {
-    private String claimId;
+public class ClaimUpdateDTO {
     private RegisResDTO regisInfo;
     private String status;
     private List<String> claimCategories;
@@ -25,21 +24,13 @@ public class ClaimResDTO {
     private List<Claim.ClaimInvoices> claimInvoices;
     private float claimTotalRequest;
     private Instant approvalDate;
-    private List<Message> message;
     private String hospitalName;
     private Instant createdAt;
     private Instant updatedAt;
 
-    public void setClaimId(String claimId) {
-        this.claimId = claimId;
-    }
 
     public void setRegisInfo(RegisResDTO regisInfo) {
         this.regisInfo = regisInfo;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public void setClaimCategories(List<String> claimCategories) {
@@ -68,10 +59,6 @@ public class ClaimResDTO {
 
     public void setApprovalDate(Instant approvalDate) {
         this.approvalDate = approvalDate;
-    }
-
-    public void setMessage(List<Message> message) {
-        this.message = message;
     }
 
     public void setHospitalName(String hospitalName) {

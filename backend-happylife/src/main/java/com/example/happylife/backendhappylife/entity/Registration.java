@@ -64,7 +64,23 @@ public class Registration {
     private List<parHistory> participantHistory;
 
     private ContractResDTO contractIdInfo;
+    private List<documentRegiss> documentUrls;
 
+    @Getter
+    public static class documentRegiss{
+        @Column(nullable = false)
+        private String docCategory;
+        @Column(nullable = false)
+        private List<String> urls;
+
+        public void setDocCategory(String docCategory) {
+            this.docCategory = docCategory;
+        }
+        public void setUrls(List<String> urls) {
+            this.urls = urls;
+        }
+    }
+    @Getter
     public static class parHistory {
         @Field(targetType = FieldType.DATE_TIME)
         private Instant startDate;
@@ -82,10 +98,13 @@ public class Registration {
         regis.setApprovalStatus(dto.getApprovalStatus());
         regis.setStartDate(dto.getStartDate());
         regis.setEndDate(dto.getEndDate());
+        regis.setCreatedAt(dto.getCreatedAt());
+        regis.setUpdatedAt(dto.getUpdatedAt());
         regis.setPrice(dto.getPrice());
         regis.setPaymentDetails(dto.getPaymentDetails());
         regis.setRenewalReminder(dto.getRenewalReminder());
         regis.setMessage(dto.getMessage());
+        regis.setDocumentUrls(dto.getDocumentUrls());
         //Còn thiếu tương đối nhiều
         return regis;
     }
@@ -98,8 +117,10 @@ public class Registration {
         dto.setProductInfo(this.productInfo);
 
         dto.setApprovalStatus(this.approvalStatus);
+        dto.setCreatedAt(this.createdAt);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
+        dto.setDocumentUrls(this.getDocumentUrls());
         dto.setPrice(this.price);
         dto.setPaymentDetails(this.paymentDetails);
         dto.setRenewalReminder(this.renewalReminder);
@@ -117,6 +138,7 @@ public class Registration {
         dto.setApprovalStatus(this.approvalStatus);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
+        dto.setDocumentUrls(this.documentUrls);
         return dto;
     }
 
@@ -132,8 +154,10 @@ public class Registration {
         regis.setProductInfo(dto.getProductInfo());
 
         regis.setApprovalStatus(dto.getApprovalStatus());
+
         regis.setStartDate(dto.getStartDate());
         regis.setEndDate(dto.getEndDate());
+        regis.setDocumentUrls(dto.getDocumentUrls());
         return regis;
     }
     public Registration convertUpdToRegistrations(RegisUpdateDTO dto) {

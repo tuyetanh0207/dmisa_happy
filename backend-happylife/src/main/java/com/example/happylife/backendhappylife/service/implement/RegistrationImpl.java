@@ -1,12 +1,19 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateStatusDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Invoice;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
+import com.example.happylife.backendhappylife.service.ContractService;
 import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,8 +28,9 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistrationImpl implements RegistrationService {
@@ -31,6 +39,9 @@ public class RegistrationImpl implements RegistrationService {
 
     @Autowired
     private InvoiceService invoiceService;
+
+  /*  @Autowired
+    private ContractService contractService;*/
 
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
@@ -96,8 +107,12 @@ public class RegistrationImpl implements RegistrationService {
         }
     }
     @Override
-    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, Registration regis) {
+    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
         try {
+            //thêm một dòng để convert DTO sang entity
+            RegisResDTO regis = regisUpdateStatusDTO.getRegis();
+            Message msg = regisUpdateStatusDTO.getMessage();
+            Instant instantNow = Instant.now();
             if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT ) {
                 if (regis.getApprovalStatus().equals("Approved") || regis.getApprovalStatus().equals("Rejected") ||
                         regis.getApprovalStatus().equals("Expired") || regis.getApprovalStatus().equals("Revoked") ||
@@ -105,20 +120,33 @@ public class RegistrationImpl implements RegistrationService {
                     Registration regisVar = registrationRepo.findById(regisId)
                             .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
                     regisVar.setApprovalStatus(regis.getApprovalStatus());
-                    regisVar.setMessage(regis.getMessage());
+                    msg.setDateMessage(instantNow);
+                    if(regisVar.getMessage()!=null){
+                        List<Message> msgList = regisVar.getMessage();
+                        msgList.add(msg);
+                        regisVar.setMessage(msgList);
+                    } else{
+
+                        regisVar.setMessage(Arrays.asList(msg));
+                    }
                     if (regis.getApprovalStatus().equals("Approved")) {
-                        // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
+                        //Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
                         InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
                         invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-
-                        Instant instantNow= Instant.now();
-
+                        invoiceCreateDTO.setTotalPrice(regisVar.getInsuranceAmount());
                         Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
                         invoiceCreateDTO.setDueDate(dueDateInstant);
                         invoiceCreateDTO.setPaymentStatus("Pending");
                         Invoice invoice = new Invoice();
                         Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
                         invoiceService.addInvoice(invoiceCreated);
+
+                        //Tạo Contract
+                       /* Contract contract = new Contract();
+                        contract.setConfirmation(false);
+                        contract.setRegisInfo(regis);
+                        contract.setStatus("Waiting");
+                        contractService.addContract(contract);*/
                     }
                     return registrationRepo.save(regisVar);
                 } else{
@@ -131,6 +159,21 @@ public class RegistrationImpl implements RegistrationService {
         } catch (Exception e){
             throw  new UserCreationException("Error updating status of registration: "+ e.getMessage());
         }
+    }
+
+    @Override
+    public List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, String status) {
+        PlanResDTO plan = new PlanResDTO();
+        plan.setPlanId(planId.toString());
+        List<Registration> regiss =registrationRepo.findAllByProductInfoAndApprovalStatus(plan.getPlanId(), status);
+
+        System.out.println("size regis");
+        System.out.println(regiss.size());
+        List<RegisResDTO> registrations = regiss.stream().
+                map(regis -> regis.convertToRegisResDTO())
+                .collect(Collectors.toList());
+
+        return registrations;
     }
 
 }

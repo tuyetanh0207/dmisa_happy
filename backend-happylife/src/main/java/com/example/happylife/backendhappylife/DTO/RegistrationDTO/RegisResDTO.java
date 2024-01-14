@@ -1,91 +1,49 @@
 package com.example.happylife.backendhappylife.DTO.RegistrationDTO;
 
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-@Getter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+//@Getter
 public class RegisResDTO {
     private String regisId;
-    @Getter
+//    @Getter
     private UserResDTO customerInfo;
-    @Getter
+//    @Getter
     private PlanResDTO productInfo;
-    @Getter
+//    @Getter
     private UserResDTO managerInfo;
-    @Getter
+//    @Getter
     private Integer price;
-    @Getter
+//    @Getter
     private String approvalStatus;
-    @Getter
+//    @Getter
     private Instant startDate;
-    @Getter
+//    @Getter
     private Instant endDate;
-    @Getter
+//    @Getter
     private String paymentDetails;
-    @Getter
+    private Integer insuranceAmount;
+//    @Getter
     private Date renewalReminder;
-    @Getter
+//    @Getter
     private Instant createdAt;
-    @Getter
+//    @Getter
     private Instant updatedAt;
     private List<Message> message;
+    private List<Registration.parHistory> participantHistory;
+    private List<Registration.documentRegiss> documentUrls;
+    private ContractResDTO contractIdInfo;
 
-    public void setMessage(List<Message> message) {
-        this.message = message;
-    }
-
-    public void setRegisId(String regisId) {
-        this.regisId = regisId;
-    }
-
-    public void setCustomerInfo(UserResDTO customerInfo) {
-        this.customerInfo = customerInfo;
-    }
-
-    public void setProductInfo(PlanResDTO productInfo) {
-        this.productInfo = productInfo;
-    }
-
-    public void setManagerInfo(UserResDTO managerInfo) {
-        this.managerInfo = managerInfo;
-    }
-
-    public void setApprovalStatus(String approvalStatus) {
-        this.approvalStatus = approvalStatus;
-    }
-
-    public void setStartDate(Instant startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Instant endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setPaymentDetails(String paymentDetails) {
-        this.paymentDetails = paymentDetails;
-    }
-
-    public void setRenewalReminder(Date renewalReminder) {
-        this.renewalReminder = renewalReminder;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
 }

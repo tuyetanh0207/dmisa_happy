@@ -7,6 +7,7 @@ import com.example.happylife.backendhappylife.controller.auth.AuthenticationServ
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResDTO> getUserById(@PathVariable String id, HttpServletRequest request) {
+    public ResponseEntity<UserResDTO> getUserById(@PathVariable ObjectId id, HttpServletRequest request) {
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO user = userVar.convertFromUserToUserResDTO();
 //        System.out.println("path id");
@@ -59,17 +60,14 @@ public class UserController {
     }
 
 
-    /*
-
      @PutMapping("/update")
-     public User update(@PathVariable String id, @RequestBody User user){
-        return userService.updateUser(id, user);
+     public User update(@PathVariable ObjectId userId, @RequestBody User user){
+        return userService.updateUser(userId, user);
      }
-     @DeleteMapping
+     /*@DeleteMapping
      public User delete(@PathVariable String id){
         return userService.deleteUser(id);
      }
-
-    * */
-
+    *
+*/
 }

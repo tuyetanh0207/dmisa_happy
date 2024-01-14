@@ -7,8 +7,9 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.UserRepo;
 import com.example.happylife.backendhappylife.service.MyService;
 import com.example.happylife.backendhappylife.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResDTO getUserById(UserResDTO user, String id) {
+    public UserResDTO getUserById(UserResDTO user, ObjectId id) {
         // check if user._id == id, it means a user is getting their infomation
         try {
             if (user.getId().equals(id)) {
@@ -76,23 +77,23 @@ public class UserServiceImpl implements UserService {
 
             throw new UserCreationException("Error getting user information: " + e.getMessage());
         }
-
-
     }
 
-//    @Override
-//    public User deteleUser(String id) {
-//        User user = userRepo.findById(id).get();
-//        userRepo.delete(user);
-//        return user;
-//    }
-//
-//    @Override
-//    public User updateUser(String id, User user) {
-//        User oldUser= userRepo.findById(id).get();
-//        oldUser.setId(user.getId());
-//        oldUser.setFullName(user.getFullName());
-//        userRepo.save(oldUser);
-//        return oldUser;
-//    }
+    @Override
+    public User updateUser(ObjectId userId, User user) {
+        User existingUser = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        existingUser.setDOB(user.getDOB());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setAvatarUrl(user.getAvatarUrl());
+        existingUser.setFullName(user.getFullName());
+        existingUser.setHealthStatus(user.getHealthStatus());
+        existingUser.setGender(user.getGender());
+        existingUser.setPhoneNumber(user.getPhoneNumber());
+        Instant instantNow = Instant.now();
+        existingUser.setUpdatedAt(instantNow);
+        userRepo.save(existingUser);
+        return existingUser;
+    }
 }
