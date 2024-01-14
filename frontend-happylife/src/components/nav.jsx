@@ -67,7 +67,8 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
   const handleRightNavClick = (name) => {
     setCurrent(name);
   };
-  console.log('Test: ', realtimeUser.id)
+  console.log('Test: ', user1)
+  console.log('Testfetch: ', realtimeUser.id)
   
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -78,8 +79,9 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
   }
 
 
-
- return (
+ if (!pathname.includes('login'))
+ {
+  return (
   <div>
   {pathname.includes('login') ? 
   (
@@ -104,15 +106,20 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
      ))}
     </div>
     <div className="flex space-x-6 text-white font-sans font-medium text-xl items-center">
-       {realtimeUser.id ? (
+       {user1 ? (
         <>
             <div className='flex gap-[27px]'>
+              <Link
+                key='profile'
+                to='/profile/information' 
+              >
               <button
-              onClick={() => handleRightNavClick(item.name)}
-              className={`${realtimeUser.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
+              //onClick={() => handleRightNavClick(item.name)}
+              className={`${user1.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
               >
                 T 
               </button>
+              </Link>
             </div>
             <Noti/>
             <button onClick={() => handleSignOutBtn()}>
@@ -156,6 +163,7 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
    </div>
  )
  
+}
 }
 
 const mapStateToProps = (state) => ({

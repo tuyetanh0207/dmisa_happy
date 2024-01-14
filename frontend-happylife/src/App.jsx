@@ -28,29 +28,9 @@ import { createContext } from 'react';
 const DataContext = createContext();
 
 export default function App() {
- 
-  // const [isProfilePage, setIsProfilePage] = useState(false);
-  // const [isSignupPage, setIsSignupPage] = useState(false);
-  // const [isLoginPage, setIsLoginPage] = useState(false);
-  // //console.log('isProfilePage: ', isProfilePage);
-  // const handleSetIsProfilePage = (value) => {
-  //   setIsProfilePage(value);
-  // }
-  // const handleSetIsSignupPage = (value) =>{
-  //   setIsSignupPage(value);
-  // }
-  // const handleSetIsLoginPage = (value) =>{
-  //   setIsLoginPage(value);
-  // }
-  // const callbackObject = {
-  //   isProfilePage: handleSetIsProfilePage,
-  //   isSignupPage: handleSetIsSignupPage,
-  //   isLoginPage: handleSetIsLoginPage
-  // }
-  
-  // console.log('isLoginPage in App:', isLoginPage);
   return(
-          <div className='font-inter gap-y-px'>
+
+          <div className='relitive font-inter gap-y-px'>
               <Router>            
               <Nav/>
               <Header/>
