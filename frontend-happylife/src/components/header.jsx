@@ -1,8 +1,8 @@
 //import {logoTitle} from '../assets/logoTitle.png';
 import { useLocation } from "react-router-dom"
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 
-const Header = ({navigationLeft, navigationRight, navigationProfile}) => {
+const Header = () => {
   const location = useLocation()
   const pathname = location.pathname
 
@@ -52,14 +52,4 @@ const Header = ({navigationLeft, navigationRight, navigationProfile}) => {
 }
   
   
-const mapStateToProps = (state) => ({
-  navigationLeft: state.nav.navigationLeft,
-  navigationRight: state.nav.navigationRight,
-  navigationProfile: state.nav.navigationProfile,
-});
-const mapDispatchToProps = (dispatch) => ({
-  setCurrent: (name) => dispatch({ type: 'SET_CURRENT', payload: name }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
- 
+export default Header; 

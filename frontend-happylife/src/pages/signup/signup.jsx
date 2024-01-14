@@ -4,16 +4,15 @@ import {registerUser} from '../../../redux/authApi';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/LogoHalfScreen.png';
 import {Routes, Route, Link} from 'react-router-dom';
-import { connect } from 'react-redux';
 
-
-const signup = ({navigationRight, setCurrent}) => {
+const signup = () => {
     
   const [phoneNumber, setPhoneNumber] = useState('');
   //const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('Male');
   const [email, setEmail] = useState('');
   const [dob, setDob] = useState('');
   const [address, setAddress] = useState('');
@@ -23,35 +22,40 @@ const signup = ({navigationRight, setCurrent}) => {
   const router = useNavigate();
   const [noti, setNoti] = useState('');
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('signup')
-    const newUser = {
-        phoneNumber: phoneNumber,
-        password: password,
-        fullName: fullName,
-        gender: gender,
-        email: email,
-        dob: dob,
-        address: address,
-        citizenId: citizenID
-    }
-    console.log('new User', newUser)
-    try{
-        const registerRes = await registerUser(newUser, dispatch, router);
-        console.log("Res", registerRes);
-    } catch(err){
-        console.log("err: ", err);
-        //setNoti("FAIL")
-        //console.log(noti);
+    {
+        e.preventDefault();
+        console.log('signup')
+        const newUser = {
+            phoneNumber: phoneNumber,
+            password: password,
+            fullName: fullName,
+            gender: gender,
+            email: email,
+            dob: formatISODateToDDMMYYYY(dob),
+            address: address,
+            citizenId: citizenID
+        }
+        console.log('new User', newUser)
+        try{
+            const registerRes = await registerUser(newUser, dispatch, router);
+            console.log("Res", registerRes);
+        } catch(err){
+            console.log("err: ", err);
+            //setNoti("FAIL")
+            //console.log(noti);
+        }
     }
   } 
 
-  const handleNavigateToLogin = (event) =>{
-    //event.preventDefault();
-    const name = 'Login';
-    setCurrent(name);
-}
-    
+  const formatISODateToDDMMYYYY = (isoDate) => {
+    const dateObj = new Date(isoDate);
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
+  
+    return `${day}/${month}/${year}`;
+  };
+  
   return (
     <div className='w-[1920px] h-[1080px] flex '>
          <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
@@ -61,7 +65,14 @@ const signup = ({navigationRight, setCurrent}) => {
             <div className="w-[750px] h-[930px] bg-white rounded-lg border border-gray-200">
                 <h2 className="text-center text-header-blue text-[40px] font-serif font-semibold mt-[31px] mb-[33px]">Create an account</h2>
                 <form className="font-sans  font-medium text-base"
-                    onSubmit={handleSubmit}
+                    onSubmit={(e) =>{
+                        e.preventDefault();
+                        if (password !== confirmPassword){
+                            alert("pw is not match");
+                        }
+                        else{
+                        handleSubmit(e);
+                    }}}
                 >
                     <div>
                         <label className="ml-[116px]">
@@ -113,7 +124,7 @@ const signup = ({navigationRight, setCurrent}) => {
                         id='confirmpassword'
                         type="password" 
                         placeholder='Confirm password'
-                        //onChange={(e)=>setPassword(e.target.value)}
+                        onChange={(e)=>setConfirmPassword(e.target.value)}
                         >
                         </input>
                     </div>
@@ -139,6 +150,7 @@ const signup = ({navigationRight, setCurrent}) => {
                         <input className="text-black w-[253px] h-[48px] mb-[12px] ml-[13px] border border-input-border-grey rounded"
                         id='dob'
                         type="date"
+                        value={dob}
                         onChange={(e)=>setDob(e.target.value)}
                         >
                         </input>
@@ -198,7 +210,6 @@ const signup = ({navigationRight, setCurrent}) => {
                             </label>
                             <Link key='login' to='/login'>
                                 <button 
-                                onClick={handleNavigateToLogin}
                                 className='text-blue-600 text-base font-medium leading-tight'>
                                     Log in
                                 </button>
@@ -215,11 +226,4 @@ const signup = ({navigationRight, setCurrent}) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-    navigationRight: state.nav.navigationRight,
-  });
-const mapDispatchToProps = (dispatch) => ({
-    setCurrent: (name) => dispatch({ type: 'SET_CURRENT', payload: name }),
-  });
-  
-export default connect(mapStateToProps, mapDispatchToProps)(signup);
+export default signup;

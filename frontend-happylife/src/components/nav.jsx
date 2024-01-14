@@ -6,7 +6,7 @@ import Noti from '../components/notification.jsx'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import {useSelector} from 'react-redux'
 import { loginSuccess } from '../../redux/authSlice';
 import { useDispatch } from 'react-redux';
@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 
 
 
-const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
+const Nav = () => {
   const location = useLocation()
   const pathname = location.pathname  
   const navigation = [
@@ -43,33 +43,7 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
 
    const user1 = useSelector((state) =>state.auth.login.currentUser);
    const [realtimeUser, setRealtimeUser] = useState([]);
-
-   const fetchUser = async () => {
-     try{
-       const res = await UserAPI.getUser(user1?.token, user1?.userInfo?.id);
-       setRealtimeUser(res.data)
-       console.log('res', res)
-     }
-     catch (error){
-       console.log("error in fetchUser", error)
-     }
-   }
-   useEffect(() => {
-     fetchUser();
-     
-   },[])
-
-  const isLoginSuccess = useSelector((state) =>state.auth.login.success);
-
-  const handleLeftNavClick = (name) => {
-    setCurrent(name);
-  };
-  const handleRightNavClick = (name) => {
-    setCurrent(name);
-  };
   console.log('Test: ', user1)
-  console.log('Testfetch: ', realtimeUser.id)
-  
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -79,11 +53,9 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
   }
 
 
- if (!pathname.includes('login'))
- {
   return (
   <div>
-  {pathname.includes('login') ? 
+  {pathname.includes('login') || pathname.includes('signup') ? 
   (
     <></>
   ):(
@@ -98,7 +70,7 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
        className='flex justify-center' // underline underline-offset-8 hover:bg-button-blue active:bg-blue-800 focus:outline-none 
        >
       <button
-        onClick={() => handleLeftNavClick(item.name)}
+        //onClick={() => handleLeftNavClick(item.name)}
         className={`${pathname.includes(item.href) ? 'focus:outline-none underline underline-offset-8' : ''} px-4 py-2 rounded-lg hover:bg-button-blue active:bg-blue-800`}>
         {item.name}
       </button>
@@ -158,21 +130,8 @@ const Nav = ({ navigationLeft, navigationRight, setCurrent}) => {
   </>
   )
 }
-
-
    </div>
  )
  
 }
-}
-
-const mapStateToProps = (state) => ({
-  navigationLeft: state.nav.navigationLeft,
-  navigationRight: state.nav.navigationRight,
-});
-const mapDispatchToProps = (dispatch) => ({
-  setCurrent: (name) => dispatch({ type: 'SET_CURRENT', payload: name }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
- 
+export default Nav;

@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import Home from '../home/home'
 import Logo from '../../assets/LogoHalfScreen.png'
 import {Routes, Route, Link} from 'react-router-dom';
-import { connect } from 'react-redux';
 import {useSelector} from 'react-redux'
 
 
-const Login = ({navigationRight, setCurrent}) => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
@@ -18,9 +17,6 @@ const Login = ({navigationRight, setCurrent}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
-        const name = 'Profile';
-        setCurrent(name);
         console.log('glooin')
         const newUser = {
             phoneNumber: username,
@@ -30,28 +26,12 @@ const Login = ({navigationRight, setCurrent}) => {
         try {
             const loginRes = await loginUser(newUser, dispatch, router);
             console.log("res:",loginRes)
-               //router.push("/")
-            const name = 'Home';
-            setCurrent(name);
-       
         } catch (err) {
             console.log("err:", err);
            // setNoti("Tên đăng nhập hoặc mật khẩu không đúng.")
             console.log(noti)
         }
 
-    }
-
-    const navigate = useNavigate()
-    const handleLogin = () =>{
-        //event.preventDefault();
-        navigate('/home')
-    }
-
-    const handleNavigateToSignup = (event) =>{
-        //event.preventDefault();
-        const name = 'Signup';
-        setCurrent(name);
     }
 
     return(
@@ -98,7 +78,6 @@ const Login = ({navigationRight, setCurrent}) => {
                         </div>  
                         <div className="flex items-center justify-center font-bold text-xl">
                         <button 
-                            //onClick={handleLogin}  
                            className="bg-button-blue w-[519px] h-[56px] mt-[29px] mb-[22px] text-white rounded-lg">
                            Sign in
                            
@@ -110,9 +89,7 @@ const Login = ({navigationRight, setCurrent}) => {
                             </label>
                             <Link key='signup' to='/signup'>
                                 <button 
-                                onClick={handleNavigateToSignup}
                                 className='text-blue-600 text-base font-medium leading-tight'>
-                                    
                                     Sign up
                                 </button>
                             </Link>
@@ -126,11 +103,4 @@ const Login = ({navigationRight, setCurrent}) => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    navigationRight: state.nav.navigationRight,
-  });
-  const mapDispatchToProps = (dispatch) => ({
-    setCurrent: (name) => dispatch({ type: 'SET_CURRENT', payload: name }),
-  });
-  
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login; 
