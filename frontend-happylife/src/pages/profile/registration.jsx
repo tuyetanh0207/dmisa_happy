@@ -3,7 +3,10 @@ import Registrationteaser from '../../components/registrationteaser'
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux'
 import RegistrationAPI from '../../../api/registrationApi'
-
+import {BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+import PaymentBank from '../payment/paymentBank.jsx'
+import PaymentConfirm from '../payment/paymentConfirm.jsx'
+import Contract from '../contract/contract.jsx'
 const registration = () => {
   const user1 = useSelector((state) =>state.auth.login.currentUser);
   const [realtimeRegis, setRealtimeRegis] = useState([]);

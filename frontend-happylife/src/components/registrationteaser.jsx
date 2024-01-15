@@ -35,7 +35,9 @@ const registrationteaser = (props) =>{
    const [toggle, setToggle] = useState(false)
    const [arrrowClickStatus, setArrowClickStatus] = useState(false) 
    return ( 
+
     <div className='relative'>
+
       <div className='flex justify-center items-center relative h-[317px] w-[1415px] bg-white rounded-lg border border-gray-200 flex'>
             <div className='w-[532px] h-[317px]'>
                 <img src={Insurance} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
@@ -92,11 +94,15 @@ const registrationteaser = (props) =>{
                         <div className="w-[106px] mr-[22px] h-12 px-6 py-3 bg-orange-100 rounded border border-orange-300 justify-center items-center gap-2.5 inline-flex">
                             <div className="text-center text-orange-400 text-base font-bold font-['IBM Plex Sans'] leading-normal"> Approved </div>
                         </div>
-                        <button>
-                            <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
-                                <div className='text-white font-bold leading-normal'>Contract Now</div>
-                             </div>
-                        </button>
+                        <Link
+                        to={`/contract/${props.realtimeRegis.contractIdInfo}`}
+                        >
+                            <button>
+                                <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
+                                    <div className='text-white font-bold leading-normal'>Contract Now</div>
+                                </div>
+                            </button>
+                        </Link>
 
                   </div>
                 )

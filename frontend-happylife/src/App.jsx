@@ -22,7 +22,7 @@ import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
 import PaymentBank from './pages/payment/paymentBank.jsx'
 import PaymentConfirm from './pages/payment/paymentConfirm.jsx'
-
+import Contract from './pages/contract/contract.jsx'
 import { useState } from 'react'
 import { createContext } from 'react';
 const DataContext = createContext();
@@ -36,7 +36,6 @@ export default function App() {
               <Header/>
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
-              {/* <Header/> */}
                 <Route path ='/' element ={<Home/>} />
                 <Route path ='/home' element ={<Home/>} />
                 <Route path='/aboutus' element ={<AboutUs/>} />
@@ -48,6 +47,8 @@ export default function App() {
                 <Route path='/buyplan' element ={<Buyplan/>} />
                 <Route path='/paymentbank' element ={<PaymentBank/>} />
                 <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
+                <Route path='/contract/:contractId' element ={<Contract/>} />
+                
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={

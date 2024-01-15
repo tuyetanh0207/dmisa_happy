@@ -37,14 +37,18 @@ const Header = () => {
               `}>Contact</h1>
               
           </div>
-          <div>
 
-          </div>
           <div>
             <h1 className={`
               ${pathname.includes('profile') ?   
               'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
               `}>Profile</h1>
+          </div>
+          <div>
+            <h1 className={`
+              ${pathname.includes('contract') ?   
+              'bg-custom-blue pt-7 pb-7 text-center text-4xl font-semibold font-serif text-white':'hidden'}
+              `}>Registration/Contract</h1>
           </div>
         </div>
       )
