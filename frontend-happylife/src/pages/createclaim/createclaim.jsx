@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom'
 import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
+import Select from 'react-select'
 import axios from 'axios'
 import RegistrationAPI from '../../../api/registrationApi.jsx';
 
@@ -11,8 +12,16 @@ export default function CreateClaim() {
     const [claims, setClaims] = useState(null);
     const [content,setContent] =useState('');
     const [hospitalName,setHospitalName] =useState('');
+    const categoriesOption = [
+        {value:"Hỗ trợ y tế",label:"Hỗ trợ y tế"},
+        {value:"Điều trị ngoại trú",label:"Điều trị ngoại trú"},
+        {value:"Điều trị nha khoa",label:"Điều trị nha khoa"},
+        {value:"Sinh mạng cá nhân",label:"Sinh mạng cá nhân"},
+        {value:"Tai nạn cá nhân",label:"Tai nạn cá nhân"},
+
+    ];
     //claim
-    const [claimCategories,setClaimCategories] =useState(null);
+    const [claimCategories,setClaimCategories] =useState([]);
     const fetchRegistrations = async () => {
         try{
           //console.log('token', user.token)
@@ -51,17 +60,24 @@ export default function CreateClaim() {
         
     }
     
-    const handleClaimCategoriesChange = (event) => {
-        event.preventDefault()
-        try{
-            const regisID = "65a157175e0d7f1fdb6f512d"; 
-            const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
-            //const selectedClaimCategories = event.target.value;
-            if(selectedRegistration){
-                setClaimCategories(selectedRegistration.claimCategories)
-            }
-        }catch(error){console.error('Error:', error);}
+    const handleClaimCategoriesChange = (selectOption) => {
+        // event.preventDefault()
+        // try{
+        //     const regisID = "65a157175e0d7f1fdb6f512d"; 
+        //     const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
+        //     //const selectedClaimCategories = event.target.value;
+        //     if(selectedRegistration){
+        //         setClaimCategories(selectedRegistration.claimCategories)
+        //     }
+        // }catch(error){console.error('Error:', error);}
+        // setClaimCategories(selectOption)
 
+
+        const selectedValues = selectOption.map(option => option.value);
+        setClaimCategories(selectedValues);
+        console.log('Select Categories:',selectOption)
+        console.log('choose :',claimCategories)
+            
     }
 
     const handleSubmit = async(e)=>{
@@ -78,9 +94,7 @@ export default function CreateClaim() {
       
           const Regis = {
             regisInfo: selectedRegistration,
-            claimCategories: [
-                claimCategories
-            ],
+            claimCategories: claimCategories,
             content: content,
             documentUrls: [
                 {
@@ -134,14 +148,15 @@ export default function CreateClaim() {
                         />
                         </div>
                   </div>
-                  <div className="pt-10 grid grid-cols-4 gap-4">
-                            {claims?.map((item, index) => (
+                  <div className="pt-10 ">
+                            {/* {claims?.map((item, index) => (
                                 <div key={index} className=" text-center">
                                     <button value={item.claimCategories}  onClick={handleClaimCategoriesChange} className= {`border-gray-600 border-2 rounded-lg w-full h-full `}  >
                                         {item.claimCategories}
                                     </button>
                                 </div>
-                            ))}
+                            ))} */}
+                            <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
                     </div>
                     <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
@@ -156,6 +171,13 @@ export default function CreateClaim() {
                             placeholder='Your reason'
                             onChange={(e)=>setHospitalName(e.target.value)}
                         />
+                    </div>
+                    <div className="flex items-center justify-between">
+                            <div></div>
+                            <button  className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
+                                
+                                <p className="pl-6">Payment</p>
+                            </button>
                         </div>
                   </div>
              </div>
