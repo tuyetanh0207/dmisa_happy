@@ -32,7 +32,7 @@ public class NotificationServiceImpl implements NotificationService {
                         .collect(Collectors.toList());
                 return notificationResDTOS;
             }
-            else if(user.getRole() == Role.ACCOUNTANT){
+            else if(user.getRole() == Role.INSUARANCE_MANAGER){
                 List<Notification> notificationList = notificationRepo.findByUserInfo(userId.toString());
                 List<NotificationResDTO> notificationResDTOS = notificationList.stream()
                         .map(notification -> notification.convertToNotificationResDTO())

@@ -61,10 +61,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = new Invoice().convertUpdToInvoice(invoiceUpd);
         User authUser = new User().convertResToUser(user);
         try {
-                if (!"Unpaid".equals(invoice.getRegisInfo().getApprovalStatus().trim()) &&
+                if ("Unpaid".equals(invoice.getRegisInfo().getApprovalStatus().trim()) &&
                     invoice.getPaymentMethod() != null &&
                     invoice.getRegisInfo().getRegisId().isEmpty() == false &&
-                    !"Pending".equals(invoice.getPaymentStatus().trim())){
+                    "Pending".equals(invoice.getPaymentStatus().trim())){
 
                     Invoice existingInvoice = invoiceRepo.findById(invoiceId)
                             .orElseThrow(() -> new EntityNotFoundException("Invoice not found with id: " + invoiceId));

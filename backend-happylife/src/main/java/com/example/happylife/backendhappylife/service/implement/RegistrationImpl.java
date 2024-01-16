@@ -178,7 +178,6 @@ public class RegistrationImpl implements RegistrationService {
                 long years= regis.getProductInfo().getPlanDuration();
                 endDate = startDate.atZone(ZoneId.systemDefault()).plusYears(years).toInstant();
             }
-
             regis.setStartDate(startDate);
             regis.setEndDate(endDate);
             registrationRepo.save(regis);

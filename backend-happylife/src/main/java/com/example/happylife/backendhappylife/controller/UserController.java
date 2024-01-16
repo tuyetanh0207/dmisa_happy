@@ -70,7 +70,7 @@ public class UserController {
         return ResponseEntity.ok(userService.addUser(user));
     }
     //API for Customer
-    @PutMapping("/update")
+    @PutMapping("/{userId}/update")
     public ResponseEntity<?> update(HttpServletRequest request,
                                                    @PathVariable ObjectId userId,
                                                    @RequestBody UserResDTO user){
