@@ -8,9 +8,14 @@ import java.util.List;
 
 public interface UserService {
     public List<UserResDTO> getUsers();
-    public User addUser(User user);
+
+    //Service for Customer
+    //Service for Customer
+    UserResDTO updateUser(ObjectId userId, UserResDTO userResDTO, UserResDTO userRequest);
 
     public UserResDTO getUserById(UserResDTO user, ObjectId id);
+
+    UserResDTO addUser(UserResDTO userResDTO);
 
     //    @Override
     //    public User deteleUser(String id) {
@@ -19,7 +24,6 @@ public interface UserService {
     //        return user;
     //    }
     //
-    User updateUser(ObjectId userId, User user);
 
     //User getUserById(User user, String id);
 //    public User deteleUser(String id);

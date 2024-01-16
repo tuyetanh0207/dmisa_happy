@@ -47,7 +47,7 @@ public class Registration {
     private Instant endDate;
 
     @Column(nullable = false)
-    private Integer insuranceAmount;
+    private Integer insuranceAmount; //Tổng tiền phí bảo hiểm
 
     @Column(nullable = false)
     private String paymentDetails;
@@ -92,6 +92,10 @@ public class Registration {
     }
     public Registration convertToRegis(RegisResDTO dto) {
         Registration regis = new Registration();
+        if(dto.getRegisId() != null){
+            ObjectId dtoId = new ObjectId(dto.getRegisId());
+            regis.setRegisId(dtoId);
+        }
         regis.setManagerInfo(dto.getManagerInfo());
         regis.setCustomerInfo(dto.getCustomerInfo());
         regis.setProductInfo(dto.getProductInfo());
@@ -173,6 +177,7 @@ public class Registration {
     }
     public RegisUpdateDTO convertToRegisUpdateDTO() {
         RegisUpdateDTO dto = new RegisUpdateDTO();
+
         dto.setRegisId(this.regisId.toString());
         dto.setApprovalStatus(this.approvalStatus);
         dto.setMessage(this.message);

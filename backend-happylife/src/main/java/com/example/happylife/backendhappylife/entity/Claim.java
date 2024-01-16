@@ -116,27 +116,24 @@ public class Claim {
         }
     }
     // convert funcs
-    public ClaimResDTO convertClaimToRes(Claim claim) {
+    public ClaimResDTO convertClaimToRes() {
         ClaimResDTO claimRes = new ClaimResDTO();
-        claimRes.setClaimId(claim.getClaimId().toString());
-        claimRes.setRegisInfo(claim.getRegisInfo());
-        claimRes.setStatus(claim.getStatus());
-        claimRes.setClaimCategories(claim.getClaimCategories());
-        claimRes.setClaimAmount(claim.getClaimAmount());
-        claimRes.setContent(claim.getContent());
-        claimRes.setDocumentUrls(claim.getDocumentUrls());
-        claimRes.setClaimInvoices(claim.getClaimInvoices());
-        claimRes.setClaimTotalRequest(claim.getClaimTotalRequest());
-        claimRes.setApprovalDate(claim.getApprovalDate());
-        claimRes.setMessage(claim.getMessage());
-        claimRes.setHospitalName(claim.getHospitalName());
-        claimRes.setCreatedAt(claim.getCreatedAt());
-        claimRes.setUpdatedAt(claim.getUpdatedAt());
+        claimRes.setClaimId(this.claimId.toString());
+        claimRes.setRegisInfo(this.regisInfo);
+        claimRes.setStatus(this.status);
+        claimRes.setClaimCategories(this.claimCategories);
+        claimRes.setClaimAmount(this.claimAmount);
+        claimRes.setContent(this.content);
+        claimRes.setDocumentUrls(this.documentUrls);
+        claimRes.setClaimInvoices(this.claimInvoices);
+        claimRes.setClaimTotalRequest(this.claimTotalRequest);
+        claimRes.setApprovalDate(this.approvalDate);
+        claimRes.setMessage(this.message);
+        claimRes.setHospitalName(this.hospitalName);
+        claimRes.setCreatedAt(this.createdAt);
+        claimRes.setUpdatedAt(this.updatedAt);
         return claimRes;
-
     }
-
-
     public Claim convertCreToClaim(ClaimCreateDTO dto) {
         Claim claim = new Claim();
         claim.setClaimCategories(dto.getClaimCategories()); // set name

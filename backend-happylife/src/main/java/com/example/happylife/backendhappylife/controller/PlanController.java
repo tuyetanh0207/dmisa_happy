@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.controller;
 
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
@@ -36,23 +37,6 @@ public class PlanController {
         this.firebaseStorageService = firebaseStorageService;
     }
 
-
-    //Lấy thông tin chi tiết 1 plan dựa trên planId
-    @GetMapping("/{planId}")
-    public ResponseEntity<PlanResDTO> getPlan(@PathVariable ObjectId planId){
-        PlanResDTO planResDTOS = planService.getPlan(planId).convertToPlanResDTO();
-        return ResponseEntity.ok(planResDTOS);
-    };
-
-    //Lấy thông tin toàn bộ plan
-    @GetMapping("")
-    public ResponseEntity<List<PlanResDTO>> getAllPlans() {
-        List<PlanResDTO> planResDTOS = planService.getAllPlans().stream()
-                .map(plan -> plan.convertToPlanResDTO())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(planResDTOS);
-    };
-
     //Tạp mới một plan
     @PostMapping("/create")
     public ResponseEntity<?> addPlan(HttpServletRequest request, @RequestBody PlanCreateDTO planCreateDTO) {
@@ -85,7 +69,7 @@ public class PlanController {
         PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
         return ResponseEntity.ok(planUpdDTO);
     };
-    @PutMapping("/update/{planId}/image-docUrl")
+    @PutMapping("/update/{planId}/image-docUrl") // Này Phúc sửa sau
     public ResponseEntity<PlanUpdateDTO> updatePlanImageDocUrl(@PathVariable ObjectId planId,
                                                                //@RequestPart("plan") PlanUpdateDTO planUpdateDTO,
                                                                @RequestPart("files") MultipartFile[] files) throws IOException {
@@ -108,7 +92,7 @@ public class PlanController {
         PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
         return ResponseEntity.ok(planUpdDTO);
     };
-    @PutMapping("/update/{planId}/image-planUrl")
+    @PutMapping("/update/{planId}/image-planUrl") // Này Phúc sửa sau
     public ResponseEntity<PlanUpdateDTO> updatePlanImagePlanUrl(@PathVariable ObjectId planId,
                                                                 //@RequestPart("plan") PlanUpdateDTO planUpdateDTO,
                                                                 @RequestPart("files") MultipartFile[] files) throws IOException {
@@ -127,6 +111,22 @@ public class PlanController {
     @DeleteMapping("/delete/{planId}")
     public Plan deletePlan(@PathVariable ObjectId PlanId){
         return planService.deletePlan(PlanId);
+    };
+
+    //API for Customer
+
+    //Lấy thông tin chi tiết 1 plan dựa trên planId
+    @GetMapping("/{planId}")
+    public ResponseEntity<?> getPlan(@PathVariable ObjectId planId){
+        PlanResDTO planResDTOS = planService.getPlan(planId);
+        return ResponseEntity.ok(planResDTOS);
+    };
+
+    //Lấy thông tin toàn bộ plan
+    @GetMapping("")
+    public ResponseEntity<List<PlanResDTO>> getAllPlans() {
+        List<PlanResDTO> planResDTOS = planService.getAllPlans();
+        return ResponseEntity.ok(planResDTOS);
     };
 }
 

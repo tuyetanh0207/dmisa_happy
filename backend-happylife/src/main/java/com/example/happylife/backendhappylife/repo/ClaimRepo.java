@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface ClaimRepo extends MongoRepository<Claim, ObjectId> {
-    List<Claim> findByRegisInfo_CustomerInfo(String id);
+    List<Claim> findByRegisInfo_CustomerInfoId(String regisInfo_customerInfo_id);
 }

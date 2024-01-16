@@ -85,7 +85,6 @@ public class User implements UserDetails {
 
   @Override
      public Collection<? extends GrantedAuthority> getAuthorities() {
-
       return List.of(new SimpleGrantedAuthority(role.name()));
      }
 
@@ -101,19 +100,16 @@ public class User implements UserDetails {
 
      @Override
      public boolean isAccountNonLocked() {
-
       return true;
      }
 
      @Override
      public boolean isCredentialsNonExpired() {
-
       return true;
      }
 
      @Override
      public boolean isEnabled() {
-
       return true;
      }
 
@@ -132,4 +128,22 @@ public class User implements UserDetails {
       userResDTO.setFullName(fullName);
       return userResDTO;
      }
+    public User convertResToUser(UserResDTO dto) {
+        User userVar = new User();
+        if(dto.getId() != null){
+            ObjectId dtoId = new ObjectId(dto.getId());
+            userVar.setId(dtoId);
+        }
+        userVar.setDOB(dto.getDOB());
+        userVar.setAddress(dto.getAddress());
+        userVar.setEmail(dto.getEmail());
+        userVar.setPhoneNumber(dto.getPhoneNumber());
+        userVar.setGender(dto.getGender());
+        userVar.setRole(dto.getRole());
+        userVar.setAvatarUrl(dto.getAvatarUrl());
+        userVar.setCreatedAt(dto.getCreatedAt());
+        userVar.setUpdatedAt(dto.getUpdatedAt());
+        userVar.setFullName(dto.getFullName());
+        return userVar;
+    }
 }
