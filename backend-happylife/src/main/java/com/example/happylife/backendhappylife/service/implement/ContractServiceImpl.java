@@ -96,10 +96,11 @@ public class ContractServiceImpl implements ContractService {
     public ContractResDTO updateContractStatus(ContractResDTO contractResDTO, ObjectId contractId, UserResDTO userVar){
         Contract contract = new Contract().convertResToContract(contractResDTO);
         User user = new User().convertResToUser(userVar);
+        System.out.println("user Id" + user.getId().toString());
         try{
             Contract existingContract = contractRepo.findById(contractId)
                     .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + contractId));
-            if(existingContract.getRegisInfo().getCustomerInfo().getId() != userVar.getId()){
+            if(!existingContract.getRegisInfo().getCustomerInfo().getId().equals(userVar.getId())){
                 throw new UserCreationException("User don't have permission to signed this contract");
             }
 
@@ -116,6 +117,7 @@ public class ContractServiceImpl implements ContractService {
                 existingContract.setConfirmation(true);
                 Instant instantNow = Instant.now();
                 existingContract.setUpdatedAt(instantNow);
+                System.out.println("Error : Right ?");
                 ObjectId regisId = new ObjectId();
                 if(contract.getRegisInfo().getRegisId() != null){
                     regisId = new ObjectId(contract.getRegisInfo().getRegisId());
