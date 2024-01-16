@@ -169,7 +169,7 @@ export default function CreateClaim() {
                             ))} */}
                             <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
                     </div>
-                    <div className="flex flex-row items-center ">
+                    {/* <div className="flex flex-row items-center ">
                         {categoriesOption?.map((item,index) => (
                             <div key={index}>
                                     <input type="checkbox" value={item.value} onChange={() => handleClaimCategoriesChange(item.value)} checked={claimCategories.includes(item.value)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
@@ -182,7 +182,7 @@ export default function CreateClaim() {
                             
                         ))}
                                 
-                    </div>
+                    </div> */}
                     <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
                             Hospital Name

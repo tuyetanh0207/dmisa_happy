@@ -288,7 +288,6 @@ export default function Buyplan() {
     // };
 
     // const handleOptionalBenefitArray = async()=>{
-    //     //for(let i=0;i<5;i++){
     //         console.log('option Nametemp before:',optionalBenefitsName);
     //         // const optionalBenefitTemp = [
 
@@ -340,7 +339,7 @@ export default function Buyplan() {
     //             }
     //         ]);
     //         console.log('option temp:',optionalBenefitTemp);
-    //     //}
+
 
     //     // console.log('option temp:',optionalBenefitTemp);
     //     // setSelectedOneOptionBenefits(optionalBenefitTemp);
