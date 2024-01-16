@@ -60,7 +60,7 @@ export default function CreateClaim() {
         
     }
     
-    const handleClaimCategoriesChange = (selectOption) => {
+    const handleClaimCategoriesChange = (selectCategories) => {
         // event.preventDefault()
         // try{
         //     const regisID = "65a157175e0d7f1fdb6f512d"; 
@@ -73,11 +73,22 @@ export default function CreateClaim() {
         // setClaimCategories(selectOption)
 
 
-        const selectedValues = selectOption.map(option => option.value);
+        const selectedValues = selectCategories.map(option => option.value);
         setClaimCategories(selectedValues);
-        console.log('Select Categories:',selectOption)
+        console.log('Select Categories:',selectCategories)
         console.log('choose :',claimCategories)
+                    
+        // const isSelect = claimCategories.includes(selectCategories)
+        
+        // if(isSelect)
+        // {
+        //     setClaimCategories((prev) => prev.filter((item) => item !== selectCategories));
             
+        // }else{
+        //     setClaimCategories((prev) => [...prev, selectCategories]);
+        // }
+        // console.log('active', isSelect);
+        // console.log('choose', selectCategories);
     }
 
     const handleSubmit = async(e)=>{
@@ -157,6 +168,20 @@ export default function CreateClaim() {
                                 </div>
                             ))} */}
                             <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
+                    </div>
+                    <div className="flex flex-row items-center ">
+                        {categoriesOption?.map((item,index) => (
+                            <div key={index}>
+                                    <input type="checkbox" value={item.value} onChange={() => handleClaimCategoriesChange(item.value)} checked={claimCategories.includes(item.value)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+                                                    
+                                        <div className="flex flex-col items-center ">
+                                            <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.value}</label>              
+                                                                                
+                                        </div>
+                            </div>
+                            
+                        ))}
+                                
                     </div>
                     <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">

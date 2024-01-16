@@ -70,7 +70,22 @@ export default function Buyplan() {
 
 
 
-    const [selectedOneOptionBenefits, setSelectedOneOptionBenefits] = useState([]);
+    const [selectedOneOptionBenefits, setSelectedOneOptionBenefits] = useState([
+        // {
+        //     //   benefitName: undefined,
+        //     // dependencies: undefined,
+        //     // feeType: [
+        //     //         {
+        //     //             type: undefined,
+        //     //             startAge: undefined,
+        //     //             endAge: undefined,
+        //     //             fee: undefined
+        //     //         }
+        //     //     ],
+        //     // unit: undefined,
+        //     // insuranceAmount: undefined
+        //  }
+    ]);
 
     const handlePlanChange = (event) => {
         event.preventDefault()
@@ -154,8 +169,22 @@ export default function Buyplan() {
         );
         if (isSelected) {
             // Remove the selected benefit if already selected
+            console.log('Name unSelect:',selectedBenefitName)
             setSelectedOptionalBenefits((prev) => prev.filter((item) => item !== selectedBenefitName));
             setOptionalBenefitsName((prev) => prev.filter((item) => item !== selectedBenefitName));
+            setSelectedOneOptionBenefits((prev) => 
+                prev.filter((item) => item.benefitName !== selectedBenefitName)
+                );
+            setSelectedOneOptionBenefits((prev) => 
+                prev.filter((item) => item.dependencies !== selectedOptionalBenefit.dependencies)
+                );
+            setSelectedOneOptionBenefits((prev) => 
+                prev.filter((item) => item.insuranceAmount !== selectedOptionalBenefit.insuranceAmount)
+                );
+            setSelectedOneOptionBenefits((prev) => 
+                prev.filter((item) => item.unit !== selectedOptionalBenefit.unit)
+                );
+
 
             // setOptionalBenefitsDependencies((prev) => prev.filter((item) => item !== selectedOptionalBenefit.dependencies));
 
@@ -167,20 +196,57 @@ export default function Buyplan() {
             console.log('InsuranceAmount:',optionalBenefitsInsuranceAmount)
             console.log('Unit:',optionalBenefitsUnit)
             //handleOptionalBenefitArray();
+            console.log('?:',selectedOneOptionBenefits)
           } else {
             // Add the selected benefit if not selected
+            console.log('Name Select:',selectedBenefitName)
             setSelectedOptionalBenefits((prev) => [...prev, selectedBenefitName]);
+
             setOptionalBenefitsName((prev) => [...prev, selectedBenefitName]);
+            setSelectedOneOptionBenefits((prev)=>[
+                ...prev,{
+                    benefitName: selectedBenefitName,
+                    dependencies: selectedOptionalBenefit.dependencies,
+                    insuranceAmount:selectedOptionalBenefit.insuranceAmount,
+                    unit:selectedOptionalBenefit.unit,
+                    feeType: selectedOptionalBenefit.feeType
+                        .filter((item) => item.startAge === benefitsStartAge)
+                        .map((item) => ({
+                        type: item.type,
+                        startAge: item.startAge,
+                        endAge: item.endAge,
+                        fee: item.fee,
+                        })),
+                    
+                    // {selectedOptionalBenefit.feeType.map((item2,index)=>(
+                    //     <div key={index} >
+                    //         {benefitsStartAge === item2.startAge && (
+                    //             <div>
+                    //                 {item2.fee}
+                    //             </div>
+                    //             )}
+                            
+                    //         {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
+                            
+                            
+                    //     </div>
+                    // ))}
+                }
+            ]);
+            
             if (selectedOptionalBenefit) {
 
             // setOptionalBenefitsDependencies((prev) => [...prev, selectedOptionalBenefit.dependencies]);
             // setOptionalBenefitsInsuranceAmount((prev) => [...prev, selectedOptionalBenefit.insuranceAmount]);
             // setOptionalBenefitsUnit((prev) => [...prev, selectedOptionalBenefit.unit]);
-            console.log('?:',selectedOptionalBenefit)
-            console.log('Name:',optionalBenefitsName)
-            console.log('Dependencies:',optionalBenefitsDependencies)
-            console.log('InsuranceAmount:',optionalBenefitsInsuranceAmount)
-            console.log('Unit:',optionalBenefitsUnit)
+
+            // console.log('?:',selectedOptionalBenefit)
+            // console.log('Name:',optionalBenefitsName)
+            // console.log('Dependencies:',optionalBenefitsDependencies)
+            // console.log('InsuranceAmount:',optionalBenefitsInsuranceAmount)
+            // console.log('Unit:',optionalBenefitsUnit)
+
+            console.log('?:',selectedOneOptionBenefits)
             // if (selectedOptionalBenefit.feeType.length > 0) {
             //     setOptionalBenefitsFeeType(selectedOptionalBenefit.feeType[0].type);
 
@@ -221,68 +287,66 @@ export default function Buyplan() {
     //     console.log('feetype',selectedOptionalFeeTypeObj)
     // };
 
-    const handleOptionalBenefitArray = async()=>{
-        //for(let i=0;i<5;i++){
-            console.log('option Nametemp before:',optionalBenefitsName);
-            const optionalBenefitTemp = [
+    // const handleOptionalBenefitArray = async()=>{
+    //     //for(let i=0;i<5;i++){
+    //         console.log('option Nametemp before:',optionalBenefitsName);
+    //         // const optionalBenefitTemp = [
 
-                {
-                    benefitName: optionalBenefitsName,
+    //         //     {
+    //         //         // benefitName: optionalBenefitsName,
+    //         //         benefitName: "Điều trị ngoại trú",
                     
-                    // dependencies: optionalBenefitsDependencies,
-                    // feeType: [
-                    //     {
-                    //         type: optionalBenefitsFeeType,
-                    //         startAge: optionalBenefitsStartAge,
-                    //         endAge: optionalBenefitsEndAge,
-                    //         fee: optionalBenefitsFee
-                    //     }
-                    // ],
-                    // unit: optionalBenefitsUnit,
-                    // insuranceAmount: optionalBenefitsInsuranceAmount,
-                }
-                // {
-                //     benefitName: benefitsBenefitsName,
-                //     dependencies: benefitsDependencies,
-                //     feeType: [
-                //         {
-                //             type: benefitsFeeType,
-                //             startAge: benefitsStartAge,
-                //             endAge: benefitsEndAge,
-                //             fee: benefitsFee
-                //         }
-                //     ],
-                //     // unit: benefitsUnit,
-                //     // insuranceAmount: benefitsInsuranceAmount
-                // }
-            //     {benefitName: "Điều trị ngoại trú",
-            //     dependencies: "age",
-            //     // feeType: [
-            //     //     {
-            //     //         type: "ageBased",
-            //     //         startAge: 1,
-            //     //         endAge: 3,
-            //     //         fee: 3370000
-            //     //     }
+    //         //         // dependencies: optionalBenefitsDependencies,
+    //         //         // feeType: [
+    //         //         //     {
+    //         //         //         type: optionalBenefitsFeeType,
+    //         //         //         startAge: optionalBenefitsStartAge,
+    //         //         //         endAge: optionalBenefitsEndAge,
+    //         //         //         fee: optionalBenefitsFee
+    //         //         //     }
+    //         //         // ],
+    //         //         // unit: optionalBenefitsUnit,
+    //         //         // insuranceAmount: optionalBenefitsInsuranceAmount,
+    //         // }
+    //         //     {benefitName: "Điều trị ngoại trú",
+    //         //     dependencies: "age",
+    //         //     // feeType: [
+    //         //     //     {
+    //         //     //         type: "ageBased",
+    //         //     //         startAge: 1,
+    //         //     //         endAge: 3,
+    //         //     //         fee: 3370000
+    //         //     //     }
 
-            //     // ],
-            //     unit: "VND",
-            //     insuranceAmount: 500000
-            // }
+    //         //     // ],
+    //         //     unit: "VND",
+    //         //     insuranceAmount: 500000
+    //         // }
      
-            ]
+    //         // ]
             
-            console.log('option Nametemp after:',optionalBenefitsName);
-            // console.log('option Nametemp:',optionalBenefitsName),
-            setSelectedOneOptionBenefits(optionalBenefitTemp);
-            console.log('option temp:',optionalBenefitTemp);
-        //}
+    //         console.log('option Nametemp after:',optionalBenefitsName);
+    //         // console.log('option Nametemp:',optionalBenefitsName),
+    //         //const selectedValues = optionalBenefitTemp.map(option => option.benefitName);
+    //         // setSelectedOneOptionBenefits(optionalBenefitTemp);
+    //         setSelectedOneOptionBenefits((prev)=>[
+    //             ...prev,{
+    //                 benefitName: "Điều trị ngoại trú",
+    //             }
+    //         ]);
+    //         setSelectedOneOptionBenefits((prev)=>[
+    //             ...prev,{
+    //                 benefitName: "Điều trị abc trú",
+    //             }
+    //         ]);
+    //         console.log('option temp:',optionalBenefitTemp);
+    //     //}
 
-        // console.log('option temp:',optionalBenefitTemp);
-        // setSelectedOneOptionBenefits(optionalBenefitTemp);
+    //     // console.log('option temp:',optionalBenefitTemp);
+    //     // setSelectedOneOptionBenefits(optionalBenefitTemp);
 
-        // setSelectedOneOptionBenefits((prev) => [...prev, optionalBenefitTemp]);
-    }
+    //     // setSelectedOneOptionBenefits((prev) => [...prev, optionalBenefitTemp]);
+    // }
 
 
 
@@ -409,7 +473,7 @@ export default function Buyplan() {
         fetchUserInfo();
         fetchPlan(); // Fetch plans
          // Fetch user info
-         handleOptionalBenefitArray();
+         //handleOptionalBenefitArray();
          
             
         //fetchSelectPlanAPI(); // Fetch the selected plan details based on the current planID
@@ -664,9 +728,15 @@ export default function Buyplan() {
                                                             <div>
                                                                 {item.feeType.map((item2,index)=>(
                                                                     <div key={index} >
+                                                                        {benefitsStartAge === item2.startAge && (
+                                                                            <div>
+                                                                                {item2.fee}
+                                                                            </div>
+                                                                            )}
+                                                                        
                                                                         {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
                                                                         
-                                                                        {item2.fee}
+                                                                        
                                                                     </div>
                                                                 ))}
                                                                     
@@ -722,13 +792,13 @@ export default function Buyplan() {
                                 <p className="pl-6">Payment</p>
                             </button>
                         </div>
-                        <div className="flex items-center justify-between">
+                        {/* <div className="flex items-center justify-between">
                             <div></div>
                             <button onClick={handleSubmit2} className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
                                 <img src={Shopingcar} alt="LOGO" className="item-center" ></img>
                                 <p className="pl-6">Payment</p>
                             </button>
-                        </div>
+                        </div> */}
                     </form>
                     
             </div>
@@ -767,9 +837,11 @@ export default function Buyplan() {
           <div>temp2</div>
           
           <div>
-  {selectedOptionalBenefits.map((benefit, index) => (
+  {selectedOneOptionBenefits.map((item, index) => (
     <div key={index}>
-      <p>Benefit Name: {benefit.benefitName}</p>
+      <p>Benefit Name: {item.benefitName}</p>
+        <p>dependencies:{item.dependencies}</p>
+        <p>InsuranceAmount:{item.insuranceAmount} {item.unit}</p>
 
 
     </div>
