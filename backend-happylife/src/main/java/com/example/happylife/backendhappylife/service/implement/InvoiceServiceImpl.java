@@ -61,7 +61,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = new Invoice().convertUpdToInvoice(invoiceUpd);
         User authUser = new User().convertResToUser(user);
         try {
-                if ("Unpaid".equals(invoice.getRegisInfo().getApprovalStatus().trim()) &&
+                if ("Signed".equals(invoice.getRegisInfo().getApprovalStatus().trim()) &&
                     invoice.getPaymentMethod() != null &&
                     invoice.getRegisInfo().getRegisId().isEmpty() == false &&
                     "Pending".equals(invoice.getPaymentStatus().trim())){
