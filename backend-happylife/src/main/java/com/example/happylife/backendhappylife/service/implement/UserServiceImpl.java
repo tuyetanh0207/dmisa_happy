@@ -35,8 +35,9 @@ public class UserServiceImpl implements UserService {
     public UserResDTO getUserById(UserResDTO user, ObjectId id) {
         // check if user._id == id, it means a user is getting their infomation
         try {
-            if (user.getId().equals(id)) {
+            if (user.getId().equals(id.toString())) {
                 Optional<User> userVar = userRepo.findById(id);
+                System.out.println("Error : true");
                 return userVar.get().convertFromUserToUserResDTO();
             }
             // check if getting user is manager, DBA or accountant, it means they can get information of any user
