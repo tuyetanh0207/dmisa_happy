@@ -5,6 +5,4 @@ public enum Role {
     INSUARANCE_MANAGER,
     ACCOUNTANT,
     DBA
-
-
 }

@@ -16,27 +16,16 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserResDTO {
     private String id;
-
-
     private String fullName;
-
     private String gender;
-
     private Date DOB;
-
-
     private String phoneNumber;
     private String citizenId;
-
     private String email;
     private String address;
-
     private String avatarUrl;
-
     private Instant createdAt;
-
     private Instant updatedAt;
-
     private Role role;
 
 

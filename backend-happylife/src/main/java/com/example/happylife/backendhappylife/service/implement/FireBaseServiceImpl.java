@@ -47,7 +47,6 @@ public class FireBaseServiceImpl implements FireBaseService {
           String publicUrl = "https://firebasestorage.googleapis.com/v0/b/" + bucket + "/o/" + URLEncoder.encode(objectName, StandardCharsets.UTF_8) + "?alt=media";
           fileUrls.add(publicUrl);
       }
-
       return fileUrls;
   }
 

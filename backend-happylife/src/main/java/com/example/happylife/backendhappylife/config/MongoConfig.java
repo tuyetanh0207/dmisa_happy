@@ -26,6 +26,4 @@ public class MongoConfig {
     public MongoTemplate mongoTemplate(MongoClient mongoClient) {
         return new MongoTemplate(new SimpleMongoClientDatabaseFactory(mongoClient, "dmisahappylifedb"));
     }
-
-
 }

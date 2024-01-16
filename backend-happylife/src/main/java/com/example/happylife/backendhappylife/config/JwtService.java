@@ -18,13 +18,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     public String extractUsername(String token) {
-
         return extractClaim(token, Claims::getSubject);
     }
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ){
+    public String generateToken(Map<String, Object> extraClaims,
+                                UserDetails userDetails)
+    {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
@@ -49,17 +47,13 @@ public class JwtService {
         final String username=extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
-
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
-
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
-
     public Claims extractAllClaims(String token){
-
         return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(token).getPayload();
     }
 

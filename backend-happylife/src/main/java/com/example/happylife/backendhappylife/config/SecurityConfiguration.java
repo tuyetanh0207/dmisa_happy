@@ -17,14 +17,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private  final AuthenticationProvider authenticationProvider;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
                 .authorizeRequests(authorize -> authorize
                         .requestMatchers("/api/v1/users/**", "/api/v1/plans/**", "/api/v1/registrations/**",
-                        "/api/v1/claims/**", "/api/v1/files/**")
+                        "/api/v1/claims/**", "/api/v1/files/**", "/api/v1/notifications/**", "/api/v1/contracts/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -34,7 +33,6 @@ public class SecurityConfiguration {
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 }

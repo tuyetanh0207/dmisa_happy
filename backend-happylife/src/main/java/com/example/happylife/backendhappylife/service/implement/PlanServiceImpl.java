@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
@@ -23,17 +25,6 @@ public class PlanServiceImpl implements PlanService {
         Plan Plan = planRepo.findById(PlanId).get();
         planRepo.delete(Plan);
         return Plan;
-    }
-    @Override
-    public List<Plan> getAllPlans() {
-        List<Plan> plans = planRepo.findAll();
-        return plans;
-    }
-
-    @Override
-    public Plan getPlan(ObjectId planId) {
-        Plan plans = planRepo.findById(planId).get();
-        return plans;
     }
 
     @Override
@@ -162,4 +153,21 @@ public class PlanServiceImpl implements PlanService {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }
     }
+
+    //Service for Customer
+    @Override
+    public List<PlanResDTO> getAllPlans() {
+        List<Plan> plans = planRepo.findAll();
+        List<PlanResDTO> planResDTOS = plans.stream()
+                .map(plan -> plan.convertToPlanResDTO())
+                .collect(Collectors.toList());
+        return planResDTOS;
+    }
+
+    @Override
+    public PlanResDTO getPlan(ObjectId planId) {
+        Plan plans = planRepo.findById(planId).get();
+        return plans.convertToPlanResDTO();
+    }
+
 }
