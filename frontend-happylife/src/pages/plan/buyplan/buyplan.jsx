@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios'
-import AsyncSelect from 'react-select/async';
 import RegistrationAPI from '../../../../api/registrationApi.jsx';
 import Shopingcar from '../../../assets/shopingcar.png'
 export default function Buyplan() {
@@ -13,10 +12,11 @@ export default function Buyplan() {
     const [plans,setPlansAPI]=useState([]);
 
     const [planID, setplanID] = useState();//planID
-    //const [planTypeArr,setPlanTypeARR]=useState([]);//planTypeName
+    
     
     //const [registrations, setRegistrations] = useState(null);
-    // const [filterStatus, setFilterStatus]= useState('All');
+    const [curentRegistrations, setCurentRegistrations] = useState('');
+    
     //user
     const [fullName,setFullName] =useState('');
     const [citizenId,setCitizenId] =useState('');
@@ -59,33 +59,16 @@ export default function Buyplan() {
     const [selectedPlanType, setSelectedPlanType] = useState(null);
     const [selectedBenefits, setSelectedBenefits] = useState();
 
-    // const [benefitsStartAgeTemp,setBenefitsStartAgeTemp]=useState();
-    // const [benefitsEndAgeTemp,setBenefitsEndAgeTemp]=useState();
+
 
    
     const [selectedOptionalBenefits, setSelectedOptionalBenefits] = useState([]);
-    // const [selectedOptionBenefits, setSelectedOptionBenefits] = useState(null);
-    // const [selectedOptionBenefitsFeeType, setSelectedOptionBenefitsFeeType] = useState();
+
     const selectedPlanObject = plans.find((plan) => plan.planId === planID);
 
 
 
-    const [selectedOneOptionBenefits, setSelectedOneOptionBenefits] = useState([
-        // {
-        //     //   benefitName: undefined,
-        //     // dependencies: undefined,
-        //     // feeType: [
-        //     //         {
-        //     //             type: undefined,
-        //     //             startAge: undefined,
-        //     //             endAge: undefined,
-        //     //             fee: undefined
-        //     //         }
-        //     //     ],
-        //     // unit: undefined,
-        //     // insuranceAmount: undefined
-        //  }
-    ]);
+    const [selectedOneOptionBenefits, setSelectedOneOptionBenefits] = useState([]);
 
     const handlePlanChange = (event) => {
         event.preventDefault()
@@ -218,19 +201,6 @@ export default function Buyplan() {
                         fee: item.fee,
                         })),
                     
-                    // {selectedOptionalBenefit.feeType.map((item2,index)=>(
-                    //     <div key={index} >
-                    //         {benefitsStartAge === item2.startAge && (
-                    //             <div>
-                    //                 {item2.fee}
-                    //             </div>
-                    //             )}
-                            
-                    //         {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
-                            
-                            
-                    //     </div>
-                    // ))}
                 }
             ]);
             
@@ -286,68 +256,46 @@ export default function Buyplan() {
     //     }
     //     console.log('feetype',selectedOptionalFeeTypeObj)
     // };
+    
+    //sent file 
 
-    // const handleOptionalBenefitArray = async()=>{
-    //         console.log('option Nametemp before:',optionalBenefitsName);
-    //         // const optionalBenefitTemp = [
+    // const [selectedFiles, setSelectedFiles] = useState([]);
+    
 
-    //         //     {
-    //         //         // benefitName: optionalBenefitsName,
-    //         //         benefitName: "Điều trị ngoại trú",
-                    
-    //         //         // dependencies: optionalBenefitsDependencies,
-    //         //         // feeType: [
-    //         //         //     {
-    //         //         //         type: optionalBenefitsFeeType,
-    //         //         //         startAge: optionalBenefitsStartAge,
-    //         //         //         endAge: optionalBenefitsEndAge,
-    //         //         //         fee: optionalBenefitsFee
-    //         //         //     }
-    //         //         // ],
-    //         //         // unit: optionalBenefitsUnit,
-    //         //         // insuranceAmount: optionalBenefitsInsuranceAmount,
-    //         // }
-    //         //     {benefitName: "Điều trị ngoại trú",
-    //         //     dependencies: "age",
-    //         //     // feeType: [
-    //         //     //     {
-    //         //     //         type: "ageBased",
-    //         //     //         startAge: 1,
-    //         //     //         endAge: 3,
-    //         //     //         fee: 3370000
-    //         //     //     }
+    // const handleFileChange = (e) => {
+    //     const files = Array.from(e.target.files);
+    //     // setSelectedFiles(files);
+    //     const filteredFiles = files.filter(file => {
+    //         const fileType = file.type.toLowerCase();
+    //         return fileType === 'application/pdf' || fileType.startsWith('image/');
+    //       });
+      
+    //       setSelectedFiles(filteredFiles);
+    // };
 
-    //         //     // ],
-    //         //     unit: "VND",
-    //         //     insuranceAmount: 500000
-    //         // }
-     
-    //         // ]
-            
-    //         console.log('option Nametemp after:',optionalBenefitsName);
-    //         // console.log('option Nametemp:',optionalBenefitsName),
-    //         //const selectedValues = optionalBenefitTemp.map(option => option.benefitName);
-    //         // setSelectedOneOptionBenefits(optionalBenefitTemp);
-    //         setSelectedOneOptionBenefits((prev)=>[
-    //             ...prev,{
-    //                 benefitName: "Điều trị ngoại trú",
-    //             }
-    //         ]);
-    //         setSelectedOneOptionBenefits((prev)=>[
-    //             ...prev,{
-    //                 benefitName: "Điều trị abc trú",
-    //             }
-    //         ]);
-    //         console.log('option temp:',optionalBenefitTemp);
+    const [files, setFiles] = useState(null);
+  const [fileCounts, setFileCounts] = useState([{ section: 'Temp1:', fileCount: 2 }]);
+
+  const handleFileChange = (event) => {
+    setFiles(event.target.files);
+  };
+
+//   const handleFileCountChange = (event) => {
+//     // Handle changes in file counts if needed
+//     setFileCounts([{ section: 'Temp1:', fileCount: event.target.value }]);
+//   };
+
+//   const handleUpload = async () => {
+   
+//   };
 
 
-    //     // console.log('option temp:',optionalBenefitTemp);
-    //     // setSelectedOneOptionBenefits(optionalBenefitTemp);
 
-    //     // setSelectedOneOptionBenefits((prev) => [...prev, optionalBenefitTemp]);
-    // }
-
-
+    const handleSubmit2 =async(e)=>{
+        e.preventDefault();
+        // console.log('file: ',selectedFiles)
+        
+    }
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
@@ -393,22 +341,6 @@ export default function Buyplan() {
                     }
                 ],
                 optionalBenefits: selectedOneOptionBenefits,
-                    // {
-                    //     benefitName: optionalBenefitsName,
-                    //     dependencies: optionalBenefitsDependencies,
-                    //     feeType: [
-                    //         {
-                    //             type: optionalBenefitsFeeType,
-                    //             startAge: optionalBenefitsStartAge,
-                    //             endAge: optionalBenefitsEndAge,
-                    //             fee: optionalBenefitsFee
-                    //         }
-                    //     ],
-                    //     unit: optionalBenefitsUnit,
-                    //     insuranceAmount: optionalBenefitsInsuranceAmount
-                    // }
-                    
-                
             }
             
 
@@ -427,21 +359,62 @@ export default function Buyplan() {
         })
         .then(response => {
             console.log('Success:', response.data);
+            const newRegisId = response.data.regisId;
+            setCurentRegistrations(newRegisId)
+            //console.log('Current: ',curentRegistrations)
+            console.log('123:', newRegisId);
+//////////////////////////////////////////
+                // try {
+                //     const formData = new FormData();
+                //     formData.append('fileCounts', JSON.stringify(fileCounts));
+
+                //     for (let i = 0; i < files.length; i++) {
+                //     formData.append('files', files[i]);
+                //     }
+
+                //     const response = axios.put(`/update/${newRegisId}/image-docUrl`, formData, {
+                //     headers: {
+                //         'Content-Type': 'multipart/form-data',
+                //     },
+                //     });
+
+                //     console.log(response.data);
+                //     console.log('filecount:',fileCounts);
+                //     console.log('file:',files);
+                //     // console.log('Current: ',curentRegistrations)
+                // } catch (error) {
+                //     console.error('Error uploading files:', error);
+                //     console.log('filecount:',fileCounts);
+                //     console.log('file:',files);
+                //     // console.log('Current: ',curentRegistrations)
+                // }
+                const formData = new FormData();
+                    formData.append('fileCounts', JSON.stringify(fileCounts));
+                    for (let i = 0; i < files.length; i++) {
+                    formData.append('files', files[i]);
+                    }
+
+                    // Perform the PUT request using Axios
+                    axios.put(`/update/${newRegisId}/image-docUrl`, formData)
+                    .then(response => {
+                        // Handle the successful response
+                        console.log('Response:', response.data);
+                    })
+                    .catch(error => {
+                        // Handle errors
+                        console.error('Error:', error);
+                    });
+        
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
+       
+        
+          
     }
-    const handleSubmit2 = async(e)=>{
-        e.preventDefault();
-        console.log('---------------------')
 
-        console.log('optionName in submit:',optionalBenefitsName);
-        console.log('Dependencies in submit:',optionalBenefitsDependencies)
-        console.log('InsuranceAmount in submit:',optionalBenefitsInsuranceAmount)
-        console.log('Unit in submit:',optionalBenefitsUnit)
-    }
     
     const fetchPlan = async () => {
         fetch("http://localhost:8090/api/v1/plans")
@@ -472,9 +445,6 @@ export default function Buyplan() {
         fetchUserInfo();
         fetchPlan(); // Fetch plans
          // Fetch user info
-         //handleOptionalBenefitArray();
-         
-            
         //fetchSelectPlanAPI(); // Fetch the selected plan details based on the current planID
        
     }, []); 
@@ -611,20 +581,7 @@ export default function Buyplan() {
                           />
                       </div>
                   </div>
-                  <div className="sm:col-start-1 col-end-7">
-                      <label className="block text-xl font-medium leading-6 text-gray-900">
-                          Health Status
-                      </label>
-                      <div className="mt-2">
-                          <input
-                          type="text"
-                          name="address"
-                          id="address"
-                          className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          placeholder='Your ealth Status'
-                          />
-                      </div>
-                  </div>
+
                     <form className="sm:col-start-1 col-end-7">
                         <label className=" pb-5 block text-xl font-medium leading-6 text-gray-900">Choose your Plan</label>
                         <select value={planID} onChange={handlePlanChange} className="sm:col-start-1 col-end-7 block w-full border-0 py-3 text-custom-blue-3 shadow-sm ring-1 ring-inset ring-custom-blue- placeholder:text-custom-blue-3 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm">
@@ -697,7 +654,7 @@ export default function Buyplan() {
                                                         </button>
                                                     ))}
                                                 </div>
-                                                {/* <div>{benefit.insuranceAmount} {benefit.unit}</div>          */}
+
                                             </div>
                                         ))}
                                     </div>
@@ -731,11 +688,7 @@ export default function Buyplan() {
                                                                             <div>
                                                                                 {item2.fee}
                                                                             </div>
-                                                                            )}
-                                                                        
-                                                                        {/* {benefitsStartAge === item2.startAge ? item2.fee : ''} */}
-                                                                        
-                                                                        
+                                                                            )}    
                                                                     </div>
                                                                 ))}
                                                                     
@@ -743,11 +696,6 @@ export default function Buyplan() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                               
-
-
-
-
                                                     {/* {optionalBenefitsName === item.benefitName && (
                                                         <div className="pt-5 grid grid-cols-4 grid-flow-col gap-4">
                                                             {item.feeType.map((item2, index) => (
@@ -770,20 +718,19 @@ export default function Buyplan() {
                                 
                             </div>
                         )}
-                        
-                        
                         <div >
+                        <div>
+      <input type="file" onChange={handleFileChange} multiple />
+      {/* <input type="text" placeholder="File Counts" onChange={handleFileCountChange} /> */}
+      {/* <button onClick={handleUpload}>Upload</button> */}
+    </div>
                         </div>
-                        
-                        <div className="flex items-center justify-between">
-                            <div></div>
-                            <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {selectedPlanObject.planPrice} VND</div>   
-                        </div>
-                            
+                            <div className="flex items-center justify-between">
+                                <div></div>
+                                <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {selectedPlanObject.planPrice} VND</div>   
+                            </div>
                         </div>
                         )} 
-
-
                         <div className="flex items-center justify-between">
                             <div></div>
                             <button onClick={handleSubmit} className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
@@ -791,24 +738,40 @@ export default function Buyplan() {
                                 <p className="pl-6">Payment</p>
                             </button>
                         </div>
-                        {/* <div className="flex items-center justify-between">
-                            <div></div>
-                            <button onClick={handleSubmit2} className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
-                                <img src={Shopingcar} alt="LOGO" className="item-center" ></img>
-                                <p className="pl-6">Payment</p>
-                            </button>
-                        </div> */}
                     </form>
                     
             </div>
-            
-            
+
+            {/* <div>
+      <input
+        type="file"
+        multiple
+        accept=".pdf, image/*"
+        onChange={handleFileChange}
+      />
+      <div>
+        <h3>Selected Files:</h3>
+        <ul>
+          {selectedFiles.map((file, index) => (
+            <li key={index}>{file.name} - {file.type}</li>
+          ))}
+        </ul>
+      </div>
+    </div> */}
 
 
-                                            
+
+                                               
           </form>
-          {/* <div>{abd}</div> */}
-          <div>{fullName}</div>
+        <div>current: {curentRegistrations}</div>
+              {/* {fileContent && (
+        <div>
+          <h2>File Content:</h2>
+          
+          <img src={fileContent} alt="File Preview" style={{ maxWidth: '100%' }} />
+        </div>
+      )} */}
+          {/* <div>{fullName}</div>
           <div>{citizenId}</div>
           <div>{phoneNumber}</div>
           <div>{gender}</div>
@@ -841,18 +804,11 @@ export default function Buyplan() {
       <p>Benefit Name: {item.benefitName}</p>
         <p>dependencies:{item.dependencies}</p>
         <p>InsuranceAmount:{item.insuranceAmount} {item.unit}</p>
-
-
     </div>
   ))}
-</div>
-          {/* <div>{selectedOptionBenefits}</div> */}
-                                                
-           
+</div>      */}
         </div>
-        
       </div>
-
     );
   }
    
