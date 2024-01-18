@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios'
 import RegistrationAPI from '../../../../api/registrationApi.jsx';
 import Shopingcar from '../../../assets/shopingcar.png'
+// import SetupProxy from '../../../setupProxy.js'
 export default function Buyplan() {
     const user = useSelector((state) => state.auth.login.currentUser);
     const [isLogin,setIsLogin]=useState(false);
@@ -445,7 +446,7 @@ const [files, setFiles] = useState([]);
                     //   formData.append('files', files[i]);
                     // }
 
-                    const url=`http://localhost:8090/api/v1/registrations/update/${newRegisId}/image-docUrl`;
+                    const url=`http://localhost:8090/api/v1/registrations/update/${newRegisId}/files-docUrl`;
                     const formData = new FormData();
 
                     for (const fileCount of fileCounts){
@@ -500,6 +501,7 @@ const [files, setFiles] = useState([]);
                         headers: {
                           // Set the Content-Type header for each part
                           'Content-Type': 'multipart/form-data', // This is the overall Content-Type for the form
+                          'Authorization': `Bearer ${user.token}`
                         },
                       })
                         .then(response => response.json())
