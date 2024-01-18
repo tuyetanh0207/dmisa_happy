@@ -41,6 +41,25 @@ const notification = () => {
     ]
     const [isToggleOpen, setIsToggleOpen] = useState(false);
 
+
+    // Wait for api complete
+    // const [realtimeNoti, setRealtimeNoti] = useState([]);
+    // const [realtimeCount, setRealtimeCount] = useState({});
+    // const fetchNoti = async () => {
+    //   try{
+    //     const res = await PlanAPI.getNoti( /*need fix*/ user1?.token, user1?.userInfo.id);
+    //     setRealtimeNoti(res.data);
+    //     console.log('res', res.data);
+  
+    //   }
+    //   catch (error){
+    //     console.log("error in fetchNoti", error);
+    //   }
+    // }
+    // useEffect(() => {
+    //   fetchNoti();
+    // },[]) /* need fix? {} */
+
     return (
         
         <body className='block relative'>

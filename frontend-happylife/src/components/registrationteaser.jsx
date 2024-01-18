@@ -32,6 +32,7 @@ const registrationteaser = (props) =>{
     'Your contract has been successfully registered 4',
     'Your contract has been successfully registered 5'
 ]
+    const [dataTest, setDataTest] = useState("Now")
    const [toggle, setToggle] = useState(false)
    const [arrrowClickStatus, setArrowClickStatus] = useState(false) 
    return ( 
@@ -75,6 +76,9 @@ const registrationteaser = (props) =>{
                         <div className="w-[106px] mr-[22px] h-12 px-6 py-3 bg-rose-200 rounded border border-red-700 inline-flex">
                             <div className="text-center text-red-700 text-base font-bold font-['IBM Plex Sans'] leading-normal">Unpaid</div>
                         </div>
+                        <Link
+                        to={{pathname:'/payment', state: dataTest}}
+                        >
                         <button>
                             <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
                                     <div className='w-[23px] h-[20px] mr-[15px]'>
@@ -84,6 +88,7 @@ const registrationteaser = (props) =>{
                                         <div className='text-white font-bold leading-normal'>Pay now</div>
                              </div>
                         </button>
+                        </Link>
                     </div>
                 ) : props.realtimeRegis.approvalStatus === 'Pending' ? (
                     <div className="w-[161px] h-12 px-6 py-3 bg-indigo-50 rounded border border-indigo-500 justify-center items-center gap-2.5 inline-flex">
@@ -107,9 +112,7 @@ const registrationteaser = (props) =>{
                   </div>
                 )
             }
-       </div>
-      
-              
+       </div>              
       </div>
 
       <div>

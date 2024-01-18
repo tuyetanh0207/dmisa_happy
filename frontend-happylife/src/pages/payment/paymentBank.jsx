@@ -6,10 +6,62 @@ import Logo from '../../assets/LogoHalfScreen.png';
 import {Routes, Route, Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import ShoppingCart from '../../assets/ShoppingCart.png';
-const paymentBank = () => {
-    const handlePayNowClick = () =>{
+import {useSelector} from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
+const paymentBank = () => {
+    const user1 = useSelector((state) => state.auth.login.currentUser);
+    // Wait for api complete
+    //const [realtimeInvoice, setRealtimeInvoice] = useState({});
+    // const fetchInvoice = async () => {
+    //     try{
+    //       const res = await InvoiceAPI.getRegisInvoice(/*need fix*/ user1?.token, user1?.userInfo.id);
+    //       setRealtimeInvoice(res.data);
+    //       console.log('res', res.data);
+    
+    //     }
+    //     catch (error){
+    //       console.log("error in fetchUser", error);
+    //     }
+    //   }
+    //   useEffect(() => {
+    //     fetchInvoice();
+    //   },[]) /* need fix? {} */
+
+    // Wait for api complete
+    // const [realtimePlan, setRealtimePlan] = useState([]);
+    // const fetchPlan = async () => {
+    //   try{
+    //     const res = await PlanAPI.getRegisPlan( /*need fix*/ user1?.token, user1?.userInfo.id);
+    //     setRealtimePlan(res.data);
+    //     console.log('res', res.data);
+  
+    //   }
+    //   catch (error){
+    //     console.log("error in fetchUser", error);
+    //   }
+    // }
+    // useEffect(() => {
+    //   fetchRegis();
+    // },[]) /* need fix? {} */
+
+
+    const handlePayNow = async (e) => {
+        e.preventDefault();
+        console.log('update invoice status');
+        const invoice = {
+            invoiceId: "657dbafc435a207a6d359190",
+            regisInfo: {
+                regisId : "",
+                CustomerInfo : "",
+                ApprovalStatus : "Signed"
+            }, 
+            paymentStatus: "Pending",
+            paymentMethod: "Banking",
+          }
     }
+
     return(
         <div className='w-[1920px] h-[1210px] bg-slate-50 flex justify-center items-center'>
             <div className="w-[710px] h-[932px] bg-white rounded-lg border-2 border-slate-50 flex justify-center">
@@ -46,7 +98,9 @@ const paymentBank = () => {
                         </input>
                         
                         <Link key='paymentconfirm' to='/paymentconfirm'>
-                            <button className="w-[475px] h-12  mt-[226px] py-3 bg-indigo-500 rounded border border-indigo-500 flex justify-center items-center gap-2.5 inline-flex">
+                            <button 
+                            onClick={handlePayNow}
+                            className="w-[475px] h-12  mt-[226px] py-3 bg-indigo-500 rounded border border-indigo-500 flex justify-center items-center gap-2.5 inline-flex">
                                 <div> <img src={ShoppingCart}></img> </div>
                                 <div className="text-right text-white text-base font-bold leading-normal">Pay now</div>
                             </button>
