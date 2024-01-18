@@ -142,6 +142,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                         noti.setNotiContent("Bạn đã thanh toán thành công!");
                         noti.setUserInfo(authUser.getId());
                         publisher.publishEvent(new NotificationEvent(noti));
+
                         return existingInvoice.convertToInvoiceUpdateDTO();
 
                     }

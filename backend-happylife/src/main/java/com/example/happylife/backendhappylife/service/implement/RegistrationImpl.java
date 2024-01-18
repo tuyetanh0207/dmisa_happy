@@ -167,6 +167,8 @@ public class RegistrationImpl implements RegistrationService {
             for(Message mes : updRegis.getMessage()){
                 existingRegis.getMessage().add(mes);
             }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
             registrationRepo.save(existingRegis);
             return existingRegis.convertToRegisResDTO();
         } catch (Exception e){
@@ -257,6 +259,8 @@ public class RegistrationImpl implements RegistrationService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
             existingRegis.setDocumentUrls(documentList);
             Registration updatedRegis = registrationRepo.save(existingRegis);
             RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();
@@ -286,6 +290,8 @@ public class RegistrationImpl implements RegistrationService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
             existingRegis.setDocumentUrls(documentList);
             Registration updatedRegis = registrationRepo.save(existingRegis);
             RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();

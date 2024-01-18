@@ -199,6 +199,8 @@ public class ClaimServiceImpl implements ClaimService {
                 documentList.add(document);
             }
             existingClaim.setDocumentUrls(documentList);
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
             return claimResDTO;
@@ -207,7 +209,9 @@ public class ClaimServiceImpl implements ClaimService {
         }
     }
     @Override
-    public ClaimResDTO updateClaimFilesDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+    public ClaimResDTO updateClaimFilesDocUrl(ObjectId claimId,
+                                              List<String> uploadedUrls,
+                                              List<SectionFileCount> sectionFileCounts) {
         Claim existingClaim = claimRepo.findById(claimId)
                 .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
         try {
@@ -227,6 +231,8 @@ public class ClaimServiceImpl implements ClaimService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
             existingClaim.setDocumentUrls(documentList);
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();

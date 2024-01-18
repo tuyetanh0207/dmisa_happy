@@ -54,10 +54,12 @@ public class NotificationServiceImpl implements NotificationService {
     public List<NotificationResDTO> updateAllStatusOfNotiUser(UserResDTO userVar) {
         try{
             User user = new User().convertResToUser(userVar);
+            Instant instantNow = Instant.now();
             List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId().toString());
             for(Notification notiVar : existingNotifications){
                 if(!notiVar.getNotiStatus()){
                     notiVar.setNotiStatus(true);
+                    notiVar.setUpdatedAt(instantNow);
                 } else continue;
             }
             notificationRepo.saveAll(existingNotifications);
@@ -77,6 +79,8 @@ public class NotificationServiceImpl implements NotificationService {
                     .orElseThrow(() -> new EntityNotFoundException("Notification not found with id: " + notiId));
             if(existingNotification.getUserInfo().equals(user.getId())){
                 existingNotification.setNotiStatus(true);
+                Instant instantNow = Instant.now();
+                existingNotification.setUpdatedAt(instantNow);
                 notificationRepo.save(existingNotification);
                 return existingNotification.convertToNotificationResDTO();
             } else {

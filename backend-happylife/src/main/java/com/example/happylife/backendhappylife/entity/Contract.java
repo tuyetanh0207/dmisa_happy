@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.Instant;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,6 +34,8 @@ public class Contract {
     @Field(targetType = FieldType.DATE_TIME)
     private Instant createdAt;
 
+    private List<String> content;
+
     @Field(targetType = FieldType.DATE_TIME)
     private Instant updatedAt;
 
@@ -45,6 +48,7 @@ public class Contract {
         contract.setConfirmation(dto.getConfirmation());
         contract.setStatus(dto.getStatus());
         contract.setRegisInfo(dto.getRegisInfo());
+        contract.setContent(dto.getContent());
         return contract;
     }
     public ContractResDTO convertToContractResDTO() {
@@ -53,6 +57,7 @@ public class Contract {
         dto.setConfirmation(this.confirmation);
         dto.setStatus(this.status);
         dto.setRegisInfo(this.regisInfo);
+        dto.setContent(this.content);
         return dto;
     }
 }

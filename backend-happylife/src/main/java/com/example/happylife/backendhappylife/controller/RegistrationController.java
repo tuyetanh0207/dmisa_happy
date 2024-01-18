@@ -164,7 +164,7 @@ public class RegistrationController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisFileDocUrl(regisId,uploadedUrls,fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
 }

@@ -129,7 +129,7 @@ public class ClaimController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimImageDocUrl(claimId,uploadedUrls,fileCounts);
+        ClaimResDTO savedClaim = claimService.updateClaimFilesDocUrl(claimId,uploadedUrls,fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
 }

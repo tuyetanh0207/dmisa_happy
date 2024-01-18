@@ -194,13 +194,13 @@ public class Plan {
     @Getter
     public static class documents{
         private String docTitle;
-        private String docUrl;
+        private List<String> docUrl;
 
         public void setDocTitle(String docTitle) {
             this.docTitle = docTitle;
         }
 
-        public void setDocUrl(String docUrl) {
+        public void setDocUrl(List<String> docUrl) {
             this.docUrl = docUrl;
         }
     }
