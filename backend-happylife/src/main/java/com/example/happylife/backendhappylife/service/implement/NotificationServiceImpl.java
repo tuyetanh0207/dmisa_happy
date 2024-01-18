@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Notification;
 import com.example.happylife.backendhappylife.entity.User;
@@ -23,5 +24,14 @@ public class NotificationServiceImpl implements NotificationService {
         }
         return null;
     }
+
+//    @Override
+//    public NotificationResDTO createNotification(NotificationResDTO noti) {
+////        if (noti.getNotiTitle()== null) {
+////
+////        }
+//
+//
+//    }
 
 }

@@ -1,29 +1,20 @@
 package com.example.happylife.backendhappylife.DTO.NotificationDTO;
 
-import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.Instant;
 
 @Getter
-public class NotificationResDTO {
-    private String notificationId;
+public class NotificationCreateDTO {
+
     private ObjectId userInfo;
     private String notiTitle;
     private String notiContent;
     private Boolean notiStatus;
     private String notiType;
     private String notiPrio;
-    private Instant CreatedAt;
-    private Instant UpdatedAt;
 
-    public void setNotificationId(String notificationId) {
-        this.notificationId = notificationId;
-    }
 
     public void setUserInfo(ObjectId userInfo) {
         this.userInfo = userInfo;
@@ -49,11 +40,5 @@ public class NotificationResDTO {
         this.notiPrio = notiPrio;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        CreatedAt = createdAt;
-    }
 
-    public void setUpdatedAt(Instant updatedAt) {
-        UpdatedAt = updatedAt;
-    }
 }

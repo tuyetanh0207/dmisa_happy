@@ -5,20 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="fix get Regis and update status of regis">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationCreateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/PlanDTO/PlanUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/PlanDTO/PlanUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Plan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/RegistrationRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/RegistrationRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/RegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/RegistrationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/claimInvoiceTable.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/claimInvoiceTable.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/planTypeComp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/planTypeComp.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/planManagerPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/planManagerPopup.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/plan/plan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/plan/plan.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationResDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/NotificationServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +62,13 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="enabledProfiles">
+      <list>
+        <option value="native" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -92,7 +91,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sprint3.be.PhucNgo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sprint3&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/HCMUS/Kì 7/PTUDHTTTHD/Uhu&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -110,6 +109,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.happylife.backendhappylife.DTO.NotificationDTO" />
       <recent name="com.example.happylife.backendhappylife.DTO.RegistrationDTO" />
       <recent name="com.example.happylife.backendhappylife.DTO.ClaimDTO" />
     </key>
@@ -200,6 +200,8 @@
       <workItem from="1705130429473" duration="29000" />
       <workItem from="1705130547132" duration="131000" />
       <workItem from="1705133899385" duration="5338000" />
+      <workItem from="1705571475637" duration="911000" />
+      <workItem from="1705590231390" duration="1209000" />
     </task>
     <task id="LOCAL-00001" summary="done 3 first endpoint of registration">
       <option name="closed" value="true" />
