@@ -15,6 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -193,22 +194,16 @@ public class PlanServiceImpl implements PlanService {
                 regisEventReturn.complete(registration);
             };
             publisher.publishEvent(new RegistrationEvent(regis,null, method,callback));
-            System.out.println("Id : " + regisEventReturn.get().getRegisId());
-
-
-         /*   Contract existingContract = contractRepo.findByRegisIfo_RegisId(regisId.toString())
-                    .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + regisId));
-            if(existingContract.getRegisInfo().getCustomerInfo().getId().equals(user.getId().toString())){
-                return existingContract.convertToContractResDTO();
-            }
-            else if(user.getRole() == Role.ACCOUNTANT || user.getRole() == Role.INSUARANCE_MANAGER){
-                return existingContract.convertToContractResDTO();
-            }
-            return null;*/
+            //System.out.println("Id : " + regisEventReturn.get().getCustomerInfo());
+            ObjectId planId = new ObjectId(regisEventReturn.get().getProductInfo().getPlanId());
+            System.out.println("Id : " + planId.toString());
+            if(!planId.toString().isEmpty()){
+                Plan existingPlan = planRepo.findById(planId)
+                        .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + regisId));
+                return existingPlan.convertToPlanResDTO();
+            }else return null;
         } catch (Exception e){
             throw  new UserCreationException("Error get registration: "+ e.getMessage());
         }
-        return null;
     }
-
 }

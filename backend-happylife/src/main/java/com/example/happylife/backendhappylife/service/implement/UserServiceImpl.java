@@ -109,8 +109,6 @@ public class UserServiceImpl implements UserService {
         }
         catch (Exception e) {
             throw new UserCreationException("Error creating user:" + e.getMessage());
-
         }
-
     }
 }

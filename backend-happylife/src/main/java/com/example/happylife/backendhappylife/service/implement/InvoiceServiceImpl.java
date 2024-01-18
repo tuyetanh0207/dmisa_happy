@@ -7,6 +7,7 @@ import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Invoice;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -126,9 +127,15 @@ public class InvoiceServiceImpl implements InvoiceService {
                         RegisResDTO regis = existingInvoice.getRegisInfo();
                         regis.setRegisId(regisId.toString());
                         regis.setApprovalStatus("Paid");
+                        Message mes = new Message();
+                        mes.setContent("Bạn đã thanh toán thành công!");
+                        mes.setDateMessage(instantNow);
+                        regis.getMessage().add(mes);
                         Registration regisUpd = new Registration().convertToRegis(regis);
                         RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                         publisher.publishEvent(new RegistrationEvent(regisUpd, method));
+
+                        //Tạo thêm một event gọi addNoti
 
                         return existingInvoice.convertToInvoiceUpdateDTO();
 

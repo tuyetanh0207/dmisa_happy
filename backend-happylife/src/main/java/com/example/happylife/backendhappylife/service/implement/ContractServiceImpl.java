@@ -6,6 +6,7 @@ import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -125,11 +126,16 @@ public class ContractServiceImpl implements ContractService {
                 RegisResDTO regis = existingContract.getRegisInfo();
                 regis.setRegisId(regisId.toString());
                 regis.setApprovalStatus("Signed");
+                Message mes = new Message();
+                mes.setContent("Bạn đã kí hợp đồng thành công và bạn cần thanh toán!");
+                mes.setDateMessage(instantNow);
+                regis.getMessage().add(mes);
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
                 contractRepo.save(existingContract);
                 return existingContract.convertToContractResDTO();
+                //Tạo thêm một event gọi addNoti
             }
         } catch (Exception e) {
             throw new UserCreationException("Error updating Contract: " + e.getMessage());

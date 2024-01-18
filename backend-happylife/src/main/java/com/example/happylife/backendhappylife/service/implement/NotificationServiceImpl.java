@@ -108,4 +108,8 @@ public class NotificationServiceImpl implements NotificationService {
             throw new UserCreationException("Error getting user's noti: " + e.getMessage());
         }
     }
+   /* @Override
+    public NotificationResDTO addNotiAuto(NotificationResDTO notificationResDTO){
+
+    }*/
 }
