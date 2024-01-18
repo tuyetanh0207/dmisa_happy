@@ -47,7 +47,7 @@ export default function App() {
                 <Route path='/buyplan' element ={<Buyplan/>} />
                 <Route path='/paymentbank' element ={<PaymentBank/>} />
                 <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
-                <Route path='/contract/:contractId' element ={<Contract/>} />
+                <Route path='/contract/:regisId/:contractId' element ={<Contract/>} />
                 
                 <Route
                   path="/staff/insuarancemanagement/*"

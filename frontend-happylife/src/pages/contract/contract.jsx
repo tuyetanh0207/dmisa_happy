@@ -19,7 +19,7 @@ const contract = () => {
         
         console.log('Contract data: ', contract);
         try {
-            const contractUpdateRes = await UpdateContractStatus.updateContractStatus(contract, contract.contractId, user1?.token);
+            const contractUpdateRes = await UpdateContractStatus.updateContractStatus(contract, "65a6a72fcea35764df8ab8af", user1?.token);
             console.log("contractUpdateRes:",contractUpdateRes)
         } catch (err) {
             console.log("err:", err);

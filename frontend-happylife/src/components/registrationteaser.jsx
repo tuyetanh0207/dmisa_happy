@@ -95,7 +95,7 @@ const registrationteaser = (props) =>{
                             <div className="text-center text-orange-400 text-base font-bold font-['IBM Plex Sans'] leading-normal"> Approved </div>
                         </div>
                         <Link
-                        to={`/contract/${props.realtimeRegis.contractIdInfo}`}
+                        to={`/contract/${props.realtimeRegis.regisId}/${props.realtimeRegis.contractIdInfo}`}
                         >
                             <button>
                                 <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
