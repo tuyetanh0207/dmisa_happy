@@ -12,7 +12,7 @@ const registration = () => {
   const [realtimeRegis, setRealtimeRegis] = useState([]);
   const fetchRegis = async () => {
     try{
-      const res = await RegistrationAPI.getUserRegistration(user1?.token);
+      const res = await RegistrationAPI.getUserRegistration(user1?.token, user1?.userInfo.id);
       setRealtimeRegis(res.data);
       console.log('res', res.data);
 

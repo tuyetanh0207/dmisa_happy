@@ -10,12 +10,13 @@ const contract = () => {
     const handleAccept = async (e) => {
         e.preventDefault();
         console.log('update contract status')
-        const contract = {
-            contractId: '65a3886bf9f4df0d877e8072',
-            regisInfo: '65990e87db0fad5b82d48d7e',
-            status: 'Effective',
-            confirmation: true,
+        const contract = {    
+                regisInfo: {
+                    regisId: "65990e87db0fad5b82d48d7e"
+                },
+                confirmation: true
         }
+        
         console.log('Contract data: ', contract);
         try {
             const contractUpdateRes = await UpdateContractStatus.updateContractStatus(contract, contract.contractId, user1?.token);
