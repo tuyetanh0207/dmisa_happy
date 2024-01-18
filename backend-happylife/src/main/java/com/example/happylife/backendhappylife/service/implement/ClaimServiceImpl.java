@@ -121,7 +121,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
     //Service for Customer
     @Override
-    public ClaimCreateDTO addClaim(ClaimCreateDTO claimCreateDTO){
+    public ClaimResDTO addClaim(ClaimCreateDTO claimCreateDTO){
         Claim claim = new Claim().convertCreToClaim(claimCreateDTO);
         try {
            /* if(claim.getClaimAmount() == null){
@@ -145,11 +145,10 @@ public class ClaimServiceImpl implements ClaimService {
             claim.setCreatedAt(instantNow);
             claim.setUpdatedAt(instantNow);
             claimRepo.save(claim);
-            ClaimCreateDTO claimSaved = claim.convertToClaimCreateDTO();
+            return claim.convertClaimToRes();
         } catch (Exception e){
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }
-        return null;
     }
     //Service for Both
     @Override

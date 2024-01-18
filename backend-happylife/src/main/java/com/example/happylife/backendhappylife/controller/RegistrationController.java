@@ -139,9 +139,7 @@ public class RegistrationController {
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO userRes = userVar.convertFromUserToUserResDTO();
         if(userRes.getRole() == Role.CUSTOMER) {
-            return ResponseEntity.ok(new Registration().convertCreToRegistrations
-                                        (registrationService.addRegistration(regisCreateDTO)).
-                                        convertToRegisResDTO());
+            return ResponseEntity.ok(registrationService.addRegistration(regisCreateDTO));
         }
         else {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");

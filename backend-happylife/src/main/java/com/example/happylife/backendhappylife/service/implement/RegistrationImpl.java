@@ -176,7 +176,7 @@ public class RegistrationImpl implements RegistrationService {
         }
     }
     @Override
-    public RegisCreateDTO addRegistration(RegisCreateDTO regisCreateDTO) {
+    public RegisResDTO addRegistration(RegisCreateDTO regisCreateDTO) {
         Registration regis = new Registration().convertCreToRegistrations(regisCreateDTO);
         try {
             if (regis.getCustomerInfo().getId() == null || regis.getCustomerInfo().getId().isEmpty()){
@@ -207,7 +207,7 @@ public class RegistrationImpl implements RegistrationService {
             regis.setStartDate(startDate);
             regis.setEndDate(endDate);
             registrationRepo.save(regis);
-            return regis.convertToRegisCreateDTO();
+            return regis.convertToRegisResDTO();
         }
         catch (Exception e) {
             throw new UserCreationException("Error creating registration: " + e.getMessage());
