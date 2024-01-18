@@ -19,6 +19,7 @@ import Profile from './pages/profile/profile.jsx'
 import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
+import IMDashboard from './pages/staff/insurancemanagement/dashboard/dashboard.jsx';
 // import '../pdfSetup'
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
@@ -46,7 +47,9 @@ export default function App() {
                     <InsuaranceManagementLayout
                     requiredRoles={['INSUARANCE_MANAGER']}
                     >
+                      
                       <Route index element={<IMPlan/>} />
+                      <Route path="dashboard" element={<IMDashboard/>} />
                       <Route path="plan" element={<IMPlan />} />
                       <Route path="registration" element={<IMRegistration/>} />
                       <Route path="claim" element={<IMClaim/>} />

@@ -8,6 +8,7 @@ import IMClaim from "./claim/claim";
 import styles from "./layout.module.css";
 import IMPlan from "./plan/plan";
 import IMRegistration from "./registration/registration";
+import IMDashboard from "./dashboard/dashboard";
 const InsuaranceManagementLayout = ({ element, requiredRoles }) => {
   const location = useLocation();
   const toggleSidebar = () => {
@@ -60,15 +61,17 @@ const InsuaranceManagementLayout = ({ element, requiredRoles }) => {
         </div>
 
         {/* <Outlet /> */}
-
+        {location.pathname.includes("staff/insuarancemanagement/dashboard") ? (
+          <IMDashboard />
+        ) : (
+          <></>
+        )}
         {location.pathname.includes("staff/insuarancemanagement/plan") ? (
           <IMPlan />
         ) : (
           <></>
         )}
-        {location.pathname.includes(
-          "staff/insuarancemanagement/registration"
-        ) ? (
+        {location.pathname.includes("staff/insuarancemanagement/registration") ? (
           <IMRegistration />
         ) : (
           <></>

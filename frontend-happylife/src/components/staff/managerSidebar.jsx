@@ -33,6 +33,11 @@ const ManagerSidebar = (props) => {
       icon: <CreditCardIcon key="3" className="w-8 h-8 mr-4" />,
       pathname: "claim",
     },
+    {
+      name: "Dashboard",
+      icon: <HeartIcon key="4" className="w-8 h-8 mr-4" />,
+      pathname: "dashboard",
+    },
   ];
   const handleClickNavigation = (navPath) => {
     const path = "/staff/insuarancemanagement/" + navPath;
