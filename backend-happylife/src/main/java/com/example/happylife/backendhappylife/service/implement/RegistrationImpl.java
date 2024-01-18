@@ -13,7 +13,6 @@ import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
-import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
@@ -40,12 +39,6 @@ public class RegistrationImpl implements RegistrationService {
 
     @Autowired
     private ApplicationEventPublisher publisher;
-
-    @Autowired
-    private InvoiceService invoiceService;
-
-/*    @Autowired
-    private ContractService contractService;*/
 
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
@@ -136,6 +129,34 @@ public class RegistrationImpl implements RegistrationService {
 
 
     //Service for Customer
+    @Override
+    public RegisResDTO getRegisByIdRegis(UserResDTO userVar, ObjectId regisId){
+        try{
+            User user = new User().convertResToUser(userVar);
+            Registration existingRegis = registrationRepo.findById(regisId)
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+            if(existingRegis.getCustomerInfo().getId().equals(user.getId().toString())){
+                return existingRegis.convertToRegisResDTO();
+            }
+            else if(user.getRole() == Role.ACCOUNTANT || user.getRole() == Role.INSUARANCE_MANAGER){
+                return existingRegis.convertToRegisResDTO();
+            }
+            return null;
+        } catch (Exception e){
+        throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
+    @Override
+    public RegisResDTO getRegisByIdRegisForEvent(ObjectId regisId){
+        try{
+            Registration existingRegis = registrationRepo.findById(regisId)
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+            return existingRegis.convertToRegisResDTO();
+
+        } catch (Exception e){
+            throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
     @Override //Event được call khi người dùng kí hợp đồng, thanh toán invoice
     public RegisResDTO updateRegisStatusOfCustomer(ObjectId regisId, RegisUpdateDTO regisUpdateDTO){
         try {
@@ -143,6 +164,9 @@ public class RegistrationImpl implements RegistrationService {
             Registration existingRegis = registrationRepo.findById(regisId)
                     .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
             existingRegis.setApprovalStatus(updRegis.getApprovalStatus());
+            for(Message mes : updRegis.getMessage()){
+                existingRegis.getMessage().add(mes);
+            }
             registrationRepo.save(existingRegis);
             return existingRegis.convertToRegisResDTO();
         } catch (Exception e){
@@ -198,7 +222,7 @@ public class RegistrationImpl implements RegistrationService {
                         .collect(Collectors.toList());
                 return regisResDTOList;
             }
-            else if(user.getRole() == Role.ACCOUNTANT){
+            else if(user.getRole() == Role.INSUARANCE_MANAGER){
                 List<Registration> regisList = registrationRepo.findByCustomerInfo_Id(userId.toString());
                 List<RegisResDTO> regisResDTOList = regisList.stream()
                         .map(registration -> registration.convertToRegisResDTO())
@@ -268,6 +292,16 @@ public class RegistrationImpl implements RegistrationService {
             return regisResDTO;
         } catch (Exception e) {
             throw new UserCreationException("Error update Regis: " + e.getMessage());
+        }
+    }
+    @Override
+    public RegisResDTO getRegisByPlanId(ObjectId planId){
+        try {
+            Registration existingRegis = registrationRepo.findByProductInfo_PlanId(planId.toString())
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + planId));
+            return existingRegis.convertToRegisResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error get Regis: " + e.getMessage());
         }
     }
 }

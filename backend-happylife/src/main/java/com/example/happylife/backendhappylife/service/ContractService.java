@@ -19,6 +19,8 @@ public interface ContractService {
     //Service for Customer
     ContractResDTO updateContractStatus(ContractResDTO contract, ObjectId contractId, UserResDTO userVar);
 
+    ContractResDTO getContractByRegisId(UserResDTO userVar, ObjectId regisId);
+
     //Service for image and files
 
 }

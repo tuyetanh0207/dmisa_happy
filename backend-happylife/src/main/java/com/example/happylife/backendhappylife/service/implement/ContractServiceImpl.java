@@ -4,7 +4,9 @@ import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Contract;
+import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
+import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -72,7 +74,7 @@ public class ContractServiceImpl implements ContractService {
     public List<ContractResDTO> getContractByUserId(ObjectId userId, UserResDTO userRes){
         User userVar = new User().convertResToUser(userRes);
         try{
-            if(userVar.getId().equals(userId.toString())){
+            if(userVar.getId().equals(userId)){
                 List<Contract> contracts = contractRepo.findByRegisInfo_CustomerInfoId(userId.toString());
                 List<ContractResDTO> contractRes = contracts.stream()
                                                 .map(Contract::convertToContractResDTO)
@@ -117,7 +119,6 @@ public class ContractServiceImpl implements ContractService {
                 existingContract.setConfirmation(true);
                 Instant instantNow = Instant.now();
                 existingContract.setUpdatedAt(instantNow);
-                System.out.println("Error : Right ?");
                 ObjectId regisId = new ObjectId();
                 if(contract.getRegisInfo().getRegisId() != null){
                     regisId = new ObjectId(contract.getRegisInfo().getRegisId());
@@ -125,15 +126,38 @@ public class ContractServiceImpl implements ContractService {
                 RegisResDTO regis = existingContract.getRegisInfo();
                 regis.setRegisId(regisId.toString());
                 regis.setApprovalStatus("Signed");
+                Message mes = new Message();
+                mes.setContent("Bạn đã kí hợp đồng thành công và bạn cần thanh toán!");
+                mes.setDateMessage(instantNow);
+                regis.getMessage().add(mes);
                 Registration regisUpd = new Registration().convertToRegis(regis);
-                publisher.publishEvent(new RegistrationEvent(regisUpd));
+                RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
+                publisher.publishEvent(new RegistrationEvent(regisUpd, method));
                 contractRepo.save(existingContract);
                 return existingContract.convertToContractResDTO();
+                //Tạo thêm một event gọi addNoti
             }
         } catch (Exception e) {
             throw new UserCreationException("Error updating Contract: " + e.getMessage());
         }
     }
 
+    @Override
+    public ContractResDTO getContractByRegisId(UserResDTO userVar, ObjectId regisId){
+        try{
+            User user = new User().convertResToUser(userVar);
+            Contract existingContract = contractRepo.findByRegisInfo_RegisId(regisId.toString())
+                    .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + regisId));
+            if(existingContract.getRegisInfo().getCustomerInfo().getId().equals(user.getId().toString())){
+                return existingContract.convertToContractResDTO();
+            }
+            else if(user.getRole() == Role.ACCOUNTANT || user.getRole() == Role.INSUARANCE_MANAGER){
+                return existingContract.convertToContractResDTO();
+            }
+            return null;
+        } catch (Exception e){
+            throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
     //Service for image and files
 }

@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationListDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
@@ -8,6 +9,7 @@ import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.NotificationRepo;
 import com.example.happylife.backendhappylife.service.NotificationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +22,14 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private NotificationRepo notificationRepo;
 
+    //Service mock
+
     //Service for Customer
     @Override
     public List<NotificationResDTO> getNotificationsById(UserResDTO userVar, ObjectId userId) {
         User user = new User().convertResToUser(userVar);
         try{
-            if(user.getId().toString().equals(userId)) {
+            if(user.getId().toString().equals(userId.toString())) {
                 List<Notification> notificationList = notificationRepo.findByUserInfo(userId.toString());
                 List<NotificationResDTO> notificationResDTOS = notificationList.stream()
                         .map(notification -> notification.convertToNotificationResDTO())
@@ -45,4 +49,67 @@ public class NotificationServiceImpl implements NotificationService {
         }
         return null;
     }
+    @Override
+    public List<NotificationResDTO> updateAllStatusOfNotiUser(UserResDTO userVar) {
+        try{
+            User user = new User().convertResToUser(userVar);
+            List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId().toString());
+            for(Notification notiVar : existingNotifications){
+                if(!notiVar.getNotiStatus()){
+                    notiVar.setNotiStatus(true);
+                } else continue;
+            }
+            notificationRepo.saveAll(existingNotifications);
+            List<NotificationResDTO> notificationResDTOS = existingNotifications.stream()
+                    .map(notification -> notification.convertToNotificationResDTO())
+                    .collect(Collectors.toList());
+            return notificationResDTOS;
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's noti: " + e.getMessage());
+        }
+    }
+    @Override
+    public NotificationResDTO updateStatusOfNotiUser(UserResDTO userVar, ObjectId notiId) {
+        try{
+            User user = new User().convertResToUser(userVar);
+            Notification existingNotification = notificationRepo.findById(notiId)
+                    .orElseThrow(() -> new EntityNotFoundException("Notification not found with id: " + notiId));
+            if(existingNotification.getUserInfo().equals(user.getId())){
+                existingNotification.setNotiStatus(true);
+                notificationRepo.save(existingNotification);
+                return existingNotification.convertToNotificationResDTO();
+            } else {
+                throw new UserCreationException("Error update user's noti" );
+            }
+        } catch (Exception e) {
+            throw new UserCreationException("Error update user's noti: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public NotificationListDTO getListOfFalseStatus(UserResDTO userVar){
+        try{
+            User user = new User().convertResToUser(userVar);
+            List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId().toString());
+            int count = 0;
+            for(Notification notiVar : existingNotifications){
+                if(!notiVar.getNotiStatus()){
+                    count++;
+                } else continue;
+            }
+            List<NotificationResDTO> notificationResDTOS = existingNotifications.stream()
+                    .map(notification -> notification.convertToNotificationResDTO())
+                    .collect(Collectors.toList());
+            NotificationListDTO notiList = new NotificationListDTO();
+            notiList.setAmountOfFalseStatus(count);
+            notiList.setNotificationResDTOS(notificationResDTOS);
+            return notiList;
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's noti: " + e.getMessage());
+        }
+    }
+   /* @Override
+    public NotificationResDTO addNotiAuto(NotificationResDTO notificationResDTO){
+
+    }*/
 }

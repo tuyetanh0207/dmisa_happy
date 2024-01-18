@@ -70,4 +70,19 @@ public class ContractController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
+    @GetMapping("/{regisId}/getById") //API get 1 regis của một user thông qua regisId
+    public ResponseEntity<?> getByRegisId(HttpServletRequest request,
+                                          @PathVariable ObjectId regisId){
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        if(user.getRole() == Role.CUSTOMER ||
+                user.getRole() == Role.INSUARANCE_MANAGER ||
+                user.getRole() == Role.ACCOUNTANT)
+        {
+            return ResponseEntity.ok(contractService.getContractByRegisId(userResDTO,regisId));
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
 }

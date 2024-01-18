@@ -8,11 +8,12 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RegistrationRepo extends MongoRepository<Registration, ObjectId> {
     List<Registration> findByCustomerInfo_Id(String id);
-
+    Optional<Registration> findByProductInfo_PlanId(String planId);
     @Query("{ 'productInfo.planId': ?0, 'approvalStatus': ?1 }")
     List<Registration> findAllByProductInfoAndApprovalStatus(String id, String approvalStatus);
 

@@ -1,25 +1,34 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.Registration;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.PlanService;
+import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
     @Autowired
     private PlanRepo planRepo;
-
+    @Autowired
+    private ApplicationEventPublisher publisher;
     @Override
     public Plan deletePlan(ObjectId PlanId) {
         Plan Plan = planRepo.findById(PlanId).get();
@@ -170,4 +179,31 @@ public class PlanServiceImpl implements PlanService {
         return plans.convertToPlanResDTO();
     }
 
+    @Override
+    public PlanResDTO getPlanByRegisId(UserResDTO userVar, ObjectId regisId){
+        try{
+            //User user = new User().convertResToUser(userVar);
+            Registration regis = new Registration();
+            regis.setRegisId(regisId);
+            RegistrationEventEnum method = RegistrationEventEnum.getPlanWithRegisId;
+
+            CompletableFuture<Registration> regisEventReturn = new CompletableFuture<>();
+
+            Registration existingRegis;
+            RegistrationEvent.RegistrationGetCallback callback = registration -> {
+                regisEventReturn.complete(registration);
+            };
+            publisher.publishEvent(new RegistrationEvent(regis,null, method,callback));
+            //System.out.println("Id : " + regisEventReturn.get().getCustomerInfo());
+            ObjectId planId = new ObjectId(regisEventReturn.get().getProductInfo().getPlanId());
+            System.out.println("Id : " + planId.toString());
+            if(!planId.toString().isEmpty()){
+                Plan existingPlan = planRepo.findById(planId)
+                        .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + regisId));
+                return existingPlan.convertToPlanResDTO();
+            }else return null;
+        } catch (Exception e){
+            throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
 }

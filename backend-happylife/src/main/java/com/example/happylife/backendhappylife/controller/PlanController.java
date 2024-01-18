@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -128,5 +129,10 @@ public class PlanController {
         List<PlanResDTO> planResDTOS = planService.getAllPlans();
         return ResponseEntity.ok(planResDTOS);
     };
+
+    @GetMapping("/{regisId}/getPlanByRegisId")
+    public ResponseEntity<?> getPlanByRegisId(@PathVariable ObjectId regisId){
+        return ResponseEntity.ok(planService.getPlanByRegisId(null, regisId));
+    }
 }
 

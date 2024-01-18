@@ -31,10 +31,10 @@ public class Contract {
     @Column(nullable = false)
     private Boolean confirmation;
     @Field(targetType = FieldType.DATE_TIME)
-    private Instant CreatedAt;
+    private Instant createdAt;
 
     @Field(targetType = FieldType.DATE_TIME)
-    private Instant UpdatedAt;
+    private Instant updatedAt;
 
     public Contract convertResToContract(ContractResDTO dto) {
         Contract contract = new Contract();

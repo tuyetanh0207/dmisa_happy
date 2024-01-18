@@ -32,18 +32,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResDTO getUserById(UserResDTO user, ObjectId id) {
+    public UserResDTO getUserById(UserResDTO userVar, ObjectId id) {
+        User user = new User().convertResToUser(userVar);
         // check if user._id == id, it means a user is getting their infomation
         try {
-            if (user.getId().equals(id.toString())) {
-                Optional<User> userVar = userRepo.findById(id);
+            if (user.getId().equals(id)) {
+                Optional<User> userResult = userRepo.findById(id);
                 System.out.println("Error : true");
-                return userVar.get().convertFromUserToUserResDTO();
+                return userResult.get().convertFromUserToUserResDTO();
             }
             // check if getting user is manager, DBA or accountant, it means they can get information of any user
             if (user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT || user.getRole() == Role.DBA) {
-                Optional<User> userVar = userRepo.findById(id);
-                return userVar.get().convertFromUserToUserResDTO();
+                Optional<User> userResult = userRepo.findById(id);
+                return userResult.get().convertFromUserToUserResDTO();
             }
             throw new UserCreationException("Error getting user information, you not have permission, please sign in with permitted account to do it.");
         } catch (Exception e) {
@@ -108,8 +109,6 @@ public class UserServiceImpl implements UserService {
         }
         catch (Exception e) {
             throw new UserCreationException("Error creating user:" + e.getMessage());
-
         }
-
     }
 }

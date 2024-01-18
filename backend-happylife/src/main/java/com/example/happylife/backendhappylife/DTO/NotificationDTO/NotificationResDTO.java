@@ -21,6 +21,7 @@ public class NotificationResDTO {
     private Instant CreatedAt;
     private Instant UpdatedAt;
 
+
     public void setNotificationId(String notificationId) {
         this.notificationId = notificationId;
     }
