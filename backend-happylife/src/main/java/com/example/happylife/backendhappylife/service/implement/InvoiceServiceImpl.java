@@ -7,12 +7,14 @@ import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Invoice;
+import com.example.happylife.backendhappylife.entity.Notification;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.InvoiceRepo;
 import com.example.happylife.backendhappylife.service.InvoiceService;
+import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.NotificationEvent;
 import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
@@ -135,8 +137,11 @@ public class InvoiceServiceImpl implements InvoiceService {
                         RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                         publisher.publishEvent(new RegistrationEvent(regisUpd, method));
 
-                        //Tạo thêm một event gọi addNoti
-
+                        Notification noti = new Notification();
+                        noti.setNotiTitle("Thông báo đã thanh toán thành công!");
+                        noti.setNotiContent("Bạn đã thanh toán thành công!");
+                        noti.setUserInfo(authUser.getId());
+                        publisher.publishEvent(new NotificationEvent(noti));
                         return existingInvoice.convertToInvoiceUpdateDTO();
 
                     }
