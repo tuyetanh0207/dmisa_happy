@@ -14,6 +14,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,8 +109,27 @@ public class NotificationServiceImpl implements NotificationService {
             throw new UserCreationException("Error getting user's noti: " + e.getMessage());
         }
     }
-   /* @Override
+    @Override
     public NotificationResDTO addNotiAuto(NotificationResDTO notificationResDTO){
-
-    }*/
+        Notification notification = new Notification().convertResToNoti(notificationResDTO);
+        try {
+            if (notification.getNotiTitle() == null) {
+                throw new UserCreationException("Notification Title is required.");
+            }
+            if(notification.getNotiContent() == null) {
+                throw new UserCreationException("Notification Content is required.");
+            }
+            if(notification.getUserInfo() == null){
+                throw new UserCreationException("User id is required.");
+            }
+            Instant instantNow = Instant.now();
+            notification.setNotiStatus(false);
+            notification.setCreatedAt(instantNow);
+            notification.setUpdatedAt(instantNow);
+            notificationRepo.save(notification);
+            return notification.convertToNotificationResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error creating new Contract: " + e.getMessage());
+        }
+    }
 }

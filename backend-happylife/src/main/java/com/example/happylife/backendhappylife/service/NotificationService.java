@@ -18,4 +18,6 @@ public interface NotificationService {
     NotificationResDTO updateStatusOfNotiUser(UserResDTO userVar, ObjectId notiId);
 
     NotificationListDTO getListOfFalseStatus(UserResDTO userVar);
+
+    NotificationResDTO addNotiAuto(NotificationResDTO notificationResDTO);
 }

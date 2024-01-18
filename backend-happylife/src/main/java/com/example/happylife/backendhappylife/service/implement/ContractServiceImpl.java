@@ -6,12 +6,14 @@ import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
+import com.example.happylife.backendhappylife.entity.Notification;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ContractRepo;
 import com.example.happylife.backendhappylife.service.ContractService;
+import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.NotificationEvent;
 import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
@@ -98,7 +100,6 @@ public class ContractServiceImpl implements ContractService {
     public ContractResDTO updateContractStatus(ContractResDTO contractResDTO, ObjectId contractId, UserResDTO userVar){
         Contract contract = new Contract().convertResToContract(contractResDTO);
         User user = new User().convertResToUser(userVar);
-        System.out.println("user Id" + user.getId().toString());
         try{
             Contract existingContract = contractRepo.findById(contractId)
                     .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + contractId));
@@ -119,6 +120,7 @@ public class ContractServiceImpl implements ContractService {
                 existingContract.setConfirmation(true);
                 Instant instantNow = Instant.now();
                 existingContract.setUpdatedAt(instantNow);
+
                 ObjectId regisId = new ObjectId();
                 if(contract.getRegisInfo().getRegisId() != null){
                     regisId = new ObjectId(contract.getRegisInfo().getRegisId());
@@ -127,15 +129,21 @@ public class ContractServiceImpl implements ContractService {
                 regis.setRegisId(regisId.toString());
                 regis.setApprovalStatus("Signed");
                 Message mes = new Message();
-                mes.setContent("Bạn đã kí hợp đồng thành công và bạn cần thanh toán!");
+                mes.setContent("");
                 mes.setDateMessage(instantNow);
                 regis.getMessage().add(mes);
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
+
+                Notification noti = new Notification();
+                noti.setNotiTitle("Thông báo đăng ký hợp đồng thành công!");
+                noti.setNotiContent("Bạn đã kí hợp đồng thành công và bạn cần thanh toán!");
+                noti.setUserInfo(user.getId());
+                publisher.publishEvent(new NotificationEvent(noti));
+
                 contractRepo.save(existingContract);
                 return existingContract.convertToContractResDTO();
-                //Tạo thêm một event gọi addNoti
             }
         } catch (Exception e) {
             throw new UserCreationException("Error updating Contract: " + e.getMessage());
