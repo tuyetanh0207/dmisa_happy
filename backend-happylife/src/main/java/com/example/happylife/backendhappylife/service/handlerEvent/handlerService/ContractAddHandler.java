@@ -7,7 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContractHandler {
+public class ContractAddHandler {
     @Autowired
     private ContractService contractService;
 

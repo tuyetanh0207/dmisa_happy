@@ -29,6 +29,21 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     //API for Customer
+    @GetMapping("/{userId}") //API get toàn bộ một invoice theo userId
+    public ResponseEntity<?> getByUserId(HttpServletRequest request,
+                                         @PathVariable ObjectId userId){
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        if(user.getRole() == Role.CUSTOMER ||
+                user.getRole() == Role.INSUARANCE_MANAGER ||
+                user.getRole() == Role.ACCOUNTANT)
+        {
+            return ResponseEntity.ok(invoiceService.getInvoiceofUserById(userResDTO,userId));
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
     @PutMapping("/{invoiceId}/Cash")
     public ResponseEntity<?> updateInvoice(HttpServletRequest request,
                                            @PathVariable ObjectId invoiceId,
@@ -42,4 +57,19 @@ public class InvoiceController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     };
+    @GetMapping("/{regisId}/getByRegisId") //API get 1 regis của một user thông qua regisId
+    public ResponseEntity<?> getByRegisId(HttpServletRequest request,
+                                          @PathVariable ObjectId regisId){
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        if(user.getRole() == Role.CUSTOMER ||
+                user.getRole() == Role.INSUARANCE_MANAGER ||
+                user.getRole() == Role.ACCOUNTANT)
+        {
+            return ResponseEntity.ok(invoiceService.getInvoiceByRegisId(userResDTO,regisId));
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
 }

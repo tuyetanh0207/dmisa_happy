@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service;
 
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Plan;
@@ -18,4 +19,6 @@ public interface PlanService {
     Plan updatePlanImageDocUrl(ObjectId planId,List<Plan.documents> listDoc);
 
     Plan updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl);
+
+    PlanResDTO getPlanByRegisId(UserResDTO userVar, ObjectId regisId);
 }

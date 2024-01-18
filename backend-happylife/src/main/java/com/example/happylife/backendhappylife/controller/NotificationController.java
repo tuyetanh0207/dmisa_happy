@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.controller;
 
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationListDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
@@ -42,4 +43,47 @@ public class NotificationController {
         }
     }
 
+    @PutMapping("/updateAllStatusOfUser")
+    public ResponseEntity<?> updateAllStatusOfUser(HttpServletRequest request){
+        User userVar = (User) request.getAttribute("userDetails");
+        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+        if(userRes.getRole() == Role.CUSTOMER ||
+                userRes.getRole() == Role.INSUARANCE_MANAGER ||
+                userRes.getRole() == Role.ACCOUNTANT) {
+            List<NotificationResDTO> notificationResDTOS = notificationService.updateAllStatusOfNotiUser(userRes);
+            return ResponseEntity.ok(notificationResDTOS);
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
+    @PutMapping("/{notiId}/updateStatus")
+    public ResponseEntity<?> updateStatusofNoti(HttpServletRequest request,
+                                                @PathVariable ObjectId notiId){
+        User userVar = (User) request.getAttribute("userDetails");
+        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+        if(userRes.getRole() == Role.CUSTOMER ||
+                userRes.getRole() == Role.INSUARANCE_MANAGER ||
+                userRes.getRole() == Role.ACCOUNTANT) {
+            NotificationResDTO notificationRes = notificationService.updateStatusOfNotiUser(userRes, notiId);
+            return ResponseEntity.ok(notificationRes);
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
+    @PutMapping("/getNotiStatusFalseOfUser")
+    public ResponseEntity<?> getNotiStatusFalseOfUser(HttpServletRequest request){
+        User userVar = (User) request.getAttribute("userDetails");
+        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+        if(userRes.getRole() == Role.CUSTOMER ||
+                userRes.getRole() == Role.INSUARANCE_MANAGER ||
+                userRes.getRole() == Role.ACCOUNTANT) {
+            NotificationListDTO notificationListDTO = notificationService.getListOfFalseStatus(userRes);
+            return ResponseEntity.ok(notificationListDTO);
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
 }

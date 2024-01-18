@@ -20,6 +20,11 @@ public interface RegistrationService {
 
     List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, String status);
 
+    //Service for Customer
+    RegisResDTO getRegisByIdRegis(UserResDTO userVar, ObjectId regisId);
+
+    RegisResDTO getRegisByIdRegisForEvent(ObjectId regisId);
+
     RegisResDTO updateRegisStatusOfCustomer(ObjectId regisId, RegisUpdateDTO regisUpdateDTO);
 
     RegisCreateDTO addRegistration(RegisCreateDTO regisCreateDTO);
@@ -30,4 +35,6 @@ public interface RegistrationService {
     RegisResDTO updateRegisImageDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
 
     RegisResDTO updateRegisFileDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
+
+    RegisResDTO getRegisByPlanId(ObjectId planId);
 }

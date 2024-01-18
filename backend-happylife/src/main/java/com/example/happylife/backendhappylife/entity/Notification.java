@@ -35,10 +35,10 @@ public class Notification {
     private String notiPrio;
 
     @Field(targetType = FieldType.DATE_TIME)
-    private Instant CreatedAt;
+    private Instant createdAt;
 
     @Field(targetType = FieldType.DATE_TIME)
-    private Instant UpdatedAt;
+    private Instant updatedAt;
     public Notification convertResToNoti(NotificationResDTO dto) {
         Notification notification = new Notification();
         if(dto.getNotificationId() != null){
@@ -63,8 +63,8 @@ public class Notification {
         dto.setNotiStatus(this.notiStatus);
         dto.setNotiType(this.notiType);
         dto.setNotiTitle(this.notiTitle);
-        dto.setUpdatedAt(this.UpdatedAt);
-        dto.setCreatedAt(this.CreatedAt);
+        dto.setUpdatedAt(this.updatedAt);
+        dto.setCreatedAt(this.createdAt);
         dto.setUserInfo(this.userInfo);
         return dto;
     }

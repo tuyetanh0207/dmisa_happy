@@ -136,7 +136,11 @@ public class ClaimServiceImpl implements ClaimService {
             if(claim.getRegisInfo() == null){
                 throw new UserCreationException("Regis info can't be null.");
             }
-            claim.setStatus("Pending review");
+
+            claim.setStatus("Pending");
+            for(Claim.ClaimInvoices claimInvoices : claim.getClaimInvoices()){
+                claimInvoices.setStatus("Pending");
+            }
             Instant instantNow = Instant.now();
             claim.setCreatedAt(instantNow);
             claim.setUpdatedAt(instantNow);
