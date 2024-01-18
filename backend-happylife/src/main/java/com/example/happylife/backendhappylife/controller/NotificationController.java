@@ -25,6 +25,8 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    //API for system
+    //@PostMapping("/create/{userId}")
     //API for Customer
     @GetMapping("/{userId}")
     public ResponseEntity<?> getNotificationsOfUserById(HttpServletRequest request,
