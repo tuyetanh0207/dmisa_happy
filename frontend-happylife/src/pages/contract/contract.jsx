@@ -1,35 +1,35 @@
 import React from 'react'
 import DownloadIcon from '../../assets/DownloadIcon.png'
 import InsuranceContract from '../../assets/InsuranceContract.pdf'
-import UpdateContractStatus from '../../../api/contractApi'
+//import UpdateContractStatus from '../../../api/contractApi'
 import {useSelector} from 'react-redux'
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import ContractAPI from '../../../api/contractApi'
 const contract = () => {
 
     const { regisId } = useParams();
-    const { contractId } = useParams();
+    console.log("REGISTRATION ID: ", regisId)
     // console.log("REGIS ID: ", {regisId})
     // console.log("CONTRACT ID: ", {contractId})
     const [noti, setNoti] = useState("")
     const user1 = useSelector((state) =>state.auth.login.currentUser);
-    // Wait for api complete
-    // const [realtimeContract, setRealtimeContract] = useState({});
-    // const fetchContract = async () => {
-    //   try{
-    //     const res = await ContractAPI.getRegisContract(/*need fix*/ user1?.token, user1?.userInfo.id);
-    //     setRealtimeContract(res.data);
-    //     console.log('res', res.data);
+    
+    const [realtimeContract, setRealtimeContract] = useState({});
+    const fetchContract = async () => {
+      try{
+        const res = await ContractAPI.getContractByRegisId(regisId, user1?.token);
+        setRealtimeContract(res.data);
+        console.log('res', res.data);
   
-    //   }
-    //   catch (error){
-    //     console.log("error in fetchUser", error);
-    //   }
-    // }
-    // useEffect(() => {
-    //   fetchContract();
-    // },[]) /* need fix? */
+      }
+      catch (error){
+        console.log("error in fetchUser", error);
+      }
+    }
+    useEffect(() => {
+      fetchContract();
+    },[]) /* need fix? */
 
     const handleAccept = async (e) => {
         e.preventDefault();
@@ -44,7 +44,7 @@ const contract = () => {
         
         console.log('Contract data: ', contract);
         try {
-            const contractUpdateRes = await UpdateContractStatus.updateContractStatus(contract, regisId /*"65a6a72fcea35764df8ab8af"*/, user1?.token);
+            const contractUpdateRes = await ContractAPI.updateContractStatus(contract, regisId /*"65a6a72fcea35764df8ab8af"*/, user1?.token);
             console.log("contractUpdateRes:",contractUpdateRes)
         } catch (err) {
             console.log("err:", err);
