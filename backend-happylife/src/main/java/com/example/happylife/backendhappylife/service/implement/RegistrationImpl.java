@@ -191,7 +191,7 @@ public class RegistrationImpl implements RegistrationService {
     public List<RegisResDTO> getRegisByUserId(UserResDTO userVar, ObjectId userId) {
         User user = new User().convertResToUser(userVar);
         try{
-            if(user.getId().toString().equals(userId)) {
+            if(user.getId().toString().equals(userId.toString())) {
                 List<Registration> regisList = registrationRepo.findByCustomerInfo_Id(userId.toString());
                 List<RegisResDTO> regisResDTOList = regisList.stream()
                         .map(registration -> registration.convertToRegisResDTO())
