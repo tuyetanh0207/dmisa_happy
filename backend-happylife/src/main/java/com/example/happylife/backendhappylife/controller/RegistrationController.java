@@ -142,14 +142,16 @@ public class RegistrationController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
-    @PutMapping("/update/{regisId}/image-docUrl") // Update Regis theo regisId các image ở DocumentURl
+    @PutMapping(value = "/update/{regisId}/image-docUrl", consumes = "multipart/form-data") // Update Regis theo regisId các image ở DocumentURl
     public ResponseEntity<?> updateRegisImageDocUrl(@PathVariable ObjectId regisId,
-                                                   @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                    @RequestParam("fileCounts") String fileCounts,
+                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
     @PutMapping(value = "/update/{regisId}/files-docUrl", consumes = "multipart/form-data")

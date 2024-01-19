@@ -6,6 +6,7 @@ import Contact from './pages/contact/contact.jsx'
 import Plan from './pages/plan/plan.jsx'
 import Login from './pages/login/login.jsx'
 import Signup from './pages/signup/signup.jsx'
+import Header from './components/header.jsx'
 // import {useState} from 'react'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 import Buyplan from './pages/plan/buyplan/buyplan.jsx'
@@ -19,18 +20,22 @@ import Profile from './pages/profile/profile.jsx'
 import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
-// import '../pdfSetup'
-export default function App() {
-  // const [isLogin, setLogin] = useState(false)
+import PaymentBank from './pages/payment/paymentBank.jsx'
+import PaymentConfirm from './pages/payment/paymentConfirm.jsx'
+import Contract from './pages/contract/contract.jsx'
+import { useState } from 'react'
+import { createContext } from 'react';
+const DataContext = createContext();
 
+export default function App() {
   return(
 
-          <div className='font-inter gap-y-px'>
+          <div className='relitive font-inter gap-y-px'>
               <Router>            
               <Nav/>
+              <Header/>
               <Routes>
                 <Route exac path ='/' element ={<Home/>} />
-              {/* <Header/> */}
                 <Route path ='/' element ={<Home/>} />
                 <Route path ='/home' element ={<Home/>} />
                 <Route path='/aboutus' element ={<AboutUs/>} />
@@ -40,6 +45,10 @@ export default function App() {
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />
+                <Route path='/payment/:regisId' element ={<PaymentBank />} />
+                <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
+                <Route path='/contract/:regisId' element ={<Contract/>} />
+                
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={

@@ -14,6 +14,8 @@ import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.service.FireBaseService;
 import com.example.happylife.backendhappylife.service.PlanService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +68,7 @@ public class PlanController {
     //Update 1 plan dựa trên planId
     @PutMapping("/{planId}/update")
     public ResponseEntity<?> updatePlan(HttpServletRequest request, @PathVariable ObjectId planId,
-                                                 @RequestBody PlanUpdateDTO planUpdateDTO) {
+                                        @RequestBody PlanUpdateDTO planUpdateDTO) {
         try{
             User userVar = (User) request.getAttribute("userDetails");
             UserResDTO user = userVar.convertFromUserToUserResDTO();
@@ -85,31 +87,35 @@ public class PlanController {
 
     };
     //DocUrl
-    @PutMapping("/update/{planId}/image-docUrl") // Này Phúc sửa sau
+    @PutMapping(value = "/update/{planId}/image-docUrl", consumes = "multipart/form-data") // Này Phúc sửa sau
     public ResponseEntity<?> updatePlanImageDocUrl(@PathVariable ObjectId planId,
-                                                   @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                   @RequestParam("fileCounts") String fileCounts,
+                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Regis và lưu
-        PlanResDTO savedPlan = planService.updatePlanImageDocUrl(planId,uploadedUrls,fileCounts);
+        PlanResDTO savedPlan = planService.updatePlanImageDocUrl(planId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedPlan);
     };
-    @PutMapping("/update/{planId}/file-docUrl") // Này Phúc sửa sau
+    @PutMapping(value = "/update/{planId}/file-docUrl", consumes = "multipart/form-data") // Này Phúc sửa sau
     public ResponseEntity<?> updatePlanFileDocUrl(@PathVariable ObjectId planId,
-                                                  @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                  @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                  @RequestParam("fileCounts") String fileCounts,
+                                                  @RequestParam("files") MultipartFile[] files) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Regis và lưu
-        PlanResDTO savedPlan = planService.updatePlanFileDocUrl(planId,uploadedUrls,fileCounts);
+        PlanResDTO savedPlan = planService.updatePlanFileDocUrl(planId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedPlan);
     };
     //PlanURL
-    @PutMapping("/update/{planId}/image-planUrl")
+    @PutMapping(value = "/update/{planId}/image-planUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updatePlanImagePlanUrl(HttpServletRequest request,
                                                     @PathVariable ObjectId planId,
-                                                    @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         //if(userResDTO)
@@ -120,10 +126,10 @@ public class PlanController {
         return ResponseEntity.ok(savedPlan);
     };
 
-    @PutMapping("/update/{planId}/file-planUrl")
+    @PutMapping(value = "/update/{planId}/file-planUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updatePlanFilePlanUrl(HttpServletRequest request,
                                                    @PathVariable ObjectId planId,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         //if(userResDTO)

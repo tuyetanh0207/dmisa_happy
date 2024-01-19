@@ -27,7 +27,7 @@ const productteaser = () => {
       <div className='mt-[-65.5px] ml-[1300px] relative z-50 '>
         {
           arrrowClickStatus === false ? (
-            <img src={DownArrow} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[10px]'></img >
+            <img src={DownArrow} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[10px]'></img>
           ) : (
             <img src={DownArrow} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[10px] rotate-180'></img >
           )

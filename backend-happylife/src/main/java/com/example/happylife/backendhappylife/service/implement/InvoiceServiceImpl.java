@@ -120,52 +120,58 @@ public class InvoiceServiceImpl implements InvoiceService {
         Invoice invoice = new Invoice().convertUpdToInvoice(invoiceUpd);
         User authUser = new User().convertResToUser(user);
         try {
-                if ("Signed".equals(invoice.getRegisInfo().getApprovalStatus().trim()) &&
-                    invoice.getPaymentMethod() != null &&
-                    invoice.getRegisInfo().getRegisId().isEmpty() == false &&
-                    "Pending".equals(invoice.getPaymentStatus().trim())){
+            if (!invoice.getRegisInfo().getApprovalStatus().equals("Signed")){
+                System.out.println("Error True Signed");
+                throw new UserCreationException("Error updating invoice : regis status must be Signed");
+            }
+            if (invoice.getPaymentMethod() == null){
+                throw new UserCreationException("Error updating invoice : payment status must be not null");
+            }
+            if (invoice.getRegisInfo().getRegisId().isEmpty() == true){
+                throw new UserCreationException("Error updating invoice : regis id must be not null");
+            }
+            if (!"Pending".equals(invoice.getPaymentStatus().trim())){
+                throw new UserCreationException("Error updating invoice : payment status must be Pending");
+            }
+            Invoice existingInvoice = invoiceRepo.findById(invoiceId)
+                    .orElseThrow(() -> new EntityNotFoundException("Invoice not found with id: " + invoiceId));
+            if(authUser.getId().toString().equals(existingInvoice.getRegisInfo().getCustomerInfo().getId())){
+                Instant instantNow = Instant.now();
+                existingInvoice.setUpdatedAt(instantNow);
+                existingInvoice.setPaymentStatus("Paid");
+                existingInvoice.setPaymentMethod(invoice.getPaymentMethod());
+                invoiceRepo.save(existingInvoice);
 
-                    Invoice existingInvoice = invoiceRepo.findById(invoiceId)
-                            .orElseThrow(() -> new EntityNotFoundException("Invoice not found with id: " + invoiceId));
-                    if(user.getId() == existingInvoice.getInvoiceId().toString()){
-                        Instant instantNow = Instant.now();
-                        existingInvoice.setUpdatedAt(instantNow);
-                        existingInvoice.setPaymentStatus("Paid");
-                        existingInvoice.setPaymentMethod(invoice.getPaymentMethod());
-                        invoiceRepo.save(existingInvoice);
-
-                        ObjectId regisId = new ObjectId();
-                        if(invoice.getRegisInfo().getRegisId() != null){
-                            regisId = new ObjectId(invoice.getRegisInfo().getRegisId());
-                        }
-                        RegisResDTO regis = existingInvoice.getRegisInfo();
-                        regis.setRegisId(regisId.toString());
-                        regis.setApprovalStatus("Paid");
-                        Message mes = new Message();
-                        mes.setContent("Bạn đã thanh toán thành công!");
-                        mes.setDateMessage(instantNow);
-                        List<Message> messageList = new ArrayList<>();
-                        messageList.add(mes);
-                        regis.setMessage(messageList);
-                        Registration regisUpd = new Registration().convertToRegis(regis);
-                        RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
-                        publisher.publishEvent(new RegistrationEvent(regisUpd, method));
-
-                        Notification noti = new Notification();
-                        noti.setNotiTitle("Thông báo đã thanh toán thành công!");
-                        noti.setNotiContent("Bạn đã thanh toán thành công!");
-                        noti.setUserInfo(authUser.getId());
-                        publisher.publishEvent(new NotificationEvent(noti));
-
-                        return existingInvoice.convertToInvoiceUpdateDTO();
-
-                    }
-                    else {
-                        throw new UserCreationException("Error updating invoice : you don't have permission");
-                    }
-                } else{
-                    throw  new UserCreationException("Error updating invoice : your regis is not Approved or you didn't choose payment method");
+                ObjectId regisId = new ObjectId();
+                if(invoice.getRegisInfo().getRegisId() != null){
+                    regisId = new ObjectId(invoice.getRegisInfo().getRegisId());
                 }
+                RegisResDTO regis = existingInvoice.getRegisInfo();
+                regis.setRegisId(regisId.toString());
+                regis.setApprovalStatus("Paid");
+                Message mes = new Message();
+                mes.setContent("Bạn đã thanh toán thành công!");
+                mes.setDateMessage(instantNow);
+                List<Message> messageList = new ArrayList<>();
+                messageList.add(mes);
+                regis.setMessage(messageList);
+
+             /*   if(regis.getMessage() == null) {regis.setMessage(new ArrayList<>());};
+                regis.getMessage().add(mes);*/
+                Registration regisUpd = new Registration().convertToRegis(regis);
+                RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
+                publisher.publishEvent(new RegistrationEvent(regisUpd, method));
+
+                Notification noti = new Notification();
+                noti.setNotiTitle("Thông báo đã thanh toán thành công!");
+                noti.setNotiContent("Bạn đã thanh toán thành công!");
+                noti.setUserInfo(authUser.getId());
+                publisher.publishEvent(new NotificationEvent(noti));
+
+                return existingInvoice.convertToInvoiceUpdateDTO();
+            } else{
+                throw  new UserCreationException("Error updating invoice : user don't have permission");
+            }
         } catch (Exception e){
             throw  new UserCreationException("Error updating invoice: "+ e.getMessage());
         }

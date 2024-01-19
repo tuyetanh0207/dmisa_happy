@@ -47,7 +47,7 @@ public class Registration {
     private Instant endDate;
 
     @Column(nullable = false)
-    private Integer insuranceAmount; //Tổng tiền phí bảo hiểm
+    private Integer totalFee; //Tổng tiền phí bảo hiểm
 
     @Column(nullable = false)
     private String paymentDetails;
@@ -104,7 +104,7 @@ public class Registration {
         regis.setEndDate(dto.getEndDate());
         regis.setCreatedAt(dto.getCreatedAt());
         regis.setUpdatedAt(dto.getUpdatedAt());
-        regis.setPrice(dto.getPrice());
+        regis.setTotalFee(dto.getTotalFee());
         regis.setPaymentDetails(dto.getPaymentDetails());
         regis.setRenewalReminder(dto.getRenewalReminder());
         regis.setMessage(dto.getMessage());
@@ -125,7 +125,7 @@ public class Registration {
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
         dto.setDocumentUrls(this.getDocumentUrls());
-        dto.setPrice(this.price);
+        dto.setTotalFee(this.totalFee);
         dto.setPaymentDetails(this.paymentDetails);
         dto.setRenewalReminder(this.renewalReminder);
         dto.setMessage(this.message);
@@ -138,7 +138,7 @@ public class Registration {
         dto.setManagerInfo(this.managerInfo);
         dto.setCustomerInfo(this.customerInfo);
         dto.setProductInfo(this.productInfo);
-
+        dto.setTotalFee(this.totalFee);
         dto.setApprovalStatus(this.approvalStatus);
         dto.setStartDate(this.startDate);
         dto.setEndDate(this.endDate);
@@ -153,6 +153,7 @@ public class Registration {
             regis.setRegisId(dtoId);
         }
 
+        regis.setTotalFee(dto.getTotalFee());
         regis.setManagerInfo(dto.getManagerInfo());
         regis.setCustomerInfo(dto.getCustomerInfo());
         regis.setProductInfo(dto.getProductInfo());

@@ -34,7 +34,7 @@ public class RegisResDTO {
     private Instant endDate;
 //    @Getter
     private String paymentDetails;
-    private Integer insuranceAmount;
+    private Integer totalFee;
 //    @Getter
     private Date renewalReminder;
 //    @Getter

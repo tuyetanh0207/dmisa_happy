@@ -30,6 +30,7 @@ public class RegistrationDTO {
 
     private Instant endDate;
 
+    private Integer totalFee;
 
     private String paymentDetails;
 
@@ -40,6 +41,10 @@ public class RegistrationDTO {
     private Instant updatedAt;
 
     private List<Message> message;
+
+    public void setTotalFee(Integer totalFee) {
+        this.totalFee = totalFee;
+    }
 
     public void setRegisId(String regisId) {
         this.regisId = regisId;

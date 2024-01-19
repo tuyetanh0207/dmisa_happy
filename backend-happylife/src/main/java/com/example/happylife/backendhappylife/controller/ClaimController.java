@@ -14,6 +14,8 @@ import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.ClaimService;
 import com.example.happylife.backendhappylife.service.FireBaseService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +71,8 @@ public class ClaimController {
     }
     @PutMapping("/staff/{claimId}/update")
     public ResponseEntity<?> updateClaimByStaff(HttpServletRequest request,
-                                                          @PathVariable String claimId,
-                                                          @RequestBody ClaimUpdateStaffDTO claimUpdateStaffDTO) {
+                                                @PathVariable String claimId,
+                                                @RequestBody ClaimUpdateStaffDTO claimUpdateStaffDTO) {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         ObjectId objectIdClaimId = new ObjectId(claimId);
@@ -116,28 +118,32 @@ public class ClaimController {
     }
 
     //API for upload files and images
-    @PutMapping("/update/{claimId}/image-docUrl") // Update Claim theo claimId các image ở DocumentURl
-    public ResponseEntity<?> updateClaimImageDocUrl(HttpServletRequest request,
+    @PutMapping(value = "/update/{claimId}/image-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các image ở DocumentURl
+    public ResponseEntity<?> updateClaimImageDocUrl(//HttpServletRequest request,
                                                     @PathVariable ObjectId claimId,
-                                                    @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                    @RequestPart("files") MultipartFile[] files) throws IOException {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+                                                    @RequestParam("fileCounts") String fileCounts,
+                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
+       /* User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();*/
         //if(userResDTO)
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimImageDocUrl(claimId,uploadedUrls,fileCounts);
+        ClaimResDTO savedClaim = claimService.updateClaimImageDocUrl(claimId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
-    @PutMapping("/update/{claimId}/file-docUrl") // Update Claim theo claimId các files ở DocumentURl
+    @PutMapping(value = "/update/{claimId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
     public ResponseEntity<?> updateClaimFileDocUrl(@PathVariable ObjectId claimId,
-                                                   @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                   @RequestParam("fileCounts") String fileCounts,
+                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimFilesDocUrl(claimId,uploadedUrls,fileCounts);
+        ClaimResDTO savedClaim = claimService.updateClaimFilesDocUrl(claimId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
 }
