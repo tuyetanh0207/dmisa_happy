@@ -68,7 +68,7 @@ public class RegistrationController {
     public ResponseEntity<?> getEnrollOfPlan(
             HttpServletRequest request,
             @RequestParam(required = false) String planId,
-            @RequestParam(required = false) String status
+            @RequestParam(required = false) List<String> status
     )
     {
         User user = (User) request.getAttribute("userDetails");
@@ -77,29 +77,26 @@ public class RegistrationController {
             return ResponseEntity.badRequest().build();
         }
         List<RegisResDTO> enrollments;
-        System.out.println("planid");
         System.out.println(planId);
         ObjectId planObjectId;
-        if(planId!=null){
-            System.out.println("planid object kk");
+        if(planId!=null && status!= null){
+
             planObjectId = new ObjectId(planId);
-            System.out.println("planid object kkkk");
+
             System.out.println(planObjectId);
-            if ( status != null) {
-                // Both planId and status are provided
-                enrollments = registrationService.getEnrollOfPlan(userResDTO,planObjectId, status);
-                return ResponseEntity.ok(enrollments);
-            }
+            enrollments = registrationService.getEnrollOfPlan(userResDTO,planObjectId, status);
+            return ResponseEntity.ok(enrollments);
+        } else if (planId!=null)  {
+            planObjectId = new ObjectId(planId);
+            // Only planId is provided
+            enrollments = registrationService.getAllRegistrationOfOnePlan(userResDTO, planObjectId);
+            return ResponseEntity.ok(enrollments);
         }
-        // Call the service method to retrieve enrollments based on planId and status
-//        else if (planId != null) {
-//            // Only planId is provided
-//            enrollments = registrationService.getEnrollmentsByPlanId(planId);
-//        } else {
-//            // Only status is provided
-//            enrollments = registrationService.getEnrollmentsByStatus(status);
-//        }
-        return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
+        }
+
+
     }
 
     //API for Customer
@@ -145,24 +142,29 @@ public class RegistrationController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
-    @PutMapping("/update/{regisId}/image-docUrl") // Update Regis theo regisId các image ở DocumentURl
+    @PutMapping(value = "/update/{regisId}/image-docUrl", consumes = "multipart/form-data") // Update Regis theo regisId các image ở DocumentURl
     public ResponseEntity<?> updateRegisImageDocUrl(@PathVariable ObjectId regisId,
-                                                   @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                    @RequestParam("fileCounts") String fileCounts,
+                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
-    @PutMapping("/update/{regisId}/files-docUrl") // Update Regis theo regisId các image ở DocumentURl
+    @PutMapping(value = "/update/{regisId}/files-docUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updateRegisFileDocUrl(@PathVariable ObjectId regisId,
-                                                   @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                   @RequestParam("fileCounts") String fileCounts,
+                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisFileDocUrl(regisId,uploadedUrls,fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisFileDocUrl(regisId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
 }

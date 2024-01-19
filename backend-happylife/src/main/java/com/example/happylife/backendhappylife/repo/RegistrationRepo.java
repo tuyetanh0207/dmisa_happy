@@ -14,8 +14,11 @@ import java.util.Optional;
 public interface RegistrationRepo extends MongoRepository<Registration, ObjectId> {
     List<Registration> findByCustomerInfo_Id(String id);
     Optional<Registration> findByProductInfo_PlanId(String planId);
-    @Query("{ 'productInfo.planId': ?0, 'approvalStatus': ?1 }")
-    List<Registration> findAllByProductInfoAndApprovalStatus(String id, String approvalStatus);
+    @Query("{ 'productInfo.planId': ?0, 'approvalStatus': { $in: ?1 } }")
+    List<Registration> findAllByProductInfoAndApprovalStatus(String id, List<String> approvalStatusList);
+
+    @Query("{ 'productInfo.planId': ?0 }")
+    List<Registration> findAllByPlanId(String id);
 
     default void setMongoTemplate(MongoTemplate mongoTemplate) {
         // Setter for MongoTemplate

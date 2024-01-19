@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="fix get Regis and update status of regis">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/InvoiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/InvoiceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/contract/contract.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/contract/contract.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/RegistrationRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/RegistrationRepo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +58,13 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="enabledProfiles">
+      <list>
+        <option value="native" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -82,7 +87,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sprint3.fe.tn&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sprint3&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/HCMUS/Kì 7/PTUDHTTTHD/Uhu&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -100,6 +105,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.happylife.backendhappylife.DTO.NotificationDTO" />
       <recent name="com.example.happylife.backendhappylife.DTO.RegistrationDTO" />
       <recent name="com.example.happylife.backendhappylife.DTO.ClaimDTO" />
     </key>
@@ -199,9 +205,7 @@
       <workItem from="1705561805296" duration="17301000" />
       <workItem from="1705591660743" duration="10581000" />
       <workItem from="1705604404985" duration="1563000" />
-      <workItem from="1705641600037" duration="2058000" />
-      <workItem from="1705644763782" duration="3386000" />
-      <workItem from="1705649768138" duration="12000" />
+      <workItem from="1705641600037" duration="3700000" />
     </task>
     <task id="LOCAL-00001" summary="done 3 first endpoint of registration">
       <option name="closed" value="true" />
@@ -248,7 +252,8 @@
     <MESSAGE value="done 3 first endpoint of registration" />
     <MESSAGE value="done apis of manager" />
     <MESSAGE value="fix get Regis and update status of regis" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix get Regis and update status of regis" />
+    <MESSAGE value="fix files-docUrl controller and 2 corsconfig" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix files-docUrl controller and 2 corsconfig" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend_happylife$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1701110077184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

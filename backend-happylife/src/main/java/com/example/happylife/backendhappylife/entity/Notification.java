@@ -18,7 +18,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document(collection = "Notification")
+@Document(collection = "Notifications")
 public class Notification {
     @Id
     private ObjectId notificationId;
@@ -45,6 +45,10 @@ public class Notification {
             ObjectId dtoId = new ObjectId(dto.getNotificationId());
             notification.setNotificationId(dtoId);
         }
+        if(dto.getUserInfo() != null){
+            ObjectId dtoId = new ObjectId(dto.getUserInfo());
+            notification.setUserInfo(dtoId);
+        }
         notification.setNotiPrio(dto.getNotiPrio());
         notification.setNotiContent(dto.getNotiContent());
         notification.setNotiStatus(dto.getNotiStatus());
@@ -52,7 +56,6 @@ public class Notification {
         notification.setNotiTitle(dto.getNotiTitle());
         notification.setUpdatedAt(dto.getUpdatedAt());
         notification.setCreatedAt(dto.getCreatedAt());
-        notification.setUserInfo(dto.getUserInfo());
         return notification;
     }
     public NotificationResDTO convertToNotificationResDTO() {
@@ -65,7 +68,7 @@ public class Notification {
         dto.setNotiTitle(this.notiTitle);
         dto.setUpdatedAt(this.updatedAt);
         dto.setCreatedAt(this.createdAt);
-        dto.setUserInfo(this.userInfo);
+        dto.setUserInfo(this.userInfo.toString());
         return dto;
     }
 }

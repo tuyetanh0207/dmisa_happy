@@ -31,14 +31,14 @@ public class NotificationServiceImpl implements NotificationService {
         User user = new User().convertResToUser(userVar);
         try{
             if(user.getId().toString().equals(userId.toString())) {
-                List<Notification> notificationList = notificationRepo.findByUserInfo(userId.toString());
+                List<Notification> notificationList = notificationRepo.findByUserInfo(userId);
                 List<NotificationResDTO> notificationResDTOS = notificationList.stream()
                         .map(notification -> notification.convertToNotificationResDTO())
                         .collect(Collectors.toList());
                 return notificationResDTOS;
             }
             else if(user.getRole() == Role.INSUARANCE_MANAGER){
-                List<Notification> notificationList = notificationRepo.findByUserInfo(userId.toString());
+                List<Notification> notificationList = notificationRepo.findByUserInfo(userId);
                 List<NotificationResDTO> notificationResDTOS = notificationList.stream()
                         .map(notification -> notification.convertToNotificationResDTO())
                         .collect(Collectors.toList());
@@ -55,7 +55,7 @@ public class NotificationServiceImpl implements NotificationService {
         try{
             User user = new User().convertResToUser(userVar);
             Instant instantNow = Instant.now();
-            List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId().toString());
+            List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId());
             for(Notification notiVar : existingNotifications){
                 if(!notiVar.getNotiStatus()){
                     notiVar.setNotiStatus(true);
@@ -95,7 +95,7 @@ public class NotificationServiceImpl implements NotificationService {
     public NotificationListDTO getListOfFalseStatus(UserResDTO userVar){
         try{
             User user = new User().convertResToUser(userVar);
-            List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId().toString());
+            List<Notification> existingNotifications = notificationRepo.findByUserInfo(user.getId());
             int count = 0;
             for(Notification notiVar : existingNotifications){
                 if(!notiVar.getNotiStatus()){

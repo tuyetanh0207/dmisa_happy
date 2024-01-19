@@ -64,21 +64,7 @@ public class PlanServiceImpl implements PlanService {
     public Plan updatePlan(Plan planUpdate, ObjectId planId) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
-        /*existingPlan.setPlanName(planUpdate.getPlanName());
-        existingPlan.setPlanAbout(planUpdate.getPlanAbout());
-        existingPlan.setPlanSlogan(planUpdate.getPlanSlogan());
-        existingPlan.setPlanType(planUpdate.getPlanType());
-        existingPlan.setOptionalBenefits(planUpdate.getOptionalBenefits());
-        existingPlan.setPlanRecommended(planUpdate.getPlanRecommended());
-        existingPlan.setPlanDuration(planUpdate.getPlanDuration());
-        existingPlan.setPlanDurationUnit(planUpdate.getPlanDurationUnit());
-        existingPlan.setClaimScenarios(planUpdate.getClaimScenarios());
-        existingPlan.setDocumentName(planUpdate.getDocumentName());
-        existingPlan.setPlanBenefits(planUpdate.getPlanBenefits());
-        existingPlan.setPlanServiceCoverage(planUpdate.getPlanServiceCoverage());
-        existingPlan.setPlanURL(planUpdate.getPlanURL());
-        existingPlan.setPlanAdvertisement(planUpdate.getPlanAdvertisement());
-        existingPlan.setPlanDocuments(planUpdate.getPlanDocuments());*/
+
         try {
             if (planUpdate.getPlanName() != null) {
                 existingPlan.setPlanName(planUpdate.getPlanName());
@@ -204,7 +190,15 @@ public class PlanServiceImpl implements PlanService {
             }
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
-            existingPlan.setPlanDocuments(documentList);
+
+            List<Plan.documents> docLists = new ArrayList<>();
+            if(existingPlan.getPlanDocuments() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingPlan.getPlanDocuments();
+                docLists.addAll(documentList);
+            }
+
+            existingPlan.setPlanDocuments(docLists);
             return planRepo.save(existingPlan).convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
@@ -235,7 +229,14 @@ public class PlanServiceImpl implements PlanService {
             }
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
-            existingPlan.setPlanDocuments(documentList);
+            List<Plan.documents> docLists = new ArrayList<>();
+            if(existingPlan.getPlanDocuments() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingPlan.getPlanDocuments();
+                docLists.addAll(documentList);
+            }
+
+            existingPlan.setPlanDocuments(docLists);
             return planRepo.save(existingPlan).convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
@@ -250,7 +251,13 @@ public class PlanServiceImpl implements PlanService {
         try {
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
-            existingPlan.setPlanURL(listPlanUrl);
+            List<String> docLists = new ArrayList<>();
+            if(existingPlan.getPlanURL() == null) docLists.addAll(listPlanUrl);
+            else {
+                docLists = existingPlan.getPlanURL();
+                docLists.addAll(listPlanUrl);
+            }
+            existingPlan.setPlanURL(docLists);
             planRepo.save(existingPlan);
             return existingPlan.convertToPlanResDTO();
         } catch (Exception e) {
@@ -265,8 +272,13 @@ public class PlanServiceImpl implements PlanService {
         try {
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
-            existingPlan.setPlanURL(listPlanUrl);
-            planRepo.save(existingPlan);
+            List<String> docLists = new ArrayList<>();
+            if(existingPlan.getPlanURL() == null) docLists.addAll(listPlanUrl);
+            else {
+                docLists = existingPlan.getPlanURL();
+                docLists.addAll(listPlanUrl);
+            }
+            existingPlan.setPlanURL(docLists);            planRepo.save(existingPlan);
             return existingPlan.convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());

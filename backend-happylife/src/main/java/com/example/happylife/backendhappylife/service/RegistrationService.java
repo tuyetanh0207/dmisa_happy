@@ -18,8 +18,9 @@ public interface RegistrationService {
 
     Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO);
 
-    List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, String status);
+    List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, List<String> approvalStatusList);
 
+    List<RegisResDTO> getAllRegistrationOfOnePlan(UserResDTO authUser, ObjectId planId);
     //Service for Customer
     RegisResDTO getRegisByIdRegis(UserResDTO userVar, ObjectId regisId);
 

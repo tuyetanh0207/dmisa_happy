@@ -113,12 +113,23 @@ public class RegistrationImpl implements RegistrationService {
     }
 
     @Override
-    public List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, String status) {
+    public List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, List<String> statusList) {
         PlanResDTO plan = new PlanResDTO();
         plan.setPlanId(planId.toString());
-        List<Registration> regiss =registrationRepo.findAllByProductInfoAndApprovalStatus(plan.getPlanId(), status);
+        List<Registration> regiss =registrationRepo.findAllByProductInfoAndApprovalStatus(plan.getPlanId(), statusList);
+        System.out.println(regiss.size());
+        List<RegisResDTO> registrations = regiss.stream().
+                map(regis -> regis.convertToRegisResDTO())
+                .collect(Collectors.toList());
 
-        System.out.println("size regis");
+        return registrations;
+    }
+
+    @Override
+    public List<RegisResDTO> getAllRegistrationOfOnePlan(UserResDTO authUser, ObjectId planId) {
+        PlanResDTO plan = new PlanResDTO();
+        plan.setPlanId(planId.toString());
+        List<Registration> regiss =registrationRepo.findAllByPlanId(plan.getPlanId());
         System.out.println(regiss.size());
         List<RegisResDTO> registrations = regiss.stream().
                 map(regis -> regis.convertToRegisResDTO())
@@ -260,13 +271,19 @@ public class RegistrationImpl implements RegistrationService {
                     }
                 }
                 document.setDocCategory(fileCount.getSection().trim());
-                //System.out.println("Value : " + fileCount.getSection().trim());
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
-            existingRegis.setDocumentUrls(documentList);
+
+            List<Registration.documentRegiss> docLists = new ArrayList<>();
+            if(existingRegis.getDocumentUrls() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingRegis.getDocumentUrls();
+                docLists.addAll(documentList);
+            }
+            existingRegis.setDocumentUrls(docLists);
             Registration updatedRegis = registrationRepo.save(existingRegis);
             RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();
             return regisResDTO;
@@ -297,7 +314,13 @@ public class RegistrationImpl implements RegistrationService {
             }
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
-            existingRegis.setDocumentUrls(documentList);
+            List<Registration.documentRegiss> docLists = new ArrayList<>();
+            if(existingRegis.getDocumentUrls() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingRegis.getDocumentUrls();
+                docLists.addAll(documentList);
+            }
+            existingRegis.setDocumentUrls(docLists);
             Registration updatedRegis = registrationRepo.save(existingRegis);
             RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();
             return regisResDTO;

@@ -1,8 +1,11 @@
 package com.example.happylife.backendhappylife.DTO.NotificationDTO;
 
+import lombok.Getter;
+import org.bson.types.ObjectId;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import org.bson.types.ObjectId;
+import java.time.Instant;
 
 @Getter
 public class NotificationCreateDTO {
@@ -36,4 +39,6 @@ public class NotificationCreateDTO {
     public void setNotiPrio(String notiPrio) {
         this.notiPrio = notiPrio;
     }
+
+
 }

@@ -57,7 +57,7 @@ public class InvoiceController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     };
-        @GetMapping("/{regisId}/getByRegisId") //API get 1 regis của một user thông qua regisId
+    @GetMapping("/{regisId}/getByRegisId") //API get 1 regis của một user thông qua regisId
     public ResponseEntity<?> getByRegisId(HttpServletRequest request,
                                           @PathVariable ObjectId regisId){
         User user = (User) request.getAttribute("userDetails");

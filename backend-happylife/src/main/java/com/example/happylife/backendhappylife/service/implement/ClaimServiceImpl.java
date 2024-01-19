@@ -8,6 +8,7 @@ import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
+import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
@@ -200,6 +201,16 @@ public class ClaimServiceImpl implements ClaimService {
             existingClaim.setDocumentUrls(documentList);
             Instant instantNow = Instant.now();
             existingClaim.setUpdatedAt(instantNow);
+
+
+            List<Claim.documentClaims> docLists = new ArrayList<>();
+            if(existingClaim.getDocumentUrls() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingClaim.getDocumentUrls();
+                docLists.addAll(documentList);
+            }
+            existingClaim.setDocumentUrls(docLists);
+
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
             return claimResDTO;
@@ -232,7 +243,13 @@ public class ClaimServiceImpl implements ClaimService {
             }
             Instant instantNow = Instant.now();
             existingClaim.setUpdatedAt(instantNow);
-            existingClaim.setDocumentUrls(documentList);
+            List<Claim.documentClaims> docLists = new ArrayList<>();
+            if(existingClaim.getDocumentUrls() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingClaim.getDocumentUrls();
+                docLists.addAll(documentList);
+            }
+            existingClaim.setDocumentUrls(docLists);
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
             return claimResDTO;

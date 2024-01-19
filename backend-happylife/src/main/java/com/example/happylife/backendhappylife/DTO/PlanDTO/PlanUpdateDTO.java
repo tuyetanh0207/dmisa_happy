@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlanUpdateDTO {
-    private String planId;
     private String planName;
     private String planAbout;
     private String planSlogan;
@@ -31,9 +30,6 @@ public class PlanUpdateDTO {
     private List<Plan.advertisement> planAdvertisement;
     private List<Plan.documents> planDocuments;
 
-    public void setPlanId(String planId) {
-        this.planId = planId;
-    }
 
     public void setPlanName(String planName) {
         this.planName = planName;

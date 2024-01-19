@@ -12,21 +12,21 @@ import java.time.Instant;
 @Getter
 public class NotificationResDTO {
     private String notificationId;
-    private ObjectId userInfo;
+    private String userInfo;
     private String notiTitle;
     private String notiContent;
     private Boolean notiStatus;
     private String notiType;
     private String notiPrio;
-    private Instant CreatedAt;
-    private Instant UpdatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 
     public void setNotificationId(String notificationId) {
         this.notificationId = notificationId;
     }
 
-    public void setUserInfo(ObjectId userInfo) {
+    public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
     }
 
@@ -51,10 +51,10 @@ public class NotificationResDTO {
     }
 
     public void setCreatedAt(Instant createdAt) {
-        CreatedAt = createdAt;
+        createdAt = createdAt;
     }
 
     public void setUpdatedAt(Instant updatedAt) {
-        UpdatedAt = updatedAt;
+        updatedAt = updatedAt;
     }
 }
