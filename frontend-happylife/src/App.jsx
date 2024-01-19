@@ -20,6 +20,11 @@ import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
 import Claims from './pages/profile/claims.jsx'
 import IMDashboard from './pages/staff/insurancemanagement/dashboard/dashboard.jsx';
+import AccountingLayout from './pages/staff/accounting/accountingLayout.jsx';
+import AccClaim from './pages/staff/accounting/claim/claim.jsx';
+import AccDashboard from './pages/staff/accounting/dashboard/dashboard.jsx';
+import AccPlan from './pages/staff/accounting/plan/plan.jsx';
+import AccRegistration from './pages/staff/accounting/registration/registration.jsx';
 // import '../pdfSetup'
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
@@ -55,6 +60,22 @@ export default function App() {
                       <Route path="claim" element={<IMClaim/>} />
                       
                     </InsuaranceManagementLayout>
+                  }
+                />
+                <Route
+                  path="/staff/accounting/*"
+                  element={
+                    <AccountingLayout
+                    requiredRoles={['ACCOUNTANT']}
+                    >
+
+                      <Route index element={<AccPlan/>} />
+                      <Route path="dashboard" element={<AccDashboard/>} />
+                      <Route path="plan" element={<AccPlan />} />
+                      <Route path="registration" element={<AccRegistration/>} />
+                      <Route path="claim" element={<AccClaim/>} />
+                      
+                    </AccountingLayout>
                   }
                 />
                 <Route path='/notfound' element ={<NotFound404/>} />

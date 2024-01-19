@@ -4,15 +4,15 @@ import {
   ArrowRightOnRectangleIcon,
   CreditCardIcon,
   HeartIcon,
-  HomeIcon
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { loginSuccess } from "../../../redux/authSlice";
 import logo from "../../assets/logo-staff.svg";
-import styles from "./managerSidebar.module.css";
-const ManagerSidebar = (props) => {
+import styles from "./accountantSidebar.module.css";
+const AccountantSidebar = (props) => {
   const { isSidebarOpen } = props;
   const location = useLocation();
 
@@ -20,28 +20,28 @@ const ManagerSidebar = (props) => {
   const navigate = useNavigate();
   const navTitles = [
     {
-      name: "Plan",
-      icon: <HeartIcon key="4" className="w-8 h-8 mr-4" />,
-      pathname: "plan",
-    },
-    {
-      name: "Registration",
-      icon: <ArrowLeftOnRectangleIcon key="2" className="w-8 h-8 mr-4" />,
-      pathname: "registration",
-    },
-    {
-      name: "Claim",
-      icon: <CreditCardIcon key="3" className="w-8 h-8 mr-4" />,
-      pathname: "claim",
-    },
-    {
       name: "Dashboard",
       icon: <HomeIcon key="1" className="w-8 h-8 mr-4" />,
       pathname: "dashboard",
     },
+    {
+      name: "Payments",
+      icon: <ArrowLeftOnRectangleIcon key="2" className="w-8 h-8 mr-4" />,
+      pathname: "payment",
+    },
+    {
+      name: "Registations",
+      icon: <CreditCardIcon key="3" className="w-8 h-8 mr-4" />,
+      pathname: "registation",
+    },
+    {
+      name: "Claims",
+      icon: <HeartIcon key="4" className="w-8 h-8 mr-4" />,
+      pathname: "claim",
+    },
   ];
   const handleClickNavigation = (navPath) => {
-    const path = "/staff/insuarancemanagement/" + navPath;
+    const path = "/staff/accounting/" + navPath;
 
     navigate(path);
   };
@@ -143,4 +143,4 @@ const ManagerSidebar = (props) => {
   );
 };
 
-export default ManagerSidebar;
+export default AccountantSidebar;
