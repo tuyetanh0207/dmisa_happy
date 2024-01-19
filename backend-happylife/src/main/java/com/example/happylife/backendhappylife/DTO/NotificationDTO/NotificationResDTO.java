@@ -12,7 +12,7 @@ import java.time.Instant;
 @Getter
 public class NotificationResDTO {
     private String notificationId;
-    private ObjectId userInfo;
+    private String userInfo;
     private String notiTitle;
     private String notiContent;
     private Boolean notiStatus;
@@ -26,7 +26,7 @@ public class NotificationResDTO {
         this.notificationId = notificationId;
     }
 
-    public void setUserInfo(ObjectId userInfo) {
+    public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
     }
 

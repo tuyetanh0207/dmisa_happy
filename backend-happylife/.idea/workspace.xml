@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="fix get Regis and update status of regis">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationResDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/config/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/NotificationRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/NotificationRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/NotificationServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -194,15 +195,22 @@
       <workItem from="1704510942485" duration="294000" />
       <workItem from="1704512359488" duration="86000" />
       <workItem from="1704513515783" duration="140000" />
-      <workItem from="1705039502782" duration="1283000" />
-      <workItem from="1705050999714" duration="1452000" />
-      <workItem from="1705054189062" duration="1334000" />
-      <workItem from="1705125072504" duration="644000" />
-      <workItem from="1705130429473" duration="29000" />
-      <workItem from="1705130547132" duration="131000" />
-      <workItem from="1705133899385" duration="5338000" />
-      <workItem from="1705571475637" duration="911000" />
-      <workItem from="1705590231390" duration="1209000" />
+      <workItem from="1705055032283" duration="724000" />
+      <workItem from="1705125040285" duration="16275000" />
+      <workItem from="1705160634058" duration="2567000" />
+      <workItem from="1705165837066" duration="20339000" />
+      <workItem from="1705343872961" duration="6624000" />
+      <workItem from="1705396006220" duration="5451000" />
+      <workItem from="1705405487542" duration="4399000" />
+      <workItem from="1705411749669" duration="6221000" />
+      <workItem from="1705421268584" duration="648000" />
+      <workItem from="1705430128456" duration="503000" />
+      <workItem from="1705478585806" duration="4371000" />
+      <workItem from="1705561600457" duration="83000" />
+      <workItem from="1705561805296" duration="17301000" />
+      <workItem from="1705591660743" duration="10581000" />
+      <workItem from="1705604404985" duration="1563000" />
+      <workItem from="1705641600037" duration="3700000" />
     </task>
     <task id="LOCAL-00001" summary="done 3 first endpoint of registration">
       <option name="closed" value="true" />
