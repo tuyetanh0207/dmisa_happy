@@ -328,10 +328,13 @@ const [files, setFiles] = useState([]);
             customerInfo: {
                 id: user.userInfo.id,
                 fullName: fullName,
-                citizenId: citizenId,
+                //citizenId: citizenId,
+                citizenId: '0000000000000999',
                 phoneNumber: phoneNumber,
-                gender: gender,
-                dob: dob,
+                //gender: gender,
+                gender: 'Male',
+               // dob: dob,
+                dob: '2002-07-09',
                 email: email,
                 address: address,
             },
@@ -339,8 +342,9 @@ const [files, setFiles] = useState([]);
                 planId: planID,
                 planName:planName,
                 planAbout: planAbout,
-                planDuration: planDuration,
-                planDurationUnit: planDurationUnit,
+                planDuration: 12,
+                //planDurationUnit: planDurationUnit,
+                planDurationUnit: 'Month',
                 planType: [
                     {
                         typeName: planTypeName,
@@ -386,139 +390,38 @@ const [files, setFiles] = useState([]);
             setCurentRegistrations(newRegisId)
             //console.log('Current: ',curentRegistrations)
             console.log('123:', newRegisId);
-//////////////////////////////////////////
-                // try {
-                //     const fileCounts= [{ section: 'Temp1:', fileCount: 2 }];
-                //     const formData = new FormData();
-                //     formData.append('fileCounts', JSON.stringify(fileCounts));
 
-                //     for (let i = 0; i < files.length; i++) {
-                //     formData.append('files', files[i]);
-                //     }
-                //     const url2 = `http://localhost:8090/api/v1/registrations/update/${newRegisId}/image-docUrl`;
-                //     const response = axios.put(url2, formData, {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data',
-                        
-                //     },
-                //     });
-
-                //     console.log(response.data);
-                //     console.log('filecount:',fileCounts);
-                //     console.log('file:',files);
-                //     // console.log('Current: ',curentRegistrations)
-                // } catch (error) {
-                //     console.error('Error uploading files:', error);
-                //     console.log('filecount:',fileCounts);
-                //     console.log('file:',files);
-                //     // console.log('Current: ',curentRegistrations)
-                // }
-                /////////////
-                // const formData = new FormData();
-                //     formData.append('fileCounts', JSON.stringify(fileCounts));
-                //     for (let i = 0; i < files.length; i++) {
-                //     formData.append('files', files[i]);
-                //     }
-
-                    // Perform the PUT request using Axios
-                    // axios.put(`/update/${newRegisId}/image-docUrl`, formData, {
-                    //     headers: {
-                    //         'Content-Type': 'multipart/form-data',
-                    //         'Authorization': `Bearer ${user.token}`
-                    //     }
-                    //     })
-                    // .then(response => {
-                    //     // Handle the successful response
-                    //     console.log('Response:', response.data);
-                    // })
-                    // .catch(error => {
-                    //     // Handle errors
-                    //     console.error('Error:', error);
-                    // });
-
-                    /////////////
-                    
                     const fileCounts = [{section:"Temp1:",fileCount:2}];
-                    // const formData = new FormData();
-                    // formData.append('fileCounts', JSON.stringify(fileCounts));
-                
-                    // for (let i = 0; i < files.length; i++) {
-                    //   formData.append('files', files[i]);
-                    // }
+   
+
 
                     const url=`http://localhost:8090/api/v1/registrations/update/${newRegisId}/files-docUrl`;
                     const formData = new FormData();
 
-                    for (const fileCount of fileCounts){
-                        formData.append('fileCounts', JSON.stringify(fileCount))
-                        // ,{
-                        //     type: 'application/json'
-                        // })
-                    }
-
-                    // for ( const file of files)(
-                    //     formData.append('files',file,file.name)
-                    // )
+                    formData.append('fileCounts', JSON.stringify(fileCounts))
                     for (let i = 0; i < files.length; i++) {
                       formData.append('files', files[i]);
                     }
 
                     console.log('FormData: ',formData)
-                    // const requestDoc ={
-                    //     method:'PUT',
-                    //     body:formData,
-                    // }
-                    // fetch(url,requestDoc)
-                    // .then(response=>response.json())
-                    // .then(data=>console.log('Success:',data))
-                    // .catch((error)=>console.error('Error:',error))
-                    // axios.put(url, formData 
-                    // // {
-                    // // //   headers: {
-                    // // //     'Content-Type': 'multipart/form-data',
+                    axios.put(url, formData, 
+                    {
+                      headers: {
+                        'Content-Type': 'multipart/form-data',
 
-                    // // //   },
-                    // // }
-                    // )
-                    //   .then(response => {
-                    //     console.log('Success:', response.data);
-                    //     // Handle the response as needed
-                    //   })
-                    //   .catch(error => {
-                    //     console.error('Error:', error);
-                    //     console.log('file: ',files);
-                    //     console.log('FormData: ',formData)
-                    //     // Handle errors
-                    //   });
-                    const temp = Object.fromEntries(formData)
-                    console.log([...formData.entries()])
-                    console.log('ValueS:',[...formData.values()])
-                    fetch(url, {
-                        // credentials: 'include',
-                        // mode: 'no-cors',
-                        method: 'PUT',
-                        body: temp,
-                        headers: {
-                          // Set the Content-Type header for each part
-                          'Content-Type': 'multipart/form-data', // This is the overall Content-Type for the form
-                          'Authorization': `Bearer ${user.token}`
-                        },
+                      }
+                    })
+                      .then(response => {
+                        console.log('Success:', response.data);
+                        // Handle the response as needed
                       })
-                        .then(response => response.json())
-                        .then(data => console.log(data))
-                        .then(data => {
-                            console.error('SUCCESS:', data);
-                            console.log('file: ',files);
-                            console.log('FormData: ',formData)
-                            console.log('temp: ',temp)
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            console.log('file: ',files);
-                            console.log('FormData: ',formData)
-                            console.log('temp: ',temp)
-                        });
-                  
+                      .catch(error => {
+                        console.error('Error:', error);
+                        console.log('file: ',files);
+                        console.log('FormData: ',formData)
+                        // Handle errors
+                      });
+                   
   
         })
         .catch(error => {
