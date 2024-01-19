@@ -1,5 +1,6 @@
 
 import authReducer from "./authSlice";
+//import navigationReducer from "./navReducer";
 
 export default configureStore({
     reducer:{
@@ -22,7 +23,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-const rootReducer = combineReducers({ auth: authReducer });
+const rootReducer = combineReducers({ auth: authReducer});
 
 const persistConfig = {
   key: "root",

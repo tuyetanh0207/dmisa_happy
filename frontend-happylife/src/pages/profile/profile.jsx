@@ -4,6 +4,7 @@ import Navprofile from './navprofile.jsx'
 import Information from './information.jsx'
 import Claims from './claims.jsx'
 import Registration from './registration.jsx'
+
 import Footer from '../../components/footer.jsx'
 const profile = () => {
   return (
@@ -11,9 +12,9 @@ const profile = () => {
           <Navprofile/>
           <Routes>
             <Route path ='/' element ={<Information/>} />
-            <Route path ='information' element ={<Information/>} />
-            <Route path='registration' element ={<Registration/>} />
-            <Route path='claims' element ={<Claims/>} />
+            <Route path ='/information' element ={<Information/>} />
+            <Route path='/registration' element ={<Registration/>} />
+            <Route path='/claims' element ={<Claims/>} />
           </Routes>
       
     </div>

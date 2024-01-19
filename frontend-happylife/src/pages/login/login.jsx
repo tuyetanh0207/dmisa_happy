@@ -2,12 +2,19 @@ import {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import {loginUser} from '../../../redux/authApi';
 import { useNavigate } from 'react-router-dom';
-export default function Login() {
+import Home from '../home/home'
+import Logo from '../../assets/LogoHalfScreen.png'
+import {Routes, Route, Link} from 'react-router-dom';
+import {useSelector} from 'react-redux'
+
+
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const [noti, setNoti] = useState('');
     const router = useNavigate();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('glooin')
@@ -18,8 +25,7 @@ export default function Login() {
         console.log('new User', newUser);
         try {
             const loginRes = await loginUser(newUser, dispatch, router);
-            console.log("res",loginRes)
-               // router.push("/")
+            console.log("res:",loginRes)
         } catch (err) {
             console.log("err:", err);
            // setNoti("Tên đăng nhập hoặc mật khẩu không đúng.")
@@ -27,52 +33,74 @@ export default function Login() {
         }
 
     }
-    return(
-    <div className="h-screen flex items-center justify-center h-[631px] bg-bgr-white mx-auto">
-        <div className="w-[936px] h-[479px] bg-white rounded-lg">
-        <h2 className="text-center text-header-blue text-[40px] font-serif font-semibold mb-6 mt-[51px] mb-[53]">User Login</h2>
-        <form className="font-sans  font-medium text-base"
-          onSubmit={handleSubmit}
-         >
-            <div>
-                <label className="ml-[208px]">
-                    Username    
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[519px] h-[48px] mb-[44px] border border-input-border-grey border-solid rounded"
-                id='username' 
-                onChange={(e)=> setUsername(e.target.value)}
-                >
-                </input>
-            </div>
-            <div>
-                <label className="ml-[208px] ">
-                    Password
-                </label>
-            </div>
-            <div  className="flex items-center justify-center">
-                <input className="text-black w-[519px] h-[48px] mb-[12px] border border-input-border-grey rounded"
-                type="password" 
-                id ='password' 
-                onChange={(e)=> setPassword(e.target.value)}
-                >
-                </input>
-            </div>
-            
-            <div className="ml-[208px] font-normal italic text-[#5576F5]">
-                Forgot password?
-            </div>  
-            <div className="flex items-center justify-center font-bold text-xl">
-            <button 
-            onClick={()=>handleSubmit} 
-            className="bg-button-blue w-[208px] h-[56px] mt-[29px] text-white rounded-lg">
-                Login
-            </button>
 
-            </div>
-        </form>
+    return(
+    <div className='w-[1920px] h-[1080px] flex '>
+        <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
+            <img src={Logo}></img>
         </div>
-    </div>   
+        <div className="righthalf w-[960px] h-[1080px] bg-slate-50 flex items-center justify-center">
+            {/* <div className="h-screen flex items-center justify-center h-[631px] bg-bgr-white mx-auto">  */}
+                <div className="w-[720px] h-[663px] bg-white rounded-lg border border-gray-200">
+                    <h2 className="text-center text-blue-950 text-4xl leading-[56px] font-serif font-semibold mb-6 mt-[105px] mb-[47]">Log in into your account</h2>
+                    <form className="font-sans  font-medium text-base"
+                    onSubmit={handleSubmit}
+                    >
+                        
+                        <div>
+                            <label className="ml-[100px]">
+                                Username    
+                            </label>
+                        </div>
+                        <div className="flex items-center justify-center">
+                            <input className="text-black w-[519px] h-[48px] mb-[44px] border border-neutral-200 border-solid rounded"
+                            id='username' 
+                            onChange={(e)=> setUsername(e.target.value)}
+                            >
+                            </input>
+                        </div>
+                        <div>
+                            <label className="ml-[100px] ">
+                                Password
+                            </label>
+                        </div>
+                        <div  className="flex items-center justify-center">
+                            <input className="text-black w-[519px] h-[48px] mb-[12px] border border-neutral-200 rounded"
+                            type="password" 
+                            id ='password' 
+                            onChange={(e)=> setPassword(e.target.value)}
+                            >
+                            </input>
+                        </div>
+                        
+                        <div className="ml-[100px] font-normal italic text-[#5576F5]">
+                            Forgot password?
+                        </div>  
+                        <div className="flex items-center justify-center font-bold text-xl">
+                        <button 
+                           className="bg-button-blue w-[519px] h-[56px] mt-[29px] mb-[22px] text-white rounded-lg">
+                           Sign in
+                           
+                        </button>
+                        </div>
+                        <div className='flex justify-center'>
+                            <label className='text-gray-500 text-base font-normal leading-tight mr-[4px] mt-[2px]'>
+                                Don't have an account?
+                            </label>
+                            <Link key='signup' to='/signup'>
+                                <button 
+                                className='text-blue-600 text-base font-medium leading-tight'>
+                                    Sign up
+                                </button>
+                            </Link>
+                        </div>
+                    </form>
+                </div>
+            {/* </div>    */}
+        </div>
+    </div>
+
     )
 }
+
+export default Login; 

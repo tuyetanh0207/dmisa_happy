@@ -17,17 +17,27 @@ export const loginUser = async(user, dispatch, router) => {
     try{
         const res = await UserAPI.login(user);
         console.log("res in loginUnser",res)
-        dispatch(loginSuccess(res.data));
-        if(res.data.userInfo.role ==='CUSTOMER'){
-            console.log('role is ' + res.data.userInfo.role)
-          router('/');
-        } else if (res.data.userInfo.role ==='INSUARANCE_MANAGER'){
-            router('/staff/insuarancemanagement/registration');
-        } else {
-            console.log('role is ' + res.data.userInfo.role)
+        if(res && res.data)
+        // Kiểm tra xem res có != undefied và res.data tồn tại
+        {
+            dispatch(loginSuccess(res.data));
+            if(res.data.userInfo.role ==='CUSTOMER'){
+                console.log('role is ' + res.data.userInfo.role)
+              router('/home');
+            } else if (res.data.userInfo.role ==='INSUARANCE_MANAGER'){
+                router('/staff/insuarancemanagement/registration');
+            } else {
+                console.log('role is ' + res.data.userInfo.role)
+            }
+    
+            return res.data;    
         }
-
-        return res.data;
+        else{
+            // Xử lý trường hợp res hoặc res.data là undefined
+            console.log('Invalid response:', res);
+            dispatch(loginFail());
+            return { error: 'Invalid response' };
+        }
 
     } catch(err){
         dispatch(loginFail())
@@ -42,7 +52,7 @@ export const registerUser = async(user, dispatch, router)=>{
         const res = await UserAPI.register(user);
         console.log('res in registerUser', res);
         dispatch(registerSuccess());
-        router('/');
+        router('/login');
 
     } catch(err){
         dispatch(registerFail());
