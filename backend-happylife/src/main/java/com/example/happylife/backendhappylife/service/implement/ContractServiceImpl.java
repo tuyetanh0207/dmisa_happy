@@ -132,7 +132,7 @@ public class ContractServiceImpl implements ContractService {
                 regis.setRegisId(regisId.toString());
                 regis.setApprovalStatus("Signed");
                 Message mes = new Message();
-                mes.setContent("");
+                mes.setContent("Signed contract successfully. Now you can cash for this registration!");
                 mes.setDateMessage(instantNow);
                 List<Message> messageList = new ArrayList<>();
                 messageList.add(mes);
