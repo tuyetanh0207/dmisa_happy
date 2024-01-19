@@ -52,13 +52,13 @@ const IMClaim = () => {
     }, 5000);
   }, [Claims]);
 
-  const handleUpdateStatusOfClaim = async (claimId, status) => {
+  const handleUpdateStatusOfClaim = async (claimId, claim, status) => {
     setLoadingBtns((t) => [...t, claimId]);
     try {
       await ClaimAPI.updateStatusOfClaim(
         user.token,
         claimId,
-        status,
+        { ...claimId, status },
         { content: createMessageForClaim("", false, status) }
       );
       setLoadingBtns((t) => t.filter((id) => id !== claimId));
@@ -221,6 +221,7 @@ const IMClaim = () => {
                       handleSelectingRow={() =>
                         handleUpdateStatusOfClaim(
                           item.claimId,
+                          item,
                           "Pending Review"
                         )
                       }
@@ -237,7 +238,11 @@ const IMClaim = () => {
                       height={"2em"}
                       loading={loadingBtns.includes(item.claimId) ? "1" : ""}
                       handleSelectingRow={() =>
-                        handleUpdateStatusOfClaim(item.claimId, "Approved")
+                        handleUpdateStatusOfClaim(
+                          item.claimId,
+                          item,
+                          "Approved"
+                        )
                       }
                     />
                   </td>
@@ -252,7 +257,9 @@ const IMClaim = () => {
                       height={"2em"}
                       loading={loadingBtns.includes(item.claimId) ? "1" : ""}
                       handleSelectingRow={() =>
-                        handleUpdateStatusOfClaim(item.claimId, "Denied")
+                        handleUpdateStatusOfClaim(item.claimId, 
+                          item,
+                          "Denied")
                       }
                     />
                   </td>

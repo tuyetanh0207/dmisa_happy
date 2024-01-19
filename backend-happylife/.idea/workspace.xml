@@ -4,20 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="add create invoice, noti and contract in update status regis">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Enum/InvoiceType.java" afterDir="false" />
+    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="add create invoice in update status of claim">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/CONSTANT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/CONSTANT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/InvoiceDTO/InvoiceCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/InvoiceDTO/InvoiceCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/InvoiceDTO/InvoiceResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/InvoiceDTO/InvoiceResDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/InvoiceDTO/InvoiceUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/InvoiceDTO/InvoiceUpdateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Enum/NotiTitle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Invoice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/ClaimServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/ClaimServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/InvoiceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/InvoiceServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/api/registrationApi.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/api/registrationApi.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-happylife/api/claimApi.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/api/claimApi.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/claimManagerPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/claimManagerPopup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/claim/claim.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/claim/claim.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/registration/registration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/registration/registration.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705655864825</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add create invoice in update status of claim">
+      <option name="closed" value="true" />
+      <created>1705662439374</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1705662439374</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +277,8 @@
     <MESSAGE value="fix get Regis and update status of regis" />
     <MESSAGE value="fix files-docUrl controller and 2 corsconfig" />
     <MESSAGE value="add create invoice, noti and contract in update status regis" />
-    <option name="LAST_COMMIT_MESSAGE" value="add create invoice, noti and contract in update status regis" />
+    <MESSAGE value="add create invoice in update status of claim" />
+    <option name="LAST_COMMIT_MESSAGE" value="add create invoice in update status of claim" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend_happylife$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1701110077184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

@@ -67,6 +67,7 @@ const IMRegistration = () => {
 
   const handleUpdateStatusOfRegistration = async (
     regisId,
+    regis,
     approvalStatus
   ) => {
     setLoadingBtns((t) => [...t, regisId]);
@@ -74,7 +75,9 @@ const IMRegistration = () => {
        await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        approvalStatus,
+        {...regis,
+          approvalStatus}
+        ,
         { content: createMessageForRegistration("", false, approvalStatus) }
       );
       setLoadingBtns((t) => t.filter((id) => id !== regisId));
@@ -228,6 +231,7 @@ const IMRegistration = () => {
                       handleSelectingRow={() =>
                         handleUpdateStatusOfRegistration(
                           item.regisId,
+                          item,
                           "Pending"
                         )
                       }
@@ -250,6 +254,7 @@ const IMRegistration = () => {
                           handleSelectingRow={() =>
                             handleUpdateStatusOfRegistration(
                               item.regisId,
+                              item,
                               "Approved"
                             )
                           }
@@ -270,6 +275,7 @@ const IMRegistration = () => {
                           handleSelectingRow={() =>
                             handleUpdateStatusOfRegistration(
                               item.regisId,
+                              item,
                               "Rejected"
                             )
                           }
@@ -296,6 +302,7 @@ const IMRegistration = () => {
                           handleSelectingRow={() =>
                             handleUpdateStatusOfRegistration(
                               item.regisId,
+                              item,
                               "Revoked"
                             )
                           }
@@ -322,6 +329,7 @@ const IMRegistration = () => {
                           handleSelectingRow={() =>
                             handleUpdateStatusOfRegistration(
                               item.regisId,
+                              item,
                               "Approved",
                               ""
                             )

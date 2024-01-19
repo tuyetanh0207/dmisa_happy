@@ -110,7 +110,7 @@ public class RegistrationImpl implements RegistrationService {
                     notificationCreateDTO.setNotiContent(CONSTANT.REGIS_NOTIFICATION_UPDATE_STATUS);
                     notificationCreateDTO.setNotiType(CONSTANT.NOTIFICATION_TITLES.get(0));
                     notificationCreateDTO.setUserInfo(regisUpdateStatusDTO.getRegis().getCustomerInfo().getId());
-
+                    notificationCreateDTO.setNotiPrio("Normal");
 
                     if (regis.getApprovalStatus().equals("Approved")) {
 
@@ -150,7 +150,7 @@ public class RegistrationImpl implements RegistrationService {
                         regisVar.setContractIdInfo(oldContract);
 
                     }
-                    NotificationResDTO notificationResDTO= notificationService.addAutoNoti(notificationCreateDTO);
+                    notificationService.addAutoNoti(notificationCreateDTO);
                     return registrationRepo.save(regisVar);
                 } else{
                     throw  new UserCreationException("Error updating status of registration: status is invalid.");

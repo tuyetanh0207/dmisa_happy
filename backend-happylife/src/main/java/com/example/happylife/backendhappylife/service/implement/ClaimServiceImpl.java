@@ -6,6 +6,7 @@ import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
@@ -79,6 +80,14 @@ public class ClaimServiceImpl implements ClaimService {
                         claimVar.setMessage(Arrays.asList(msg));
                     }
 
+                    NotificationCreateDTO notificationCreateDTO = new NotificationCreateDTO();
+                    notificationCreateDTO.setNotiTitle(CONSTANT.NOTIFICATION_TITLES.get(1));
+                    notificationCreateDTO.setNotiType(CONSTANT.NOTIFICATION_TITLES.get(1));
+                    notificationCreateDTO.setNotiContent(CONSTANT.CLAIM_NOTIFICATION_UPDATE_STATUS);
+                    notificationCreateDTO.setUserInfo(claim.getRegisInfo().getCustomerInfo().getId());
+                    notificationCreateDTO.setNotiPrio("Normal");
+
+
                     if (claim.getStatus().equals("Approved")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
                         InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
@@ -98,7 +107,12 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceCreateDTO.setDueDate(dueDateInstant);
                         invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
                         invoiceService.addInvoice(invoiceCreateDTO);
+
+                        notificationCreateDTO.setNotiPrio("High");
                     }
+
+
+                    notificationService.addAutoNoti(notificationCreateDTO);
                     return claimRepo.save(claimVar);
                 } else {
                     throw new UserCreationException("Error updating status of claim: status is invalid.");

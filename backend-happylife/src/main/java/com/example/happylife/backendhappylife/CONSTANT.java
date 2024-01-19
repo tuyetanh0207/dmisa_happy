@@ -7,6 +7,8 @@ import java.util.List;
 public class CONSTANT {
 
     public static final String REGIS_NOTIFICATION_UPDATE_STATUS = "Your registration has a new status update from insurance manager, please check it!";
+    public static final String CLAIM_NOTIFICATION_UPDATE_STATUS = "Your claim has a new status update from insurance manager, please check it!";
+
     public static final List<String> NOTIFICATION_TITLES = Arrays.asList("Registration", "Claim", "Payment","Contract", "Plan", "Personal Information");
 
     public static final Integer DUE_DATE_CONTRACT = 10;

@@ -38,7 +38,8 @@ const ClaimManagerPopup = (props) => {
       const res = await ClaimAPI.updateStatusOfClaim(
         user.token,
         claimId,
-        status,
+        {...data,
+        status},
         { content: message }
       );
       setLoadingBtns("0");
