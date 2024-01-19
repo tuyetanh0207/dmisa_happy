@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -132,7 +133,9 @@ public class InvoiceServiceImpl implements InvoiceService {
                         Message mes = new Message();
                         mes.setContent("Bạn đã thanh toán thành công!");
                         mes.setDateMessage(instantNow);
-                        regis.getMessage().add(mes);
+                        List<Message> messageList = new ArrayList<>();
+                        messageList.add(mes);
+                        regis.setMessage(messageList);
                         Registration regisUpd = new Registration().convertToRegis(regis);
                         RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                         publisher.publishEvent(new RegistrationEvent(regisUpd, method));
@@ -142,6 +145,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                         noti.setNotiContent("Bạn đã thanh toán thành công!");
                         noti.setUserInfo(authUser.getId());
                         publisher.publishEvent(new NotificationEvent(noti));
+
                         return existingInvoice.convertToInvoiceUpdateDTO();
 
                     }

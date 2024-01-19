@@ -13,6 +13,8 @@ public class NotificationAddHandler {
 
     @EventListener
     public void onNotificationCreated(NotificationEvent event) {
+        System.out.println("Id event : " + event.getNotificationEvent());
+
         notificationService.addNotiAuto(event.getNotificationEvent().convertToNotificationResDTO());
     }
 }

@@ -121,7 +121,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
     //Service for Customer
     @Override
-    public ClaimCreateDTO addClaim(ClaimCreateDTO claimCreateDTO){
+    public ClaimResDTO addClaim(ClaimCreateDTO claimCreateDTO){
         Claim claim = new Claim().convertCreToClaim(claimCreateDTO);
         try {
            /* if(claim.getClaimAmount() == null){
@@ -145,11 +145,10 @@ public class ClaimServiceImpl implements ClaimService {
             claim.setCreatedAt(instantNow);
             claim.setUpdatedAt(instantNow);
             claimRepo.save(claim);
-            ClaimCreateDTO claimSaved = claim.convertToClaimCreateDTO();
+            return claim.convertClaimToRes();
         } catch (Exception e){
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }
-        return null;
     }
     //Service for Both
     @Override
@@ -199,6 +198,8 @@ public class ClaimServiceImpl implements ClaimService {
                 documentList.add(document);
             }
             existingClaim.setDocumentUrls(documentList);
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
             return claimResDTO;
@@ -207,7 +208,9 @@ public class ClaimServiceImpl implements ClaimService {
         }
     }
     @Override
-    public ClaimResDTO updateClaimFilesDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+    public ClaimResDTO updateClaimFilesDocUrl(ObjectId claimId,
+                                              List<String> uploadedUrls,
+                                              List<SectionFileCount> sectionFileCounts) {
         Claim existingClaim = claimRepo.findById(claimId)
                 .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
         try {
@@ -227,6 +230,8 @@ public class ClaimServiceImpl implements ClaimService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
             existingClaim.setDocumentUrls(documentList);
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();

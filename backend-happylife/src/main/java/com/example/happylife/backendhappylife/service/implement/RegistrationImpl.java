@@ -164,11 +164,13 @@ public class RegistrationImpl implements RegistrationService {
             Registration existingRegis = registrationRepo.findById(regisId)
                     .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
             existingRegis.setApprovalStatus(updRegis.getApprovalStatus());
-            List<Message> messageList = existingRegis.getMessage();
-            messageList.addAll(updRegis.getMessage());
-           /* for(Message mes : updRegis.getMessage()){
-                messageList.add(mes);
-            }*/
+
+            List<Message> messageList = new ArrayList<>();
+            if(existingRegis.getMessage() == null) messageList.addAll(updRegis.getMessage());
+            else {
+                messageList = existingRegis.getMessage();
+                messageList.addAll(updRegis.getMessage());
+            }
             existingRegis.setMessage(messageList);
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
@@ -179,7 +181,7 @@ public class RegistrationImpl implements RegistrationService {
         }
     }
     @Override
-    public RegisCreateDTO addRegistration(RegisCreateDTO regisCreateDTO) {
+    public RegisResDTO addRegistration(RegisCreateDTO regisCreateDTO) {
         Registration regis = new Registration().convertCreToRegistrations(regisCreateDTO);
         try {
             if (regis.getCustomerInfo().getId() == null || regis.getCustomerInfo().getId().isEmpty()){
@@ -210,7 +212,7 @@ public class RegistrationImpl implements RegistrationService {
             regis.setStartDate(startDate);
             regis.setEndDate(endDate);
             registrationRepo.save(regis);
-            return regis.convertToRegisCreateDTO();
+            return regis.convertToRegisResDTO();
         }
         catch (Exception e) {
             throw new UserCreationException("Error creating registration: " + e.getMessage());
@@ -262,6 +264,8 @@ public class RegistrationImpl implements RegistrationService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
             existingRegis.setDocumentUrls(documentList);
             Registration updatedRegis = registrationRepo.save(existingRegis);
             RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();
@@ -291,6 +295,8 @@ public class RegistrationImpl implements RegistrationService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
             existingRegis.setDocumentUrls(documentList);
             Registration updatedRegis = registrationRepo.save(existingRegis);
             RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();

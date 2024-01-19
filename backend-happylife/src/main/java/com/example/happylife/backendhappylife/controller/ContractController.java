@@ -2,23 +2,22 @@ package com.example.happylife.backendhappylife.controller;
 
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
-import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
-import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
-import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.User;
-import com.example.happylife.backendhappylife.service.ClaimService;
 import com.example.happylife.backendhappylife.service.ContractService;
+import com.example.happylife.backendhappylife.service.FireBaseService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
 
@@ -27,6 +26,11 @@ import java.util.stream.Collectors;
 public class ContractController {
     @Autowired
     private ContractService contractService;
+    private final FireBaseService firebaseStorageService;
+
+    public ContractController(FireBaseService firebaseStorageService) {
+        this.firebaseStorageService = firebaseStorageService;
+    }
 
     //API for Manager
     @PostMapping("/create")
@@ -85,4 +89,32 @@ public class ContractController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
+
+    //API for upload image and file
+    @PutMapping("/update/{contractId}/image-contentUrl") // Update contract theo contractId các image ở content
+    public ResponseEntity<?> updateClaimImageContentUrl(HttpServletRequest request,
+                                                        @PathVariable ObjectId contractId,
+                                                        @RequestPart("files") MultipartFile[] files) throws IOException {
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        //if(userResDTO)
+        // Lưu các URL của file sau khi upload
+        List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
+        // Cập nhật thông tin vào Claim và lưu
+        ContractResDTO savedContract = contractService.updateContractImageContentUrl(contractId,uploadedUrls);
+        return ResponseEntity.ok(savedContract);
+    };
+    @PutMapping("/update/{claimId}/file-docUrl") // Update Claim theo claimId các files ở DocumentURl
+    public ResponseEntity<?> updateClaimFileContentUrl(HttpServletRequest request,
+                                                       @PathVariable ObjectId contractId,
+                                                       @RequestPart("files") MultipartFile[] files) throws IOException {
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        //if(userResDTO)
+        // Lưu các URL của file sau khi upload
+        List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
+        // Cập nhật thông tin vào Claim và lưu
+        ContractResDTO savedContract = contractService.updateContractFileContentUrl(contractId,uploadedUrls);
+        return ResponseEntity.ok(savedContract);
+    };
 }

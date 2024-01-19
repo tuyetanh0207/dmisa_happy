@@ -27,7 +27,7 @@ public interface RegistrationService {
 
     RegisResDTO updateRegisStatusOfCustomer(ObjectId regisId, RegisUpdateDTO regisUpdateDTO);
 
-    RegisCreateDTO addRegistration(RegisCreateDTO regisCreateDTO);
+    RegisResDTO addRegistration(RegisCreateDTO regisCreateDTO);
 
     List<RegisResDTO> getRegisByUserId(UserResDTO userVar, ObjectId userId);
 

@@ -85,10 +85,18 @@ public class ClaimController {
     };
     //API for Customer
     @PostMapping("/create") //API tạo mới một claim
-    public ResponseEntity<?> addClaim(@RequestBody ClaimCreateDTO claimCreateDTO) {
-        ClaimCreateDTO savedClaim = claimService.addClaim(claimCreateDTO);
-        ClaimResDTO claimCreatedDTO = new Claim().convertCreToClaim(savedClaim).convertToClaimResDTO();
-        return ResponseEntity.ok(claimCreatedDTO);
+    public ResponseEntity<?> addClaim(HttpServletRequest request,
+                                      @RequestBody ClaimCreateDTO claimCreateDTO) {
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        if(user.getRole() == Role.CUSTOMER)
+        {
+            ClaimResDTO savedClaim = claimService.addClaim(claimCreateDTO);
+            return ResponseEntity.ok(savedClaim);
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
     };
 
     @GetMapping("/{userId}") //API get toàn bộ một claim theo userId
@@ -129,7 +137,7 @@ public class ClaimController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimImageDocUrl(claimId,uploadedUrls,fileCounts);
+        ClaimResDTO savedClaim = claimService.updateClaimFilesDocUrl(claimId,uploadedUrls,fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
 }

@@ -8,6 +8,7 @@ import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Notification;
 import com.example.happylife.backendhappylife.entity.Object.Message;
+import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -22,6 +23,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,7 +134,9 @@ public class ContractServiceImpl implements ContractService {
                 Message mes = new Message();
                 mes.setContent("");
                 mes.setDateMessage(instantNow);
-                regis.getMessage().add(mes);
+                List<Message> messageList = new ArrayList<>();
+                messageList.add(mes);
+                regis.setMessage(messageList);
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
@@ -140,6 +145,7 @@ public class ContractServiceImpl implements ContractService {
                 noti.setNotiTitle("Thông báo đăng ký hợp đồng thành công!");
                 noti.setNotiContent("Bạn đã kí hợp đồng thành công và bạn cần thanh toán!");
                 noti.setUserInfo(user.getId());
+
                 publisher.publishEvent(new NotificationEvent(noti));
 
                 contractRepo.save(existingContract);
@@ -156,6 +162,7 @@ public class ContractServiceImpl implements ContractService {
             User user = new User().convertResToUser(userVar);
             Contract existingContract = contractRepo.findByRegisInfo_RegisId(regisId.toString())
                     .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + regisId));
+            System.out.println("id" + existingContract.getRegisInfo());
             if(existingContract.getRegisInfo().getCustomerInfo().getId().equals(user.getId().toString())){
                 return existingContract.convertToContractResDTO();
             }
@@ -168,4 +175,34 @@ public class ContractServiceImpl implements ContractService {
         }
     }
     //Service for image and files
+    @Override
+    public ContractResDTO updateContractFileContentUrl(ObjectId contractId,
+                                                       List<String> uploadedUrls) {
+        Contract existingContract = contractRepo.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + contractId));
+        try {
+            List<String> contentList = uploadedUrls;
+            Instant instantNow = Instant.now();
+            existingContract.setUpdatedAt(instantNow);
+            existingContract.setContent(contentList);
+            return contractRepo.save(existingContract).convertToContractResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Regis: " + e.getMessage());
+        }
+    }
+    @Override
+    public ContractResDTO updateContractImageContentUrl(ObjectId contractId,
+                                                        List<String> uploadedUrls) {
+        Contract existingContract = contractRepo.findById(contractId)
+                .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + contractId));
+        try {
+            List<String> contentList = uploadedUrls;
+            Instant instantNow = Instant.now();
+            existingContract.setUpdatedAt(instantNow);
+            existingContract.setContent(contentList);
+            return contractRepo.save(existingContract).convertToContractResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Regis: " + e.getMessage());
+        }
+    }
 }

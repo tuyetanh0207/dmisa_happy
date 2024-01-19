@@ -1,8 +1,8 @@
 package com.example.happylife.backendhappylife.service;
 
-import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Plan;
 import org.bson.types.ObjectId;
 
@@ -16,9 +16,19 @@ public interface PlanService {
     public PlanResDTO getPlan(ObjectId planId);
     Plan updatePlan(Plan planUpdate, ObjectId planId);
 
-    Plan updatePlanImageDocUrl(ObjectId planId,List<Plan.documents> listDoc);
+    //Service for upload file and image
+    PlanResDTO updatePlanImageDocUrl(ObjectId planId,
+                                     List<String> uploadedUrls,
+                                     List<SectionFileCount> sectionFileCounts);
 
-    Plan updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl);
+    PlanResDTO updatePlanFileDocUrl(ObjectId planId,
+                                    List<String> uploadedUrls,
+                                    List<SectionFileCount> sectionFileCounts);
+
+    PlanResDTO updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl);
 
     PlanResDTO getPlanByRegisId(UserResDTO userVar, ObjectId regisId);
+
+    PlanResDTO updatePlanFilePlanUrl(ObjectId planId,
+                                     List<String> listPlanUrl);
 }
