@@ -57,7 +57,7 @@ public class Notification {
     }
     public NotificationResDTO convertToNotificationResDTO() {
         NotificationResDTO dto = new NotificationResDTO();
-        dto.setNotificationId(this.notificationId.toString());
+        if(this.notificationId != null) dto.setNotificationId(this.notificationId.toString());
         dto.setNotiPrio(this.notiPrio);
         dto.setNotiContent(this.notiContent);
         dto.setNotiStatus(this.notiStatus);

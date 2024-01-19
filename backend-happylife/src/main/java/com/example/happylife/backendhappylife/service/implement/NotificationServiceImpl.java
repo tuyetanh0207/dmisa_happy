@@ -115,6 +115,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
     @Override
     public NotificationResDTO addNotiAuto(NotificationResDTO notificationResDTO){
+        System.out.println("Id noti error one ");
+
         Notification notification = new Notification().convertResToNoti(notificationResDTO);
         try {
             if (notification.getNotiTitle() == null) {

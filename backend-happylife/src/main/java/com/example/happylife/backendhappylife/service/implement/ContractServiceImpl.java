@@ -134,7 +134,9 @@ public class ContractServiceImpl implements ContractService {
                 Message mes = new Message();
                 mes.setContent("");
                 mes.setDateMessage(instantNow);
-                regis.getMessage().add(mes);
+                List<Message> messageList = new ArrayList<>();
+                messageList.add(mes);
+                regis.setMessage(messageList);
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
@@ -143,6 +145,7 @@ public class ContractServiceImpl implements ContractService {
                 noti.setNotiTitle("Thông báo đăng ký hợp đồng thành công!");
                 noti.setNotiContent("Bạn đã kí hợp đồng thành công và bạn cần thanh toán!");
                 noti.setUserInfo(user.getId());
+
                 publisher.publishEvent(new NotificationEvent(noti));
 
                 contractRepo.save(existingContract);
