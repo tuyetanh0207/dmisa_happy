@@ -155,14 +155,17 @@ public class RegistrationController {
         RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
-    @PutMapping("/update/{regisId}/files-docUrl") // Update Regis theo regisId các image ở DocumentURl
+    @PutMapping(value = "/update/{regisId}/files-docUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updateRegisFileDocUrl(@PathVariable ObjectId regisId,
-                                                   @RequestPart("fileCounts") List<SectionFileCount> fileCounts,
-                                                   @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                   @RequestParam("fileCounts") String fileCounts,
+                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisFileDocUrl(regisId,uploadedUrls,fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisFileDocUrl(regisId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
 }
