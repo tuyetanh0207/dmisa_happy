@@ -24,7 +24,8 @@ public class SecurityConfiguration {
                 .authorizeRequests(authorize -> authorize
                         .requestMatchers("/api/v1/users/**", "/api/v1/plans/**", "/api/v1/registrations/**",
                         "/api/v1/claims/**", "/api/v1/files/**", "/api/v1/notifications/**", "/api/v1/contracts/**",
-                                "/api/v1/contact/**")
+                                "/api/v1/contact/**",
+                                "/api/v1/statista/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
