@@ -2,21 +2,21 @@ package com.example.happylife.backendhappylife.DTO.NotificationDTO;
 
 import lombok.Getter;
 import org.bson.types.ObjectId;
-
+import jakarta.persistence.Column;
+import lombok.Getter;
+import org.bson.types.ObjectId;
 import java.time.Instant;
 
 @Getter
 public class NotificationCreateDTO {
-
-    private ObjectId userInfo;
+    private String userInfo;
     private String notiTitle;
     private String notiContent;
     private Boolean notiStatus;
     private String notiType;
     private String notiPrio;
 
-
-    public void setUserInfo(ObjectId userInfo) {
+    public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
     }
 

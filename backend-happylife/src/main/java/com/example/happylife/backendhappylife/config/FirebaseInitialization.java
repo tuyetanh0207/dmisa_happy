@@ -14,7 +14,6 @@ import java.io.InputStream;
 public class FirebaseInitialization {
     private static String jsonfile = "dmisa-410407-firebase-adminsdk-3rqdq-9e940c8506.json";
     private static String bucket = "dmisa-410407.appspot.com";
-
    @PostConstruct
    public void initialize() {
        try {
@@ -30,5 +29,4 @@ public class FirebaseInitialization {
            throw new RuntimeException(e);
        }
    }
-
 }

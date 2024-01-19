@@ -1,24 +1,23 @@
 package com.example.happylife.backendhappylife.service.implement;
 
-import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateStatusDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
-import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
-import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Object.Message;
+import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
-import com.example.happylife.backendhappylife.service.ContractService;
-import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -27,8 +26,9 @@ import java.time.Instant;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,10 +38,7 @@ public class RegistrationImpl implements RegistrationService {
     private RegistrationRepo registrationRepo;
 
     @Autowired
-    private InvoiceService invoiceService;
-
-  /*  @Autowired
-    private ContractService contractService;*/
+    private ApplicationEventPublisher publisher;
 
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
@@ -49,16 +46,6 @@ public class RegistrationImpl implements RegistrationService {
             if (user.getRole()== Role.INSUARANCE_MANAGER|| user.getRole() == Role.ACCOUNTANT ){
                 List<Registration> registrations = registrationRepo.findAll();
                 return registrations;
-            }
-            else if ((user.getRole()== Role.CUSTOMER)) {
-                //List<Registration> registrationsUser = new ArrayList<Registration>();
-                List<Registration> registrationsUser = registrationRepo.findByCustomerInfo_Id(user.getId());
-
-                /*ObjectId userIdObject = user.getId() != null ? new ObjectId(user.getId()) : null;
-                for (Registration regis : registrations) {
-                    registrationRepo.findById(userIdObject).ifPresent(registrationsUser::add);
-                }*/
-                return registrationsUser;
             }
             else {
                 throw new UserCreationException("You need authenticated account to access this infomation.");
@@ -69,43 +56,6 @@ public class RegistrationImpl implements RegistrationService {
         }
     }
 
-    @Override
-    public Registration addRegistration(UserResDTO authUser, Registration regis) {
-        if (regis.getCustomerInfo().getId() == null || regis.getCustomerInfo().getId().isEmpty()){
-            throw new UserCreationException("User ID is required.");
-        }
-        if (regis.getProductInfo().getPlanId()==null){
-            throw new UserCreationException("Plan ID is required.");
-        }
-        try {
-
-            Instant instantNow= Instant.now();
-            regis.setApprovalStatus("Pending");
-            regis.setCreatedAt(instantNow);
-            regis.setUpdatedAt(instantNow);
-
-            Instant startDate = instantNow.plus(Duration.ofDays(30));
-            Instant endDate = startDate ;
-            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Day)){
-                endDate = startDate.plus(Duration.ofDays(regis.getProductInfo().getPlanDuration()));
-            }
-            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Month)){
-                long months = regis.getProductInfo().getPlanDuration();
-                endDate = startDate.atZone(ZoneId.systemDefault()).plusMonths(months).toInstant();
-            }
-            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Year)){
-                long years= regis.getProductInfo().getPlanDuration();
-                endDate = startDate.atZone(ZoneId.systemDefault()).plusYears(years).toInstant();
-            }
-            regis.setStartDate(startDate);
-            regis.setEndDate(endDate);
-            return registrationRepo.save(regis);
-
-        }
-        catch (Exception e) {
-            throw new UserCreationException("Error creating registration: " + e.getMessage());
-        }
-    }
     @Override
     public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
         try {
@@ -131,7 +81,7 @@ public class RegistrationImpl implements RegistrationService {
                     }
                     if (regis.getApprovalStatus().equals("Approved")) {
                         //Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
-                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+                       /* InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
                         invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
                         invoiceCreateDTO.setTotalPrice(regisVar.getInsuranceAmount());
                         Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
@@ -142,11 +92,12 @@ public class RegistrationImpl implements RegistrationService {
                         invoiceService.addInvoice(invoiceCreated);
 
                         //Tạo Contract
-                       /* Contract contract = new Contract();
+                        Contract contract = new Contract();
                         contract.setConfirmation(false);
                         contract.setRegisInfo(regis);
                         contract.setStatus("Waiting");
-                        contractService.addContract(contract);*/
+                        //contractService.addContract(contract);
+                        publisher.publishEvent(new ContractCreatedEvent(contract));*/
                     }
                     return registrationRepo.save(regisVar);
                 } else{
@@ -187,4 +138,187 @@ public class RegistrationImpl implements RegistrationService {
         return registrations;
     }
 
+
+    //Service for Customer
+    @Override
+    public RegisResDTO getRegisByIdRegis(UserResDTO userVar, ObjectId regisId){
+        try{
+            User user = new User().convertResToUser(userVar);
+            Registration existingRegis = registrationRepo.findById(regisId)
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+            if(existingRegis.getCustomerInfo().getId().equals(user.getId().toString())){
+                return existingRegis.convertToRegisResDTO();
+            }
+            else if(user.getRole() == Role.ACCOUNTANT || user.getRole() == Role.INSUARANCE_MANAGER){
+                return existingRegis.convertToRegisResDTO();
+            }
+            return null;
+        } catch (Exception e){
+        throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
+    @Override
+    public RegisResDTO getRegisByIdRegisForEvent(ObjectId regisId){
+        try{
+            Registration existingRegis = registrationRepo.findById(regisId)
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+            return existingRegis.convertToRegisResDTO();
+
+        } catch (Exception e){
+            throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
+    @Override //Event được call khi người dùng kí hợp đồng, thanh toán invoice
+    public RegisResDTO updateRegisStatusOfCustomer(ObjectId regisId, RegisUpdateDTO regisUpdateDTO){
+        try {
+            Registration updRegis = new Registration().convertUpdToRegistrations(regisUpdateDTO);
+            Registration existingRegis = registrationRepo.findById(regisId)
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+            existingRegis.setApprovalStatus(updRegis.getApprovalStatus());
+            for(Message mes : updRegis.getMessage()){
+                existingRegis.getMessage().add(mes);
+            }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
+            registrationRepo.save(existingRegis);
+            return existingRegis.convertToRegisResDTO();
+        } catch (Exception e){
+            throw  new UserCreationException("Error updating status of registration: "+ e.getMessage());
+        }
+    }
+    @Override
+    public RegisResDTO addRegistration(RegisCreateDTO regisCreateDTO) {
+        Registration regis = new Registration().convertCreToRegistrations(regisCreateDTO);
+        try {
+            if (regis.getCustomerInfo().getId() == null || regis.getCustomerInfo().getId().isEmpty()){
+                throw new UserCreationException("User ID is required.");
+            }
+            if (regis.getProductInfo().getPlanId()==null){
+                throw new UserCreationException("Plan ID is required.");
+            }
+
+            Instant instantNow= Instant.now();
+            regis.setApprovalStatus("Pending");
+            regis.setCreatedAt(instantNow);
+            regis.setUpdatedAt(instantNow);
+
+            Instant startDate = instantNow.plus(Duration.ofDays(30));
+            Instant endDate = startDate ;
+            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Day)){
+                endDate = startDate.plus(Duration.ofDays(regis.getProductInfo().getPlanDuration()));
+            }
+            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Month)){
+                long months = regis.getProductInfo().getPlanDuration();
+                endDate = startDate.atZone(ZoneId.systemDefault()).plusMonths(months).toInstant();
+            }
+            if (regis.getProductInfo().getPlanDurationUnit().equals(DateUnit.Year)){
+                long years= regis.getProductInfo().getPlanDuration();
+                endDate = startDate.atZone(ZoneId.systemDefault()).plusYears(years).toInstant();
+            }
+            regis.setStartDate(startDate);
+            regis.setEndDate(endDate);
+            registrationRepo.save(regis);
+            return regis.convertToRegisResDTO();
+        }
+        catch (Exception e) {
+            throw new UserCreationException("Error creating registration: " + e.getMessage());
+        }
+    }
+    @Override
+    public List<RegisResDTO> getRegisByUserId(UserResDTO userVar, ObjectId userId) {
+        User user = new User().convertResToUser(userVar);
+        try{
+            if(user.getId().toString().equals(userId.toString())) {
+                List<Registration> regisList = registrationRepo.findByCustomerInfo_Id(userId.toString());
+                List<RegisResDTO> regisResDTOList = regisList.stream()
+                        .map(registration -> registration.convertToRegisResDTO())
+                        .collect(Collectors.toList());
+                return regisResDTOList;
+            }
+            else if(user.getRole() == Role.INSUARANCE_MANAGER){
+                List<Registration> regisList = registrationRepo.findByCustomerInfo_Id(userId.toString());
+                List<RegisResDTO> regisResDTOList = regisList.stream()
+                        .map(registration -> registration.convertToRegisResDTO())
+                        .collect(Collectors.toList());
+                return regisResDTOList;
+            }
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's regis: " + e.getMessage());
+        }
+        return null;
+    }
+
+    //Service for upload file, image
+    @Override
+    public RegisResDTO updateRegisImageDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+        Registration existingRegis = registrationRepo.findById(regisId)
+                .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+        try {
+            Iterator<String> urlIterator = uploadedUrls.iterator();
+            List<Registration.documentRegiss> documentList = new ArrayList<>();
+
+            for (SectionFileCount fileCount : sectionFileCounts) {
+                Registration.documentRegiss document = new Registration.documentRegiss();
+                List<String> docUrls = new ArrayList<>();
+                for (int i = 0; i < fileCount.getFileCount(); i++) {
+                    if (urlIterator.hasNext()) {
+                        docUrls.add(urlIterator.next());
+                    }
+                }
+                document.setDocCategory(fileCount.getSection().trim());
+                //System.out.println("Value : " + fileCount.getSection().trim());
+                document.setUrls(docUrls);
+                documentList.add(document);
+            }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
+            existingRegis.setDocumentUrls(documentList);
+            Registration updatedRegis = registrationRepo.save(existingRegis);
+            RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();
+            return regisResDTO;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Regis: " + e.getMessage());
+        }
+    }
+    @Override
+    public RegisResDTO updateRegisFileDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+        Registration existingRegis = registrationRepo.findById(regisId)
+                .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+        try {
+            Iterator<String> urlIterator = uploadedUrls.iterator();
+            List<Registration.documentRegiss> documentList = new ArrayList<>();
+
+            for (SectionFileCount fileCount : sectionFileCounts) {
+                Registration.documentRegiss document = new Registration.documentRegiss();
+                List<String> docUrls = new ArrayList<>();
+                for (int i = 0; i < fileCount.getFileCount(); i++) {
+                    if (urlIterator.hasNext()) {
+                        docUrls.add(urlIterator.next());
+                    }
+                }
+                document.setDocCategory(fileCount.getSection().trim());
+                //System.out.println("Value : " + fileCount.getSection().trim());
+                document.setUrls(docUrls);
+                documentList.add(document);
+            }
+            Instant instantNow = Instant.now();
+            existingRegis.setUpdatedAt(instantNow);
+            existingRegis.setDocumentUrls(documentList);
+            Registration updatedRegis = registrationRepo.save(existingRegis);
+            RegisResDTO regisResDTO = updatedRegis.convertToRegisResDTO();
+            return regisResDTO;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Regis: " + e.getMessage());
+        }
+    }
+    @Override
+    public RegisResDTO getRegisByPlanId(ObjectId planId){
+        try {
+            Registration existingRegis = registrationRepo.findByProductInfo_PlanId(planId.toString())
+                    .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + planId));
+            return existingRegis.convertToRegisResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error get Regis: " + e.getMessage());
+        }
+    }
 }

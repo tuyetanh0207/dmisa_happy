@@ -1,39 +1,39 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
+import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Plan;
+import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.PlanService;
+import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
     @Autowired
     private PlanRepo planRepo;
-
+    @Autowired
+    private ApplicationEventPublisher publisher;
     @Override
     public Plan deletePlan(ObjectId PlanId) {
         Plan Plan = planRepo.findById(PlanId).get();
         planRepo.delete(Plan);
         return Plan;
-    }
-    @Override
-    public List<Plan> getAllPlans() {
-        List<Plan> plans = planRepo.findAll();
-        return plans;
-    }
-
-    @Override
-    public Plan getPlan(ObjectId planId) {
-        Plan plans = planRepo.findById(planId).get();
-        return plans;
     }
 
     @Override
@@ -120,22 +120,117 @@ public class PlanServiceImpl implements PlanService {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }
     }
+
+    //Service for Customer
     @Override
-    public Plan updatePlanImageDocUrl(ObjectId planId, List<Plan.documents> listDoc) {
+    public List<PlanResDTO> getAllPlans() {
+        List<Plan> plans = planRepo.findAll();
+        List<PlanResDTO> planResDTOS = plans.stream()
+                .map(plan -> plan.convertToPlanResDTO())
+                .collect(Collectors.toList());
+        return planResDTOS;
+    }
+
+    @Override
+    public PlanResDTO getPlan(ObjectId planId) {
+        Plan plans = planRepo.findById(planId).get();
+        return plans.convertToPlanResDTO();
+    }
+
+    @Override
+    public PlanResDTO getPlanByRegisId(UserResDTO userVar, ObjectId regisId){
+        try{
+            //User user = new User().convertResToUser(userVar);
+            Registration regis = new Registration();
+            regis.setRegisId(regisId);
+            RegistrationEventEnum method = RegistrationEventEnum.getPlanWithRegisId;
+
+            CompletableFuture<Registration> regisEventReturn = new CompletableFuture<>();
+
+            Registration existingRegis;
+            RegistrationEvent.RegistrationGetCallback callback = registration -> {
+                regisEventReturn.complete(registration);
+            };
+            publisher.publishEvent(new RegistrationEvent(regis,null, method,callback));
+            //System.out.println("Id : " + regisEventReturn.get().getCustomerInfo());
+            ObjectId planId = new ObjectId(regisEventReturn.get().getProductInfo().getPlanId());
+            System.out.println("Id : " + planId.toString());
+            if(!planId.toString().isEmpty()){
+                Plan existingPlan = planRepo.findById(planId)
+                        .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + regisId));
+                return existingPlan.convertToPlanResDTO();
+            }else return null;
+        } catch (Exception e){
+            throw  new UserCreationException("Error get registration: "+ e.getMessage());
+        }
+    }
+    //Service for upload file and image
+    @Override
+    public PlanResDTO updatePlanImageDocUrl(ObjectId planId,
+                                            List<String> uploadedUrls,
+                                            List<SectionFileCount> sectionFileCounts) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
         try {
+            Iterator<String> urlIterator = uploadedUrls.iterator();
+            List<Plan.documents> documentList = new ArrayList<>();
+
+            for (SectionFileCount fileCount : sectionFileCounts) {
+                Plan.documents document = new Plan.documents();
+                List<String> docUrls = new ArrayList<>();
+                for (int i = 0; i < fileCount.getFileCount(); i++) {
+                    if (urlIterator.hasNext()) {
+                        docUrls.add(urlIterator.next());
+                    }
+                }
+                document.setDocTitle(fileCount.getSection().trim());
+                //System.out.println("Value : " + fileCount.getSection().trim());
+                document.setDocUrl(docUrls);
+                documentList.add(document);
+            }
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
-            existingPlan.setPlanDocuments(listDoc);
-            planRepo.save(existingPlan);
-            return existingPlan;
+            existingPlan.setPlanDocuments(documentList);
+            return planRepo.save(existingPlan).convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }
     }
     @Override
-    public Plan updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl) {
+    public PlanResDTO updatePlanFileDocUrl(ObjectId planId,
+                                            List<String> uploadedUrls,
+                                            List<SectionFileCount> sectionFileCounts) {
+        Plan existingPlan = planRepo.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
+        try {
+            Iterator<String> urlIterator = uploadedUrls.iterator();
+            List<Plan.documents> documentList = new ArrayList<>();
+
+            for (SectionFileCount fileCount : sectionFileCounts) {
+                Plan.documents document = new Plan.documents();
+                List<String> docUrls = new ArrayList<>();
+                for (int i = 0; i < fileCount.getFileCount(); i++) {
+                    if (urlIterator.hasNext()) {
+                        docUrls.add(urlIterator.next());
+                    }
+                }
+                document.setDocTitle(fileCount.getSection().trim());
+                //System.out.println("Value : " + fileCount.getSection().trim());
+                document.setDocUrl(docUrls);
+                documentList.add(document);
+            }
+            Instant instantNow = Instant.now();
+            existingPlan.setPlanUpdatedAt(instantNow);
+            existingPlan.setPlanDocuments(documentList);
+            return planRepo.save(existingPlan).convertToPlanResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Plan: " + e.getMessage());
+        }
+    }
+   //PlanURL
+    @Override
+    public PlanResDTO updatePlanImagePlanUrl(ObjectId planId,
+                                             List<String> listPlanUrl) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
         try {
@@ -143,7 +238,22 @@ public class PlanServiceImpl implements PlanService {
             existingPlan.setPlanUpdatedAt(instantNow);
             existingPlan.setPlanURL(listPlanUrl);
             planRepo.save(existingPlan);
-            return existingPlan;
+            return existingPlan.convertToPlanResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Plan: " + e.getMessage());
+        }
+    }
+    @Override
+    public PlanResDTO updatePlanFilePlanUrl(ObjectId planId,
+                                            List<String> listPlanUrl) {
+        Plan existingPlan = planRepo.findById(planId)
+                .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
+        try {
+            Instant instantNow = Instant.now();
+            existingPlan.setPlanUpdatedAt(instantNow);
+            existingPlan.setPlanURL(listPlanUrl);
+            planRepo.save(existingPlan);
+            return existingPlan.convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }

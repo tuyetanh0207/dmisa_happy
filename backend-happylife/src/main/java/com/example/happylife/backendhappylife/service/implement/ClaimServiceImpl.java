@@ -1,12 +1,13 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
-import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Object.Message;
+import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
@@ -16,43 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClaimServiceImpl implements ClaimService {
     @Autowired
     private ClaimRepo claimRepo;
 
-  
-    @Override
-    public List<Claim> getAllClaimUser(UserResDTO user) {
-        List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo(user.getId());
-        return claims;
-    }
-    @Override
-    public Claim addClaim(Claim claim){ //UserResDTO authUser,
-        try {
-            // if (authUser.getRole() == Role.CUSTOMER) {
-            //     return null;
-                /*} else{
-                    throw  new UserCreationException("Error updating status of claimtration: status is invalid.");
-            /*if (authUser.getRole() == Role.CUSTOMER) {*/
-                Instant instantNow = Instant.now();
-                claim.setCreatedAt(instantNow);
-                claim.setUpdatedAt(instantNow);
-                return claimRepo.save(claim);
-               /* } else{
-                    throw  new UserCreationException("Error updating status of registration: status is invalid.");
-                }*/
-          /*  } else {
-                throw  new UserCreationException("Error to request the new claim, you need an authenticated account to do this action.");
-            }*/
-        } catch (Exception e){
-            throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
-        }
-    }
-
+    //Service for Manager
     @Override
     public List<Claim> getAllClaim() {
         try{
@@ -143,6 +119,125 @@ public class ClaimServiceImpl implements ClaimService {
             throw new UserCreationException("Error updating claim: " + e.getMessage());
         }
     }
+    //Service for Customer
+    @Override
+    public ClaimResDTO addClaim(ClaimCreateDTO claimCreateDTO){
+        Claim claim = new Claim().convertCreToClaim(claimCreateDTO);
+        try {
+           /* if(claim.getClaimAmount() == null){
+                throw new UserCreationException("Claim Amount must be exist.");
+            }*/
+            if(claim.getClaimCategories() == null){
+                throw new UserCreationException("There must be at least 1 claim scenario provided.");
+            }
+            if(claim.getDocumentUrls().isEmpty()){
+                throw new UserCreationException("There must be at least 1 document provided.");
+            }
+            if(claim.getRegisInfo() == null){
+                throw new UserCreationException("Regis info can't be null.");
+            }
 
+            claim.setStatus("Pending");
+            for(Claim.ClaimInvoices claimInvoices : claim.getClaimInvoices()){
+                claimInvoices.setStatus("Pending");
+            }
+            Instant instantNow = Instant.now();
+            claim.setCreatedAt(instantNow);
+            claim.setUpdatedAt(instantNow);
+            claimRepo.save(claim);
+            return claim.convertClaimToRes();
+        } catch (Exception e){
+            throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
+        }
+    }
+    //Service for Both
+    @Override
+    public List<ClaimResDTO> getAllClaimByUserId(UserResDTO user, ObjectId userId) {
+        try{
+            if(user.getId().equals(userId.toString())){
+                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfoId(userId.toString());
+                List<ClaimResDTO> claimsRes = claims.stream()
+                        .map(Claim::convertClaimToRes)
+                        .collect(Collectors.toList());
+                return claimsRes;
+            }
+            else if(user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT){
+                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfoId(userId.toString());
+                List<ClaimResDTO> claimsRes = claims.stream()
+                        .map(Claim::convertClaimToRes)
+                        .collect(Collectors.toList());
+                return claimsRes;
+            }
+        } catch (Exception e) {
 
+            throw new UserCreationException("Error getting user's claims: " + e.getMessage());
+        }
+        return null;
+    }
+
+    //Service for image and files
+    @Override
+    public ClaimResDTO updateClaimImageDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+        Claim existingClaim = claimRepo.findById(claimId)
+                .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
+        try {
+            Iterator<String> urlIterator = uploadedUrls.iterator();
+            List<Claim.documentClaims> documentList = new ArrayList<>();
+
+            for (SectionFileCount fileCount : sectionFileCounts) {
+                Claim.documentClaims document = new Claim.documentClaims();
+                List<String> docUrls = new ArrayList<>();
+                for (int i = 0; i < fileCount.getFileCount(); i++) {
+                    if (urlIterator.hasNext()) {
+                        docUrls.add(urlIterator.next());
+                    }
+                }
+                document.setDocCategory(fileCount.getSection().trim());
+                //System.out.println("Value : " + fileCount.getSection().trim());
+                document.setUrls(docUrls);
+                documentList.add(document);
+            }
+            existingClaim.setDocumentUrls(documentList);
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
+            Claim updatedClaim = claimRepo.save(existingClaim);
+            ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
+            return claimResDTO;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Claim: " + e.getMessage());
+        }
+    }
+    @Override
+    public ClaimResDTO updateClaimFilesDocUrl(ObjectId claimId,
+                                              List<String> uploadedUrls,
+                                              List<SectionFileCount> sectionFileCounts) {
+        Claim existingClaim = claimRepo.findById(claimId)
+                .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
+        try {
+            Iterator<String> urlIterator = uploadedUrls.iterator();
+            List<Claim.documentClaims> documentList = new ArrayList<>();
+
+            for (SectionFileCount fileCount : sectionFileCounts) {
+                Claim.documentClaims document = new Claim.documentClaims();
+                List<String> docUrls = new ArrayList<>();
+                for (int i = 0; i < fileCount.getFileCount(); i++) {
+                    if (urlIterator.hasNext()) {
+                        docUrls.add(urlIterator.next());
+                    }
+                }
+                document.setDocCategory(fileCount.getSection().trim());
+                //System.out.println("Value : " + fileCount.getSection().trim());
+                document.setUrls(docUrls);
+                documentList.add(document);
+            }
+            Instant instantNow = Instant.now();
+            existingClaim.setUpdatedAt(instantNow);
+            existingClaim.setDocumentUrls(documentList);
+            Claim updatedClaim = claimRepo.save(existingClaim);
+            ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
+            return claimResDTO;
+        } catch (Exception e) {
+            throw new UserCreationException("Error update Claim: " + e.getMessage());
+        }
+    }
 }

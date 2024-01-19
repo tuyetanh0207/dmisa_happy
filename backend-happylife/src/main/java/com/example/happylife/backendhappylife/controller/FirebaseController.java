@@ -14,12 +14,10 @@ import java.util.List;
 @RequestMapping("/api/v1/files")
 public class FirebaseController {
     private final FireBaseService firebaseStorageService;
-
     @Autowired
     public FirebaseController(FireBaseService firebaseStorageService) {
         this.firebaseStorageService = firebaseStorageService;
     }
-
     @PostMapping("/upload/files")
     public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         try {
