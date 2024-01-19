@@ -162,7 +162,7 @@ public class ContractServiceImpl implements ContractService {
             User user = new User().convertResToUser(userVar);
             Contract existingContract = contractRepo.findByRegisInfo_RegisId(regisId.toString())
                     .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + regisId));
-            System.out.println("id" + existingContract.getRegisInfo());
+            //System.out.println("id" + existingContract.getRegisInfo());
             if(existingContract.getRegisInfo().getCustomerInfo().getId().equals(user.getId().toString())){
                 return existingContract.convertToContractResDTO();
             }
@@ -184,7 +184,14 @@ public class ContractServiceImpl implements ContractService {
             List<String> contentList = uploadedUrls;
             Instant instantNow = Instant.now();
             existingContract.setUpdatedAt(instantNow);
-            existingContract.setContent(contentList);
+
+            List<String> docLists = new ArrayList<>();
+            if(existingContract.getContent() == null) docLists.addAll(uploadedUrls);
+            else {
+                docLists = existingContract.getContent();
+                docLists.addAll(uploadedUrls);
+            }
+            existingContract.setContent(docLists);
             return contractRepo.save(existingContract).convertToContractResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Regis: " + e.getMessage());
@@ -199,7 +206,13 @@ public class ContractServiceImpl implements ContractService {
             List<String> contentList = uploadedUrls;
             Instant instantNow = Instant.now();
             existingContract.setUpdatedAt(instantNow);
-            existingContract.setContent(contentList);
+            List<String> docLists = new ArrayList<>();
+            if(existingContract.getContent() == null) docLists.addAll(uploadedUrls);
+            else {
+                docLists = existingContract.getContent();
+                docLists.addAll(uploadedUrls);
+            }
+            existingContract.setContent(docLists);
             return contractRepo.save(existingContract).convertToContractResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Regis: " + e.getMessage());

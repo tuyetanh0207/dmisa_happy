@@ -94,7 +94,7 @@ public class ContractController {
     @PutMapping("/update/{contractId}/image-contentUrl") // Update contract theo contractId các image ở content
     public ResponseEntity<?> updateClaimImageContentUrl(HttpServletRequest request,
                                                         @PathVariable ObjectId contractId,
-                                                        @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                        @RequestParam("files") MultipartFile[] files) throws IOException {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         //if(userResDTO)
@@ -107,7 +107,7 @@ public class ContractController {
     @PutMapping("/update/{claimId}/file-docUrl") // Update Claim theo claimId các files ở DocumentURl
     public ResponseEntity<?> updateClaimFileContentUrl(HttpServletRequest request,
                                                        @PathVariable ObjectId contractId,
-                                                       @RequestPart("files") MultipartFile[] files) throws IOException {
+                                                       @RequestParam("files") MultipartFile[] files) throws IOException {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         //if(userResDTO)
