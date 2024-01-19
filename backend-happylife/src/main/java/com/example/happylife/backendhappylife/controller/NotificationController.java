@@ -72,7 +72,7 @@ public class NotificationController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
-    @PutMapping("/getNotiStatusFalseOfUser")
+    @GetMapping ("/getNotiStatusFalseOfUser")
     public ResponseEntity<?> getNotiStatusFalseOfUser(HttpServletRequest request){
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO userRes = userVar.convertFromUserToUserResDTO();
