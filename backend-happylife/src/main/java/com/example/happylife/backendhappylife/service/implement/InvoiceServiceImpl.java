@@ -5,6 +5,7 @@ import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Invoice;
@@ -40,18 +41,24 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override // Sửa lại do event call bên regis của manager
     public InvoiceResDTO addInvoice(InvoiceCreateDTO invoice){
         Invoice newInvoice = new Invoice();
-        if (invoice.getRegisInfo() == null) {
-            throw new UserCreationException("Regis information is required.");
+        if(invoice.getInvoiceType()==null) {
+            throw new UserCreationException("Type of invoice is required.");
+        } else if (invoice.getInvoiceType().equals(InvoiceType.Registration_Payment)){
+            if (invoice.getRegisInfo() == null) {
+                throw new UserCreationException("Registration information is required.");
+            }
+        } else if (invoice.getInvoiceType().equals(InvoiceType.Claim_Payment)){
+            if (invoice.getClaimInfo() == null) {
+                throw new UserCreationException("Claim information is required.");
+            }
+        } else {
+            throw new UserCreationException("Type of invoice is invalid.");
         }
+
         if (invoice.getPaymentStatus() != "Pending") {
             throw new UserCreationException("New invoice's status must be Pending.");
         }
-        if (invoice.getDueDate() == null) {
-            throw new UserCreationException("Due date is required.");
-        }
-        if (invoice.getPaymentMethod() != null) {
-            throw new UserCreationException("New invoice's payment method is not required.");
-        }
+
         if (invoice.getTotalPrice() == null) {
             throw new UserCreationException("Price is required.");
         }

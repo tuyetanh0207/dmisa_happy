@@ -40,7 +40,9 @@ const RegistrationManagerPopup = (props) => {
       const res = await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        approvalStatus,
+        { ...data,
+          approvalStatus,
+        },
         { content: message }
       );
       setLoadingBtns("0");

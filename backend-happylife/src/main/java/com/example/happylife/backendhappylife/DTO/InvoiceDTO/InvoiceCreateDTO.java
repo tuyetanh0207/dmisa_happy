@@ -1,6 +1,8 @@
 package com.example.happylife.backendhappylife.DTO.InvoiceDTO;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceCreateDTO {
+    private InvoiceType invoiceType;
     private RegisResDTO regisInfo; // ID của đăng ký
+    private ClaimResDTO claimInfo;
     private Integer totalPrice; // Tổng giá trị
     private String paymentStatus;
     private String paymentMethod; // Phương thức thanh toán
@@ -28,6 +32,20 @@ public class InvoiceCreateDTO {
 
     public Integer getTotalPrice() {
         return totalPrice;
+    }
+    public InvoiceType getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(InvoiceType invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+    public ClaimResDTO getClaimInfo() {
+        return claimInfo;
+    }
+
+    public void setClaimInfo(ClaimResDTO claimInfo) {
+        this.claimInfo = claimInfo;
     }
 
     public void setTotalPrice(Integer totalPrice) {

@@ -10,6 +10,7 @@ public class CONSTANT {
     public static final List<String> NOTIFICATION_TITLES = Arrays.asList("Registration", "Claim", "Payment","Contract", "Plan", "Personal Information");
 
     public static final Integer DUE_DATE_CONTRACT = 10;
+    public static final Integer DUE_DATE_REVIEW_DECISION_OF_CLAIM = 10;
 
     public static final List<String> CONTRACT_STATUS = Arrays.asList("Cancelled","Waiting","Effective");
 

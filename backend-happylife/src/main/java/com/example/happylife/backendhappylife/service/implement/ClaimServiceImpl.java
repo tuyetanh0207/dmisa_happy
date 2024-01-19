@@ -1,21 +1,29 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.CONSTANT;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
+import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
+import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
+import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
+import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
+import com.example.happylife.backendhappylife.service.InvoiceService;
+import com.example.happylife.backendhappylife.service.NotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +35,12 @@ import java.util.stream.Collectors;
 public class ClaimServiceImpl implements ClaimService {
     @Autowired
     private ClaimRepo claimRepo;
+
+    @Autowired
+    private InvoiceService invoiceService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     //Service for Manager
     @Override
@@ -67,14 +81,23 @@ public class ClaimServiceImpl implements ClaimService {
 
                     if (claim.getStatus().equals("Approved")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
-//                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
-//                        Instant instantNow = Instant.now();
-//                        Instant dueDateInstant = claimVar.getEndDate().plus(10, ChronoUnit.DAYS);
-//                        invoiceCreateDTO.setDueDate(dueDateInstant);
-//                        invoiceCreateDTO.setPaymentStatus("Pending");
-//                        Invoice invoice = new Invoice();
-//                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
-//                        invoiceService.addInvoice(invoiceCreated);
+                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+                        invoiceCreateDTO.setInvoiceType(InvoiceType.Claim_Payment);
+                        invoiceCreateDTO.setClaimInfo(claimVar.convertClaimToRes());
+                        invoiceCreateDTO.setPaymentStatus("Pending");
+                        invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        invoiceService.addInvoice(invoiceCreateDTO);
+                    }
+                    if (claim.getStatus().equals("In Process")) {
+                        // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
+                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+                        invoiceCreateDTO.setInvoiceType(InvoiceType.Claim_Payment);
+                        invoiceCreateDTO.setClaimInfo(claimVar.convertClaimToRes());
+                        invoiceCreateDTO.setPaymentStatus("Pending");
+                        Instant dueDateInstant = instantNow.plus(Duration.ofDays(CONSTANT.DUE_DATE_REVIEW_DECISION_OF_CLAIM));
+                        invoiceCreateDTO.setDueDate(dueDateInstant);
+                        invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        invoiceService.addInvoice(invoiceCreateDTO);
                     }
                     return claimRepo.save(claimVar);
                 } else {

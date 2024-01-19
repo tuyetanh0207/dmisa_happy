@@ -1,6 +1,8 @@
 package com.example.happylife.backendhappylife.DTO.InvoiceDTO;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+import com.example.happylife.backendhappylife.entity.Claim;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import org.bson.types.ObjectId;
@@ -12,7 +14,9 @@ import java.time.Instant;
 @Getter
 public class InvoiceResDTO {
     private String invoiceId;
+    private String invoiceType;
     private RegisResDTO regisInfo;
+    private ClaimResDTO claimInfo;
     private Integer totalPrice;
     private String paymentStatus;
     private String paymentMethod;
@@ -26,6 +30,21 @@ public class InvoiceResDTO {
 
     public void setRegisInfo(RegisResDTO regisInfo) {
         this.regisInfo = regisInfo;
+    }
+
+    public String getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(String invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+    public ClaimResDTO getClaimInfo() {
+        return claimInfo;
+    }
+
+    public void setClaimInfo(ClaimResDTO claimInfo) {
+        this.claimInfo = claimInfo;
     }
 
     public void setTotalPrice(Integer totalPrice) {

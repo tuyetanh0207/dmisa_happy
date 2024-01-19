@@ -1,11 +1,13 @@
 package com.example.happylife.backendhappylife.entity;
 
+import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
+import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import com.example.happylife.backendhappylife.repo.InvoiceRepo;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -29,8 +31,11 @@ public class Invoice {
     @Id
     private ObjectId invoiceId;
 
-    @Column(nullable = false)
     private RegisResDTO regisInfo;
+
+    private ClaimResDTO claimInfo;
+
+    private InvoiceType invoiceType;
 
     @Column(nullable = false)
     private Integer totalPrice;
@@ -53,8 +58,10 @@ public class Invoice {
         InvoiceUpdateDTO dto = new InvoiceUpdateDTO();
         dto.setInvoiceId(this.getInvoiceId().toString());
         dto.setRegisInfo(this.getRegisInfo());
+
         dto.setPaymentStatus(this.getPaymentStatus());
         dto.setPaymentMethod(this.getPaymentMethod());
+
         return dto;
     }
     public Invoice convertCreToInvoice(InvoiceCreateDTO invoiceCreateDTO) {

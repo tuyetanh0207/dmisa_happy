@@ -14,6 +14,7 @@ import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateSta
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
+import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Registration;
@@ -114,7 +115,9 @@ public class RegistrationImpl implements RegistrationService {
                     if (regis.getApprovalStatus().equals("Approved")) {
 
                         InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
-                        invoiceCreateDTO.setRegisInfo(regisUpdateStatusDTO.getRegis());
+                        invoiceCreateDTO.setInvoiceType(InvoiceType.Registration_Payment);
+                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
+
                         if(regisUpdateStatusDTO.getRegis().getInsuranceAmount()!= null) {
                             invoiceCreateDTO.setTotalPrice(regisUpdateStatusDTO.getRegis().getInsuranceAmount());
                         } else {
@@ -143,6 +146,8 @@ public class RegistrationImpl implements RegistrationService {
                         ContractResDTO oldContract = contractService.getContractByRegisId(authUser,regisId);
                         oldContract.setStatus(CONSTANT.CONTRACT_STATUS.get(0)); // cancel contract
                         contractService.updateContract(oldContract);
+
+                        regisVar.setContractIdInfo(oldContract);
 
                     }
                     NotificationResDTO notificationResDTO= notificationService.addAutoNoti(notificationCreateDTO);
