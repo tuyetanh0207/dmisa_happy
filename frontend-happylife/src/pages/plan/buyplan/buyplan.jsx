@@ -33,6 +33,7 @@ export default function Buyplan() {
     const [planAbout,setPlanAbout] =useState('');
     const [planDuration,setPlanDuration] =useState('');
     const [planDurationUnit,setPlanDurationUnit] =useState('');
+    const [planTotalFee,setPlanTotalFee] =useState(0)
 
     //planType
     const [planTypeName,setPlanTypeName]=useState('');
@@ -260,26 +261,9 @@ export default function Buyplan() {
     
     //sent file 
 
-    // const [selectedFiles, setSelectedFiles] = useState([]);
-    
-
-    // const handleFileChange = (e) => {
-    //     const files = Array.from(e.target.files);
-    //     // setSelectedFiles(files);
-    //     const filteredFiles = files.filter(file => {
-    //         const fileType = file.type.toLowerCase();
-    //         return fileType === 'application/pdf' || fileType.startsWith('image/');
-    //       });
-      
-    //       setSelectedFiles(filteredFiles);
-    // };
-
-
-
 const [files, setFiles] = useState([]);
 const [isImageFile, setIsImageFile] = useState(false);
 let url1;
-
 
 
   const handleFileChange = (event) => {
@@ -301,6 +285,7 @@ let url1;
         console.log("//////////////////////////////////////////////////////////")
         const buyPlan = 
         {
+            totalFee:planTotalFee,
             customerInfo: {
                 id: user.userInfo.id,
                 fullName: fullName,
@@ -337,8 +322,8 @@ let url1;
                                         fee: benefitsFee
                                     }
                                 ],
-                                // unit: benefitsUnit,
-                                // insuranceAmount: benefitsInsuranceAmount
+                                unit: benefitsUnit,
+                                insuranceAmount: benefitsInsuranceAmount
                             }
                         ]
                     }
@@ -633,6 +618,14 @@ let url1;
                                         <div key={index} className=" text-center">
                                         <button value={item.typeName}  onClick={handlePlanTypeNameChange} className= {`border-gray-600 border-2 rounded-lg w-full h-full ${handlePlanTypeNameChange === item ? 'bg-gray-200' : ''}`}  >
                                             {item.typeName}
+                                            <br/>
+                                            
+                                            {item.benefits && item.benefits.map((item2,index)=> (
+                                                <div key={index} className=" text-center">
+                                                    {item2.insuranceAmount} {item2.unit}  
+                                                </div>
+                                            ))}
+
                                         </button>
                                         </div>
                                     ))}
@@ -672,10 +665,7 @@ let url1;
                                         <div className="grid grid-cols-4 gap-4">
                                             {selectedPlanObject.optionalBenefits.map((item, index) => (
                                                 <div key={index} className="text-xl">
-                                                    {/* <button value={item.benefitName} onClick={handleOptionalBenefitChange} className="border-gray-600 border-2 rounded-lg w-full h-full">
-                                                        <div>{item.benefitName}</div>
-                                                        <div>{item.dependencies}</div>
-                                                    </button> */}
+                                                    
 
                                                 <div className="">
                                                     <div className="flex flex-row items-center ">
@@ -685,16 +675,32 @@ let url1;
                                                             <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.benefitName}</label>
                                                             {/* {selectedOptionalBenefits.map((a,i)=><div key={i}>{a}</div>)} */}
                                                             <div>
-                                                                {item.feeType.map((item2,index)=>(
+                                                                {item.dependencies == "age" && item.feeType.map((item2,index)=>(
                                                                     <div key={index} >
                                                                         {benefitsStartAge === item2.startAge && (
                                                                             <div>
                                                                                 {item2.fee}
                                                                             </div>
-                                                                            )}    
+                                                                            )} 
                                                                     </div>
                                                                 ))}
+                                                                {item.dependencies == "insuranceAmount" && (
                                                                     
+                                                                <select >
+                                                                    { item.feeType.map((item2,index2)=>(
+                                                                        
+                                                                        
+                                                                            <option key={index2} className="overflow-x-1">
+                                                                               Quyền lợi: {item2.insuranceAmount} 
+                                                                               <div>{item2.fee}  </div> 
+                                                                            </option>
+                                                                                
+                                                                            
+                                                                    ))}
+                                                                </select>
+                                                                
+                                                                )}
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>
@@ -730,7 +736,7 @@ let url1;
                         </div>
                             <div className="flex items-center justify-between">
                                 <div></div>
-                                <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {selectedPlanObject.planPrice} VND</div>   
+                                <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {planTotalFee} VND</div>   
                             </div>
                         </div>
                         )} 
