@@ -3,7 +3,7 @@ import DownloadIcon from '../../assets/DownloadIcon.png'
 import InsuranceContract from '../../assets/InsuranceContract.pdf'
 //import UpdateContractStatus from '../../../api/contractApi'
 import {useSelector} from 'react-redux'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ContractAPI from '../../../api/contractApi'
 const contract = () => {
@@ -29,7 +29,7 @@ const contract = () => {
     }
     useEffect(() => {
       fetchContract();
-    },[]) /* need fix? */
+    },[])  /* need fix? */
 
     const handleAccept = async (e) => {
         e.preventDefault();
@@ -44,14 +44,13 @@ const contract = () => {
         
         console.log('Contract data: ', contract);
         try {
-            const contractUpdateRes = await ContractAPI.updateContractStatus(contract, regisId /*"65a6a72fcea35764df8ab8af"*/, user1?.token);
+            const contractUpdateRes = await ContractAPI.updateContractStatus(contract, realtimeContract.contractId /*"65a6a72fcea35764df8ab8af"*/, user1?.token);
             console.log("contractUpdateRes:",contractUpdateRes)
         } catch (err) {
             console.log("err:", err);
             setNoti("Cannot use api.")
             console.log(noti)
         }
-
     }
 
   return (
@@ -81,14 +80,17 @@ const contract = () => {
             </div>
            <div className='flex justify-center items-center mt-[40px]'>
                 <div className='w-[500px] flex justify-center items-center gap-x-[40px]'>
-                    <button
-                    onClick={handleAccept}
+                    <Link
+                    to='/profile/registration'
                     >
-                        <div className="w-[231px] h-12 px-6 py-3 bg-indigo-500 rounded border-2 border-indigo-500 justify-center items-center gap-2.5 inline-flex">
-                            <div className="text-center text-white text-base font-bold font-['IBM Plex Sans'] leading-normal">Accept</div>
-                        </div>
-                    </button>
-
+                        <button
+                        //onClick={handleAccept}
+                        >
+                            <div className="w-[231px] h-12 px-6 py-3 bg-indigo-500 rounded border-2 border-indigo-500 justify-center items-center gap-2.5 inline-flex">
+                                <div className="text-center text-white text-base font-bold font-['IBM Plex Sans'] leading-normal">Accept</div>
+                            </div>
+                        </button>
+                    </Link>
                     <button>
                         <div className="w-[231px] h-12 px-6 py-3 bg-indigo-500 bg-opacity-0 rounded border-2 border-indigo-500 justify-center items-center gap-2.5 inline-flex">
                             <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">Decline</div>
