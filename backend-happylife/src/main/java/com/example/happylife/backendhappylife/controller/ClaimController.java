@@ -118,15 +118,15 @@ public class ClaimController {
     }
 
     //API for upload files and images
-    @PutMapping("/update/{claimId}/image-docUrl") // Update Claim theo claimId các image ở DocumentURl
-    public ResponseEntity<?> updateClaimImageDocUrl(HttpServletRequest request,
+    @PutMapping(value = "/update/{claimId}/image-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các image ở DocumentURl
+    public ResponseEntity<?> updateClaimImageDocUrl(//HttpServletRequest request,
                                                     @PathVariable ObjectId claimId,
                                                     @RequestParam("fileCounts") String fileCounts,
                                                     @RequestParam("files") MultipartFile[] files) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+       /* User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();*/
         //if(userResDTO)
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
@@ -134,7 +134,7 @@ public class ClaimController {
         ClaimResDTO savedClaim = claimService.updateClaimImageDocUrl(claimId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
-    @PutMapping("/update/{claimId}/file-docUrl") // Update Claim theo claimId các files ở DocumentURl
+    @PutMapping(value = "/update/{claimId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
     public ResponseEntity<?> updateClaimFileDocUrl(@PathVariable ObjectId claimId,
                                                    @RequestParam("fileCounts") String fileCounts,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {

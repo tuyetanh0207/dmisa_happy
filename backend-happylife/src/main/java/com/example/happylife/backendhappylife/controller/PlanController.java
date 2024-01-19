@@ -68,7 +68,7 @@ public class PlanController {
     //Update 1 plan dựa trên planId
     @PutMapping("/{planId}/update")
     public ResponseEntity<?> updatePlan(HttpServletRequest request, @PathVariable ObjectId planId,
-                                                 @RequestBody PlanUpdateDTO planUpdateDTO) {
+                                        @RequestBody PlanUpdateDTO planUpdateDTO) {
         try{
             User userVar = (User) request.getAttribute("userDetails");
             UserResDTO user = userVar.convertFromUserToUserResDTO();
@@ -87,7 +87,7 @@ public class PlanController {
 
     };
     //DocUrl
-    @PutMapping("/update/{planId}/image-docUrl") // Này Phúc sửa sau
+    @PutMapping(value = "/update/{planId}/image-docUrl", consumes = "multipart/form-data") // Này Phúc sửa sau
     public ResponseEntity<?> updatePlanImageDocUrl(@PathVariable ObjectId planId,
                                                    @RequestParam("fileCounts") String fileCounts,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
@@ -99,7 +99,7 @@ public class PlanController {
         PlanResDTO savedPlan = planService.updatePlanImageDocUrl(planId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedPlan);
     };
-    @PutMapping("/update/{planId}/file-docUrl") // Này Phúc sửa sau
+    @PutMapping(value = "/update/{planId}/file-docUrl", consumes = "multipart/form-data") // Này Phúc sửa sau
     public ResponseEntity<?> updatePlanFileDocUrl(@PathVariable ObjectId planId,
                                                   @RequestParam("fileCounts") String fileCounts,
                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
@@ -112,7 +112,7 @@ public class PlanController {
         return ResponseEntity.ok(savedPlan);
     };
     //PlanURL
-    @PutMapping("/update/{planId}/image-planUrl")
+    @PutMapping(value = "/update/{planId}/image-planUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updatePlanImagePlanUrl(HttpServletRequest request,
                                                     @PathVariable ObjectId planId,
                                                     @RequestParam("files") MultipartFile[] files) throws IOException {
@@ -126,7 +126,7 @@ public class PlanController {
         return ResponseEntity.ok(savedPlan);
     };
 
-    @PutMapping("/update/{planId}/file-planUrl")
+    @PutMapping(value = "/update/{planId}/file-planUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updatePlanFilePlanUrl(HttpServletRequest request,
                                                    @PathVariable ObjectId planId,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {

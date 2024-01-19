@@ -195,7 +195,25 @@ public class PlanServiceImpl implements PlanService {
             if(existingPlan.getPlanDocuments() == null) docLists.addAll(documentList);
             else {
                 docLists = existingPlan.getPlanDocuments();
-                docLists.addAll(documentList);
+                List<Plan.documents> toAdd = new ArrayList<>();
+
+                for (Plan.documents docAdd : documentList) {
+                    boolean isPresent = false;
+                    for (Plan.documents doc : docLists) {
+                        if (doc.getDocTitle().equals(docAdd.getDocTitle())) {
+                            if (doc.getDocUrl() == null) {
+                                doc.setDocUrl(new ArrayList<>()); // Khởi tạo nếu null
+                            }
+                            doc.getDocUrl().addAll(docAdd.getDocUrl());
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isPresent) {
+                        toAdd.add(docAdd);
+                    }
+                }
+                docLists.addAll(toAdd);
             }
 
             existingPlan.setPlanDocuments(docLists);
@@ -229,11 +247,30 @@ public class PlanServiceImpl implements PlanService {
             }
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
+
             List<Plan.documents> docLists = new ArrayList<>();
             if(existingPlan.getPlanDocuments() == null) docLists.addAll(documentList);
             else {
                 docLists = existingPlan.getPlanDocuments();
-                docLists.addAll(documentList);
+                List<Plan.documents> toAdd = new ArrayList<>();
+
+                for (Plan.documents docAdd : documentList) {
+                    boolean isPresent = false;
+                    for (Plan.documents doc : docLists) {
+                        if (doc.getDocTitle().equals(docAdd.getDocTitle())) {
+                            if (doc.getDocUrl() == null) {
+                                doc.setDocUrl(new ArrayList<>()); // Khởi tạo nếu null
+                            }
+                            doc.getDocUrl().addAll(docAdd.getDocUrl());
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isPresent) {
+                        toAdd.add(docAdd);
+                    }
+                }
+                docLists.addAll(toAdd);
             }
 
             existingPlan.setPlanDocuments(docLists);

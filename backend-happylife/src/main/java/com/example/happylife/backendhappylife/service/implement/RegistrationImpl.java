@@ -281,7 +281,25 @@ public class RegistrationImpl implements RegistrationService {
             if(existingRegis.getDocumentUrls() == null) docLists.addAll(documentList);
             else {
                 docLists = existingRegis.getDocumentUrls();
-                docLists.addAll(documentList);
+                List<Registration.documentRegiss> toAdd = new ArrayList<>();
+
+                for (Registration.documentRegiss docAdd : documentList) {
+                    boolean isPresent = false;
+                    for (Registration.documentRegiss doc : docLists) {
+                        if (doc.getDocCategory().equals(docAdd.getDocCategory())) {
+                            if (doc.getUrls() == null) {
+                                doc.setUrls(new ArrayList<>()); // Khởi tạo nếu null
+                            }
+                            doc.getUrls().addAll(docAdd.getUrls());
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isPresent) {
+                        toAdd.add(docAdd);
+                    }
+                }
+                docLists.addAll(toAdd);
             }
             existingRegis.setDocumentUrls(docLists);
             Registration updatedRegis = registrationRepo.save(existingRegis);
@@ -314,11 +332,30 @@ public class RegistrationImpl implements RegistrationService {
             }
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
+
             List<Registration.documentRegiss> docLists = new ArrayList<>();
             if(existingRegis.getDocumentUrls() == null) docLists.addAll(documentList);
             else {
                 docLists = existingRegis.getDocumentUrls();
-                docLists.addAll(documentList);
+                List<Registration.documentRegiss> toAdd = new ArrayList<>();
+
+                for (Registration.documentRegiss docAdd : documentList) {
+                    boolean isPresent = false;
+                    for (Registration.documentRegiss doc : docLists) {
+                        if (doc.getDocCategory().equals(docAdd.getDocCategory())) {
+                            if (doc.getUrls() == null) {
+                                doc.setUrls(new ArrayList<>()); // Khởi tạo nếu null
+                            }
+                            doc.getUrls().addAll(docAdd.getUrls());
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isPresent) {
+                        toAdd.add(docAdd);
+                    }
+                }
+                docLists.addAll(toAdd);
             }
             existingRegis.setDocumentUrls(docLists);
             Registration updatedRegis = registrationRepo.save(existingRegis);

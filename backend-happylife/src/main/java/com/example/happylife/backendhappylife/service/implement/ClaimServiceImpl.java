@@ -198,11 +198,9 @@ public class ClaimServiceImpl implements ClaimService {
                 document.setUrls(docUrls);
                 documentList.add(document);
             }
-            existingClaim.setDocumentUrls(documentList);
             Instant instantNow = Instant.now();
             existingClaim.setUpdatedAt(instantNow);
-
-
+/*
             List<Claim.documentClaims> docLists = new ArrayList<>();
             if(existingClaim.getDocumentUrls() == null) docLists.addAll(documentList);
             else {
@@ -210,7 +208,32 @@ public class ClaimServiceImpl implements ClaimService {
                 docLists.addAll(documentList);
             }
             existingClaim.setDocumentUrls(docLists);
+*/
+            List<Claim.documentClaims> docLists = new ArrayList<>();
+            if(existingClaim.getDocumentUrls() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingClaim.getDocumentUrls();
+                List<Claim.documentClaims> toAdd = new ArrayList<>();
 
+                for (Claim.documentClaims docAdd : documentList) {
+                    boolean isPresent = false;
+                    for (Claim.documentClaims doc : docLists) {
+                        if (doc.getDocCategory().equals(docAdd.getDocCategory())) {
+                            if (doc.getUrls() == null) {
+                                doc.setUrls(new ArrayList<>()); // Khởi tạo nếu null
+                            }
+                            doc.getUrls().addAll(docAdd.getUrls());
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isPresent) {
+                        toAdd.add(docAdd);
+                    }
+                }
+                docLists.addAll(toAdd);
+            }
+            existingClaim.setDocumentUrls(docLists);
             Claim updatedClaim = claimRepo.save(existingClaim);
             ClaimResDTO claimResDTO = updatedClaim.convertToClaimResDTO();
             return claimResDTO;
@@ -243,11 +266,35 @@ public class ClaimServiceImpl implements ClaimService {
             }
             Instant instantNow = Instant.now();
             existingClaim.setUpdatedAt(instantNow);
-            List<Claim.documentClaims> docLists = new ArrayList<>();
+            /*List<Claim.documentClaims> docLists = new ArrayList<>();
             if(existingClaim.getDocumentUrls() == null) docLists.addAll(documentList);
             else {
                 docLists = existingClaim.getDocumentUrls();
                 docLists.addAll(documentList);
+            }*/
+            List<Claim.documentClaims> docLists = new ArrayList<>();
+            if(existingClaim.getDocumentUrls() == null) docLists.addAll(documentList);
+            else {
+                docLists = existingClaim.getDocumentUrls();
+                List<Claim.documentClaims> toAdd = new ArrayList<>();
+
+                for (Claim.documentClaims docAdd : documentList) {
+                    boolean isPresent = false;
+                    for (Claim.documentClaims doc : docLists) {
+                        if (doc.getDocCategory().equals(docAdd.getDocCategory())) {
+                            if (doc.getUrls() == null) {
+                                doc.setUrls(new ArrayList<>()); // Khởi tạo nếu null
+                            }
+                            doc.getUrls().addAll(docAdd.getUrls());
+                            isPresent = true;
+                            break;
+                        }
+                    }
+                    if (!isPresent) {
+                        toAdd.add(docAdd);
+                    }
+                }
+                docLists.addAll(toAdd);
             }
             existingClaim.setDocumentUrls(docLists);
             Claim updatedClaim = claimRepo.save(existingClaim);
