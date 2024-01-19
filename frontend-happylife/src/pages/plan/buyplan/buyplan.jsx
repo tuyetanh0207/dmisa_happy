@@ -275,50 +275,26 @@ export default function Buyplan() {
     // };
 
 
-//   const [fileCounts, setFileCounts] = useState([{ section: 'Temp1:', fileCount: 2 }]);
+
 const [files, setFiles] = useState([]);
+const [isImageFile, setIsImageFile] = useState(false);
+let url1;
+
+
+
   const handleFileChange = (event) => {
-    setFiles(event.target.files);
+    const inputFile = event.target.files;
+    console.log('inputfile:',inputFile);
+    console.log('inputfile:',inputFile[0].name);
+    if (inputFile[0].name.includes('.pdf') == true){
+        console.log('inputfile:',inputFile[0].name.includes('.pdf'));
+        setIsImageFile(false);
+    } else {
+        setIsImageFile(true);
+    }
+    setFiles(inputFile);
+    
   };
-
-//   const handleFileCountChange = (event) => {
-//     // Handle changes in file counts if needed
-//     setFileCounts([{ section: 'Temp1:', fileCount: event.target.value }]);
-//   };
-
-//   const handleUpload = async () => {
-   
-//   };
-
-
-    // const putFileTemp = async () => {
-    //     const fileCounts = [{section:"Temp1:",fileCount:2}];
-    //     const formData = new FormData();
-    //     formData.append('fileCounts', JSON.stringify(fileCounts));
-    
-    //     for (let i = 0; i < files.length; i++) {
-    //       formData.append('files', files[i]);
-    //     }
-    //     console.log('FormData: ',formData)
-    
-    //     fetch(`http://localhost:8090/api/v1/registrations/update/65a8eaaf9e1b1d56926882ba/image-docUrl`,formData, {
-    //         method: 'PUT',
-    //         //body: formData,
-    //         headers: {
-    //           // Set the Content-Type header for each part
-    //           'Content-Type': 'multipart/form-data', // This is the overall Content-Type for the form
-    //         },
-    //       })
-    //         .then(response => response.json())
-    //         .then(data => console.log(data))
-    //         .catch(error => console.error('Error:', error));
-    // }
-
-    // const handleSubmit2 =async(e)=>{
-    //     e.preventDefault();
-    //     // console.log('file: ',selectedFiles)
-    //     putFileTemp();
-    // }
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
@@ -391,20 +367,28 @@ const [files, setFiles] = useState([]);
             //console.log('Current: ',curentRegistrations)
             console.log('123:', newRegisId);
 
-                    const fileCounts = [{section:"Temp1:",fileCount:2}];
-   
+                    const fileCounts = [{section:"Insurant:",fileCount:files.length}];
 
-
-                    const url=`http://localhost:8090/api/v1/registrations/update/${newRegisId}/files-docUrl`;
+                    //const url=`http://localhost:8090/api/v1/registrations/update/${newRegisId}/image-docUrl`;
+                    
+                    console.log('true/false: ',isImageFile)
+                    if(isImageFile==true){
+                        url1 =`http://localhost:8090/api/v1/registrations/update/${newRegisId}/image-docUrl`;
+                    }
+                    else {
+                        url1 =`http://localhost:8090/api/v1/registrations/update/${newRegisId}/files-docUrl`;
+                    }
+                    console.log('URL: ',url1)
                     const formData = new FormData();
 
                     formData.append('fileCounts', JSON.stringify(fileCounts))
                     for (let i = 0; i < files.length; i++) {
+
                       formData.append('files', files[i]);
                     }
 
-                    console.log('FormData: ',formData)
-                    axios.put(url, formData, 
+                    //console.log('file url: ',fileURL)
+                    axios.put(url1, formData, 
                     {
                       headers: {
                         'Content-Type': 'multipart/form-data',
@@ -413,6 +397,8 @@ const [files, setFiles] = useState([]);
                     })
                       .then(response => {
                         console.log('Success:', response.data);
+                        console.log('file: ',files);
+                        console.log('FormData: ',formData)
                         // Handle the response as needed
                       })
                       .catch(error => {
@@ -615,14 +601,14 @@ const [files, setFiles] = useState([]);
                     <div className="pt-12 " >
                     
                             {selectedPlanObject && (
-                            <Link to={`/plan/${planID}`} className="flex flex-row items-center bg-white border-2 border-gray-600  rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <Link to={`/plan/${planID}`} className="flex flex-row items-center bg-white border-2 border-gray-600  rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 overflow-y-auto">
                                 <div className="basis-1/2">
                                     <img className="pl-4 pt-4 pb-4 object-cover w-full h-96 rounded-t-lg  " src={Insurance} alt="" />
                                 </div>
                                 <div className="basis-1/2">
-                                    <div className=" pl-14 flex flex-col justify-evenly p-4 leading-normal">
+                                    <div className=" pl-14 flex flex-col justify-evenly p-4 leading-normal overflow-y-10">
                                         <h5 className="mb-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white"  >{selectedPlanObject.planName}</h5>
-                                        <p className="mb-3 text-2xl font-normal ">{selectedPlanObject.planAbout}</p>
+                                        <p className="mb-3 text-2xl font-normal overflow-y-auto ">{selectedPlanObject.planAbout}</p>
                                         <p className="mb-3 text-2xl font-normal" >{selectedPlanObject.planType.typeName}</p>
                                         <p className="mb-3 text-2xl font-normal text-custom-blue-3 ">Benefit</p>
                                         {selectedPlanObject.planBenefits.map((benefit, index) => (
@@ -659,9 +645,9 @@ const [files, setFiles] = useState([]);
                                         {selectedBenefits.map((benefit, index) => (
                                             <div key={index} className="text-xl font-normal">
                                                 <div>{benefit.benefitName}</div>
-                                                <div>{benefit.dependencies}</div>
+                                                {/* <div>{benefit.dependencies}</div> */}
                                             
-                                                <div className="pt-10 grid grid-cols-4 grid-flow-col gap-4">
+                                                <div className="pt-10 grid grid-cols-4 gap-4">
                                                     {benefit.feeType.map((item3, index) => (
                                                         
                                                         <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedFeeType === item3 ? 'bg-gray-200' : ''}`} onClick={() => handleFeeType(item3)}>
