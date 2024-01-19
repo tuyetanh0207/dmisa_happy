@@ -1,6 +1,10 @@
 import NotiIcon from '../assets/UploadSuccess.png'
 import NotiBell from '../assets/notifications.png'
 import { useState } from 'react'
+import NotiAPI from '../../api/notificationApi'
+import { useEffect } from 'react';
+
+
 const notification = () => {
     const MessageNoti = [{
         notificationId: null,
@@ -42,23 +46,23 @@ const notification = () => {
     const [isToggleOpen, setIsToggleOpen] = useState(false);
 
 
-    // Wait for api complete
-    // const [realtimeNoti, setRealtimeNoti] = useState([]);
-    // const [realtimeCount, setRealtimeCount] = useState({});
-    // const fetchNoti = async () => {
-    //   try{
-    //     const res = await PlanAPI.getNoti( /*need fix*/ user1?.token, user1?.userInfo.id);
-    //     setRealtimeNoti(res.data);
-    //     console.log('res', res.data);
+    // Get noti
+    const [realtimeNoti, setRealtimeNoti] = useState([]);
+    const [realtimeCount, setRealtimeCount] = useState({});
+    const fetchNoti = async () => {
+      try{
+        const res = await PlanAPI.getNoti( user1?.userInfo.id, user1?.token);
+        setRealtimeNoti(res.data);
+        console.log('res noti', res.data);
   
-    //   }
-    //   catch (error){
-    //     console.log("error in fetchNoti", error);
-    //   }
-    // }
-    // useEffect(() => {
-    //   fetchNoti();
-    // },[]) /* need fix? {} */
+      }
+      catch (error){
+        console.log("error in fetchNoti", error);
+      }
+    }
+    useEffect(() => {
+      fetchNoti();
+    },[]) /* need fix? {} */
 
     return (
         

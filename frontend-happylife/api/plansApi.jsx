@@ -5,8 +5,8 @@ const PlanAPI = {
         const url = `${apiV1}/plans/`;
         return get(url,"")
     },
-    getPlanByRegisId: function(planId, token){
-        const url = `${apiV1}/plans/${planId}`;
+    getPlanByRegisId: function(regisId, token){
+        const url = `${apiV1}/plans/${regisId}/getPlanByRegisId`;
         return get(url, token)
     }
 
