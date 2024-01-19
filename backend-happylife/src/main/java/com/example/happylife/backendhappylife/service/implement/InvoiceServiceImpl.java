@@ -141,10 +141,12 @@ public class InvoiceServiceImpl implements InvoiceService {
                 Message mes = new Message();
                 mes.setContent("Bạn đã thanh toán thành công!");
                 mes.setDateMessage(instantNow);
-                /*List<Message> messageList = new ArrayList<>();
-                messageList.add(mes);*/
-                if(regis.getMessage() == null) {regis.setMessage(new ArrayList<>());};
-                regis.getMessage().add(mes);
+                List<Message> messageList = new ArrayList<>();
+                messageList.add(mes);
+                regis.setMessage(messageList);
+
+             /*   if(regis.getMessage() == null) {regis.setMessage(new ArrayList<>());};
+                regis.getMessage().add(mes);*/
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
