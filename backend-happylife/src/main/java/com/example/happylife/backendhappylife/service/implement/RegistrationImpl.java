@@ -118,8 +118,8 @@ public class RegistrationImpl implements RegistrationService {
                         invoiceCreateDTO.setInvoiceType(InvoiceType.Registration_Payment);
                         invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
 
-                        if(regisUpdateStatusDTO.getRegis().getInsuranceAmount()!= null) {
-                            invoiceCreateDTO.setTotalPrice(regisUpdateStatusDTO.getRegis().getInsuranceAmount());
+                        if(regisUpdateStatusDTO.getRegis().getTotalFee()!= null) {
+                            invoiceCreateDTO.setTotalPrice(regisUpdateStatusDTO.getRegis().getTotalFee());
                         } else {
                             invoiceCreateDTO.setTotalPrice(0);
                         }
