@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="429a218a-a88d-4a64-9907-0a82f7e3009d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/InvoiceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/InvoiceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-happylife/src/pages/contract/contract.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-happylife/src/pages/contract/contract.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-happylife/src/pages/payment/paymentBank.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-happylife/src/pages/payment/paymentBank.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

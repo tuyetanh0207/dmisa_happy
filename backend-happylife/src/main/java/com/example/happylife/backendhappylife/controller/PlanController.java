@@ -164,8 +164,17 @@ public class PlanController {
     };
 
     @GetMapping("/{regisId}/getPlanByRegisId")
-    public ResponseEntity<?> getPlanByRegisId(@PathVariable ObjectId regisId){
-        return ResponseEntity.ok(planService.getPlanByRegisId(null, regisId));
+    public ResponseEntity<?> getPlanByRegisId(HttpServletRequest request,
+                                              @PathVariable ObjectId regisId){
+        User userVar = (User) request.getAttribute("userDetails");
+        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+        if(userRes.getRole() == Role.CUSTOMER || userRes.getRole() == Role.INSUARANCE_MANAGER) {
+            return ResponseEntity.ok(planService.getPlanByRegisId(userRes, regisId));
+
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
     }
 
     //API for upload image and files

@@ -6,6 +6,7 @@ import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Plan;
 import com.example.happylife.backendhappylife.entity.Registration;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.PlanRepo;
 import com.example.happylife.backendhappylife.service.PlanService;
@@ -140,7 +141,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public PlanResDTO getPlanByRegisId(UserResDTO userVar, ObjectId regisId){
         try{
-            //User user = new User().convertResToUser(userVar);
+            User user = new User().convertResToUser(userVar);
             Registration regis = new Registration();
             regis.setRegisId(regisId);
             RegistrationEventEnum method = RegistrationEventEnum.getPlanWithRegisId;
@@ -153,13 +154,18 @@ public class PlanServiceImpl implements PlanService {
             };
             publisher.publishEvent(new RegistrationEvent(regis,null, method,callback));
             //System.out.println("Id : " + regisEventReturn.get().getCustomerInfo());
-            ObjectId planId = new ObjectId(regisEventReturn.get().getProductInfo().getPlanId());
-            System.out.println("Id : " + planId.toString());
-            if(!planId.toString().isEmpty()){
-                Plan existingPlan = planRepo.findById(planId)
-                        .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + regisId));
-                return existingPlan.convertToPlanResDTO();
-            }else return null;
+            if(user.getId().toString().equals(regisEventReturn.get().getCustomerInfo().getId())){
+                ObjectId planId = new ObjectId(regisEventReturn.get().getProductInfo().getPlanId());
+                //System.out.println("Id : " + planId.toString());
+                if(!planId.toString().isEmpty()){
+                    Plan existingPlan = planRepo.findById(planId)
+                            .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + regisId));
+                    return existingPlan.convertToPlanResDTO();
+                }else return null;
+            }
+           else{
+                throw  new UserCreationException("Error get registration");
+            }
         } catch (Exception e){
             throw  new UserCreationException("Error get registration: "+ e.getMessage());
         }

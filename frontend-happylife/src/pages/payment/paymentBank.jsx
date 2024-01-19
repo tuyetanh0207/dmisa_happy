@@ -40,7 +40,7 @@ const paymentBank = () => {
 
 
     const handlePayNow = async (e) => {
-            //e.preventDefault();
+            e.preventDefault();
             console.log('update invoice status');
             console.log("REGISTRATION ID: ", regisId)
 
