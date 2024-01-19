@@ -9,7 +9,6 @@ import ContractAPI from '../../../api/contractApi'
 const contract = () => {
 
     const { regisId } = useParams();
-    console.log("REGISTRATION ID: ", regisId)
     // console.log("REGIS ID: ", {regisId})
     // console.log("CONTRACT ID: ", {contractId})
     const [noti, setNoti] = useState("")
@@ -32,20 +31,23 @@ const contract = () => {
     },[])  /* need fix? */
 
     const handleAccept = async (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         console.log('update contract status')
+        console.log("REGISTRATION ID: ", regisId)
         const contract = {    
                 regisInfo: {
-                    // regisId: "65990e87db0fad5b82d48d7e"
-                    regisId: {regisId}
+                    //regisId: "65990e87db0fad5b82d48d7e"
+                    regisId: regisId
                 },
                 confirmation: true
         }
         
         console.log('Contract data: ', contract);
+        console.log('RealTimeConTract: ', realtimeContract)
         try {
-            const contractUpdateRes = await ContractAPI.updateContractStatus(contract, realtimeContract.contractId /*"65a6a72fcea35764df8ab8af"*/, user1?.token);
+            const contractUpdateRes = await ContractAPI.updateContractStatus(contract, realtimeContract.contractId, user1?.token);
             console.log("contractUpdateRes:",contractUpdateRes)
+
         } catch (err) {
             console.log("err:", err);
             setNoti("Cannot use api.")
@@ -69,7 +71,9 @@ const contract = () => {
                     </button>
                 </a>
                 <div className="w-auto h-12 px-6 py-3 bg-indigo-50 rounded border justify-center items-center gap-2.5 inline-flex">
-                    <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">Last updated: Dec 21th 2023</div>
+                    <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">
+                        {/* \{realtimeContract.updatedAt] */}
+                        Last updated: Dec 21th 2023</div>
                 </div>
             </div>
             <div className='flex justify-center items-center mt-[38px]'>
@@ -84,7 +88,7 @@ const contract = () => {
                     to='/profile/registration'
                     >
                         <button
-                        //onClick={handleAccept}
+                        onClick={handleAccept}
                         >
                             <div className="w-[231px] h-12 px-6 py-3 bg-indigo-500 rounded border-2 border-indigo-500 justify-center items-center gap-2.5 inline-flex">
                                 <div className="text-center text-white text-base font-bold font-['IBM Plex Sans'] leading-normal">Accept</div>

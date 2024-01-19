@@ -3,7 +3,11 @@ const InvoiceAPI = {
     updateInvoiceStatus: function(invoice, invoiceId, token){
         const url = `${apiV1}/invoices/${invoiceId}/cash`;
         return put(url, invoice, token)
+    },
+    getInvoiceByRegisId: function(regisId, token){
+        const url = `${apiV1}/invoices/${regisId}/getByRegisId`;
+        return get(url, token)
     }
 }
 
-export default ContractAPI;
+export default InvoiceAPI;

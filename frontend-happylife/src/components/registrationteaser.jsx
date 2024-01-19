@@ -71,13 +71,13 @@ const registrationteaser = (props) =>{
                             </button>
                         </Link>
                     </div>
-                ) : props.realtimeRegis.approvalStatus === 'Unpaid' ? (
+                ) : props.realtimeRegis.approvalStatus === 'Signed' ? (
                     <div>
                         <div className="w-[106px] mr-[22px] h-12 px-6 py-3 bg-rose-200 rounded border border-red-700 inline-flex">
                             <div className="text-center text-red-700 text-base font-bold font-['IBM Plex Sans'] leading-normal">Unpaid</div>
                         </div>
                         <Link
-                        to={{pathname:'/payment', state: dataTest}}
+                        to={`/payment/${props.realtimeRegis.regisId}`}
                         >
                         <button>
                             <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
@@ -100,7 +100,7 @@ const registrationteaser = (props) =>{
                             <div className="text-center text-orange-400 text-base font-bold font-['IBM Plex Sans'] leading-normal"> Approved </div>
                         </div>
                         <Link
-                        to={`/contract/${props.realtimeRegis.regisId}/${props.realtimeRegis.contractIdInfo}`}
+                        to={`/contract/${props.realtimeRegis.regisId}`}
                         >
                             <button>
                                 <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
