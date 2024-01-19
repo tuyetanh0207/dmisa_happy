@@ -1,11 +1,18 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.CONSTANT;
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractCreateDTO;
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
+import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisUpdateStatusDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.entity.Contract;
 import com.example.happylife.backendhappylife.entity.Enum.DateUnit;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
@@ -13,7 +20,11 @@ import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
+import com.example.happylife.backendhappylife.service.ContractService;
+import com.example.happylife.backendhappylife.service.InvoiceService;
+import com.example.happylife.backendhappylife.service.NotificationService;
 import com.example.happylife.backendhappylife.service.RegistrationService;
+import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.ContractEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +37,7 @@ import java.time.Instant;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -36,6 +48,15 @@ import java.util.stream.Collectors;
 public class RegistrationImpl implements RegistrationService {
     @Autowired
     private RegistrationRepo registrationRepo;
+
+    @Autowired
+    private InvoiceService invoiceService;
+
+    @Autowired
+    private ContractService contractService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private ApplicationEventPublisher publisher;
@@ -67,9 +88,12 @@ public class RegistrationImpl implements RegistrationService {
                 if (regis.getApprovalStatus().equals("Approved") || regis.getApprovalStatus().equals("Rejected") ||
                         regis.getApprovalStatus().equals("Expired") || regis.getApprovalStatus().equals("Revoked") ||
                         regis.getApprovalStatus().equals("Pending")){
+
                     Registration regisVar = registrationRepo.findById(regisId)
                             .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
+
                     regisVar.setApprovalStatus(regis.getApprovalStatus());
+
                     msg.setDateMessage(instantNow);
                     if(regisVar.getMessage()!=null){
                         List<Message> msgList = regisVar.getMessage();
@@ -79,26 +103,49 @@ public class RegistrationImpl implements RegistrationService {
 
                         regisVar.setMessage(Arrays.asList(msg));
                     }
+
+                    NotificationCreateDTO notificationCreateDTO = new NotificationCreateDTO();
+                    notificationCreateDTO.setNotiTitle(CONSTANT.NOTIFICATION_TITLES.get(0));
+                    notificationCreateDTO.setNotiContent(CONSTANT.REGIS_NOTIFICATION_UPDATE_STATUS);
+                    notificationCreateDTO.setNotiType(CONSTANT.NOTIFICATION_TITLES.get(0));
+                    notificationCreateDTO.setUserInfo(regisUpdateStatusDTO.getRegis().getCustomerInfo().getId());
+
+
                     if (regis.getApprovalStatus().equals("Approved")) {
-                        //Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
-                       /* InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
-                        invoiceCreateDTO.setRegisInfo(regisVar.convertToRegisResDTO());
-                        invoiceCreateDTO.setTotalPrice(regisVar.getInsuranceAmount());
-                        Instant dueDateInstant = regisVar.getEndDate().plus(10, ChronoUnit.DAYS);
+
+                        InvoiceCreateDTO invoiceCreateDTO = new InvoiceCreateDTO();
+                        invoiceCreateDTO.setRegisInfo(regisUpdateStatusDTO.getRegis());
+                        if(regisUpdateStatusDTO.getRegis().getInsuranceAmount()!= null) {
+                            invoiceCreateDTO.setTotalPrice(regisUpdateStatusDTO.getRegis().getInsuranceAmount());
+                        } else {
+                            invoiceCreateDTO.setTotalPrice(0);
+                        }
+
+                        Instant dueDateInstant = regisVar.getEndDate().plus(CONSTANT.DUE_DATE_CONTRACT, ChronoUnit.DAYS);
                         invoiceCreateDTO.setDueDate(dueDateInstant);
                         invoiceCreateDTO.setPaymentStatus("Pending");
-                        Invoice invoice = new Invoice();
-                        Invoice invoiceCreated = invoice.convertCreToInvoice(invoiceCreateDTO);
-                        invoiceService.addInvoice(invoiceCreated);
+                        invoiceService.addInvoice(invoiceCreateDTO);
 
-                        //Tạo Contract
-                        Contract contract = new Contract();
+                        ContractCreateDTO contract = new ContractCreateDTO();
                         contract.setConfirmation(false);
                         contract.setRegisInfo(regis);
-                        contract.setStatus("Waiting");
-                        //contractService.addContract(contract);
-                        publisher.publishEvent(new ContractCreatedEvent(contract));*/
+                        contract.setStatus("Awaiting");
+                        ContractResDTO savedContract = contractService.addContract(contract);
+                        Contract contractEntity = new Contract();
+                        contractEntity = contractEntity.convertResToContract(savedContract);
+                        //publisher.publishEvent(new ContractEvent(contractEntity));
+                        regisVar.setContractIdInfo(savedContract);
+                        notificationCreateDTO.setNotiPrio("High");
+
                     }
+                    if (regis.getApprovalStatus().equals("Revoked")){
+
+                        ContractResDTO oldContract = contractService.getContractByRegisId(authUser,regisId);
+                        oldContract.setStatus(CONSTANT.CONTRACT_STATUS.get(0)); // cancel contract
+                        contractService.updateContract(oldContract);
+
+                    }
+                    NotificationResDTO notificationResDTO= notificationService.addAutoNoti(notificationCreateDTO);
                     return registrationRepo.save(regisVar);
                 } else{
                     throw  new UserCreationException("Error updating status of registration: status is invalid.");

@@ -12,7 +12,6 @@ public class NotificationCreateDTO {
     private String userInfo;
     private String notiTitle;
     private String notiContent;
-    private Boolean notiStatus;
     private String notiType;
     private String notiPrio;
 
@@ -28,9 +27,6 @@ public class NotificationCreateDTO {
         this.notiContent = notiContent;
     }
 
-    public void setNotiStatus(Boolean notiStatus) {
-        this.notiStatus = notiStatus;
-    }
 
     public void setNotiType(String notiType) {
         this.notiType = notiType;

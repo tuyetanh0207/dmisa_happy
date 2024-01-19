@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service;
 
+import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
@@ -9,7 +10,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 public interface InvoiceService {
-    Invoice addInvoice(Invoice invoice);
+    InvoiceResDTO addInvoice(InvoiceCreateDTO invoice);
 
     //Invoice updateInvoice(UserResDTO authUser, ObjectId invoiceId, Invoice invoice);
 

@@ -1,6 +1,7 @@
 package com.example.happylife.backendhappylife.service.implement;
 
 import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractCreateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Contract;
@@ -26,6 +27,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,8 +54,8 @@ public class ContractServiceImpl implements ContractService {
         return null;
     }
     @Override
-    public ContractResDTO addContract(ContractResDTO contractDto){
-        Contract contract = new Contract().convertResToContract(contractDto);
+    public ContractResDTO addContract(ContractCreateDTO contractDto){
+        Contract contract = new Contract().convertCreToContract(contractDto);
         if (contract.getRegisInfo() == null) {
             throw new UserCreationException("Regis information is required.");
         }
@@ -154,6 +156,25 @@ public class ContractServiceImpl implements ContractService {
         } catch (Exception e) {
             throw new UserCreationException("Error updating Contract: " + e.getMessage());
         }
+    }
+
+    @Override
+    public ContractResDTO updateContract(ContractResDTO contractResDTO) {
+        ObjectId  objectId = new ObjectId(contractResDTO.getContractId());
+        Contract contract = contractRepo.findById(objectId)
+                .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + contractResDTO.getContractId()));;
+        if (contractResDTO.getStatus()!=null){
+            contract.setStatus(contractResDTO.getStatus());
+        }
+        if (contractResDTO.getConfirmation()!= null) {
+            contract.setConfirmation(contractResDTO.getConfirmation());
+        }
+        if(contractResDTO.getContent()!=null) {
+            contract.setContent(contractResDTO.getContent());
+        }
+
+        Contract savedContract = contractRepo.save(contract);
+        return savedContract.convertToContractResDTO();
     }
 
     @Override

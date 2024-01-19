@@ -1,6 +1,7 @@
 package com.example.happylife.backendhappylife.controller;
 
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
@@ -35,13 +36,13 @@ public class ContractController {
     //API for Manager
     @PostMapping("/create")
     public ResponseEntity<?> addContract(HttpServletRequest request,
-                                                      @RequestBody ContractResDTO contractResDTO) {
+                                                      @RequestBody ContractCreateDTO contractCreateDTO) {
         //Contract contract = new Contract();
         //Contract contractUpd = contract.convertResToContract(contractResDTO);
         User userVar = (User) request.getAttribute("userDetails");
         if (userVar.getRole() == Role.INSUARANCE_MANAGER) {
             //Contract savedContract = contractService.updateContractStatus(contractUpd,contractId);
-            ContractResDTO contractRes = contractService.addContract(contractResDTO); //savedContract.convertToContractResDTO();
+            ContractResDTO contractRes = contractService.addContract(contractCreateDTO); //savedContract.convertToContractResDTO();
             return ResponseEntity.ok(contractRes);
         } else {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");

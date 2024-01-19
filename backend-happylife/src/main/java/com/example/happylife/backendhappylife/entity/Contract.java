@@ -1,11 +1,13 @@
 package com.example.happylife.backendhappylife.entity;
 
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
@@ -20,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Document(collection = "Contract")
 public class Contract {
     @Id
@@ -51,9 +54,26 @@ public class Contract {
         contract.setContent(dto.getContent());
         return contract;
     }
+    public Contract convertCreToContract(ContractCreateDTO dto) {
+        Contract contract = new Contract();
+        contract.setConfirmation(dto.getConfirmation());
+        contract.setStatus(dto.getStatus());
+        contract.setRegisInfo(dto.getRegisInfo());
+        contract.setContent(dto.getContent());
+        return contract;
+    }
     public ContractResDTO convertToContractResDTO() {
         ContractResDTO dto = new ContractResDTO();
         dto.setContractId(this.contractId.toString());
+        dto.setConfirmation(this.confirmation);
+        dto.setStatus(this.status);
+        dto.setRegisInfo(this.regisInfo);
+        dto.setContent(this.content);
+        return dto;
+    }
+    public ContractCreateDTO convertToContractCreDTO() {
+        ContractCreateDTO dto = new ContractCreateDTO();
+
         dto.setConfirmation(this.confirmation);
         dto.setStatus(this.status);
         dto.setRegisInfo(this.regisInfo);

@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service;
 
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationListDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
@@ -20,4 +21,6 @@ public interface NotificationService {
     NotificationListDTO getListOfFalseStatus(UserResDTO userVar);
 
     NotificationResDTO addNotiAuto(NotificationResDTO notificationResDTO);
+
+    NotificationResDTO addAutoNoti(NotificationCreateDTO notificationCreateDTO);
 }

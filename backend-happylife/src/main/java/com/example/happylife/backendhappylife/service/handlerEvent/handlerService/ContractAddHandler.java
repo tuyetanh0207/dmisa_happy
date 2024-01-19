@@ -13,6 +13,6 @@ public class ContractAddHandler {
 
     @EventListener
     public void onContractCreated(ContractEvent event) {
-        contractService.addContract(event.getContract().convertToContractResDTO());
+        contractService.addContract(event.getContract().convertToContractCreDTO());
     }
 }

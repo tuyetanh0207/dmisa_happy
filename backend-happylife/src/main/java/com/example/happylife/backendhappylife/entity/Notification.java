@@ -1,6 +1,7 @@
 package com.example.happylife.backendhappylife.entity;
 
 import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import jakarta.persistence.Column;
@@ -56,6 +57,19 @@ public class Notification {
         notification.setNotiTitle(dto.getNotiTitle());
         notification.setUpdatedAt(dto.getUpdatedAt());
         notification.setCreatedAt(dto.getCreatedAt());
+        return notification;
+    }
+    public Notification convertCreToNoti(NotificationCreateDTO dto) {
+        Notification notification = new Notification();
+
+        if(dto.getUserInfo() != null){
+            ObjectId dtoId = new ObjectId(dto.getUserInfo());
+            notification.setUserInfo(dtoId);
+        }
+        notification.setNotiPrio(dto.getNotiPrio());
+        notification.setNotiContent(dto.getNotiContent());
+        notification.setNotiType(dto.getNotiType());
+        notification.setNotiTitle(dto.getNotiTitle());
         return notification;
     }
     public NotificationResDTO convertToNotificationResDTO() {

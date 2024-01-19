@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationListDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
@@ -136,6 +137,30 @@ public class NotificationServiceImpl implements NotificationService {
             return notification.convertToNotificationResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error creating new Contract: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public NotificationResDTO addAutoNoti(NotificationCreateDTO notificationCreateDTO) {
+        Notification notification = new Notification().convertCreToNoti(notificationCreateDTO);
+        try {
+            if (notification.getNotiTitle() == null) {
+                throw new UserCreationException("Notification Title is required.");
+            }
+            if(notification.getNotiContent() == null) {
+                throw new UserCreationException("Notification Content is required.");
+            }
+            if(notification.getUserInfo() == null){
+                throw new UserCreationException("User id is required.");
+            }
+            Instant instantNow = Instant.now();
+            notification.setNotiStatus(false);
+            notification.setCreatedAt(instantNow);
+            notification.setUpdatedAt(instantNow);
+            notificationRepo.save(notification);
+            return notification.convertToNotificationResDTO();
+        } catch (Exception e) {
+            throw new UserCreationException("Error creating new notification: " + e.getMessage());
         }
     }
 }

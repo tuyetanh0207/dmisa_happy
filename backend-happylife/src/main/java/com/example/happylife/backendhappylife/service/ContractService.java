@@ -1,5 +1,7 @@
 package com.example.happylife.backendhappylife.service;
 
+import com.example.happylife.backendhappylife.DTO.Contact.ContactCreateDTO;
+import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ContractDTO.ContractResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Contract;
@@ -12,13 +14,16 @@ import java.util.List;
 public interface ContractService {
     List<Contract> getAllContract(User user);
     //Contract addContract(Contract contract);
-    ContractResDTO addContract(ContractResDTO contractDto);
+    ContractResDTO addContract(ContractCreateDTO contractDto);
+
 
     //Service for Customer
     List<ContractResDTO> getContractByUserId(ObjectId userId, UserResDTO userVar);
 
     //Service for Customer
     ContractResDTO updateContractStatus(ContractResDTO contract, ObjectId contractId, UserResDTO userVar);
+
+    ContractResDTO updateContract(ContractResDTO contract);
 
     ContractResDTO getContractByRegisId(UserResDTO userVar, ObjectId regisId);
 

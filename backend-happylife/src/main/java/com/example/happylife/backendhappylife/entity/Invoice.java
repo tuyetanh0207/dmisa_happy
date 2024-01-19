@@ -92,6 +92,7 @@ public class Invoice {
         invoice.setPaymentMethod(dto.getPaymentMethod());
         return invoice;
     }
+
     public InvoiceResDTO convertToInvoiceResDTO() {
         InvoiceResDTO dto = new InvoiceResDTO();
         dto.setInvoiceId(this.invoiceId.toString());

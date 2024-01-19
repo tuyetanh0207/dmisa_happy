@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
@@ -37,7 +38,8 @@ public class InvoiceServiceImpl implements InvoiceService {
     private ApplicationEventPublisher publisher;
 
     @Override // Sửa lại do event call bên regis của manager
-    public Invoice addInvoice(Invoice invoice){
+    public InvoiceResDTO addInvoice(InvoiceCreateDTO invoice){
+        Invoice newInvoice = new Invoice();
         if (invoice.getRegisInfo() == null) {
             throw new UserCreationException("Regis information is required.");
         }
@@ -54,10 +56,12 @@ public class InvoiceServiceImpl implements InvoiceService {
             throw new UserCreationException("Price is required.");
         }
         try {
+            newInvoice=newInvoice.convertCreToInvoice(invoice);
             Instant instantNow = Instant.now();
-            invoice.setCreatedAt(instantNow);
-            invoice.setUpdatedAt(instantNow);
-            return invoiceRepo.save(invoice);
+            newInvoice.setCreatedAt(instantNow);
+            newInvoice.setUpdatedAt(instantNow);
+            Invoice savedInvoice = invoiceRepo.save(newInvoice);
+            return savedInvoice.convertToInvoiceResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error creating new Plan: " + e.getMessage());
         }
