@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="fix get Regis and update status of regis">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/NotificationDTO/NotificationResDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/NotificationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Notification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/NotificationRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/NotificationRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/NotificationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/RegistrationRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/repo/RegistrationRepo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +252,8 @@
     <MESSAGE value="done 3 first endpoint of registration" />
     <MESSAGE value="done apis of manager" />
     <MESSAGE value="fix get Regis and update status of regis" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix get Regis and update status of regis" />
+    <MESSAGE value="fix files-docUrl controller and 2 corsconfig" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix files-docUrl controller and 2 corsconfig" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/backend_happylife$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1701110077184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

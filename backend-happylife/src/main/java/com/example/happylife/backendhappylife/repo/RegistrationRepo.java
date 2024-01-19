@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface RegistrationRepo extends MongoRepository<Registration, ObjectId> {
     List<Registration> findByCustomerInfo_Id(String id);
-
+    Optional<Registration> findByProductInfo_PlanId(String planId);
     @Query("{ 'productInfo.planId': ?0, 'approvalStatus': { $in: ?1 } }")
     List<Registration> findAllByProductInfoAndApprovalStatus(String id, List<String> approvalStatusList);
 
