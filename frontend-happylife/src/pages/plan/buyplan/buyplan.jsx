@@ -56,6 +56,10 @@ export default function Buyplan() {
     const [optionalBenefitsStartAge,setOptionalBenefitsStartAge]=useState();
     const [optionalBenefitsEndAge,setOptionalBenefitsEndAge]=useState();
     const [optionalBenefitsFee,setOptionalBenefitsFee]=useState();
+////////////
+    const [optionalSpecialType,setOptionalSpecialType]=useState();
+    //const [optionalSpecialFee,setOptionalSpecialFee]=useState();
+    //const [optionalSpecialInsuranceAmount,setOptionalSpecialInsuranceAmount]=useState();
 
 
     const [selectedPlanType, setSelectedPlanType] = useState(null);
@@ -146,12 +150,36 @@ export default function Buyplan() {
     //     }
     //     console.log('optional',selectedOptionalBenefit)
     // };
+    let optionalSpecialFee
+    let optionalSpecialInsuranceAmount
+
+    const handleSelectSpecialOptionPlan =(event) => {
+        const selectOption = event.target.value;
+        // const selectOption = select;
+        const insuranceAmount = selectOption.split(': ')[1].split(' ')[0];
+        const fee = selectOption.split(': ')[2].split(' ')[0]
+        // const selectSpecialBenefits = selectedPlanObject.optionalBenefits.find(
+        //     (benefit) => benefit.benefitName.includes('Sinh mạng cá nhân') || benefit.benefitName.includes('Tai nạn cá nhân') 
+        // );
+        // console.log('select Special option plan: ',selectSpecialBenefits)
+        
+        // const select
+        // setOptionalSpecialFee(fee);
+        // setOptionalSpecialInsuranceAmount(insuranceAmount);
+
+        optionalSpecialInsuranceAmount = insuranceAmount
+        optionalSpecialFee =fee
+    
+        console.log('select Special option plan amount: ',insuranceAmount)
+        console.log('select Special option plan fee: ',fee)
+      }
 
     const handleOptionalBenefitChange = (selectedBenefitName) => {
         const isSelected = selectedOptionalBenefits.includes(selectedBenefitName);
         const selectedOptionalBenefit = selectedPlanObject.optionalBenefits.find(
             (benefit) => benefit.benefitName === selectedBenefitName
         );
+        console.log('fee:',optionalSpecialFee)
         if (isSelected) {
             // Remove the selected benefit if already selected
             console.log('Name unSelect:',selectedBenefitName)
@@ -188,23 +216,50 @@ export default function Buyplan() {
             setSelectedOptionalBenefits((prev) => [...prev, selectedBenefitName]);
 
             setOptionalBenefitsName((prev) => [...prev, selectedBenefitName]);
-            setSelectedOneOptionBenefits((prev)=>[
-                ...prev,{
-                    benefitName: selectedBenefitName,
-                    dependencies: selectedOptionalBenefit.dependencies,
-                    insuranceAmount:selectedOptionalBenefit.insuranceAmount,
-                    unit:selectedOptionalBenefit.unit,
-                    feeType: selectedOptionalBenefit.feeType
-                        .filter((item) => item.startAge === benefitsStartAge)
-                        .map((item) => ({
-                        type: item.type,
-                        startAge: item.startAge,
-                        endAge: item.endAge,
-                        fee: item.fee,
-                        })),
-                    
-                }
-            ]);
+
+            if( selectedBenefitName == "Điều trị ngoại trú" || selectedBenefitName == "Điều trị nha khoa"){
+                setSelectedOneOptionBenefits((prev)=>[
+                    ...prev,{
+                        benefitName: selectedBenefitName,
+                        dependencies: selectedOptionalBenefit.dependencies,
+                        insuranceAmount:selectedOptionalBenefit.insuranceAmount,
+                        unit:selectedOptionalBenefit.unit,
+                        
+                        feeType: selectedOptionalBenefit.feeType
+                            .filter((item) => item.startAge === benefitsStartAge)
+                            .map((item) => ({
+                            type: item.type,
+                            startAge: item.startAge,
+                            endAge: item.endAge,
+                            fee: item.fee,
+                            })),
+                        
+                    }
+                ]);
+            } else {
+                setSelectedOneOptionBenefits((prev)=>[
+                    ...prev,{
+                        benefitName: selectedBenefitName,
+                        dependencies: selectedOptionalBenefit.dependencies,
+                        insuranceAmount:selectedOptionalBenefit.insuranceAmount,
+                        unit:selectedOptionalBenefit.unit,
+                        
+                        feeType: selectedOptionalBenefit.feeType
+                        .filter((item) => item.insuranceAmount == optionalSpecialInsuranceAmount)
+                            .map((item) => ({
+                                type: item.type,
+                                insuranceAmount:item.insuranceAmount,
+                                // fee: optionalSpecialFee,
+                                fee: item.fee,
+                            })),
+                        
+                    }
+                ]);
+            }
+                
+            
+
+
             
             if (selectedOptionalBenefit) {
 
@@ -280,6 +335,8 @@ let url1;
     
   };
 
+
+
     const handleSubmit = async(e)=>{
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
@@ -354,8 +411,6 @@ let url1;
 
                     const fileCounts = [{section:"Insurant:",fileCount:files.length}];
 
-                    //const url=`http://localhost:8090/api/v1/registrations/update/${newRegisId}/image-docUrl`;
-                    
                     console.log('true/false: ',isImageFile)
                     if(isImageFile==true){
                         url1 =`http://localhost:8090/api/v1/registrations/update/${newRegisId}/image-docUrl`;
@@ -685,20 +740,22 @@ let url1;
                                                                     </div>
                                                                 ))}
                                                                 {item.dependencies == "insuranceAmount" && (
-                                                                    
-                                                                <select >
+                                                                    <div>
+                                                                <select onChange={(event) => handleSelectSpecialOptionPlan(event)}>
                                                                     { item.feeType.map((item2,index2)=>(
                                                                         
                                                                         
-                                                                            <option key={index2} className="overflow-x-1">
-                                                                               Quyền lợi: {item2.insuranceAmount} 
-                                                                               <div>{item2.fee}  </div> 
+                                                                            <option key={index2}  className="overflow-x-1">
+                                                                               Quyền lợi: {item2.insuranceAmount}            
+                                                                               <br/>
+                                                                               <div> Mức giá: {item2.fee}  </div> 
                                                                             </option>
                                                                                 
                                                                             
                                                                     ))}
                                                                 </select>
                                                                 
+                                                                </div>
                                                                 )}
                                                                 
                                                             </div>
