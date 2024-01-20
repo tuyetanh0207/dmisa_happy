@@ -122,6 +122,7 @@ public class User implements UserDetails {
       userResDTO.setPhoneNumber(phoneNumber);
       userResDTO.setGender(gender);
       userResDTO.setRole(role);
+      userResDTO.setCitizenId(this.citizenId);
       userResDTO.setAvatarUrl(avatarUrl);
       userResDTO.setCreatedAt(createdAt);
       userResDTO.setUpdatedAt(updatedAt);
@@ -139,6 +140,7 @@ public class User implements UserDetails {
         userVar.setEmail(dto.getEmail());
         userVar.setPhoneNumber(dto.getPhoneNumber());
         userVar.setGender(dto.getGender());
+        userVar.setCitizenId(dto.getCitizenId());
         userVar.setRole(dto.getRole());
         userVar.setAvatarUrl(dto.getAvatarUrl());
         userVar.setCreatedAt(dto.getCreatedAt());

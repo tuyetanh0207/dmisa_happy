@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="429a218a-a88d-4a64-9907-0a82f7e3009d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-happylife/src/pages/contract/contract.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-happylife/src/pages/contract/contract.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-happylife/src/pages/payment/paymentBank.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-happylife/src/pages/payment/paymentBank.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/auth/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/entity/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +22,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="sprint3.fe.tn" />
+        <entry key="$PROJECT_DIR$" value="sprint3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -85,6 +85,7 @@
       <list>
         <item itemvalue="JUnit.com.example.happylife.backendhappylife.controller in backend-happylife" />
         <item itemvalue="JUnit.com.example.happylife.backendhappylife.controller in backend-happylife" />
+        <item itemvalue="JUnit.com.example.happylife.backendhappylife.controller in backend-happylife" />
       </list>
     </recent_temporary>
   </component>
@@ -100,6 +101,8 @@
       <workItem from="1705648067432" duration="188000" />
       <workItem from="1705648354359" duration="1548000" />
       <workItem from="1705650281729" duration="9761000" />
+      <workItem from="1705683927758" duration="419000" />
+      <workItem from="1705743442228" duration="241000" />
     </task>
     <servers />
   </component>

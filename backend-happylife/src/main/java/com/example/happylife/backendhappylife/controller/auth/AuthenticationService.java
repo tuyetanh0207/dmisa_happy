@@ -62,6 +62,8 @@ public class AuthenticationService {
                     .address(request.getAddress())
                     .createdAt(instantNow)
                     .updatedAt(instantNow)
+                    .gender(request.getGender())
+                    .email(request.getEmail())
                     .role(Role.CUSTOMER)
                     .build();
             userRepo.save(user);
