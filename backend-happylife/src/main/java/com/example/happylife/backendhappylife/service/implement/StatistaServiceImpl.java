@@ -20,19 +20,25 @@ public class StatistaServiceImpl implements StatistaService {
     public StatistaDashboardResDTO getStatistaInDashboardByYear(Integer year) {
         StatistaDashboardResDTO statistaDashboardResDTO;
         Statista statista;
-        if(year!=null) statista = statistaRepo.findByYear(year);
-        else {
-            Year currentYear = Year.now();
 
-            statista = statistaRepo.findByYear(currentYear.getValue());
+        try {
+            if(year!=null) statista = statistaRepo.findByYear(year);
+            else {
+                Year currentYear = Year.now();
+
+                statista = statistaRepo.findByYear(currentYear.getValue());
+            }
+            return statista.convertToDashboardResDTO();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error find Statista of this year.");
         }
-        return statista.convertToDashboardResDTO();
     }
 
     @Override
     public StatistaDashboardResDTO createStatista(StatistaCreateDTO statistaCreateDTO) {
         Statista statista = new Statista().convertCreToEntity(statistaCreateDTO);
-        if(statistaCreateDTO.getYear()!= null) {
+        if(statistaCreateDTO.getYear()== null) {
             throw new UserCreationException("Year is required");
         }
         return statistaRepo.save(statista).convertToDashboardResDTO();

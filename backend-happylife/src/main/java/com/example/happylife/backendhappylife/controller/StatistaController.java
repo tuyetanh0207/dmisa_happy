@@ -37,8 +37,15 @@ public class StatistaController {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         if ( userResDTO.getRole()==Role.ACCOUNTANT){
-            StatistaDashboardResDTO statistaDashboardResDTO = statistaService.getStatistaInDashboardByYear(year);
-            return ResponseEntity.ok(statistaDashboardResDTO);
+            try {
+                StatistaDashboardResDTO statistaDashboardResDTO = statistaService.getStatistaInDashboardByYear(year);
+                return ResponseEntity.ok(statistaDashboardResDTO);
+
+            } catch (Exception e) {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Error getting statista of this year.");
+            }
+
+
         } else {
             // return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Your account is not of staff.");
