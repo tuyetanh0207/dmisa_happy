@@ -30,7 +30,8 @@ const contract = () => {
     }
     useEffect(() => {
       fetchContract();
-    },[])  /* need fix? */
+    },[])  
+    
     const handleAccept = async (e) => {
         e.preventDefault();
         console.log('update contract status')

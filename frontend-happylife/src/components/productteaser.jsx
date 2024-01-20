@@ -24,7 +24,7 @@ const productteaser = () => {
           </div>
         </div>
       </div> 
-      <div className='mt-[-65.5px] ml-[1300px] relative z-50 '>
+      <div className='mt-[-65.5px] ml-[1300px] relative z-40 '>
         {
           arrrowClickStatus === false ? (
             <img src={DownArrow} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[10px]'></img>

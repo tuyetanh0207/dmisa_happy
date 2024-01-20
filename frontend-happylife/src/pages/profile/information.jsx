@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import {useSelector} from 'react-redux'
-import UserAPI from '../../../api/userApi'
+import {useSelector} from 'react-redux';
+import UserAPI from '../../../api/userApi';
+
 const information = () => {
     const user1 = useSelector((state) =>state.auth.login.currentUser);
     const [realtimeUser, setRealtimeUser] = useState({});
@@ -21,21 +22,64 @@ const information = () => {
     },[])
 
 
-    const handleDateChange = (event) => {
+    const handleDateChange = async (event) => {
         const selectedDate = event.target.value;
       };
     // Chuyển đổi chuỗi ISO thành đối tượng Date
     const dateObject = new Date(realtimeUser.dob);
-
     // Lấy ngày, tháng và năm
     const day = dateObject.getDate();
     const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
     const year = dateObject.getFullYear();
-
     // Định dạng lại thành chuỗi 'dd/mm/yyyy'
     const formattedDate = `${day}/${month}/${year}`;
+    
 
+    // **** UPDATE USER **** //
+    const [phoneNumber, setPhoneNumber] = useState('');
+    //const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [gender, setGender] = useState('Male');
+    const [email, setEmail] = useState('');
+    const [dob, setDob] = useState('');
+    const [address, setAddress] = useState('');
+    const [citizenID, setCitizenID] = useState('');
+  
+    const handleUpdate = async (e) => {
+        {
+            e.preventDefault();
+            console.log('update user')
+            const newUser = {
+                fullName: "Nguyễn Văn B",
+                gender: "Nam",
+                DOB: "1990-01-01",
+                phoneNumber: "0344193909",
+                citizenId: "123456789",
+                email: "nguyenvana@example.com",
+                address: "123 Đường B, Quận C, Thành phố D"
+            }
+            console.log('new User', newUser)
+            try{
+                const updateUser = await UserAPI.updateUser(newUser, user1?.userInfo?.id, user1?.token);
+                console.log("Res", updateUser);
+            } catch(err){
+                console.log("err: ", err);
+                //setNoti("FAIL")
+                //console.log(noti);
+            }
+        }
 
+        const formatISODateToDDMMYYYY = (isoDate) => {
+            const dateObj = new Date(isoDate);
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const year = dateObj.getFullYear();
+          
+            return `${day}/${month}/${year}`;
+          };
+        }
   return (
     <div className=" flex justify-center items-center h-[1180px] bg-slate-50 my-auto flex-col">   
         <form className="w-[1415px] h-[983px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base">
@@ -134,7 +178,9 @@ const information = () => {
                         </input>
                     </div>
                     <div className='flex justify-center'>
-                        <button className=" w-[377px] h-12 px-6 py-3 bg-indigo-50 rounded border-2 border-indigo-500">
+                        <button 
+                        onClick={handleUpdate}
+                        className=" w-[377px] h-12 px-6 py-3 bg-indigo-50 rounded border-2 border-indigo-500">
                             <div className="text-center text-indigo-500 text-base font-bold leading-normal">Update Profile</div>
                         </button>
                     </div>
