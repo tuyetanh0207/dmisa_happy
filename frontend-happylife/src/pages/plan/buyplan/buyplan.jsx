@@ -121,6 +121,7 @@ export default function Buyplan() {
             setBenefitsFee(selectedFeeTypeObj.fee );
             setOptionalBenefitsStartAge(selectedFeeTypeObj.startAge )
             setOptionalBenefitsEndAge(selectedFeeTypeObj.endAge );
+            setPlanTotalFee(selectedFeeTypeObj.fee)
         }
     };
 
@@ -157,21 +158,16 @@ export default function Buyplan() {
         const selectOption = event.target.value;
         // const selectOption = select;
         const insuranceAmount = selectOption.split(': ')[1].split(' ')[0];
-        const fee = selectOption.split(': ')[2].split(' ')[0]
-        // const selectSpecialBenefits = selectedPlanObject.optionalBenefits.find(
-        //     (benefit) => benefit.benefitName.includes('Sinh mạng cá nhân') || benefit.benefitName.includes('Tai nạn cá nhân') 
-        // );
-        // console.log('select Special option plan: ',selectSpecialBenefits)
-        
-        // const select
+        //const fee = selectOption.split(': ')[2].split(' ')[0]
+
         // setOptionalSpecialFee(fee);
         // setOptionalSpecialInsuranceAmount(insuranceAmount);
 
         optionalSpecialInsuranceAmount = insuranceAmount
-        optionalSpecialFee =fee
+        //optionalSpecialFee =fee
     
         console.log('select Special option plan amount: ',insuranceAmount)
-        console.log('select Special option plan fee: ',fee)
+        //console.log('select Special option plan fee: ',fee)
       }
 
     const handleOptionalBenefitChange = (selectedBenefitName) => {
@@ -198,6 +194,19 @@ export default function Buyplan() {
                 prev.filter((item) => item.unit !== selectedOptionalBenefit.unit)
                 );
 
+                if(selectedBenefitName == "Điều trị ngoại trú" || selectedBenefitName == "Điều trị nha khoa"){
+                    const sumTemp = selectedOptionalBenefit.feeType
+                    .filter((item) => item.startAge === benefitsStartAge)
+                    .map((item) => parseInt(item.fee))
+                    const sumAsInt = sumTemp.reduce((acc, fee) => acc + parseInt(fee), 0);
+                    setPlanTotalFee(planTotalFee - sumAsInt )
+                } else {
+                    const sumTemp = selectedOptionalBenefit.feeType
+                    .filter((item) => item.insuranceAmount == optionalSpecialInsuranceAmount)
+                        .map((item) => parseInt(item.fee))
+                    const sumAsInt = sumTemp.reduce((acc, fee) => acc + parseInt(fee), 0);
+                    setPlanTotalFee( planTotalFee - sumAsInt )
+                }
 
             // setOptionalBenefitsDependencies((prev) => prev.filter((item) => item !== selectedOptionalBenefit.dependencies));
 
@@ -236,6 +245,11 @@ export default function Buyplan() {
                         
                     }
                 ]);
+                const sumTemp = selectedOptionalBenefit.feeType
+                .filter((item) => item.startAge === benefitsStartAge)
+                .map((item) => parseInt(item.fee))
+                const sumAsInt = sumTemp.reduce((acc, fee) => acc + parseInt(fee), 0);
+                setPlanTotalFee(planTotalFee+ sumAsInt )
             } else {
                 setSelectedOneOptionBenefits((prev)=>[
                     ...prev,{
@@ -249,14 +263,24 @@ export default function Buyplan() {
                             .map((item) => ({
                                 type: item.type,
                                 insuranceAmount:item.insuranceAmount,
-                                // fee: optionalSpecialFee,
+                                
                                 fee: item.fee,
                             })),
                         
                     }
                 ]);
+                const sumTemp = selectedOptionalBenefit.feeType
+                .filter((item) => item.insuranceAmount == optionalSpecialInsuranceAmount)
+                    .map((item) => parseInt(item.fee))
+                const sumAsInt = sumTemp.reduce((acc, fee) => acc + parseInt(fee), 0);
+                setPlanTotalFee( planTotalFee + sumAsInt )
             }
-                
+                // setPlanTotalFee(planTotalFee+ 
+                //     // selectedOneOptionBenefits.feeType.map((item)=>item.fee)
+                // //     selectedOneOptionBenefits.reduce((total, benefit) => 
+                // //     total + benefit.feeType.map((item) => item.fee).reduce((acc, fee) => acc + fee, 0),
+                // // 0)
+                // )  
             
 
 
@@ -335,6 +359,17 @@ let url1;
     
   };
 
+
+const sumTotalFee =() =>
+{
+    // setPlanTotalFee(benefitsFee +
+    //     // selectedOneOptionBenefits.feeType.map((item)=>item.fee)
+    //     selectedOneOptionBenefits.reduce((total, benefit) => 
+    //     total + benefit.feeType.map((item) => item.fee).reduce((acc, fee) => acc + fee, 0),
+    // 0)
+    // )  
+    // return planTotalFee
+}
 
 
     const handleSubmit = async(e)=>{
@@ -489,7 +524,7 @@ let url1;
         fetchPlan(); // Fetch plans
          // Fetch user info
         //fetchSelectPlanAPI(); // Fetch the selected plan details based on the current planID
-       
+        // sumTotalFee()
     }, []); 
     
     
@@ -831,6 +866,7 @@ let url1;
                                                
           </form>
         <div>current: {curentRegistrations}</div>
+        <div>{optionalSpecialInsuranceAmount}</div>
               {/* {fileContent && (
         <div>
           <h2>File Content:</h2>
