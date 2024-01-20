@@ -131,9 +131,9 @@ public class ClaimServiceImpl implements ClaimService {
             if(claim.getClaimCategories() == null){
                 throw new UserCreationException("There must be at least 1 claim scenario provided.");
             }
-            if(claim.getDocumentUrls().isEmpty()){
+            /*if(claim.getDocumentUrls().isEmpty()){
                 throw new UserCreationException("There must be at least 1 document provided.");
-            }
+            }*/
             if(claim.getRegisInfo() == null){
                 throw new UserCreationException("Regis info can't be null.");
             }
