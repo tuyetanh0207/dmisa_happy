@@ -178,7 +178,7 @@ public class ClaimServiceImpl implements ClaimService {
 
     //Service for image and files
     @Override
-    public ClaimResDTO updateClaimImageDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+    public ClaimResDTO updateClaimImageOrFileDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
         Claim existingClaim = claimRepo.findById(claimId)
                 .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
         try {

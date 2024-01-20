@@ -96,7 +96,7 @@ public class PlanController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Regis và lưu
-        PlanResDTO savedPlan = planService.updatePlanImageDocUrl(planId,uploadedUrls,_fileCounts);
+        PlanResDTO savedPlan = planService.updatePlanImageOrFileDocUrl(planId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedPlan);
     };
     @PutMapping(value = "/update/{planId}/file-docUrl", consumes = "multipart/form-data") // Này Phúc sửa sau
@@ -108,7 +108,7 @@ public class PlanController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Regis và lưu
-        PlanResDTO savedPlan = planService.updatePlanFileDocUrl(planId,uploadedUrls,_fileCounts);
+        PlanResDTO savedPlan = planService.updatePlanImageOrFileDocUrl(planId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedPlan);
     };
     //PlanURL
@@ -122,7 +122,7 @@ public class PlanController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Claim và lưu
-        PlanResDTO savedPlan = planService.updatePlanImagePlanUrl(planId,uploadedUrls);
+        PlanResDTO savedPlan = planService.updatePlanImageOrFilePlanUrl(planId,uploadedUrls);
         return ResponseEntity.ok(savedPlan);
     };
 
@@ -136,7 +136,7 @@ public class PlanController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Claim và lưu
-        PlanResDTO savedPlan = planService.updatePlanFilePlanUrl(planId,uploadedUrls);
+        PlanResDTO savedPlan = planService.updatePlanImageOrFilePlanUrl(planId,uploadedUrls);
         return ResponseEntity.ok(savedPlan);
     };
 

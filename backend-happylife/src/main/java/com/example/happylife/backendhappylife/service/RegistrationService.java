@@ -33,7 +33,10 @@ public interface RegistrationService {
     List<RegisResDTO> getRegisByUserId(UserResDTO userVar, ObjectId userId);
 
     //Service for upload file, image
-    RegisResDTO updateRegisImageDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
+    //RegisResDTO updateRegisImageDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
+
+    //Service for upload file, image
+    RegisResDTO updateRegisImageOrFileDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
 
     RegisResDTO updateRegisFileDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
 

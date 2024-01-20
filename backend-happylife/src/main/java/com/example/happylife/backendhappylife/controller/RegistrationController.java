@@ -151,7 +151,7 @@ public class RegistrationController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisImageDocUrl(regisId,uploadedUrls,_fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisImageOrFileDocUrl(regisId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
     @PutMapping(value = "/update/{regisId}/files-docUrl", consumes = "multipart/form-data")
@@ -164,7 +164,7 @@ public class RegistrationController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Regis và lưu
-        RegisResDTO savedRegis = registrationService.updateRegisFileDocUrl(regisId,uploadedUrls,_fileCounts);
+        RegisResDTO savedRegis = registrationService.updateRegisImageOrFileDocUrl(regisId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedRegis);
     };
 }

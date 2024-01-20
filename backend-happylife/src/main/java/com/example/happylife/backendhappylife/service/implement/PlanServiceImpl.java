@@ -172,9 +172,9 @@ public class PlanServiceImpl implements PlanService {
     }
     //Service for upload file and image
     @Override
-    public PlanResDTO updatePlanImageDocUrl(ObjectId planId,
-                                            List<String> uploadedUrls,
-                                            List<SectionFileCount> sectionFileCounts) {
+    public PlanResDTO updatePlanImageOrFileDocUrl(ObjectId planId,
+                                                  List<String> uploadedUrls,
+                                                  List<SectionFileCount> sectionFileCounts) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
         try {
@@ -287,8 +287,8 @@ public class PlanServiceImpl implements PlanService {
     }
    //PlanURL
     @Override
-    public PlanResDTO updatePlanImagePlanUrl(ObjectId planId,
-                                             List<String> listPlanUrl) {
+    public PlanResDTO updatePlanImageOrFilePlanUrl(ObjectId planId,
+                                                   List<String> listPlanUrl) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
         try {

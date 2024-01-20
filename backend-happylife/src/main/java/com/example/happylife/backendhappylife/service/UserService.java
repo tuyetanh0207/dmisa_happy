@@ -17,6 +17,11 @@ public interface UserService {
 
     UserResDTO addUser(UserResDTO userResDTO);
 
+    //Service for image and files
+    UserResDTO updateUserHealthStatusFileOrImage(ObjectId userId,
+                                                 UserResDTO userVar,
+                                                 List<String> uploadedUrls);
+
     //    @Override
     //    public User deteleUser(String id) {
     //        User user = userRepo.findById(id).get();

@@ -24,6 +24,7 @@ public class UserResDTO {
     private String email;
     private String address;
     private String avatarUrl;
+    private User.HealthStatus healthStatus;
     private Instant createdAt;
     private Instant updatedAt;
     private Role role;
