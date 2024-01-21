@@ -29,6 +29,8 @@ export default function Buyplan() {
     // const [healthStatus,setHealthStatus] =useState('');
     //const [address,setAddress] =useState('');
     //plan
+    const [plan, setPlan] = useState({});
+    const [selectedTypeObject, setSelectedTypeObject] = useState({})
     const [planName,setPlanName] =useState('');
     const [planAbout,setPlanAbout] =useState('');
     const [planDuration,setPlanDuration] =useState('');
@@ -87,6 +89,7 @@ export default function Buyplan() {
             setPlanDuration(selectedPlan.planDuration);
             setPlanDurationUnit(selectedPlan.planDurationUnit);
             console.log("Selected plan ID:", event.target.value);
+            setPlan(selectedPlan)
             
         }
     };
@@ -96,16 +99,17 @@ export default function Buyplan() {
         const selectedType = event.target.value;
         setPlanTypeName(selectedType);
     
-        const selectedTypeObject = selectedPlanObject.planType.find((type) => type.typeName === selectedType);
+        const _selectedTypeObject = selectedPlanObject.planType.find((type) => type.typeName === selectedType);
         // console.log('Temp test:',selectedTypeObject)
-        if (selectedTypeObject) {
-            setSelectedPlanType(selectedTypeObject);
-            setSelectedBenefits(selectedTypeObject.benefits);
-            if (selectedTypeObject.benefits.length > 0) {
-                setBenefitsBenefitsName(selectedTypeObject.benefits[0].benefitName);
-                setBenefitsDependencies(selectedTypeObject.benefits[0].dependencies);
-                setBenefitsInsuranceAmounts(selectedTypeObject.benefits[0].insuranceAmount);
-                setBenefitsUnit(selectedTypeObject.benefits[0].unit);
+        if (_selectedTypeObject) {
+            setSelectedTypeObject(_selectedTypeObject)
+            setSelectedPlanType(_selectedTypeObject);
+            setSelectedBenefits(_selectedTypeObject.benefits);
+            if (_selectedTypeObject.benefits.length > 0) {
+                setBenefitsBenefitsName(_selectedTypeObject.benefits[0].benefitName);
+                setBenefitsDependencies(_selectedTypeObject.benefits[0].dependencies);
+                setBenefitsInsuranceAmounts(_selectedTypeObject.benefits[0].insuranceAmount);
+                setBenefitsUnit(_selectedTypeObject.benefits[0].unit);
             }
             console.log('benefit:',selectedTypeObject.benefits);
         }
@@ -735,7 +739,7 @@ const sumTotalFee =() =>
                                                         
                                                         <button key={index} className={`border-gray-600 border-2 rounded-lg w-full h-full ${selectedFeeType === item3 ? 'bg-gray-200' : ''}`} onClick={() => handleFeeType(item3)}>
 
-                                                            <div>Từ {item3.startAge}-{item3.endAge} tuổi </div>
+                                                            <div>From {item3.startAge}-{item3.endAge} age </div>
                                                             <div>{item3.fee} {benefit.unit}</div>
                                                         </button>
                                                     ))}
