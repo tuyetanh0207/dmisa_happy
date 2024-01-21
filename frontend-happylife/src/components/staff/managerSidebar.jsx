@@ -20,9 +20,9 @@ const ManagerSidebar = (props) => {
   const navigate = useNavigate();
   const navTitles = [
     {
-      name: "Plan",
-      icon: <HeartIcon key="4" className="w-8 h-8 mr-4" />,
-      pathname: "plan",
+      name: "Dashboard",
+      icon: <HomeIcon key="1" className="w-8 h-8 mr-4" />,
+      pathname: "dashboard",
     },
     {
       name: "Registration",
@@ -35,10 +35,10 @@ const ManagerSidebar = (props) => {
       pathname: "claim",
     },
     {
-      name: "Dashboard",
-      icon: <HomeIcon key="1" className="w-8 h-8 mr-4" />,
-      pathname: "dashboard",
-    },
+      name: "Plan",
+      icon: <HeartIcon key="4" className="w-8 h-8 mr-4" />,
+      pathname: "plan",
+    },    
   ];
   const handleClickNavigation = (navPath) => {
     const path = "/staff/insuarancemanagement/" + navPath;
