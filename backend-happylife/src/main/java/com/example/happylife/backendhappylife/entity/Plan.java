@@ -96,7 +96,7 @@ public class Plan {
         private String dependencies;
         private List<fees> feeType;
         private String unit;
-        private Integer insuranceAmount; //Là tiền quyền lợi người dùng nhận được khi mua gói này
+        private String insuranceAmount; //Là tiền quyền lợi người dùng nhận được khi mua gói này
 
         public void setBenefitName(String benefitName) {
             this.benefitName = benefitName;
@@ -114,7 +114,7 @@ public class Plan {
             this.unit = unit;
         }
 
-        public void setInsuranceAmount(Integer insuranceAmount) {
+        public void setInsuranceAmount(String insuranceAmount) {
             this.insuranceAmount = insuranceAmount;
         }
     }
