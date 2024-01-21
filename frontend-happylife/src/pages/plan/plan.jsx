@@ -38,7 +38,7 @@ export default function Plan() {
                   <input type="hidden" value="3" />
                   <img src={Insurance} alt="LOGO" className="rounded-lg" />
                   <h5 className="pb-3 pt-5 pl-3 text-2xl font-medium">{plan.planName}</h5>
-                  <p className="pb-3 pl-3 text-2xl">{plan.planAbout}</p>
+                  <p className="pb-3 pl-3 text-2xl">{plan.planSlogan}</p>
                   {/* <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">{plan.planId} </h5> */}
                   <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">Benefit </h5>
                   {plan.planBenefits.map((benefit, index) => (

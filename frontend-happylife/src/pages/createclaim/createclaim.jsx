@@ -3,6 +3,8 @@ import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
 import Select from 'react-select'
 import axios from 'axios'
+import {BsFillTrashFill,BsFillPencilFill} from 'react-icons/bs'
+import CreateClaimModal from './createclaimmodal.jsx'
 import RegistrationAPI from '../../../api/registrationApi.jsx';
 
 export default function CreateClaim() { 
@@ -14,6 +16,9 @@ export default function CreateClaim() {
     const [invoice,setInvoice] = useState([]);
     const [amount,setAmount] =useState(0); 
     const [hospitalName,setHospitalName] =useState('');
+
+    const [modalOpen,setModalOpen] =useState(false);
+    
 
     const categoriesOption = [
         {value:"Bảo hiểm sức khỏe căn bản",label:"Bảo hiểm sức khỏe căn bản"},
@@ -130,7 +135,7 @@ export default function CreateClaim() {
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
         
-          const regisID = "65abb268b85d687fe9d64067"; 
+          const regisID = "65ad2568d627dd4a12ccf28b"; 
           const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
             console.log('Select Regis:',selectedRegistration)
           if (!selectedRegistration) {
@@ -276,39 +281,45 @@ export default function CreateClaim() {
 
 
                     <div className="relative overflow-x-auto pt-10">
-                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table className="w-full text-sm text-left rtl:text-right border-gray-900 text-gray-500 dark:text-gray-400">
+                            <thead className="text-xs text-gray-700 uppercase border-gray-900 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" className="px-6 py-3 w-1/2">
+                                    <th scope="col" className="px-6 py-3 w-1/2 border-gray-900">
                                         Invoices Date
                                     </th>
                                     
                                     <th scope="col" className="px-6 py-3 w-1/2">
                                         Amount
                                     </th>
+                                    <th scope="col" className="px-6 py-3 w-1/2">
+                                        Action
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <input
-                                            type="date" name="date" id="date"
-                                            className="block w-1/2 h-10 px-4 border-0 py-2 "
-                                            placeholder='yyyy/mm/dd'
+                                    <td scope="row" className="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            date
+                                    </td>
+                                    <td className="px-6 py-3 border-t border-gray-300 ">
+                                        Amount
+                                    </td>
+                                    <td>
+                                        <div className="flex justify-around">
+                                            <BsFillTrashFill className="text-red-500"/>
+                                            <BsFillPencilFill className="text-gray-900"/>
+                                        </div>
                                             
-                                        />
-                                    </th>
-                                    <th className="px-4 py-4 border-t border-gray-300 text-center">
-                                        <input
-                                            type="text" name="name" id="name"
-                                            className="block h-10 px-4 border-0 py-2 "
-                                            placeholder='Amount'
-                                            //onChange={(e)=>setAmount(e.target.value)}
-                                        />
-                                    </th>
+                                        
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div className="flex justify-center pt-5">
+                            <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
+                        </div>
+                        
+                        {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}} className="pt-5"/>}
                     </div>
 
 
