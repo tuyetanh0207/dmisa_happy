@@ -60,7 +60,8 @@ public class RegistrationImpl implements RegistrationService {
     private NotificationService notificationService;
 
     @Autowired
-    private ApplicationEventPublisher publisher;
+    private InvoiceService invoiceService;
+
 
     @Override
     public List<Registration> getRegistrations(UserResDTO user) {
