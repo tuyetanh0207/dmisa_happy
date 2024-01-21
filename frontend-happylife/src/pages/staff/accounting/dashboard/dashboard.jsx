@@ -73,25 +73,25 @@ const AccDashboard = () => {
             {/* Card 1 */}
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-bold mb-4">Total Claims</h2>
-              <p className="text-3xl font-bold text-green-500">{statista.claimStatista.numOfClaim}</p>
+              <p className="text-3xl font-bold text-green-500">{statista?.claimStatista?.numOfClaim}</p>
             </div>
 
             {/* Card 2 */}
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-bold mb-4">Total Resolved Claims</h2>
-              <p className="text-3xl font-bold text-red-500">{statista.claimStatista.numOfResolvedClaim}</p>
+              <p className="text-3xl font-bold text-red-500">{statista?.claimStatista?.numOfResolvedClaim}</p>
             </div>
 
             {/* Card 3 */}
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-bold mb-4">Total Pending Claims</h2>
-              <p className="text-3xl font-bold text-blue-500">{statista.claimStatista.numOfPendingClaim}</p>
+              <p className="text-3xl font-bold text-blue-500">{statista?.claimStatista?.numOfPendingClaim}</p>
             </div>
 
             {/* Card 4 */}
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-bold mb-4">Total Claims Amount</h2>
-              <p className="text-3xl font-bold text-purple-500">{statista.claimStatista.totalClaimAmount}</p>
+              <p className="text-3xl font-bold text-purple-500">{statista?.claimStatista?.totalClaimAmount}</p>
             </div>
           </div>
           </div>
@@ -102,15 +102,15 @@ const AccDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Insurance Registrations</h3>
-                <p className="text-3xl font-bold text-green-500">{statista.insuranceStatista.numOfInsuranceRegistration}</p>
+                <p className="text-3xl font-bold text-green-500">{statista?.insuranceStatista?.numOfInsuranceRegistration}</p>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Expired Registrations</h3>
-                <p className="text-3xl font-bold text-red-500">{statista.insuranceStatista.numOfExpiredRegistration}</p>
+                <p className="text-3xl font-bold text-red-500">{statista?.insuranceStatista?.numOfExpiredRegistration}</p>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Active Registrations</h3>
-                <p className="text-3xl font-bold text-red-500">{statista.insuranceStatista.numOfActiveRegistration}</p>
+                <p className="text-3xl font-bold text-red-500">{statista?.insuranceStatista?.numOfActiveRegistration}</p>
               </div>
             </div>
           </div>
@@ -121,11 +121,11 @@ const AccDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Avenue From Insurance Fee</h3>
-                <p className="text-3xl font-bold text-green-500">{statista.avenueStatista.totalAvenueFromInsuranceFee}</p>
+                <p className="text-3xl font-bold text-green-500">{statista?.avenueStatista?.totalAvenueFromInsuranceFee}</p>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Profit</h3>
-                <p className="text-3xl font-bold text-blue-500">{statista.avenueStatista.totalProfit}</p>
+                <p className="text-3xl font-bold text-blue-500">{statista?.avenueStatista?.totalProfit}</p>
               </div>
             </div>
           </div>
