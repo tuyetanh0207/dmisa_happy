@@ -63,7 +63,7 @@ const AccDashboard = () => {
         </nav>
   
         {/* Main Content */}
-        <div className="container mx-auto mt-8 p-4">
+        <div className="container mx-auto mt-4 mb-8 p-4">
           {/* Section 1: General Overview */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">General Overview</h2>
@@ -91,7 +91,7 @@ const AccDashboard = () => {
             {/* Card 4 */}
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-bold mb-4">Total Claims Amount</h2>
-              <p className="text-3xl font-bold text-purple-500">{statista?.claimStatista?.totalClaimAmount}</p>
+              <p className="text-3xl font-bold text-purple-500">{statista?.claimStatista?.totalClaimAmount} VNĐ</p>
             </div>
           </div>
           </div>
@@ -102,7 +102,7 @@ const AccDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Insurance Registrations</h3>
-                <p className="text-3xl font-bold text-green-500">{statista?.insuranceStatista?.numOfInsuranceRegistration}</p>
+                <p className="text-3xl font-bold text-blue-500">{statista?.insuranceStatista?.numOfInsuranceRegistration}</p>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Expired Registrations</h3>
@@ -110,7 +110,7 @@ const AccDashboard = () => {
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Active Registrations</h3>
-                <p className="text-3xl font-bold text-red-500">{statista?.insuranceStatista?.numOfActiveRegistration}</p>
+                <p className="text-3xl font-bold text-green-500">{statista?.insuranceStatista?.numOfActiveRegistration}</p>
               </div>
             </div>
           </div>
@@ -121,29 +121,29 @@ const AccDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Avenue From Insurance Fee</h3>
-                <p className="text-3xl font-bold text-green-500">{statista?.avenueStatista?.totalAvenueFromInsuranceFee}</p>
+                <p className="text-3xl font-bold text-blue-500">{statista?.avenueStatista?.totalAvenueFromInsuranceFee} VNĐ</p>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Total Profit</h3>
-                <p className="text-3xl font-bold text-blue-500">{statista?.avenueStatista?.totalProfit}</p>
+                <p className="text-3xl font-bold text-green-500">{statista?.avenueStatista?.totalProfit} VNĐ</p>
               </div>
             </div>
           </div>
   
           {/* Section 4: Risk and Statistas Ratio */}
-          {/* <div>
+          <div>
             <h2 className="text-2xl font-bold mb-4">Risk and Statistas Ratio</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-2">Loss Ratio</h3>
-                <p className="text-2xl text-red-500">{statista.rateStatista.lossRatio}</p>
+                <p className="text-3xl font-bold text-red-500">{statista?.rateStatista?.lossRatio}%</p>
               </div>
               <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-2">Compensation Payout Ratio</h3>
-                <p className="text-2xl text-purple-500">{statista.rateStatista.compensationPayoutRatio}</p>
+                <p className="text-3xl font-bold text-purple-500">{statista?.rateStatista?.compensationPayoutRatio}% </p>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
   );
