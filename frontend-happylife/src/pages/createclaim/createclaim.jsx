@@ -7,10 +7,11 @@ import RegistrationAPI from '../../../api/registrationApi.jsx';
 
 export default function CreateClaim() { 
     const user = useSelector((state) => state.auth.login.currentUser);
-    const regisID = "65a157175e0d7f1fdb6f512d";
+    //const regisID = "65a157175e0d7f1fdb6f512d";
     const [registrations, setRegistrations] = useState(null);
     const [claims, setClaims] = useState(null);
     const [content,setContent] =useState('');
+    const [invoice,setInvoice] = useState([]);
     const [amount,setAmount] =useState(0); 
     const [hospitalName,setHospitalName] =useState('');
     const categoriesOption = [
@@ -256,7 +257,46 @@ export default function CreateClaim() {
                             onChange={(e)=>setHospitalName(e.target.value)}
                         />
                     </div>
-                    <div className="sm:col-span-full">   
+                    {/* claimInvoices */}
+
+
+                    <div className="relative overflow-x-auto pt-10">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" className="px-6 py-3 w-1/2">
+                                        Invoices Date
+                                    </th>
+                                    <th scope="col" className="px-6 py-3 w-1/2">
+                                        Amount
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <input
+                                            type="date" name="date" id="date"
+                                            className="block w-1/2 h-10 px-4 border-0 py-2 "
+                                            placeholder='yyyy/mm/dd'
+                                            
+                                        />
+                                    </th>
+                                    <th className="px-4 py-4 border-t border-gray-300 text-center">
+                                        <input
+                                            type="text" name="name" id="name"
+                                            className="block h-10 px-4 border-0 py-2 "
+                                            placeholder='Amount'
+                                            //onChange={(e)=>setAmount(e.target.value)}
+                                        />
+                                    </th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    {/* <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
                             Lượng tiền muốn bồi thường
                         </label>
@@ -270,14 +310,13 @@ export default function CreateClaim() {
                             onChange={(e)=>setAmount(e.target.value)}
                         />
                         </div>
-                    </div>
+                    </div> */}
 
-                    <input type="file" onChange={handleFileChange} multiple />
+                    <input type="file" onChange={handleFileChange} multiple className='pt-10' />
                     <div className="flex items-center justify-between">
                             <div></div>
                             <button  className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
-                                
-                                <p className="pl-6">Payment</p>
+                                <p className="pl-6">Sent</p>
                             </button>
                         </div>
                   </div>
