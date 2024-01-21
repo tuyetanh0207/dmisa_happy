@@ -1,4 +1,3 @@
-// import Productteaser from '../../components/productteaser.jsx'
 import Registrationteaser from '../../components/registrationteaser'
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux'

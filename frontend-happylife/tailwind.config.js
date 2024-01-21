@@ -16,6 +16,7 @@ export default {
         'custom-blue': '#142255',
         'custom-blue-2': '#CAD6FD',
         'custom-blue-3':'#EEF1FE',
+        'custom-blue-4':'#5576F5',
         'button-blue': '#5576F5',
         'bgr-white': '#F5F9FD',
         'header-blue' : '#182256',
@@ -32,6 +33,12 @@ export default {
         'custom-red-1': '#F8D8D8',
         'custom-red-2': '#D07372',
         'custom-red-3': '#B93735'
+      },
+      borderColor:{
+        'custom-blue': '#EEF1FE',
+      },
+      ringColor: {
+        'custom-blue': '#EEF1FE',
       },
        
       space: {

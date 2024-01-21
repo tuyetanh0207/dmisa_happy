@@ -17,6 +17,7 @@
     "flowbite": "^2.2.0",
     "flowbite-react": "^0.7.2",
     "pdfjs-dist": "^4.0.379",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-pdf": "^7.7.0",

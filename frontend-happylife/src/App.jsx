@@ -11,6 +11,7 @@ import Header from './components/header.jsx'
 import Plandetail from './pages/plan/plandetail/plandetail.jsx'
 import Buyplan from './pages/plan/buyplan/buyplan.jsx'
 import InsuaranceManagementLayout from './pages/staff/insurancemanagement/insuaranceManagementLayout.jsx';
+import CreateClaim from './pages/createclaim/createclaim.jsx';
 import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
 import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
@@ -57,6 +58,7 @@ export default function App() {
                 <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
                 <Route path='/contract/:regisId' element ={<Contract/>} />
                 
+                <Route path='/createclaim' element={<CreateClaim/>}/>
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={
