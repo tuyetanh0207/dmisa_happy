@@ -6,7 +6,7 @@ const productteaser = () => {
   const [arrrowClickStatus, setArrowClickStatus] = useState(false)
   return (
     <div className='relative'>
-      <div className='flex justify-center relative h-[317px] w-[1415px] bg-white rounded-lg borde-x-5 border-gray-200'>
+      <div className='flex justify-center relative h-[317px] w-[1415px] bg-neutral-100 rounded-lg borde-x-5 border-gray-200'>
         <img src={Insurance} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
         </img> 
         <div className='flex flex-col ml-[450px] mt-[38px]'>
@@ -33,16 +33,33 @@ const productteaser = () => {
           )
         }
               {toggle && (
-                <div className='relative ml-[-1300px] mt-[30px] h-[317px] w-[1415px] bg-white'>
-                  <div className='flex justify-center leading-[36px] font-semibold gap-x-[110px]'>
-                    <div className='flex justify-center mt-[32px] font-semibold gap-x-[110px]'>
+                <div className='relative ml-[-1300px] mt-[23px] pt-[50px]  leading-[36px] font-semibold bg-neutral-100'>
+                    <div className='grid auto-rows-auto gap-3'>
+                      <div className='grid grid-cols-9 col-span-1 text-center flex items-center '>
+                          <div className='col-start-2'>PERCENTAGE</div>
+                          <div className='col-start-3 col-span-2'>DATE CREATE</div>
+                          <div className='col-start-5'>PAYMENT STATUS</div>
+                          <div className='col-start-7 col-span-2'>REASON</div>           
+                      </div> 
+                      <div className='grid grid-cols-9 col-span-1 text-center  '>
+                          <div className='col-start-2 col-span-1'>5%</div>
+                          <div className='col-start-3 col-span-2'>12/05/2023</div>
+                          <div className='col-start-5 col-span-1 bg-[#EBFAFA] text-center text-[#53B271]'>Paid</div>
+                          <div className='col-start-7 col-span-2'>this is the reason why i confirm this claim</div>           
+                      </div>
+                     
+                    </div>
+                                        
+
+                  {/* <div className='flex justify-center leading-[36px] font-semibold gap-x-[110px]'>
+                    <div className='flex justify-center mt-[32px] font-semibold gap-x-[110px] '>
                       <label>PERCENTAGE</label>
                       <label className='ml-[120px]'>DATE CREATE</label>
                       <label className='ml-[120px]'>PAYMENT STATUS</label>
                       <label className='ml-[170px]'>REASON</label>
                     </div>
                   </div>
-                  <div className='ml-[170px] mt-[24px] leading-[46px] font-semibold gap-x-[110px]'>
+                  <div className='leading-[46px] font-semibold gap-x-[110px] bg-white'>
                     <label>5%</label>
                     <label className='ml-[290px]'>12/05/2023</label>
                     <label className='ml-[220px] inline-block	w-[159px] h-[48px] bg-[#EBFAFA] text-center text-[#53B271]'>Paid</label>
@@ -59,7 +76,7 @@ const productteaser = () => {
                     <label className='ml-[290px]'>12/05/2023</label>
                     <label className='ml-[220px] inline-block	w-[159px] h-[48px] bg-[#F8D8D8] text-center text-[#C04B49]'>Unpaid</label>
                     <label className='ml-[150px]'>this is the reason why i confirm this claim</label>                
-                  </div>
+                  </div> */}
                 </div>
                 
               )}
