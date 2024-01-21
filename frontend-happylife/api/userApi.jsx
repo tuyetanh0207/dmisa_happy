@@ -13,6 +13,10 @@ const UserAPI = {
     getUser: function(token, userId) {
         const url = `${apiV1}/users/${userId}`;
         return get(url, token)
+    },
+    updateUser: function(newUser, userId, token){
+        const url = `${apiV1}/users/${userId}/update`;
+        return put(url,newUser,token);
     }
 }
 

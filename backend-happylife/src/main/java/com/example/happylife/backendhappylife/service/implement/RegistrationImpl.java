@@ -51,7 +51,7 @@ public class RegistrationImpl implements RegistrationService {
     private RegistrationRepo registrationRepo;
 
     @Autowired
-    private InvoiceService invoiceService;
+    private ApplicationEventPublisher publisher;
 
     @Autowired
     private ContractService contractService;
@@ -384,7 +384,6 @@ public class RegistrationImpl implements RegistrationService {
             }
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
-
             List<Registration.documentRegiss> docLists = new ArrayList<>();
             if(existingRegis.getDocumentUrls() == null) docLists.addAll(documentList);
             else {

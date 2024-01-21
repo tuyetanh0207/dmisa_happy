@@ -6,8 +6,10 @@ import {useSelector} from 'react-redux'
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ContractAPI from '../../../api/contractApi'
-const contract = () => {
+import { useNavigate } from 'react-router-dom';
 
+const contract = () => {
+    const route = useNavigate();
     const { regisId } = useParams();
     // console.log("REGIS ID: ", {regisId})
     // console.log("CONTRACT ID: ", {contractId})
@@ -28,8 +30,8 @@ const contract = () => {
     }
     useEffect(() => {
       fetchContract();
-    },[])  /* need fix? */
-
+    },[])  
+    
     const handleAccept = async (e) => {
         e.preventDefault();
         console.log('update contract status')
@@ -47,6 +49,7 @@ const contract = () => {
         try {
             const contractUpdateRes = await ContractAPI.updateContractStatus(contract, realtimeContract.contractId, user1?.token);
             console.log("contractUpdateRes:",contractUpdateRes)
+            route('/profile/registration')
 
         } catch (err) {
             console.log("err:", err);

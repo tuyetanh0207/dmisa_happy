@@ -5,7 +5,6 @@ const RegistrationAPI = {
         const url = `${apiV1}/registrations`;
         return get(url, token);
     },
-    
     getUserRegistration: function(token, userId){
         const url = `${apiV1}/registrations/${userId}`;
         return get(url, token);

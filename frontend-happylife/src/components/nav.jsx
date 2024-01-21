@@ -53,6 +53,7 @@ const Nav = () => {
   }
   if(pathname.includes('/staff')) return <></>
 
+
   return (
   <div>
   {pathname.includes('login') || pathname.includes('signup') ? 

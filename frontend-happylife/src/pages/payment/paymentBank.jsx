@@ -15,12 +15,16 @@ import RatingIcon from '../../assets/RateIcon.png';
 import PlanAPI from '../../../api/plansApi'
 
 const paymentBank = () => {
-
+    const route = useNavigate();
     const { regisId } = useParams();
     const user1 = useSelector((state) => state.auth.login.currentUser);
     // Get invoice data by regis id
     const [realtimeInvoice, setRealtimeInvoice] = useState({});
-    console.log("REGISTRATION ID: ", regisId)
+    //console.log("TESSSSTTTTTTT: realtimeInvoice: ", realtimeInvoice)
+    //console.log("TESSSSTTTTTTT: regisInfo - regisid: ", realtimeInvoice.regisInfo?.regisId);
+ 
+
+    //console.log("REGISTRATION ID: ", regisId)
     const fetchInvoice = async () => {
         try{
           const res = await InvoiceAPI.getInvoiceByRegisId(regisId, user1?.token);
@@ -29,7 +33,7 @@ const paymentBank = () => {
     
         }
         catch (error){
-          console.log("error in fetchUser", error);
+          console.log("error in fetchInvoice", error);
         }
       }
       useEffect(() => {
@@ -57,7 +61,8 @@ const paymentBank = () => {
             }
             try {
                 const invoiceUpdateRes = await InvoiceAPI.updateInvoiceStatus(invoice, realtimeInvoice.invoiceId, user1?.token);
-                console.log("contractUpdateRes sucess:",invoiceUpdateRes)
+                console.log("invoiceUpdateRes sucess:",invoiceUpdateRes)
+                route('/paymentconfirm')
     
             } catch (err) {
                 console.log("err:", err);
@@ -65,23 +70,33 @@ const paymentBank = () => {
         }
 
     //Get plan by regis id
-    const [realtimePlan, setRealtimePlan] = useState([]);
-    const fetchPlan = async () => {
-      try{
-        console.log('FETCH PLAN SUCCESS!');
-        const res = await PlanAPI.getPlanByRegisId( /*need fix*/ realtimeInvoice.regisInfo.productInfo.planId, user1?.token);
-        setRealtimePlan(res.data);
+    // const [realtimePlan, setRealtimePlan] = useState([]);
+    // const fetchPlan = async () => {
+    //   try{
+       
+    //     // const regisId = realtimeInvoice.regisInfo?.regisId;
 
-        console.log('res', res.data);
-      }
-      catch (error){
-        console.log("error in fetchUser", error);
-      }
-    }
-    useEffect(() => {
-        fetchPlan();
-    },[])
-    console.log('FETCH PLAN: ', realtimePlan);
+    //     // if (regisId) {
+    //     //     // Giá trị regisId hợp lệ, thực hiện gọi API
+    //     //     const res = await PlanAPI.getPlanByRegisId({ regisId }, user1?.token);
+    //     // } else {
+    //     //     console.error("regisId is undefined or null. Unable to call API.");
+    //     // }
+
+    //     const res = await PlanAPI.getPlanByRegisId(realtimeInvoice.regisInfo.regisId, user1?.token);
+    //     console.log('FETCH PLAN SUCCESS!');
+    //     setRealtimePlan(res.data);
+
+    //     console.log('res', res.data);
+    //   }
+    //   catch (error){
+    //     console.log("error in fetchPlan", error);
+    //   }
+    // }
+    // useEffect(() => {
+    //     fetchPlan();
+    // },[])
+    // console.log('FETCH PLAN: ', realtimePlan);
 
     return(
         <div className='w-[1920px] h-[1210px] bg-slate-50 flex justify-center items-center'>
@@ -118,14 +133,14 @@ const paymentBank = () => {
                         >
                         </input>
                         
-                        <Link key='paymentconfirm' to='/paymentconfirm'>
+                        {/* <Link key='paymentconfirm' to='/paymentconfirm'> */}
                             <button 
                             onClick={handlePayNow}
                             className="w-[475px] h-12  mt-[226px] py-3 bg-indigo-500 rounded border border-indigo-500 flex justify-center items-center gap-2.5 inline-flex">
                                 <div> <img src={ShoppingCart}></img> </div>
                                 <div className="text-right text-white text-base font-bold leading-normal">Pay now</div>
                             </button>
-                        </Link>
+                        {/* </Link> */}
                         <div className="w-[475px] text-zinc-400 text-sm">
                         Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
                         </div>
@@ -142,9 +157,14 @@ const paymentBank = () => {
                         <div className='w-[476px] h-[0px] border border-zinc-400'></div>
                     </div>
                     <div className='flex'>
-                        <div className="w-[132px] h-24 bg-stone-300" />
+                        <div className="w-[132px] h-24 bg-stone-300">
+                            <img src={realtimeInvoice.regisInfo?.productInfo?.planURL} alt="" />
+                        </div>
                         <div className='pl-[30px]'>
-                            <h5 className="w-[391px] h-16 text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">HappyLife Gold</h5>
+                            <h5 className="w-[391px] h-16 text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">
+                                {realtimeInvoice.regisInfo?.productInfo?.planName}
+                                {/* HappyLife Gold */}
+                                </h5>
                             <div>
                                 <img src={RatingIcon} alt="Rating" />
                             </div>

@@ -5,14 +5,14 @@ const PlanAPI = {
         const url = `${apiV1}/plans`;
         return get(url,"")
     },
-    getPlanByRegisId: function(planId, token){
-        const url = `${apiV1}/plans/${planId}`;
-        return get(url, token)
-    },
     updateOnePlanByStaff: function(planId, data,token){
         const url = `${apiV1}/plans/${planId}/update`;
         return put(url,data, token)
     },
+    getPlanByRegisId: function(regisId, token){
+        const url = `${apiV1}/plans/${regisId}/getPlanByRegisId`;
+        return get(url, token)
+    }
 
 }
 
