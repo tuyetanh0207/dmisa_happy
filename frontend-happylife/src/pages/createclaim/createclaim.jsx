@@ -272,7 +272,7 @@ export default function CreateClaim() {
                             onChange={(e)=>setHospitalName(e.target.value)}
                         />
                     </div>
-                    {/* claimInvoices */}
+                    {/* claimInvoices table */}
 
 
                     <div className="relative overflow-x-auto pt-10">
@@ -282,6 +282,7 @@ export default function CreateClaim() {
                                     <th scope="col" className="px-6 py-3 w-1/2">
                                         Invoices Date
                                     </th>
+                                    
                                     <th scope="col" className="px-6 py-3 w-1/2">
                                         Amount
                                     </th>
