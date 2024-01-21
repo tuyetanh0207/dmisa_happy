@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -39,18 +41,19 @@ public class AuthenticationService {
         if (request.getPhoneNumber() == null || !MyService.isValidPhoneNumber(request.getPhoneNumber()) || request.getPhoneNumber().length() != 10 || userRepo.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
             throw new UserCreationException("Invalid phone number format or this phone number has already existed.");
         }
-        if (request.getEmail() == null || !MyService.isValidEmail(request.getEmail())) {
+        if (request.getEmail() == null||  !MyService.isValidEmail(request.getEmail()) || !MyService.isValidEmail(request.getEmail())) {
             throw new UserCreationException("Invalid email format or this email has already existed.");
         }
-        if (request.getDOB() == null) {
+        ZonedDateTime thresholdDate = ZonedDateTime.parse("-0001-11-30T00:00:00.000+00:00");
+        if (request.getDOB() == null || request.getDOB().before(Date.from(thresholdDate.toInstant()))) {
             throw new UserCreationException("Date of birth is required.");
         }
         if (request.getPassword() == null) {
             throw new UserCreationException("Password is required.");
         }
-        /*if(request.getAddress()==null ){
+        if(request.getAddress()==null ){
             throw new UserCreationException("Address is required.");
-        }*/
+        }
         try {
             Instant instantNow = Instant.now();
             var user = User.builder()

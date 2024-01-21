@@ -253,6 +253,9 @@ public class RegistrationImpl implements RegistrationService {
             if (regis.getProductInfo().getPlanId()==null){
                 throw new UserCreationException("Plan ID is required.");
             }
+            if(regis.getTotalFee() <= 0){
+                throw new UserCreationException("Total fee must be more than 0.");
+            }
 
             Instant instantNow= Instant.now();
             regis.setApprovalStatus("Pending");

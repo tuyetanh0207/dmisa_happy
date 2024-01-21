@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContactServiceImpl implements ContactService {
@@ -17,7 +19,19 @@ public class ContactServiceImpl implements ContactService {
     private ContactRepo contactRepo;
 
     @Override
-    public ContactResDTO addContract(ContactCreateDTO contactCreateDTO){
+    public List<ContactResDTO> getListContact(){
+        try{
+            List<Contact> contactList = contactRepo.findAll();
+            List<ContactResDTO> contactResDTOList = contactList.stream()
+                    .map(Contact::convertToContactResDTO)
+                    .collect(Collectors.toList());
+            return  contactResDTOList;
+        } catch (Exception e){
+            throw new UserCreationException("Error geting contact:" + e.getMessage());
+        }
+    }
+    @Override
+    public ContactResDTO addContact(ContactCreateDTO contactCreateDTO){
         Contact contact = new Contact().convertCreToContact(contactCreateDTO);
         try {
             if (contact.getEmail() == null && contact.getPhoneNumber() == null) {

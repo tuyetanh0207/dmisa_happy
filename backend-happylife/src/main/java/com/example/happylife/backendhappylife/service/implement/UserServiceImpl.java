@@ -65,10 +65,11 @@ public class UserServiceImpl implements UserService {
                         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
                 if (user.getFullName() != null) { existingUser.setFullName(user.getFullName());}
                 if (user.getDOB() != null) {existingUser.setDOB(user.getDOB());}
-                if(user.getGender() != null) { existingUser.setGender(user.getGender());}
-                if (user.getPhoneNumber() != null) {existingUser.setPhoneNumber(user.getPhoneNumber());}
+                if(user.getGender() != null &&
+                        !("Male").equals(user.getGender().trim()) &&
+                        !("Female").equals(user.getGender().trim())) { existingUser.setGender(user.getGender());}
                 if(user.getCitizenId() != null) {existingUser.setCitizenId(user.getCitizenId());}
-                if (user.getEmail() != null) {existingUser.setEmail(user.getEmail());}
+                if (user.getEmail() != null && !MyService.isValidEmail(user.getEmail())) {existingUser.setEmail(user.getEmail());}
                 if (user.getAddress() != null) {existingUser.setAddress(user.getAddress());}
                 if (user.getHealthStatus() != null) {existingUser.setHealthStatus(user.getHealthStatus());}
                 Instant instantNow = Instant.now();
