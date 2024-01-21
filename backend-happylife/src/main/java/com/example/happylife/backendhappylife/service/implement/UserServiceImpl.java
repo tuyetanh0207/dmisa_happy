@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                         !("Male").equals(user.getGender().trim()) &&
                         !("Female").equals(user.getGender().trim())) { existingUser.setGender(user.getGender());}
                 if(user.getCitizenId() != null) {existingUser.setCitizenId(user.getCitizenId());}
-                if (user.getEmail() != null && user.getEmail().matches(".+@.+\\..+")) {existingUser.setEmail(user.getEmail());}
+                if (user.getEmail() != null && !MyService.isValidEmail(user.getEmail())) {existingUser.setEmail(user.getEmail());}
                 if (user.getAddress() != null) {existingUser.setAddress(user.getAddress());}
                 if (user.getHealthStatus() != null) {existingUser.setHealthStatus(user.getHealthStatus());}
                 Instant instantNow = Instant.now();
