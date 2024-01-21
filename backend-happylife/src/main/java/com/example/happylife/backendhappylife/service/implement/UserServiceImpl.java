@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -111,4 +112,68 @@ public class UserServiceImpl implements UserService {
             throw new UserCreationException("Error creating user:" + e.getMessage());
         }
     }
+    //Service for image and files
+    @Override
+    public UserResDTO updateUserHealthStatusFileOrImage(ObjectId userId,
+                                                        UserResDTO userVar,
+                                                        List<String> uploadedUrls) {
+        User user = new User().convertResToUser(userVar);
+        User existingUser = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User can not found with id: " + userId));
+        try {
+            if(user.getId().equals(existingUser.getId())){
+                Instant instantNow = Instant.now();
+                if(existingUser.getHealthStatus()==null){
+                    existingUser.setHealthStatus(new User.HealthStatus());
+                }
+                existingUser.getHealthStatus().setUpdatedAt(instantNow);
+
+                List<String> docLists = new ArrayList<>();
+                if(existingUser.getHealthStatus().getDetails() == null) docLists.addAll(uploadedUrls);
+                else {
+                    docLists = existingUser.getHealthStatus().getDetails();
+                    docLists.addAll(uploadedUrls);
+                }
+                existingUser.getHealthStatus().setDetails(docLists);
+                return userRepo.save(existingUser).convertFromUserToUserResDTO();
+            }
+            else{
+                throw new UserCreationException("Error update status of User");
+            }
+        } catch (Exception e) {
+            throw new UserCreationException("Error update status of User: " + e.getMessage());
+        }
+    }
+    /*@Override
+    public ContractResDTO updateUserHealthStatusImage(ObjectId userId,
+                                                      UserResDTO userVar,
+                                                      List<String> uploadedUrls) {
+        User user = new User().convertResToUser(userVar);
+        User existingUser = userRepo.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User can not found with id: " + userId));
+        try {
+            if(user.getId().equals(existingUser.getId())){
+                List<String> contentList = uploadedUrls;
+                Instant instantNow = Instant.now();
+                if(existingUser.getHealthStatus()==null){
+                    existingUser.setHealthStatus(new User.HealthStatus());
+                }
+                existingUser.getHealthStatus().setUpdatedAt(instantNow);
+
+                List<String> docLists = new ArrayList<>();
+                if(existingUser.getHealthStatus().getDetails() == null) docLists.addAll(uploadedUrls);
+                else {
+                    docLists = existingUser.getHealthStatus().getDetails();
+                    docLists.addAll(uploadedUrls);
+                }
+                existingUser.getHealthStatus().setDetails(docLists);
+                return userRepo.save(existingUser).convertFromUserToUserResDTO();
+            }
+            else{
+                throw new UserCreationException("Error update status of User");
+            }
+        } catch (Exception e) {
+            throw new UserCreationException("Error update status of User: " + e.getMessage());
+        }
+    }*/
 }

@@ -131,7 +131,7 @@ public class ClaimController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimImageDocUrl(claimId,uploadedUrls,_fileCounts);
+        ClaimResDTO savedClaim = claimService.updateClaimImageOrFileDocUrl(claimId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
     @PutMapping(value = "/update/{claimId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
@@ -143,7 +143,7 @@ public class ClaimController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimFilesDocUrl(claimId,uploadedUrls,_fileCounts);
+        ClaimResDTO savedClaim = claimService.updateClaimImageOrFileDocUrl(claimId,uploadedUrls,_fileCounts);
         return ResponseEntity.ok(savedClaim);
     };
 }

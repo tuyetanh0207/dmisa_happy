@@ -17,17 +17,24 @@ public interface PlanService {
     Plan updatePlan(Plan planUpdate, ObjectId planId);
 
     //Service for upload file and image
-    PlanResDTO updatePlanImageDocUrl(ObjectId planId,
-                                     List<String> uploadedUrls,
-                                     List<SectionFileCount> sectionFileCounts);
+    //PlanResDTO updatePlanImageDocUrl(ObjectId planId,List<String> uploadedUrls,List<SectionFileCount> sectionFileCounts);
 
-    PlanResDTO updatePlanFileDocUrl(ObjectId planId,
+    //Service for upload file and image
+    PlanResDTO updatePlanImageOrFileDocUrl(ObjectId planId,
+                                           List<String> uploadedUrls,
+                                           List<SectionFileCount> sectionFileCounts);
+
+   /* PlanResDTO updatePlanFileDocUrl(ObjectId planId,
                                     List<String> uploadedUrls,
-                                    List<SectionFileCount> sectionFileCounts);
+                                    List<SectionFileCount> sectionFileCounts);*/
 
-    PlanResDTO updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl);
+    //PlanResDTO updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl);
 
     PlanResDTO getPlanByRegisId(UserResDTO userVar, ObjectId regisId);
+
+    //PlanURL
+    PlanResDTO updatePlanImageOrFilePlanUrl(ObjectId planId,
+                                            List<String> listPlanUrl);
 
     PlanResDTO updatePlanFilePlanUrl(ObjectId planId,
                                      List<String> listPlanUrl);

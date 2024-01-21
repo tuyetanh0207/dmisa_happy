@@ -9,7 +9,6 @@ import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Notification;
 import com.example.happylife.backendhappylife.entity.Object.Message;
-import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -219,8 +217,8 @@ public class ContractServiceImpl implements ContractService {
         }
     }
     @Override
-    public ContractResDTO updateContractImageContentUrl(ObjectId contractId,
-                                                        List<String> uploadedUrls) {
+    public ContractResDTO updateContractImageOrFileContentUrl(ObjectId contractId,
+                                                              List<String> uploadedUrls) {
         Contract existingContract = contractRepo.findById(contractId)
                 .orElseThrow(() -> new EntityNotFoundException("Contract not found with id: " + contractId));
         try {

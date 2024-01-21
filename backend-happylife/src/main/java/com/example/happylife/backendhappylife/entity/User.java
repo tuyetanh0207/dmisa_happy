@@ -122,6 +122,8 @@ public class User implements UserDetails {
       userResDTO.setPhoneNumber(phoneNumber);
       userResDTO.setGender(gender);
       userResDTO.setRole(role);
+      userResDTO.setCitizenId(this.citizenId);
+      userResDTO.setHealthStatus(this.healthStatus);
       userResDTO.setAvatarUrl(avatarUrl);
       userResDTO.setCreatedAt(createdAt);
       userResDTO.setUpdatedAt(updatedAt);
@@ -136,9 +138,11 @@ public class User implements UserDetails {
         }
         userVar.setDOB(dto.getDOB());
         userVar.setAddress(dto.getAddress());
+        userVar.setHealthStatus(dto.getHealthStatus());
         userVar.setEmail(dto.getEmail());
         userVar.setPhoneNumber(dto.getPhoneNumber());
         userVar.setGender(dto.getGender());
+        userVar.setCitizenId(dto.getCitizenId());
         userVar.setRole(dto.getRole());
         userVar.setAvatarUrl(dto.getAvatarUrl());
         userVar.setCreatedAt(dto.getCreatedAt());

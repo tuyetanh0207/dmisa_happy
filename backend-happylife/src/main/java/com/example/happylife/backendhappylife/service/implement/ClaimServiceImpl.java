@@ -168,9 +168,9 @@ public class ClaimServiceImpl implements ClaimService {
             if(claim.getClaimCategories() == null){
                 throw new UserCreationException("There must be at least 1 claim scenario provided.");
             }
-            if(claim.getDocumentUrls().isEmpty()){
+            /*if(claim.getDocumentUrls().isEmpty()){
                 throw new UserCreationException("There must be at least 1 document provided.");
-            }
+            }*/
             if(claim.getRegisInfo() == null){
                 throw new UserCreationException("Regis info can't be null.");
             }
@@ -215,7 +215,7 @@ public class ClaimServiceImpl implements ClaimService {
 
     //Service for image and files
     @Override
-    public ClaimResDTO updateClaimImageDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+    public ClaimResDTO updateClaimImageOrFileDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
         Claim existingClaim = claimRepo.findById(claimId)
                 .orElseThrow(() -> new EntityNotFoundException("Claim not found with id: " + claimId));
         try {

@@ -307,7 +307,7 @@ public class RegistrationImpl implements RegistrationService {
 
     //Service for upload file, image
     @Override
-    public RegisResDTO updateRegisImageDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
+    public RegisResDTO updateRegisImageOrFileDocUrl(ObjectId regisId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts) {
         Registration existingRegis = registrationRepo.findById(regisId)
                 .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
         try {

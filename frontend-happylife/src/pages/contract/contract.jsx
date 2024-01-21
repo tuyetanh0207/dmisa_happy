@@ -31,7 +31,7 @@ const contract = () => {
     },[])  /* need fix? */
 
     const handleAccept = async (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         console.log('update contract status')
         console.log("REGISTRATION ID: ", regisId)
         const contract = {    

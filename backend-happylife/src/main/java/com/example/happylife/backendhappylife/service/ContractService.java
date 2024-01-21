@@ -30,8 +30,11 @@ public interface ContractService {
     ContractResDTO updateContractFileContentUrl(ObjectId contractId,
                                                 List<String> uploadedUrls);
 
-    ContractResDTO updateContractImageContentUrl(ObjectId contractId,
-                                                 List<String> uploadedUrls);
+    ContractResDTO updateContractImageOrFileContentUrl(ObjectId contractId,
+                                                       List<String> uploadedUrls);
+
+/*    ContractResDTO updateContractImageContentUrl(ObjectId contractId,
+                                                 List<String> uploadedUrls);*/
 
     //Service for image and files
 

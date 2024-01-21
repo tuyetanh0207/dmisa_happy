@@ -102,7 +102,7 @@ public class ContractController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
         // Cập nhật thông tin vào Claim và lưu
-        ContractResDTO savedContract = contractService.updateContractImageContentUrl(contractId,uploadedUrls);
+        ContractResDTO savedContract = contractService.updateContractImageOrFileContentUrl(contractId,uploadedUrls);
         return ResponseEntity.ok(savedContract);
     };
     @PutMapping(value = "/update/{claimId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
@@ -115,7 +115,7 @@ public class ContractController {
         // Lưu các URL của file sau khi upload
         List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
         // Cập nhật thông tin vào Claim và lưu
-        ContractResDTO savedContract = contractService.updateContractFileContentUrl(contractId,uploadedUrls);
+        ContractResDTO savedContract = contractService.updateContractImageOrFileContentUrl(contractId,uploadedUrls);
         return ResponseEntity.ok(savedContract);
     };
 }
