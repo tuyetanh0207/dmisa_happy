@@ -4,79 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="add create invoice in update status of claim">
-      <change afterPath="$PROJECT_DIR$/../.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/api/contractApi.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/api/invocieApi.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/redux/navReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/DownArrowBlack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/DownloadIcon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/InsuranceContract.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/LogoHalfScreen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/RateIcon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/ShoppingCart.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/UploadSuccess.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/logout.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/assets/notifications.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/notification.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/contract/contract.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/payment/paymentBank.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/payment/paymentConfirm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/shelf/Uncommitted_changes_before_Checkout_at_12_14_2023_1_42_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/shelf/Uncommitted_changes_before_Checkout_at_12_14_2023_1_42_AM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegisCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegisCreateDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegisResDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegisResDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegistrationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/DTO/RegistrationDTO/RegistrationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/ClaimController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/ClaimController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/ContractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/ContractController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/PlanController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/controller/RegistrationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/entity/Registration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/ClaimServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/ClaimServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/ContractServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/ContractServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/FireBaseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/FireBaseServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/InvoiceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/InvoiceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/PlanServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/api/plansApi.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/api/plansApi.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/api/registrationApi.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/api/registrationApi.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/redux/authApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/redux/authApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/redux/authSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/redux/authSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/redux/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/header.jsx" afterDir="false" />
+    <list default="true" id="5894b34f-5dcd-43fc-bfc1-47efb9b7ffc4" name="Changes" comment="fix statista of year not found">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/StatistaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/StatistaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/StatistaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/happylife/backendhappylife/service/implement/StatistaServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/nav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/nav.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/productteaser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/productteaser.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/registrationteaser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/registrationteaser.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/appButton/button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/appButton/button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/appButton/button.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/appButton/button.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/entityVerticalDisplay.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/entityVerticalDisplay.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/managerSidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/managerSidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/components/staff/popup/regisManagerPopup.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/main.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/home/home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/home/home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/login/login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/plan/plan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/plan/plan.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/information.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/information.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/navprofile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/navprofile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/registration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/profile/registration.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/signup/signup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/signup/signup.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/claim/claim.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/claim/claim.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/insuaranceManagementLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/insuaranceManagementLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/plan/plan.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/plan/plan.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/registration/registration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/pages/staff/insurancemanagement/registration/registration.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/src/resource/status.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/src/resource/status.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend-happylife/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend-happylife/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,33 +78,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JavaClassFindUsagesOptions.isFieldsUsages": "true",
-    "JavaClassFindUsagesOptions.isMethodsUsages": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging sprint3",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/HCMUS/Kì 7/PTUDHTTTHD/Uhu",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.11707841",
-    "settings.editor.selected.configurable": "project.propCompiler",
-    "spring.configuration.checksum": "987bc6ab878523d76a08bf6a5f23346d",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JavaClassFindUsagesOptions.isFieldsUsages&quot;: &quot;true&quot;,
+    &quot;JavaClassFindUsagesOptions.isMethodsUsages&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sprint3&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/HCMUS/Kì 7/PTUDHTTTHD/Uhu&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.11707841&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;987bc6ab878523d76a08bf6a5f23346d&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.happylife.backendhappylife.DTO.ContractDTO" />
@@ -277,6 +209,11 @@
       <workItem from="1705591660743" duration="10581000" />
       <workItem from="1705604404985" duration="1563000" />
       <workItem from="1705641600037" duration="3700000" />
+      <workItem from="1705671759114" duration="30000" />
+      <workItem from="1705673829566" duration="8509000" />
+      <workItem from="1705730078409" duration="3741000" />
+      <workItem from="1705737486493" duration="1474000" />
+      <workItem from="1705804993506" duration="1399000" />
     </task>
     <task id="LOCAL-00001" summary="done 3 first endpoint of registration">
       <option name="closed" value="true" />
@@ -318,7 +255,23 @@
       <option name="project" value="LOCAL" />
       <updated>1705662439374</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add statista entity">
+      <option name="closed" value="true" />
+      <created>1705683505976</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1705683505976</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix statista of year not found">
+      <option name="closed" value="true" />
+      <created>1705732085737</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1705732085738</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,9 +295,11 @@
     <MESSAGE value="fix files-docUrl controller and 2 corsconfig" />
     <MESSAGE value="add create invoice, noti and contract in update status regis" />
     <MESSAGE value="add create invoice in update status of claim" />
-    <option name="LAST_COMMIT_MESSAGE" value="add create invoice in update status of claim" />
+    <MESSAGE value="add statista entity" />
+    <MESSAGE value="fix statista of year not found" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix statista of year not found" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/backend_happylife$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1701110077184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/backend_happylife$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1705670634508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
