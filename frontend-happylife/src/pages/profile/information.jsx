@@ -5,11 +5,39 @@ import UserAPI from '../../../api/userApi';
 const information = () => {
     const user1 = useSelector((state) =>state.auth.login.currentUser);
     const [realtimeUser, setRealtimeUser] = useState({});
+    const [phoneNumber, setPhoneNumber] = useState('');
+    //const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [gender, setGender] = useState('Male');
+    const [email, setEmail] = useState('');
+    const [dob, setDob] = useState('');
+    const [address, setAddress] = useState('');
+    const [citizenId, setCitizenId] = useState('');
+  
+    //Chuyển đổi date thành dạng dd/mm/yyyy
+    const formatISODateToDDMMYYYY = (isoDate) => {
+        const dateObj = new Date(isoDate);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+      
+        return `${day}/${month}/${year}`;
+    };
+
 
     const fetchUser = async () => {
       try{
         const res = await UserAPI.getUser(user1?.token, user1?.userInfo?.id);
-        setRealtimeUser(res.data)
+        setRealtimeUser(res.data);
+        setPhoneNumber(res.data.phoneNumber)
+        setFullName(res.data.fullName);
+        setGender(res.data.gender)
+        setEmail(res.data.email)
+        setDob(formatISODateToDDMMYYYY(res.data.dob))
+        setAddress(res.data.address)
+        setCitizenId(res.data.citizenId)
         console.log('res', res.data)
       }
       catch (error){
@@ -24,41 +52,39 @@ const information = () => {
 
     const handleDateChange = async (event) => {
         const selectedDate = event.target.value;
+        // Chuyển đổi chuỗi ISO thành đối tượng Date
+        const dateObject = new Date(realtimeUser.dob);
+        // Lấy ngày, tháng và năm
+        const day = dateObject.getDate();
+        const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
+        const year = dateObject.getFullYear();
+        // Định dạng lại thành chuỗi 'dd/mm/yyyy'
+        const formattedDate = `${day}/${month}/${year}`;
       };
-    // Chuyển đổi chuỗi ISO thành đối tượng Date
-    const dateObject = new Date(realtimeUser.dob);
-    // Lấy ngày, tháng và năm
-    const day = dateObject.getDate();
-    const month = dateObject.getMonth() + 1; // Tháng bắt đầu từ 0
-    const year = dateObject.getFullYear();
-    // Định dạng lại thành chuỗi 'dd/mm/yyyy'
-    const formattedDate = `${day}/${month}/${year}`;
+
     
 
     // **** UPDATE USER **** //
-    const [phoneNumber, setPhoneNumber] = useState('');
-    //const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [gender, setGender] = useState('Male');
-    const [email, setEmail] = useState('');
-    const [dob, setDob] = useState('');
-    const [address, setAddress] = useState('');
-    const [citizenID, setCitizenID] = useState('');
-  
+
     const handleUpdate = async (e) => {
         {
             e.preventDefault();
             console.log('update user')
             const newUser = {
-                fullName: "Nguyễn Văn B",
-                gender: "Nam",
-                DOB: "1990-01-01",
-                phoneNumber: "0344193909",
-                citizenId: "123456789",
-                email: "nguyenvana@example.com",
-                address: "123 Đường B, Quận C, Thành phố D"
+                // fullName: "Nguyễn Văn B",
+                // gender: "Nam",
+                // DOB: "1990-01-01",
+                // phoneNumber: "0344193909",
+                // citizenId: "123456789",
+                // email: "nguyenvana@example.com",
+                // address: "123 Đường B, Quận C, Thành phố D"
+                fullName: fullName,
+                gender: gender,
+                DOB: dob,
+                phoneNumber: phoneNumber,
+                citizenId: citizenId,
+                email: email,
+                address: address
             }
             console.log('new User', newUser)
             try{
@@ -70,16 +96,8 @@ const information = () => {
                 //console.log(noti);
             }
         }
+    }
 
-        const formatISODateToDDMMYYYY = (isoDate) => {
-            const dateObj = new Date(isoDate);
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const year = dateObj.getFullYear();
-          
-            return `${day}/${month}/${year}`;
-          };
-        }
   return (
     <div className=" flex justify-center items-center h-[1180px] bg-slate-50 my-auto flex-col">   
         <form className="w-[1415px] h-[983px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base">
@@ -104,13 +122,15 @@ const information = () => {
                     </div>
                     <div className='flex justify-center gap-x-[67px]'>
                         <input className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
-                        value={realtimeUser.fullName}
+                        value={fullName}
+                        onChange={(e)=>setFullName(e.target.value)}
                         >
                     </input>
                     <input className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
-                    value={realtimeUser.citizenId}
+                    value={citizenId}
+                    onChange={(e)=>setCitizenId(e.target.value)}
                     >
-                        </input>
+                    </input>
                     </div>
                     
                 </div>
@@ -119,23 +139,36 @@ const information = () => {
                         <label className='ml-[214px] mr-[416px]'>Phone number</label>
                     
                         <label className='mr-[200px]'>Gender</label>
-                        <label>Date of birth</label>
+                        <label>Date of birth (dd/mm/yyyy)</label>
                     </div>
                     <div className='flex justify-center gap-[42px]'>
                         <div className='flex gap-x-[67px]'>
                             <input className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
-                            value={realtimeUser.phoneNumber}
+                            value={phoneNumber}
+                            readOnly
+                            onChange={(e)=>setPhoneNumber(e.target.value)}
                             >
                             </input>
-                            <input className="w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
-                            value={realtimeUser.gender}    
+                            {/* <input className="w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
+                            value={gender}    
+                            onChange={(e)=>setGender(e.target.value)}
                             >
-                            </input>
+                            </input> */}
+                            <select id="gender" name="gender"  
+                                    className='w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]'
+                                    defaultvalue={gender} 
+                                    onChange={(e)=>setGender(e.target.value)}
+                                    >
+                                        <option  value="Male" label="Male"></option>
+                                        <option value="Female" label="Female"></option>
+                            </select>
                         </div>
                         <input className="w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
                         id="dob"
                         //type="date"
-                        value={formattedDate}
+                        value={dob}
+                        onChange={(e)=>setDob(e.target.value)}
+                        
                         //onChange={handleDateChange}
                         
                         >
@@ -151,7 +184,8 @@ const information = () => {
                     </div>
                     <div className='flex justify-center'>
                         <input className='w-[987px] h-12 mb-[42px] bg-white rounded border border-neutral-200 p-[10px]'
-                        value={realtimeUser.email}
+                        value={email}
+                        onChange={(e)=>setEmail(e.target.value)}
                         >
                         </input>
                     </div>
@@ -162,7 +196,8 @@ const information = () => {
                     </div>
                     <div className='flex justify-center'>
                         <input className='w-[987px] h-12 mb-[42px] bg-white rounded border border-neutral-200 p-[10px]'
-                        value={realtimeUser.address}
+                        value={address}
+                        onChange={(e)=>setAddress(e.target.value)}
                         >
                         </input>
                     </div>
@@ -187,79 +222,6 @@ const information = () => {
                 </div>
             </div>
             
-            
-            {/* <div>
-                <label>
-                    Full name
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded flex items-center placeholder:text-black" placeholder={realtimeUser.fullName}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Citizen ID
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.citizenId}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Phone number
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.phoneNumber}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Email
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.email}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Date of birth
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.dob}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Gender
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.gender}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Address
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.address}>
-                </input>
-            </div>
-            <div>
-                <label>
-                    Health status
-                </label>
-            </div>
-            <div className="flex items-center justify-center">
-                <input className="text-black w-[760px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded" placeholder={realtimeUser.healthStatus}>
-                </input>
-            </div> */}
 
         </form>
         </div>
