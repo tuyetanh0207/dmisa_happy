@@ -212,7 +212,7 @@ const ClaimManagerPopup = (props) => {
                     )}
                   {data.claimInvoices &&
                     data.claimInvoices.map((invoice, idxInvoice) =>
-                      invoice.urls.map((doc, idxUrl) => (
+                    invoice.urls && invoice.urls.map((doc, idxUrl) => (
                         <div className="mb-2" key={idxInvoice + idxUrl}>
                           <Document
                             file={doc ? doc : ""}

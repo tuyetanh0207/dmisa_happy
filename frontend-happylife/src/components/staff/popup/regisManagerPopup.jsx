@@ -15,8 +15,6 @@ import {
 import AppButton from "../appButton/button";
 import EntityVerticalDisplay from "../entityVerticalDisplay";
 const RegistrationManagerPopup = (props) => {
-  console.log("pdfjs", pdfjs.version);
-
   const { data, onClose } = props;
   const [currentTab, setCurrentTab] = useState("Overview");
   const [message, setMessage] = useState("");
@@ -25,7 +23,7 @@ const RegistrationManagerPopup = (props) => {
   const pageNumber = 1;
   const [loadingBtns, setLoadingBtns] = useState("0");
   const user = useSelector((state) => state.auth.login.currentUser);
-
+  console.log('mesage', message);
   const [currentFile, setCurrentFile] = useState(
     data.documentUrls
       ? {
@@ -104,7 +102,7 @@ const RegistrationManagerPopup = (props) => {
                   "Birthday",
                   "Age",
                   "Gender",
-                  "Insurance Amount",
+                  "Fee",
                   "Registration Status",
                   "Registration Date",
                   "Contract ID",
@@ -125,7 +123,7 @@ const RegistrationManagerPopup = (props) => {
                     ? calculateAge(data.customerInfo.dob)
                     : "",
                   data.customerInfo.gender,
-                  data.insuranceAmount,
+                  data.totalFee,
                   data.approvalStatus,
                   data.createdAt ? data.createdAt.slice(0, 10) : "",
                   data.contractIdInfo,
@@ -165,12 +163,14 @@ const RegistrationManagerPopup = (props) => {
               {/* min images */}
               <div className={`${styles.pdf_container_left} w-1/5 mt-10`}>
                 <div>
-                  {data.documentUrls &&
+                  {
+                  data.documentUrls &&
                     data.documentUrls.map((doctype) =>
                       doctype.urls.map((doc, idx) => (
                         <div className="mb-2" key={idx}>
                           <Document
-                            file={doc}
+                            //file={doc}
+                            file={"https://firebasestorage.googleapis.com/v0/b/dmisa-410407.appspot.com/o/8d0b765e-82e9-4e9a-bdda-89f44ec175e7-nhom4.pdf?alt=media"}
                             className={styles.document_small}
                             onClick={() =>
                               setCurrentFile({
@@ -288,7 +288,8 @@ const RegistrationManagerPopup = (props) => {
                 borderRadius={"5px"}
                 width={"6em"}
                 height={"2em"}
-                onMouseOver={() =>
+                onMouseOver={
+                  () =>
                   setMessage(
                     createMessageForRegistration(message, isLock, "Revoked")
                   )

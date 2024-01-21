@@ -51,7 +51,7 @@ const Nav = () => {
     dispatch(loginSuccess(null));
     navigate('/login')
   }
-
+  if(pathname.includes('/staff')) return <></>
 
   return (
   <div>

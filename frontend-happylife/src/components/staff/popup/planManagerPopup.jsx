@@ -16,7 +16,7 @@ import { colTitlesInRegistration } from "../../../pages/staff/insurancemanagemen
 import RegistrationManagerPopup from "./regisManagerPopup";
 const PlanManagerPopup = (props) => {
   const { data, onClose, onUpdate } = props;
-  const [updatingPlan, setUpdatingPlan] = useState(data);
+  const [updatingPlan, setUpdatingPlan] = useState(JSON.parse(JSON.stringify(data)));
   const [currentTab, setCurrentTab] = useState("Overview");
   const [isLoadingSavingOverview, setIsLoadingSavingOverview] = useState("0");
   const [isLoadingSavingImage, setIsLoadingSavingImage] = useState("0");
@@ -80,6 +80,7 @@ const PlanManagerPopup = (props) => {
       planAdvertisement: updatedAdvertisements,
       planDocuments: updatedDocuments,
     });
+    console.log('data', data)
   };
   const handleEditImageBtnClick = () => {
     setIsEditingImage(!isEditingImage);
@@ -104,7 +105,7 @@ const PlanManagerPopup = (props) => {
             .filter((feat) => feat.featureName.trim() !== ""),
         }))
         .filter((adv) => adv.title.trim() !== "");
-      console.log("Updating Plan:", updatingPlan.planDocuments);
+   
       const nonEmptyDocuments = updatingPlan.planDocuments.filter(
         (doc) => doc.docUrl !== "" && doc.docTitle !== ""
       );
@@ -124,7 +125,7 @@ const PlanManagerPopup = (props) => {
         newPlan,
         user.token
       );
-      console.log(res.data);
+   
 
       if (res) {
         setIsLoadingSavingOverview("0");
@@ -355,7 +356,7 @@ const PlanManagerPopup = (props) => {
       data.planId,
       statusArrayOfRegistration
     );
-    console.log("res", res.data);
+
     setEnrollments(res.data);
   };
   useEffect(() => {
@@ -366,13 +367,14 @@ const PlanManagerPopup = (props) => {
       fetchEnrollments();
     }, 5000);
   }, [enrollments]);
-  const handleUpdateStatusOfRegistration = async (regisId, approvalStatus) => {
+  const handleUpdateStatusOfRegistration = async (regisId, regis, approvalStatus) => {
     setIdOfEnrollmentisLoading((t) => [...t, regisId]);
     try {
       const res = await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        approvalStatus,
+        {...data,approvalStatus }
+        ,
         { content: message }
       );
       // setIsLoadingUpdateStatusOfEnrollement("0");
@@ -522,13 +524,13 @@ const PlanManagerPopup = (props) => {
                       type="text"
                       value={updatingPlan.planAbout}
                       key={"updatingPlan.planAbout"}
-                      className="input-class w-full mb-4"
+                      className="input-class w-full mb-4 max-w-60"
                       onChange={(e) =>
                         handleUpdateOverview(e.target.value, "planAbout")
                       }
                     />
                   ) : (
-                    <p>{updatingPlan.planAbout}</p>
+                    <p className="max-w-lg">{updatingPlan.planAbout}</p>
                   )}
                 </div>
 
@@ -743,7 +745,8 @@ const PlanManagerPopup = (props) => {
                                 className="w-full"
                               >
                                 <div className="flex items-center relative mb-4 w-full">
-                                  {idx + 1 + ". " + (idxFea + 1) + ". "}
+                                  <p className="w-12">  {idx + 1 + ". " + (idxFea + 1) + ". "}</p>
+                                
                                   <input
                                     placeholder="Add more . . ."
                                     type="text"
@@ -816,14 +819,7 @@ const PlanManagerPopup = (props) => {
                               </div>
                             ))}
                           </div>
-                          {/* {e !== "" && (
-                            <MinusCircleIcon
-                              className="w-4 h-4 text-custom-red-2 ml-6 absolute right-[-2.5em]"
-                              onClick={() =>
-                                handleDeleteOneRowInAdvertisement(idx)
-                              }
-                            />
-                          )} */}
+                          
                         </div>
                       ))}
                     </div>
@@ -873,7 +869,7 @@ const PlanManagerPopup = (props) => {
 
                 <div className="flex mb-7">
                   <p className="mr-10 w-60">Plan Documents:</p>
-                  {isEditingOverview ? (
+                  {isEditingOverview ===true? (
                     <div className="w-full">
                       {updatingPlan.planDocuments.map((e, idx) => (
                         <div key={"documents_div" + idx} className="w-full">
@@ -927,7 +923,7 @@ const PlanManagerPopup = (props) => {
                     </div>
                   ) : (
                     <div>
-                      {updatingPlan.planDocuments.map((e, idx) => (
+                      {isEditingOverview===false&&updatingPlan.planDocuments.map((e, idx) => (
                         <div key={e}>
                           <div className="">
                             {idx + 1 + ". "}
@@ -972,10 +968,10 @@ const PlanManagerPopup = (props) => {
 
           {currentTab === "Plan Types" && (
             <div
-              className={`${styles.content} flex flex-cols-1 sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
+              className={`${styles.content}  sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
             >
               {updatingPlan.planType.map((type) => (
-                <PlanTypeComp data={type} key={type.typeName} />
+                <PlanTypeComp data={type} key={type.typeName} className="mb-20" />
               ))}
             </div>
           )}
@@ -1093,6 +1089,7 @@ const PlanManagerPopup = (props) => {
                               handleSelectingRow={() =>
                                 handleUpdateStatusOfRegistration(
                                   item.regisId,
+                                  item,
                                   "Approved"
                                 )
                               }
@@ -1115,6 +1112,7 @@ const PlanManagerPopup = (props) => {
                               handleSelectingRow={() =>
                                 handleUpdateStatusOfRegistration(
                                   item.regisId,
+                                  item,
                                   "Rejected"
                                 )
                               }
@@ -1143,6 +1141,7 @@ const PlanManagerPopup = (props) => {
                               handleSelectingRow={() =>
                                 handleUpdateStatusOfRegistration(
                                   item.regisId,
+                                  item,
                                   "Revoked"
                                 )
                               }
@@ -1171,6 +1170,7 @@ const PlanManagerPopup = (props) => {
                               handleSelectingRow={() =>
                                 handleUpdateStatusOfRegistration(
                                   item.regisId,
+                                  item, 
                                   "Approved",
                                   ""
                                 )

@@ -7,7 +7,7 @@ import RegistrationManagerPopup from "../../../../components/staff/popup/regisMa
 import { statusArrayOfRegistration } from "../../../../resource/status";
 import gStyles from "../../../../style";
 import { createMessageForRegistration } from "../../../../supportFunctions";
-
+import {} from '@heroicons/react/24/solid'
 export const colTitlesInRegistration = [
   "No.",
   "Cus. Name",
@@ -16,7 +16,7 @@ export const colTitlesInRegistration = [
   "Address",
   "Plan",
   "Plan Type",
-  "Insurance Amount",
+  "Total Fee",
   "Plan Duration",
   "Created At",
   "Status",
@@ -180,7 +180,7 @@ const IMRegistration = () => {
                     {item.productInfo.planType[0].typeName}
                   </td>
                   <td className="border-t border-gray-300 px-2 py-2">
-                    {item.insuranceAmount}
+                    {item.totalFee}
                   </td>
                   <td className="border-t border-gray-300 px-2 py-2">
                     {item.productInfo.planDuration +
@@ -217,26 +217,7 @@ const IMRegistration = () => {
                       handleSelectingRow={() => handleSelectingRow(item)}
                     />
                   </td>
-                  <td className="border-t border-gray-300 px-2 py-2">
-                    <AppButton
-                      title="Pending"
-                      textColor={gStyles.buttonBlue}
-                      borderColor={gStyles.buttonBlue}
-                      bgColor={gStyles.customBlue3}
-                      borderRadius={"5px"}
-                      width={"6em"}
-                      height={"2em"}
-                      data={item}
-                      loading={loadingBtns.includes(item.regisId) ? "1" : ""}
-                      handleSelectingRow={() =>
-                        handleUpdateStatusOfRegistration(
-                          item.regisId,
-                          item,
-                          "Pending"
-                        )
-                      }
-                    />
-                  </td>
+                 
                   {item.approvalStatus === "Pending" ? (
                     <>
                       <td className="border-t border-gray-300 px-2 py-2">

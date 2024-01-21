@@ -5,8 +5,9 @@ import { useLocation } from "react-router-dom"
 const Header = () => {
   const location = useLocation()
   const pathname = location.pathname
+  console.log('pathname: ' + pathname)
 
-  if (!pathname.includes('staff')) {
+  if(!pathname.includes("staff")) {
 
       return (
         <div>

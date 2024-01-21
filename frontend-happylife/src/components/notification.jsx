@@ -72,8 +72,8 @@ const notification = () => {
                 <img src={NotiBell} alt="notification bell" />
             </button>
             <section className={`${isToggleOpen ? "":"hidden"} left-[-520px] top-[56px] rounded-[9px] bg-white shadow gap-y-px absolute z-10`}>
-            {MessageNoti.map((item)=>(  
-                <div className='flex pt-[46px] pb-[46px] pl-[14px] pr-[14px] border-b-2'>
+            {MessageNoti.map((item, idx)=>(  
+                <div key = {idx} className='flex pt-[46px] pb-[46px] pl-[14px] pr-[14px] border-b-2'>
                     <img src={NotiIcon} alt="NotiIcon" className='object-contain w-16 pr-[14px] max-h-[64px] max-w-[64px]' />
                    <div className='text-black'>
                      <strong>{item.notiTitle}</strong>

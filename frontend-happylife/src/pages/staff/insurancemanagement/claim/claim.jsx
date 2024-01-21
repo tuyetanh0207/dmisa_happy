@@ -207,7 +207,7 @@ const IMClaim = () => {
                       handleSelectingRow={() => handleSelectingRow(item)}
                     />
                   </td>
-                  <td className="border-t border-gray-300 px-2 py-2">
+                  {/* <td className="border-t border-gray-300 px-2 py-2">
                     <AppButton
                       title="Pending"
                       textColor={gStyles.buttonBlue}
@@ -226,7 +226,7 @@ const IMClaim = () => {
                         )
                       }
                     />
-                  </td>
+                  </td> */}
                   <td className="border-t border-gray-300 px-2 py-2">
                     <AppButton
                       title="Accept"
