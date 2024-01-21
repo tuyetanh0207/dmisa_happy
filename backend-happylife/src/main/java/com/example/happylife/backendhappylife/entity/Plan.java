@@ -152,13 +152,13 @@ public class Plan {
     @Getter
     public static class InsuranceBasedFee extends fees {
         private Integer fee;
-        private Integer insuranceAmount; //Mức quyền option
+        private String insuranceAmount; //Mức quyền option
 
         public void setFee(Integer fee) {
             this.fee = fee;
         }
 
-        public void setInsuranceAmount(Integer insuranceAmount) {
+        public void setInsuranceAmount(String insuranceAmount) {
             this.insuranceAmount = insuranceAmount;
         }
     }

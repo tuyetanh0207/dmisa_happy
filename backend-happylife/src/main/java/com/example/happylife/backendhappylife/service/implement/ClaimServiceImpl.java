@@ -138,7 +138,7 @@ public class ClaimServiceImpl implements ClaimService {
                 throw new UserCreationException("Regis info can't be null.");
             }
 
-            claim.setStatus("Pending");
+            claim.setStatus("Pending Review");
             for(Claim.ClaimInvoices claimInvoices : claim.getClaimInvoices()){
                 claimInvoices.setStatus("Pending");
             }

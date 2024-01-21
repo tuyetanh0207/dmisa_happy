@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="429a218a-a88d-4a64-9907-0a82f7e3009d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/ContactController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/ContactService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/ContactServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/RegistrationImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/entity/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/entity/Plan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/ClaimServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/ClaimServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +105,7 @@
       <workItem from="1705744150400" duration="1504000" />
       <workItem from="1705750952901" duration="2011000" />
       <workItem from="1705813674753" duration="1299000" />
-      <workItem from="1705815740294" duration="3324000" />
+      <workItem from="1705815740294" duration="6850000" />
     </task>
     <servers />
   </component>
