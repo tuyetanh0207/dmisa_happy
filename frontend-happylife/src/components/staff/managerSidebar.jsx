@@ -5,7 +5,13 @@ import styles from './managerSidebar.module.css'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import {HeartIcon, ArrowLeftOnRectangleIcon,  CreditCardIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
+  CreditCardIcon,
+  HeartIcon,
+  HomeIcon
+} from "@heroicons/react/24/outline";
 import { loginSuccess } from '../../../redux/authSlice'
 const ManagerSidebar = (props) => {
     const {isSidebarOpen} = props
@@ -14,10 +20,27 @@ const ManagerSidebar = (props) => {
     const pathname = location.pathname
     const navigate = useNavigate()
     const navTitles = [
-        {name: 'Plan', icon: <HeartIcon key="1" className='w-8 h-8 mr-4'/>, pathname: 'plan'}, 
-        {name: 'Registration', icon: <ArrowLeftOnRectangleIcon key="2" className='w-8 h-8 mr-4'/>, pathname: 'registration'},
-        {name: 'Claim', icon: <CreditCardIcon key="3" className='w-8 h-8 mr-4'/>, pathname: 'claim'},
-    ]
+      {
+        name: "Dashboard",
+        icon: <HomeIcon key="1" className="w-8 h-8 mr-4" />,
+        pathname: "dashboard",
+      },
+      {
+        name: "Registration",
+        icon: <ArrowLeftOnRectangleIcon key="2" className="w-8 h-8 mr-4" />,
+        pathname: "registration",
+      },
+      {
+        name: "Claim",
+        icon: <CreditCardIcon key="3" className="w-8 h-8 mr-4" />,
+        pathname: "claim",
+      },
+      {
+        name: "Plan",
+        icon: <HeartIcon key="4" className="w-8 h-8 mr-4" />,
+        pathname: "plan",
+      },    
+    ];
     const handleClickNavigation = (navPath) => {
       
         const path = '/staff/insuarancemanagement/' + navPath
@@ -54,11 +77,10 @@ const ManagerSidebar = (props) => {
             return () => {
               window.removeEventListener('scroll', handleScroll);
             };
-          }
-        };
-    
+          } 
+        }
         makeSidebarSticky();
-      }, []);
+      },[]);
      
 
     

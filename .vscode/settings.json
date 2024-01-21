@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "frontend-happylife/src/pages/staff"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
+}

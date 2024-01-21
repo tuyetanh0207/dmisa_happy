@@ -1,15 +1,14 @@
-// AdminLayout.jsx
-import React, {useState, useEffect} from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import ManagerSidebar from '../../../components/staff/managerSidebar';
-import styles from './layout.module.css'
-import IMPlan from './plan/plan';
-import IMRegistration from './registration/registration';
-import IMClaim from './claim/claim';
-import {Bars3Icon} from '@heroicons/react/24/solid'
-import SearchComponent from '../../../components/staff/searchComp';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Bars3Icon } from "@heroicons/react/24/solid";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import ManagerSidebar from "../../../components/staff/managerSidebar";
+import SearchComponent from "../../../components/staff/searchComp";
+import IMClaim from "./claim/claim";
+import styles from "./layout.module.css";
+import IMPlan from "./plan/plan";
+import IMRegistration from "./registration/registration";
+import IMDashboard from "./dashboard/dashboard";
 const InsuaranceManagementLayout = ({ element, requiredRoles }) => {
   
   const location  = useLocation()
@@ -63,12 +62,26 @@ const InsuaranceManagementLayout = ({ element, requiredRoles }) => {
         </div>
 
         {/* <Outlet /> */}
-       
-        {location.pathname.includes('staff/insuarancemanagement/plan')?<IMPlan/>:<></>}
-        {location.pathname.includes('staff/insuarancemanagement/registration')?<IMRegistration/>:<></>}
-        {location.pathname.includes('staff/insuarancemanagement/claim')?<IMClaim/>:<></>}
-        
-    
+        {location.pathname.includes("staff/insuarancemanagement/dashboard") ? (
+          <IMDashboard />
+        ) : (
+          <></>
+        )}
+        {location.pathname.includes("staff/insuarancemanagement/plan") ? (
+          <IMPlan />
+        ) : (
+          <></>
+        )}
+        {location.pathname.includes("staff/insuarancemanagement/registration") ? (
+          <IMRegistration />
+        ) : (
+          <></>
+        )}
+        {location.pathname.includes("staff/insuarancemanagement/claim") ? (
+          <IMClaim />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

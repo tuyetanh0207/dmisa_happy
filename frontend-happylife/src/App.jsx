@@ -15,7 +15,6 @@ import IMPlan from './pages/staff/insurancemanagement/plan/plan.jsx';
 import IMRegistration from './pages/staff/insurancemanagement/registration/registration.jsx';
 import IMClaim from './pages/staff/insurancemanagement/claim/claim.jsx';
 import NotFound404 from './pages/404/404.jsx';
-import TestUser from './pages/testuser/testuser.jsx'
 import Profile from './pages/profile/profile.jsx'
 import Information from './pages/profile/information.jsx'
 import Registration from './pages/profile/registration.jsx'
@@ -26,8 +25,17 @@ import Contract from './pages/contract/contract.jsx'
 import { useState } from 'react'
 import { createContext } from 'react';
 const DataContext = createContext();
-
+import IMDashboard from './pages/staff/insurancemanagement/dashboard/dashboard.jsx';
+import AccountingLayout from './pages/staff/accounting/accountingLayout.jsx';
+import AccClaim from './pages/staff/accounting/claim/claim.jsx';
+import AccDashboard from './pages/staff/accounting/dashboard/dashboard.jsx';
+import AccPlan from './pages/staff/accounting/plan/plan.jsx';
+import AccRegistration from './pages/staff/accounting/registration/registration.jsx';
+// import '../pdfSetup'
 export default function App() {
+  // const [isLogin, setLogin] = useState(false)
+
+
   return(
 
           <div className='relitive font-inter gap-y-px'>
@@ -55,7 +63,9 @@ export default function App() {
                     <InsuaranceManagementLayout
                     requiredRoles={['INSUARANCE_MANAGER']}
                     >
+                      
                       <Route index element={<IMPlan/>} />
+                      <Route path="dashboard" element={<IMDashboard/>} />
                       <Route path="plan" element={<IMPlan />} />
                       <Route path="registration" element={<IMRegistration/>} />
                       <Route path="claim" element={<IMClaim/>} />
@@ -63,13 +73,27 @@ export default function App() {
                     </InsuaranceManagementLayout>
                   }
                 />
+                <Route
+                  path="/staff/accounting/*"
+                  element={
+                    <AccountingLayout
+                    requiredRoles={['ACCOUNTANT']}
+                    >
+
+                      <Route index element={<AccPlan/>} />
+                      <Route path="dashboard" element={<AccDashboard/>} />
+                      <Route path="plan" element={<AccPlan />} />
+                      <Route path="registration" element={<AccRegistration/>} />
+                      <Route path="claim" element={<AccClaim/>} />
+                      
+                    </AccountingLayout>
+                  }
+                />
                 <Route path='/notfound' element ={<NotFound404/>} />
                
                 <Route path='/plandetail' element ={<Plandetail/>} />
                 <Route path='/profile/*' element ={<Profile/>} />
-              
-                {/* <Route path='/testuser' element ={<TestUser/>} /> */}
- 
+               
               </Routes>
               <Footer/>
       
