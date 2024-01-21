@@ -183,43 +183,44 @@ public class PlanServiceImpl implements PlanService {
 
             for (SectionFileCount fileCount : sectionFileCounts) {
                 Plan.documents document = new Plan.documents();
-                List<String> docUrls = new ArrayList<>();
+                //List<String> docUrls = new ArrayList<>();
                 for (int i = 0; i < fileCount.getFileCount(); i++) {
                     if (urlIterator.hasNext()) {
-                        docUrls.add(urlIterator.next());
+                        //docUrls.add(urlIterator.next());
+                        document.setDocUrl(urlIterator.next());
                     }
                 }
                 document.setDocTitle(fileCount.getSection().trim());
                 //System.out.println("Value : " + fileCount.getSection().trim());
-                document.setDocUrl(docUrls);
+                //document.setDocUrl(docUrls);
                 documentList.add(document);
             }
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
 
             List<Plan.documents> docLists = new ArrayList<>();
+
             if(existingPlan.getPlanDocuments() == null) docLists.addAll(documentList);
             else {
-                docLists = existingPlan.getPlanDocuments();
-                List<Plan.documents> toAdd = new ArrayList<>();
-
-                for (Plan.documents docAdd : documentList) {
+                docLists.addAll(documentList);
+                List<Plan.documents> oldUrl = new ArrayList<>(existingPlan.getPlanDocuments());
+                for (Plan.documents docAdd : oldUrl) {
                     boolean isPresent = false;
                     for (Plan.documents doc : docLists) {
                         if (doc.getDocTitle().equals(docAdd.getDocTitle())) {
-                            if (doc.getDocUrl() == null) {
+                            /*if (doc.getDocUrl() == null) {
                                 doc.setDocUrl(new ArrayList<>()); // Khởi tạo nếu null
                             }
-                            doc.getDocUrl().addAll(docAdd.getDocUrl());
+                            doc.getDocUrl().addAll(docAdd.getDocUrl());*/
                             isPresent = true;
                             break;
                         }
                     }
                     if (!isPresent) {
-                        toAdd.add(docAdd);
+                        docLists.add(docAdd);
                     }
                 }
-                docLists.addAll(toAdd);
+                //docLists.addAll(toAdd);
             }
 
             existingPlan.setPlanDocuments(docLists);
@@ -228,7 +229,7 @@ public class PlanServiceImpl implements PlanService {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }
     }
-    @Override
+   /* @Override
     public PlanResDTO updatePlanFileDocUrl(ObjectId planId,
                                             List<String> uploadedUrls,
                                             List<SectionFileCount> sectionFileCounts) {
@@ -284,7 +285,7 @@ public class PlanServiceImpl implements PlanService {
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }
-    }
+    }*/
    //PlanURL
     @Override
     public PlanResDTO updatePlanImageOrFilePlanUrl(ObjectId planId,

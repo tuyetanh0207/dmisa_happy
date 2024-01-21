@@ -24,9 +24,9 @@ public interface PlanService {
                                            List<String> uploadedUrls,
                                            List<SectionFileCount> sectionFileCounts);
 
-    PlanResDTO updatePlanFileDocUrl(ObjectId planId,
+   /* PlanResDTO updatePlanFileDocUrl(ObjectId planId,
                                     List<String> uploadedUrls,
-                                    List<SectionFileCount> sectionFileCounts);
+                                    List<SectionFileCount> sectionFileCounts);*/
 
     //PlanResDTO updatePlanImagePlanUrl(ObjectId planId, List<String> listPlanUrl);
 
