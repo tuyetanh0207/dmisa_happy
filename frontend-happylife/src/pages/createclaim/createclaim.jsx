@@ -14,6 +14,7 @@ export default function CreateClaim() {
     const [invoice,setInvoice] = useState([]);
     const [amount,setAmount] =useState(0); 
     const [hospitalName,setHospitalName] =useState('');
+
     const categoriesOption = [
         {value:"Bảo hiểm sức khỏe căn bản",label:"Bảo hiểm sức khỏe căn bản"},
         {value:"Bảo hiểm sức khỏe thông dụng",label:"Bảo hiểm sức khỏe thông dụng"},
@@ -112,6 +113,19 @@ export default function CreateClaim() {
         // console.log('choose', selectCategories);
     }
 
+    const handleInvoiceInsert = (e) {
+        const insertInvoice = e.target.value
+        if (insertInvoice) {
+            setSelectedOneOptionBenefits((prev)=>[
+                ...prev,{
+                    amount: insertInvoice.amount,
+                    date: selectedOptionalBenefit.dependencies,
+              
+                }
+            ]);
+        }
+    }
+
     const handleSubmit = async(e)=>{
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
@@ -130,6 +144,7 @@ export default function CreateClaim() {
             content: content,
             claimInvoices: [
                 {
+                    invoiceDate:null,
                     amount: amount,
                     status: "Pending"
                 }
@@ -295,22 +310,6 @@ export default function CreateClaim() {
                         </table>
                     </div>
 
-
-                    {/* <div className="sm:col-span-full">   
-                        <label className="block text-xl font-medium leading-6 text-gray-900">
-                            Lượng tiền muốn bồi thường
-                        </label>
-                        <div className="mt-2">
-                        <input
-                            type="text"
-                            name="amount"
-                            id="amount"
-                            className="block w-full h-10 px-4 border-0 py-2 text-lg text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 placeholder:text-xl focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder='Your reason'
-                            onChange={(e)=>setAmount(e.target.value)}
-                        />
-                        </div>
-                    </div> */}
 
                     <input type="file" onChange={handleFileChange} multiple className='pt-10' />
                     <div className="flex items-center justify-between">
