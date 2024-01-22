@@ -3,32 +3,28 @@ import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
 import Select from 'react-select'
 import axios from 'axios'
-import {BsFillTrashFill,BsFillPencilFill} from 'react-icons/bs'
+//import {BsFillTrashFill,BsFillPencilFill} from 'react-icons/bs'
 import CreateClaimModal from './createclaimmodal.jsx'
 import Addinvoiceclaim  from './addinvoiceclaim.jsx';
 import RegistrationAPI from '../../../api/registrationApi.jsx';
+import { useParams } from 'react-router-dom'
 
 export default function CreateClaim() { 
     const user = useSelector((state) => state.auth.login.currentUser);
-    //const regisID = "65a157175e0d7f1fdb6f512d";
+
+    const {regisId} = useParams();
+    console.log('regisID:',regisId)
     const [registrations, setRegistrations] = useState(null);
-    const [claims, setClaims] = useState(null);
+    //const [claims, setClaims] = useState(null);
     const [content,setContent] =useState('');
-    const [invoice,setInvoice] = useState([]);
-    const [amount,setAmount] =useState(0); 
+    //const [invoice,setInvoice] = useState([]);
+    //const [amount,setAmount] =useState(0); 
     const [hospitalName,setHospitalName] =useState('');
 
     const [modalOpen,setModalOpen] = useState(false);
     
     const [rows,setRows] = useState( [
-        // {
-        //     // invoiceDate:"2024-02-21T01:42:12.004+00:00",
-        //     // amount: 100000,
-        //     // status: "Pending"
-        //     invoiceDate:"",
-        //     amount: "",
-        //     status: "",
-        // }
+
     ]);
 
     const categoriesOption = [
@@ -99,18 +95,6 @@ export default function CreateClaim() {
     
   };
     const handleClaimCategoriesChange = (selectCategories) => {
-        // event.preventDefault()
-        // try{
-        //     const regisID = "65a157175e0d7f1fdb6f512d"; 
-        //     const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
-        //     //const selectedClaimCategories = event.target.value;
-        //     if(selectedRegistration){
-        //         setClaimCategories(selectedRegistration.claimCategories)
-        //     }
-        // }catch(error){console.error('Error:', error);}
-        // setClaimCategories(selectOption)
-
-
         const selectedValues = selectCategories.map(option => option.value);
         setClaimCategories(selectedValues);
         console.log('Select Categories:',selectCategories)
@@ -129,18 +113,6 @@ export default function CreateClaim() {
         // console.log('choose', selectCategories);
     }
 
-    // const handleInvoiceInsert = (e) =>{
-    //     const insertInvoice = e.target.value
-    //     if (insertInvoice) {
-    //         setSelectedOneOptionBenefits((prev)=>[
-    //             ...prev,{
-    //                 amount: insertInvoice.amount,
-    //                 date: selectedOptionalBenefit.dependencies,
-              
-    //             }
-    //         ]);
-    //     }
-    // }
 
     const handleDeleteRow = (targetIndex) => {
         setRows(rows.filter((_,index) => index !== targetIndex))
@@ -153,9 +125,8 @@ export default function CreateClaim() {
     const handleSubmit = async(e)=>{
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
-        
-          const regisID = "65adc7f451676f6f8cf482e8"; 
-          const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
+        console.log('regisID in submit:',regisId)
+          const selectedRegistration = registrations.find(registration => registration.regisId === regisId);
             console.log('Select Regis:',selectedRegistration)
           if (!selectedRegistration) {
             console.error("Selected registration not found");
@@ -166,13 +137,6 @@ export default function CreateClaim() {
             regisInfo: selectedRegistration,
             claimCategories: claimCategories,
             content: content,
-            // claimInvoices: [
-            //     {
-            //         //invoiceDate:"2024-02-21T01:42:12.004+00:00",
-            //         amount: amount,
-            //         status: "Pending"
-            //     }
-            // ],
             claimInvoices:rows,
             hospitalName: hospitalName,
           };
@@ -242,7 +206,7 @@ export default function CreateClaim() {
             fetchRegistrations();
             fetchClaims();
            
-        }, []); 
+        }, [regisId]); 
     
     return(
         <div className=" bg-custom-blue-3 ">
@@ -269,20 +233,7 @@ export default function CreateClaim() {
 
                         <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
                     </div>
-                    {/* <div className="flex flex-row items-center ">
-                        {categoriesOption?.map((item,index) => (
-                            <div key={index}>
-                                    <input type="checkbox" value={item.value} onChange={() => handleClaimCategoriesChange(item.value)} checked={claimCategories.includes(item.value)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                    
-                                        <div className="flex flex-col items-center ">
-                                            <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.value}</label>              
-                                                                                
-                                        </div>
-                            </div>
-                            
-                        ))}
-                                
-                    </div> */}
+
                     <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
                             Hospital Name

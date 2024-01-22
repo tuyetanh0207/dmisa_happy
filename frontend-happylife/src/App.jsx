@@ -58,7 +58,7 @@ export default function App() {
                 <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
                 <Route path='/contract/:regisId' element ={<Contract/>} />
                 
-                <Route path='/createclaim' element={<CreateClaim/>}/>
+                <Route path='/createclaim/:regisId' element={<CreateClaim/>}/>
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={
