@@ -5,6 +5,7 @@ import Select from 'react-select'
 import axios from 'axios'
 import {BsFillTrashFill,BsFillPencilFill} from 'react-icons/bs'
 import CreateClaimModal from './createclaimmodal.jsx'
+import Addinvoiceclaim  from './addinvoiceclaim.jsx';
 import RegistrationAPI from '../../../api/registrationApi.jsx';
 
 export default function CreateClaim() { 
@@ -17,8 +18,18 @@ export default function CreateClaim() {
     const [amount,setAmount] =useState(0); 
     const [hospitalName,setHospitalName] =useState('');
 
-    const [modalOpen,setModalOpen] =useState(false);
+    const [modalOpen,setModalOpen] = useState(false);
     
+    const [rows,setRows] = useState( [
+        // {
+        //     // invoiceDate:"2024-02-21T01:42:12.004+00:00",
+        //     // amount: 100000,
+        //     // status: "Pending"
+        //     invoiceDate:"",
+        //     amount: "",
+        //     status: "",
+        // }
+    ]);
 
     const categoriesOption = [
         {value:"Bảo hiểm sức khỏe căn bản",label:"Bảo hiểm sức khỏe căn bản"},
@@ -131,11 +142,19 @@ export default function CreateClaim() {
     //     }
     // }
 
+    const handleDeleteRow = (targetIndex) => {
+        setRows(rows.filter((_,index) => index !== targetIndex))
+    }
+
+    const handleAddRow = (newRow) => {
+        setRows([...rows,newRow])
+    }
+
     const handleSubmit = async(e)=>{
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
         
-          const regisID = "65ad2568d627dd4a12ccf28b"; 
+          const regisID = "65adc7f451676f6f8cf482e8"; 
           const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
             console.log('Select Regis:',selectedRegistration)
           if (!selectedRegistration) {
@@ -147,13 +166,14 @@ export default function CreateClaim() {
             regisInfo: selectedRegistration,
             claimCategories: claimCategories,
             content: content,
-            claimInvoices: [
-                {
-                    invoiceDate:null,
-                    amount: amount,
-                    status: "Pending"
-                }
-            ],
+            // claimInvoices: [
+            //     {
+            //         //invoiceDate:"2024-02-21T01:42:12.004+00:00",
+            //         amount: amount,
+            //         status: "Pending"
+            //     }
+            // ],
+            claimInvoices:rows,
             hospitalName: hospitalName,
           };
 
@@ -278,49 +298,11 @@ export default function CreateClaim() {
                         />
                     </div>
                     {/* claimInvoices table */}
-
-
-                    <div className="relative overflow-x-auto pt-10">
-                        <table className="w-full text-sm text-left rtl:text-right border-gray-900 text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase border-gray-900 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3 w-1/2 border-gray-900">
-                                        Invoices Date
-                                    </th>
-                                    
-                                    <th scope="col" className="px-6 py-3 w-1/2">
-                                        Amount
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 w-1/2">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td scope="row" className="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            date
-                                    </td>
-                                    <td className="px-6 py-3 border-t border-gray-300 ">
-                                        Amount
-                                    </td>
-                                    <td>
-                                        <div className="flex justify-around">
-                                            <BsFillTrashFill className="text-red-500"/>
-                                            <BsFillPencilFill className="text-gray-900"/>
-                                        </div>
-                                            
-                                        
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div className="flex justify-center pt-5">
-                            <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
-                        </div>
-                        
-                        {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}} className="pt-5"/>}
+                    <Addinvoiceclaim rows={rows} deleteRow={handleDeleteRow}/>
+                    <div className="flex justify-center pt-5">
+                        <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
                     </div>
+                    {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}}  onSubmit={handleAddRow}  className="pt-5"/>}
 
 
                     <input type="file" onChange={handleFileChange} multiple className='pt-10' />
