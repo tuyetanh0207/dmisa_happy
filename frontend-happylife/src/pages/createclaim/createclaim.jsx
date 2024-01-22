@@ -59,23 +59,23 @@ export default function CreateClaim() {
             });
         
     }
-    const fetchClaims =async () => {
-        const url = `http://localhost:8090/api/v1/claims/${user.userInfo.id}`;
-        axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.token}`
-            }
-        })
-            .then(response => {
-                console.log('Claim:', response.data);
-                setClaims(response.data)
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    // const fetchClaims =async () => {
+    //     const url = `http://localhost:8090/api/v1/claims/${user.userInfo.id}`;
+    //     axios.get(url, {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${user.token}`
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('Claim:', response.data);
+    //             setClaims(response.data)
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
         
-    }
+    // }
     const [files, setFiles] = useState([]);
     const [isImageFile, setIsImageFile] = useState(false);
     let url1;
@@ -204,7 +204,7 @@ export default function CreateClaim() {
     
         useEffect(() => {
             fetchRegistrations();
-            fetchClaims();
+            // fetchClaims();
            
         }, [regisId]); 
     
