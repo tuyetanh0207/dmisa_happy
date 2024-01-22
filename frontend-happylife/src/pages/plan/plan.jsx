@@ -2,6 +2,7 @@ import Help from './help.jsx'
 import Insurance from '../../assets/Insurance.jpg'
 import Arrow from '../../assets/Arrow.png'
 import Header from './header.jsx'
+import chevronright from '../../assets/chevronright.svg'
 //import Plandetail from './plandetail/plandetail.jsx'
 //import PlanAPI from '../../../api/plansApi.jsx'
 import { useEffect,useState } from 'react'
@@ -30,25 +31,31 @@ export default function Plan() {
   
     return (
       <div className="bg-custom-blue-3">
-        <div className="pt-20 pb-20 container mx-auto items-center">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="pt-20 pb-20 container-sm mx-auto  items-center ">
+          <div className="mx-auto px-32 w-3/4 grid grid-cols-1 gap-10 ">
             { plans.map((plan, index) => (
-              <div key={index} className="bg-white p-4 rounded-lg flex flex-col">
+              <div key={index} className=" px-5 rounded-lg flex flex-col">
                 <div>
                   <input type="hidden" value="3" />
-                  <img src={Insurance} alt="LOGO" className="rounded-lg" />
-                  <h5 className="pb-3 pt-5 pl-3 text-2xl font-medium">{plan.planName}</h5>
-                  <p className="pb-3 pl-3 text-2xl">{plan.planSlogan}</p>
+                  <div className=''>
+                    <img src={Insurance} alt="LOGO" className=" py-5 rounded-lg w-full h-1/2 " />
+                  </div>
+                  
+                  <div className="pt-5 px-10 text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">{plan.planName}</div>
+                  <p className="pt-5 px-10 text-2xl font-normal font-['IBM Plex Sans']">{plan.planSlogan}</p>
                   {/* <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">{plan.planId} </h5> */}
-                  <h5 className="pt-3 pl-3 text-2xl font-medium text-custom-blue-3">Benefit </h5>
+                  <h5 className="py-5 px-10 text-2xl font-medium text-custom-blue-3">Benefit </h5>
                   {plan.planBenefits.map((benefit, index) => (
-                    <ul key={index} className="pl-7 text-xl list-image-store">
-                      <li>{benefit}</li>
-                   </ul>
+                    <div key={index} className="pt-1 px-10 text-xl ">
+                      <div className="flex">
+                        <img src={chevronright} className=" w-[30px] " ></img>
+                        {benefit}
+                      </div>
+                   </div>
                   ))}
                 </div>
                 <div className="flex-grow"></div>
-                <div className="pt-4 flex flex-row flex-wrap justify-end">
+                <div className=" flex flex-row flex-wrap justify-end">
                   <Link to={`/plan/${plan.planId}`} >
                     <img src={Arrow}  />
                   </Link>
