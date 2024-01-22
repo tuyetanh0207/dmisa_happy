@@ -8,7 +8,10 @@ import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.entity.Object.Message;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -20,6 +23,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -80,8 +84,9 @@ public class Claim {
     public static class ClaimInvoices{
         @Column(nullable = false)
         private List<String> urls;
-        @Field(targetType = FieldType.DATE_TIME)
-        private Instant invoiceDate;
+        @Temporal(TemporalType.DATE)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+        private Date invoiceDate;
         @Column(nullable = false)
         private float amount;
         @Column(nullable = false)
@@ -95,7 +100,7 @@ public class Claim {
             this.urls = urls;
         }
 
-        public void setInvoiceDate(Instant invoiceDate) {
+        public void setInvoiceDate(Date invoiceDate) {
             this.invoiceDate = invoiceDate;
         }
 

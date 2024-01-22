@@ -139,6 +139,9 @@ public class ContractServiceImpl implements ContractService {
                 regis.setMessage(messageList);
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
+                System.out.println("Size of Message : " + regisUpd.getMessage().size());
+                System.out.println("Message : " + regisUpd.getMessage());
+
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
 
                 Notification noti = new Notification();

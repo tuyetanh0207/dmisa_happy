@@ -228,14 +228,22 @@ public class RegistrationImpl implements RegistrationService {
             Registration existingRegis = registrationRepo.findById(regisId)
                     .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
             existingRegis.setApprovalStatus(updRegis.getApprovalStatus());
-
+            System.out.println("Try to add mess !!!");
             List<Message> messageList = new ArrayList<>();
-            if(existingRegis.getMessage() == null) messageList.addAll(updRegis.getMessage());
+            if(existingRegis.getMessage() == null) {
+                System.out.println("Try to add all !!!");
+                messageList.addAll(updRegis.getMessage());
+            }
             else {
+                System.out.println("Try to add mess !!!");
+
                 messageList = existingRegis.getMessage();
                 messageList.addAll(updRegis.getMessage());
             }
             existingRegis.setMessage(messageList);
+            System.out.println("Size of Message : " + existingRegis.getMessage().size());
+            System.out.println("Message : " + existingRegis.getMessage());
+
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
             registrationRepo.save(existingRegis);

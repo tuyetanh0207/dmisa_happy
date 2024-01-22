@@ -5,16 +5,14 @@ import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
-import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
-import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
-import com.example.happylife.backendhappylife.entity.Registration;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
@@ -27,10 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -188,19 +183,45 @@ public class ClaimServiceImpl implements ClaimService {
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }
     }
+    @Override
+    public List<ClaimResDTO> getAllClaimByRegisId(ObjectId regisId, UserResDTO userVar) {
+        try{
+            System.out.println(userVar.getId().toString());
+            System.out.println(regisId.toString());
+
+            User user = new User().convertResToUser(userVar);
+            //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoIdAndRegisInfo_RegisId(user.getId().toString(),regisId.toString());
+            List<Claim> claimList = claimRepo.findByRegisInfo_RegisId(regisId.toString());
+            //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoId(user.getId().toString());
+            System.out.println(claimList.size());
+
+            List<ClaimResDTO> claimResDTOS = claimList.stream()
+                                            .map(Claim::convertClaimToRes).
+                                            collect(Collectors.toList());
+            return claimResDTOS;
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's claims: " + e.getMessage());
+        }
+    }
     //Service for Both
     @Override
-    public List<ClaimResDTO> getAllClaimByUserId(UserResDTO user, ObjectId userId) {
+    public List<ClaimResDTO> getAllClaimByUserId(UserResDTO userVar, ObjectId userId) {
         try{
-            if(user.getId().equals(userId.toString())){
-                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfoId(userId.toString());
+            User user = new User().convertResToUser(userVar);
+            if(user.getId().equals(userId)){
+                System.out.println(user.getId().toString());
+                System.out.println(user.toString());
+
+                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo_Id(userId);
+                System.out.println(claims.size());
+
                 List<ClaimResDTO> claimsRes = claims.stream()
                         .map(Claim::convertClaimToRes)
                         .collect(Collectors.toList());
                 return claimsRes;
             }
             else if(user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT){
-                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfoId(userId.toString());
+                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo_Id(userId);
                 List<ClaimResDTO> claimsRes = claims.stream()
                         .map(Claim::convertClaimToRes)
                         .collect(Collectors.toList());

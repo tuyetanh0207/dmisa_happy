@@ -20,6 +20,8 @@ public interface ClaimService {
     //Service for Customer
     ClaimResDTO addClaim(ClaimCreateDTO claimCreateDTO);
 
+    List<ClaimResDTO> getAllClaimByRegisId(ObjectId regisId, UserResDTO userVar);
+
     List<ClaimResDTO> getAllClaimByUserId(UserResDTO user, ObjectId userId);
 
     Claim updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim);

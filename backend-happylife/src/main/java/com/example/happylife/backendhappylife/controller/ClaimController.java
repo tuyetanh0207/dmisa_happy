@@ -56,7 +56,6 @@ public class ClaimController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
-    //API for Manager
 
     @PutMapping("/{claimId}/update-status")
     public ResponseEntity<ClaimResDTO> updateClaimStatus(HttpServletRequest request,
@@ -106,6 +105,9 @@ public class ClaimController {
                                          @PathVariable ObjectId userId){
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        System.out.println(userResDTO.getRole());
+        System.out.println("Error : " + userResDTO.getId().toString());
+        System.out.println(userId.toString());
         if(user.getRole() == Role.CUSTOMER ||
             user.getRole() == Role.INSUARANCE_MANAGER ||
             user.getRole() == Role.ACCOUNTANT)
@@ -116,7 +118,23 @@ public class ClaimController {
         return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
     }
+    @GetMapping("/{regisId}/getAllClaimsOfUserByRegis") //API get toàn bộ một claim theo regisId
+    public ResponseEntity<?> getAllClaimsOfUserByRegis(HttpServletRequest request,
+                                                        @PathVariable ObjectId regisId){
+        User user = (User) request.getAttribute("userDetails");
+        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+        System.out.println(userResDTO.getRole());
+        System.out.println("Error : " + userResDTO.getId().toString());
 
+        if(userResDTO.getRole() == Role.CUSTOMER)
+        {
+
+            return ResponseEntity.ok(claimService.getAllClaimByRegisId(regisId,userResDTO));
+        }
+        else {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        }
+    }
     //API for upload files and images
     @PutMapping(value = "/update/{claimId}/image-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các image ở DocumentURl
     public ResponseEntity<?> updateClaimImageDocUrl(//HttpServletRequest request,
