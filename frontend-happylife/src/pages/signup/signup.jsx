@@ -58,9 +58,13 @@ const signup = () => {
   
   return (
     <div className='w-[1920px] h-[1080px] flex '>
-         <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
-            <img src={Logo}></img>
-        </div>
+         <Link
+         to="/home"
+         >
+            <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
+                <img src={Logo}></img>
+            </div>
+         </Link>
         <div className="righthalf w-[960px] h-[1080px] bg-slate-50 flex items-center justify-center">
             <div className="w-[750px] h-[930px] bg-white rounded-lg border border-gray-200">
                 <h2 className="text-center text-header-blue text-[40px] font-serif font-semibold mt-[31px] mb-[33px]">Create an account</h2>
@@ -84,6 +88,7 @@ const signup = () => {
                         id='phonenumber'
                         placeholder='User name'
                         onChange={(e)=>setPhoneNumber(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -97,6 +102,7 @@ const signup = () => {
                         id='fullname'
                         placeholder='Full name'
                         onChange={(e)=>setFullName(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -111,6 +117,7 @@ const signup = () => {
                         type="password" 
                         placeholder='Password'
                         onChange={(e)=>setPassword(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -125,6 +132,7 @@ const signup = () => {
                         type="password" 
                         placeholder='Confirm password'
                         onChange={(e)=>setConfirmPassword(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -143,6 +151,7 @@ const signup = () => {
                         <select id="gender" name="gender" 
                         className='text-black w-[253px] h-[48px] mb-[12px] ml-[116px] border border-input-border-grey rounded'
                         onChange={(e)=>setGender(e.target.value)}
+                        required
                         >
                             <option value="Male" label="Male"></option>
                             <option value="Female" label="Female"></option>
@@ -152,6 +161,7 @@ const signup = () => {
                         type="date"
                         value={dob}
                         onChange={(e)=>setDob(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -165,6 +175,7 @@ const signup = () => {
                         id='citizenid'
                         placeholder='Citizen ID'
                         onChange={(e)=>setCitizenID(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -178,6 +189,7 @@ const signup = () => {
                         id='email'
                         placeholder='Email'
                         onChange={(e)=>setEmail(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
@@ -192,6 +204,7 @@ const signup = () => {
                         id='address'
                         placeholder='Address'
                         onChange={(e)=>setAddress(e.target.value)}
+                        required
                         >
                         </input>
                     </div>

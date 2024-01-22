@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux';
 import UserAPI from '../../../api/userApi';
-
+import Avartar from '../../assets/avatar.png' 
 const information = () => {
     const user1 = useSelector((state) =>state.auth.login.currentUser);
     const [realtimeUser, setRealtimeUser] = useState({});
@@ -90,6 +90,7 @@ const information = () => {
             try{
                 const updateUser = await UserAPI.updateUser(newUser, user1?.userInfo?.id, user1?.token);
                 console.log("Res", updateUser);
+                setIsEdit(!isEdit);
             } catch(err){
                 console.log("err: ", err);
                 //setNoti("FAIL")
@@ -98,20 +99,20 @@ const information = () => {
         }
     }
 
+    /// Handle button edit and update
+    const [isEdit, setIsEdit] = useState(false);
+    const handleEditClick = (e) => {
+        e.preventDefault();
+        setIsEdit(!isEdit);
+    }
+
   return (
     <div className=" flex justify-center items-center h-[1180px] bg-slate-50 my-auto flex-col">   
-        <form className="w-[1415px] h-[983px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base">
-            <div className='flex justify-center mt-[70px] mb-[32px]'>
-                <div className="justify-center w-[360px] h-[121px] justify-start items-center gap-5 inline-flex">
-                    <div className="w-[121px] h-[121px] relative">
-                        <div className="w-[121px] h-[121px] left-0 top-0 absolute bg-white rounded-[200px] border border-neutral-400"></div>
+        <form className="w-[1415px] h-auto min-h-[800px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base">
+            <div className='flex justify-center mt-[50px] mb-[32px]'>
+                    <div className="w-[100px] h-[100px] p-4  rounded-full ring-1 ring-black">
+                        <img src={Avartar} alt="avatar" className='bg-contain'/>
                     </div>
-                    <div className="w-[219px] h-[63px] relative">
-                            <div className="w-[219px] left-0 top-0 absolute text-center text-gray-400 text-lg font-normal font-['Inter'] leading-tight">Drag image here</div>
-                            <div className="w-[187px] left-[16px] top-[43px] absolute text-center text-blue-500 text-lg font-normal font-['Inter'] leading-tight">Browse image</div>
-                            <div className="w-[27px] left-[96px] top-[21px] absolute text-center text-gray-400 text-lg font-normal font-['Inter'] leading-tight">or</div>
-                    </div>
-                </div>  
             </div>
             <div className='space-y-[42px]'>
                 <div>
@@ -124,11 +125,13 @@ const information = () => {
                         <input className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
                         value={fullName}
                         onChange={(e)=>setFullName(e.target.value)}
+                        disabled={!isEdit}
                         >
                     </input>
                     <input className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
                     value={citizenId}
                     onChange={(e)=>setCitizenId(e.target.value)}
+                    disabled={!isEdit}
                     >
                     </input>
                     </div>
@@ -145,7 +148,7 @@ const information = () => {
                         <div className='flex gap-x-[67px]'>
                             <input className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]"
                             value={phoneNumber}
-                            readOnly
+                            disabled={!isEdit}
                             onChange={(e)=>setPhoneNumber(e.target.value)}
                             >
                             </input>
@@ -155,11 +158,12 @@ const information = () => {
                             >
                             </input> */}
                             <select id="gender" name="gender"  
-                                    className='w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]'
+                                    className={`w-[210px] h-12 bg-white rounded border border-neutral-200 p-[10px]`}
                                     defaultvalue={gender} 
                                     onChange={(e)=>setGender(e.target.value)}
+                                    disabled={!isEdit}
                                     >
-                                        <option  value="Male" label="Male"></option>
+                                        <option value="Male" label="Male"></option>
                                         <option value="Female" label="Female"></option>
                             </select>
                         </div>
@@ -168,7 +172,7 @@ const information = () => {
                         //type="date"
                         value={dob}
                         onChange={(e)=>setDob(e.target.value)}
-                        
+                        disabled={!isEdit}
                         //onChange={handleDateChange}
                         
                         >
@@ -186,6 +190,7 @@ const information = () => {
                         <input className='w-[987px] h-12 mb-[42px] bg-white rounded border border-neutral-200 p-[10px]'
                         value={email}
                         onChange={(e)=>setEmail(e.target.value)}
+                        disabled={!isEdit}
                         >
                         </input>
                     </div>
@@ -198,10 +203,11 @@ const information = () => {
                         <input className='w-[987px] h-12 mb-[42px] bg-white rounded border border-neutral-200 p-[10px]'
                         value={address}
                         onChange={(e)=>setAddress(e.target.value)}
+                        disabled={!isEdit}
                         >
                         </input>
                     </div>
-                    <div>
+                    {/* <div>
                         <label className='ml-[214px]'>
                             Health status
                         </label>
@@ -211,13 +217,30 @@ const information = () => {
                         //value={realtimeUser.healthstatus}
                         >
                         </input>
-                    </div>
+                    </div> */}
                     <div className='flex justify-center'>
-                        <button 
-                        onClick={handleUpdate}
-                        className=" w-[377px] h-12 px-6 py-3 bg-indigo-50 rounded border-2 border-indigo-500">
-                            <div className="text-center text-indigo-500 text-base font-bold leading-normal">Update Profile</div>
-                        </button>
+                        {isEdit === true ? (
+                            <div className='flex gap-x-[20px]'>
+                                <button 
+                            onClick={handleUpdate}
+                            className=" w-[200px] h-12 px-6 py-3 bg-green-500 rounded border-2 border-green-500">
+                                <div className="text-center text-white text-base font-bold leading-normal">Update Profile</div>
+                            </button>
+                            <button 
+                            onClick={handleEditClick}
+                            className=" w-[200px] h-12 px-6 py-3 bg-rose-50 rounded border-2 border-rose-500">
+                                <div className="text-center text-rose-500 text-base font-bold leading-normal">Cancel</div>
+                            </button>
+                            </div>
+                        ) : (
+                            <button 
+                            onClick={handleEditClick}
+
+                            className=" w-[377px] h-12 px-6 py-3 bg-indigo-50 rounded border-2 border-indigo-500">
+                                <div className="text-center text-indigo-500 text-base font-bold leading-normal">Edit</div>
+                            </button>
+                        )}
+                        
                     </div>
                 </div>
             </div>

@@ -6,33 +6,9 @@ import React, {useState} from 'react'
 //import { useNavigate } from 'react-router-dom'
 import PlanDetail from '../pages/plan/plandetail/plandetail'
 import {Routes, Route, Link} from 'react-router-dom';
+import moment from 'moment'
+
 const registrationteaser = (props) =>{
-//     const navigate = useNavigate();
-//     const routeToPlanDetail = () => {
-//         const path = {PlanDetail};
-//         navigate(path);
-//     }
-    //console.log(status);
-    //const tt = props.status;
-      /*
-  planURL
-  planName
-  planAbout
-  planSlogan
-  createdAt
-  approvalStatus
-  */
-   // console.log("TEST", props.realtimeRegis.approvalStatus)
-   //console.log("INDEx: ", props.index)
-   //console.log("MESSAGE: ", props.realtimeRegis.message[0])
-   const message = [
-    'Your contract has been successfully registered 1',
-    'Your contract has been successfully registered 2', 
-    'Your contract has been successfully registered 3',
-    'Your contract has been successfully registered 4',
-    'Your contract has been successfully registered 5'
-]
-    const [dataTest, setDataTest] = useState("Now")
    const [toggle, setToggle] = useState(false)
    const [arrrowClickStatus, setArrowClickStatus] = useState(false) 
    return ( 
@@ -41,21 +17,31 @@ const registrationteaser = (props) =>{
 
       <div className='flex justify-center items-center relative h-[317px] w-[1415px] bg-white rounded-lg border border-gray-200 flex'>
             <div className='w-[532px] h-[317px]'>
-                <img src={Insurance} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
+                <img src={props.realtimeRegis.productInfo.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
                 </img>
                 {/* <img src={props.realtimeRegis.productInfo.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
                 </img> */}
             </div> 
             <div className="w-[504px] h-[296px]  pt-[19px] pb-[102px] flex-col justify-center items-start gap-[21px] ">
                 <div className="w-96 h-16 text-slate-900 text-[26px] font-medium font-['IBM Plex Sans'] leading-9 text-justify">{props.realtimeRegis.productInfo.planName}</div>
-                <div className="w-[398px] h-[90px] text-slate-900 text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repre henderit.</div>
+                {/* <div className="w-[398px] h-[90px] text-slate-900 text-lg font-normal font-['IBM Plex Sans'] leading-[30px]"> */}
+                <div className='w-[716px] h-auto  min-h-[100px] max-h-[200px] overflow-y-auto w-auto max-w-[450px]  overflow-x-auto '>
+                    <div className='font-semibold text-xl max-w-[450px]'>Benefit:</div>
+                        <ul>
+                            {props.realtimeRegis.productInfo.optionalBenefits.map((bf, index)=>(
+                                
+                                <li>{bf.benefitName} - insuranceAmount: {bf.insuranceAmount} </li>
+
+                            ))}
+                        </ul>              
+                    </div>
+                {/* </div> */}
                 {/*<div className="w-[398px] h-[90px] text-slate-900 text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">{props.realtimeRegis.productInfo.planAbout}</div>
                 */}
             </div>
         <div >   
             <div className="mt-[19px] mb-[19px] h-8 text-indigo-500 text-xl font-medium font-['IBM Plex Sans'] leading-9">Registration Date: </div>  
-            <div className="w-[161px] h-12 py-3 bg-white rounded border border-neutral-200 justify-center items-center gap-[33px] inline-flex"></div>
+            <div className="w-[161px] h-12 py-3 bg-white rounded border border-neutral-200 justify-center items-center gap-[33px] inline-flex">{moment(props.realtimeRegis.createdAt).format('DD/MM/YYYY')}</div>
             <div className="mt-[19px] mb-[19px] w-[161px] h-8 text-indigo-500 text-xl font-medium font-['IBM Plex Sans'] leading-9">Status:</div>
             {
                 props.realtimeRegis.approvalStatus === 'Paid' ? (
@@ -82,7 +68,7 @@ const registrationteaser = (props) =>{
                         <button>
                             <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
                                     <div className='w-[23px] h-[20px] mr-[15px]'>
-                                        <img src={ShoppingCart} alt="ShoppingCart" />
+                                        <img src={ShoppingCart} alt="ShoppingCart" className='inline-flex mb-[10px]'/>
                                     </div>
                         
                                         <div className='text-white font-bold leading-normal'>Pay now</div>
@@ -91,8 +77,12 @@ const registrationteaser = (props) =>{
                         </Link>
                     </div>
                 ) : props.realtimeRegis.approvalStatus === 'Pending' ? (
-                    <div className="w-[161px] h-12 px-6 py-3 bg-indigo-50 rounded border border-indigo-500 justify-center items-center gap-2.5 inline-flex">
-                        <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">Pending</div>
+                    <div>
+                        <div className="w-[161px] h-12 px-6 py-3 bg-indigo-50 rounded border border-indigo-500 justify-center items-center gap-2.5 inline-flex mr-[135px]">
+                            <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">Pending</div>
+                        </div>
+                        
+                        
                     </div>
                 ) : (
                   <div>
@@ -131,20 +121,20 @@ const registrationteaser = (props) =>{
       overflow-y-auto`}>
         {props.realtimeRegis.message != null &&
             (
-                <div className='w-[1415px] h-[100px] flex items-center'>
+                <div className='w-[1415px] h-[100px] flex items-center border-b-2 border-gray'>
 
                     <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
                     {/* Your contract has been successfully registered 0 */}
-                    {props.realtimeRegis.message[0].content}
+                    { moment(props.realtimeRegis.message.slice().reverse()[0].dateMessage).format('DD/MM/YYYY')} | {props.realtimeRegis.message.slice().reverse()[0].content} 
                     {/* {props.realtimeRegis.message.content} */}
                     </div>
                 </div>
         )}
         {props.realtimeRegis.message !=null &&
-        props.realtimeRegis.message.slice(1).map((msg, index) => (
-                <div className={`${toggle === true ? '':'hidden'} w-[1415px] h-[100px] flex items-center`} key={index}>
+        props.realtimeRegis.message.slice().reverse().slice(1).map((msg, index) => (
+                <div className={`${toggle === true ? '':'hidden'} w-[1415px] h-[100px] flex items-center border-b-2 border-gray`} key={index}>
                     <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
-                    {msg.content}
+                    {moment(msg.dateMessage).format('DD/MM/YYYY')} | {msg.content}
                     </div>
                 </div>
             ))

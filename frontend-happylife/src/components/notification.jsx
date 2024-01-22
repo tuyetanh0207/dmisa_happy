@@ -170,7 +170,8 @@ const notification = () => {
                             
                         </div>
                         
-                        <p className='text-sm'>{item.notiContent}</p>
+                        <p className='text-base'>{item.notiContent}</p>
+                        <p className='text-right text-sm italic font-normal pr-[10px]'>20/11/2022</p>
                         </div>
                     </div>
                     

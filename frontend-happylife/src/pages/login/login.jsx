@@ -36,9 +36,13 @@ const Login = () => {
 
     return(
     <div className='w-[1920px] h-[1080px] flex '>
-        <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
-            <img src={Logo}></img>
-        </div>
+        <Link
+        to="/home"
+        >
+            <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
+                <img src={Logo}></img>
+            </div>
+        </Link>
         <div className="righthalf w-[960px] h-[1080px] bg-slate-50 flex items-center justify-center">
             {/* <div className="h-screen flex items-center justify-center h-[631px] bg-bgr-white mx-auto">  */}
                 <div className="w-[720px] h-[663px] bg-white rounded-lg border border-gray-200">
@@ -53,9 +57,10 @@ const Login = () => {
                             </label>
                         </div>
                         <div className="flex items-center justify-center">
-                            <input className="text-black w-[519px] h-[48px] mb-[44px] border border-neutral-200 border-solid rounded"
+                            <input className="text-black w-[519px] h-[48px] mb-[44px] border border-neutral-200 border-solid rounded p-[10px]"
                             id='username' 
                             onChange={(e)=> setUsername(e.target.value)}
+                            required
                             >
                             </input>
                         </div>
@@ -65,10 +70,11 @@ const Login = () => {
                             </label>
                         </div>
                         <div  className="flex items-center justify-center">
-                            <input className="text-black w-[519px] h-[48px] mb-[12px] border border-neutral-200 rounded"
+                            <input className="text-black w-[519px] h-[48px] mb-[12px] border border-neutral-200 rounded p-[10px]"
                             type="password" 
                             id ='password' 
                             onChange={(e)=> setPassword(e.target.value)}
+                            required
                             >
                             </input>
                         </div>

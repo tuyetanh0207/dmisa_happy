@@ -62,7 +62,9 @@ const Nav = () => {
   ):(
   <>
    <nav className=' mx-auto  h-20 bg-custom-blue flex justify-between items-center px-8  border-[0.25px] border-blue-500'>
-    <img src={logoTitle} alt="LOGO" className='ml-[226px]'></img>  
+    <Link to='/home'>
+      <img src={logoTitle} alt="LOGO" className='ml-[226px]'></img>
+    </Link>  
     <div className='flex space-x-76px place-content-center text-white font-sans font-medium font text-xl'>
      {navigation.map((item)=>(
        <Link
