@@ -123,9 +123,9 @@ public class ClaimController {
                                                         @PathVariable ObjectId regisId){
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        System.out.println(userResDTO.getRole());
+        /*System.out.println(userResDTO.getRole());
         System.out.println("Error : " + userResDTO.getId().toString());
-
+*/
         if(userResDTO.getRole() == Role.CUSTOMER)
         {
 

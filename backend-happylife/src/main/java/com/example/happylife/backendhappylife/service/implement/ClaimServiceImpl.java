@@ -186,14 +186,14 @@ public class ClaimServiceImpl implements ClaimService {
     @Override
     public List<ClaimResDTO> getAllClaimByRegisId(ObjectId regisId, UserResDTO userVar) {
         try{
-            System.out.println(userVar.getId().toString());
-            System.out.println(regisId.toString());
+            /*System.out.println(userVar.getId().toString());
+            System.out.println(regisId.toString());*/
 
             User user = new User().convertResToUser(userVar);
             //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoIdAndRegisInfo_RegisId(user.getId().toString(),regisId.toString());
-            List<Claim> claimList = claimRepo.findByRegisInfo_RegisId(regisId.toString());
-            //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoId(user.getId().toString());
-            System.out.println(claimList.size());
+            //List<Claim> claimList = claimRepo.findByRegisInfo_RegisId(regisId.toString());
+            List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoId(user.getId().toString());
+            //System.out.println(claimList.size());
 
             List<ClaimResDTO> claimResDTOS = claimList.stream()
                                             .map(Claim::convertClaimToRes).
@@ -209,11 +209,11 @@ public class ClaimServiceImpl implements ClaimService {
         try{
             User user = new User().convertResToUser(userVar);
             if(user.getId().equals(userId)){
-                System.out.println(user.getId().toString());
+              /*  System.out.println(user.getId().toString());
                 System.out.println(user.toString());
-
+*/
                 List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo_Id(userId);
-                System.out.println(claims.size());
+               // System.out.println(claims.size());
 
                 List<ClaimResDTO> claimsRes = claims.stream()
                         .map(Claim::convertClaimToRes)
