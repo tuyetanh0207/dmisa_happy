@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,6 +68,7 @@ public class ContractServiceImpl implements ContractService {
             Instant instantNow = Instant.now();
             contract.setCreatedAt(instantNow);
             contract.setUpdatedAt(instantNow);
+            contract.setContent(Arrays.asList("https://firebasestorage.googleapis.com/v0/b/dmisa-410407.appspot.com/o/InsuranceContract.pdf?alt=media&token=cd28a638-4db5-4c9a-b990-32866a57f513"));
             contractRepo.save(contract);
             return contract.convertToContractResDTO();
         } catch (Exception e) {
