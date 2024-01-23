@@ -96,7 +96,6 @@ public class UserServiceImpl implements UserService {
             }
             else{
                 throw new UserCreationException("User don't have permission to change the information");
-
             }
         } catch (Exception e) {
             throw new UserCreationException("Error updating Contract: " + e.getMessage());

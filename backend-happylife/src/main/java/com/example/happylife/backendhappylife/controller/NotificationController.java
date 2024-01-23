@@ -32,58 +32,74 @@ public class NotificationController {
     @GetMapping("/{userId}")
     public ResponseEntity<?> getNotificationsOfUserById(HttpServletRequest request,
                                                         @PathVariable ObjectId userId){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
-        if(userRes.getRole() == Role.CUSTOMER || userRes.getRole() == Role.INSUARANCE_MANAGER) {
-            List<NotificationResDTO> notificationResDTOS = notificationService.getNotificationsById(userRes, userId);
-            return ResponseEntity.ok(notificationResDTOS);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+            if(userRes.getRole() == Role.CUSTOMER || userRes.getRole() == Role.INSUARANCE_MANAGER) {
+                List<NotificationResDTO> notificationResDTOS = notificationService.getNotificationsById(userRes, userId);
+                return ResponseEntity.ok(notificationResDTOS);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
 
     @PutMapping("/updateAllStatusOfUser")
     public ResponseEntity<?> updateAllStatusOfUser(HttpServletRequest request){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
-        if(userRes.getRole() == Role.CUSTOMER ||
-                userRes.getRole() == Role.INSUARANCE_MANAGER ||
-                userRes.getRole() == Role.ACCOUNTANT) {
-            List<NotificationResDTO> notificationResDTOS = notificationService.updateAllStatusOfNotiUser(userRes);
-            return ResponseEntity.ok(notificationResDTOS);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+            if(userRes.getRole() == Role.CUSTOMER ||
+                    userRes.getRole() == Role.INSUARANCE_MANAGER ||
+                    userRes.getRole() == Role.ACCOUNTANT) {
+                List<NotificationResDTO> notificationResDTOS = notificationService.updateAllStatusOfNotiUser(userRes);
+                return ResponseEntity.ok(notificationResDTOS);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
     @PutMapping("/{notiId}/updateStatus")
     public ResponseEntity<?> updateStatusofNoti(HttpServletRequest request,
                                                 @PathVariable ObjectId notiId){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
-        if(userRes.getRole() == Role.CUSTOMER ||
-                userRes.getRole() == Role.INSUARANCE_MANAGER ||
-                userRes.getRole() == Role.ACCOUNTANT) {
-            NotificationResDTO notificationRes = notificationService.updateStatusOfNotiUser(userRes, notiId);
-            return ResponseEntity.ok(notificationRes);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+            if(userRes.getRole() == Role.CUSTOMER ||
+                    userRes.getRole() == Role.INSUARANCE_MANAGER ||
+                    userRes.getRole() == Role.ACCOUNTANT) {
+                NotificationResDTO notificationRes = notificationService.updateStatusOfNotiUser(userRes, notiId);
+                return ResponseEntity.ok(notificationRes);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
     @GetMapping ("/getNotiStatusFalseOfUser")
     public ResponseEntity<?> getNotiStatusFalseOfUser(HttpServletRequest request){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
-        if(userRes.getRole() == Role.CUSTOMER ||
-                userRes.getRole() == Role.INSUARANCE_MANAGER ||
-                userRes.getRole() == Role.ACCOUNTANT) {
-            NotificationListDTO notificationListDTO = notificationService.getListOfFalseStatus(userRes);
-            return ResponseEntity.ok(notificationListDTO);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+            if(userRes.getRole() == Role.CUSTOMER ||
+                    userRes.getRole() == Role.INSUARANCE_MANAGER ||
+                    userRes.getRole() == Role.ACCOUNTANT) {
+                NotificationListDTO notificationListDTO = notificationService.getListOfFalseStatus(userRes);
+                return ResponseEntity.ok(notificationListDTO);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
 }
