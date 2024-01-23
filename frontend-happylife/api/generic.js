@@ -23,7 +23,7 @@ export const config = function (token) {
         .catch((err) => {
           // return err message
           if (!err.response) return reject(err.message);
-          return reject(err.response.data.message);
+          return reject(err.response.data);
         })
     );
   };
@@ -37,8 +37,9 @@ export const post = function (url,data,token) {
             return resolve({data: response.data});
         })
         .catch((error)=>{
+          console.log('error in post request', error.response.data)
             if(!error.response) return reject(error.message);
-            return reject(error.response.data.message);
+            return reject(error.response.data);
         })
     });
 }
@@ -51,21 +52,11 @@ export const put = function (url,data,token) {
             return resolve({data: response.data});
         })
         .catch((error)=>{
-
-
-
             if (error.response) {
-              // The request was made and the server responded with a status code
-              //console.error('API error status:', error.response.status);
-              //console.error('API error data:', error.response.data);
               return reject(error.response.data);
             } else if (error.request) {
-              // The request was made but no response was received
-              //console.error('Network error:', error.request);
               return reject('Network error');
             } else {
-              // Something happened in setting up the request that triggered an Error
-              //console.error('Error:', error.message);
               return reject(error.message);
             }
         })
@@ -83,7 +74,7 @@ export const patch = function (url, data, token) {
         .catch((err) => {
           // return err message
           if (!err.response) return reject(err.message);
-          return reject(err.response.data.message);
+          return reject(err.response.data);
         })
     );
   };
@@ -99,7 +90,7 @@ export const patch = function (url, data, token) {
         .catch((err) => {
           // return err message
           if (!err.response) return reject(err.message);
-          return reject(err.response.data.message);
+          return reject(err.response.data);
         })
     );
   };

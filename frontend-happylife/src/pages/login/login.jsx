@@ -27,9 +27,11 @@ const Login = () => {
             const loginRes = await loginUser(newUser, dispatch, router);
             console.log("res:",loginRes)
         } catch (err) {
-            console.log("err:", err);
+            console.log("err in login page:", err);
            // setNoti("Tên đăng nhập hoặc mật khẩu không đúng.")
-            console.log(noti)
+           console.log(noti)
+           return err
+        
         }
 
     }

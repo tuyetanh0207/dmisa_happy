@@ -38,11 +38,10 @@ const signup = () => {
         console.log('new User', newUser)
         try{
             const registerRes = await registerUser(newUser, dispatch, router);
-            console.log("Res", registerRes);
+            console.log("Res");
         } catch(err){
-            console.log("err: ", err);
-            //setNoti("FAIL")
-            //console.log(noti);
+    
+            console.log("err in regis page: ", err);
         }
     }
   } 

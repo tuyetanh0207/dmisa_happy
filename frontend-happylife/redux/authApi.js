@@ -31,9 +31,8 @@ export const loginUser = async(user, dispatch, router) => {
         }
 
     } catch(err){
-        dispatch(loginFail())
-        console.log('error in loginUser', err);
-        return err.error;
+        dispatch(loginFail())    
+        return err;
     }
 }
 
@@ -46,10 +45,8 @@ export const registerUser = async(user, dispatch, router)=>{
         router('/login');
 
     } catch(err){
+        console.log('error in regisUser in reduc', err)
         dispatch(registerFail());
-        console.log('error in registerUser', err);
-        return err.error
-        // if (!err.response) return (err.message);
-        //     return (err.response.data.message);
+        return err;
     }
 }
