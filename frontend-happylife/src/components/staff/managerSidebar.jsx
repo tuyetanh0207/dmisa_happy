@@ -87,11 +87,11 @@ const ManagerSidebar = (props) => {
     return (
       <div className={`relative ${isSidebarOpen?'w-[16%]':'w-[4%]'} transition-all ease-in-out duration-5000`}>
         <menu className={`${isSidebarOpen ? styles.container: styles.smallContainer}`}  id="sidebar">
-            <div className="logo flex flex-2 flex-row p-4 mt-12">
+            <div className={`logo flex ${isSidebarOpen?'flex-2 flex-row':'flex-col'}  p-4   mt-12`}>
               <div className={`
-                ${isSidebarOpen ? 'mr-4 w-auto h-auto ':'w-12 h-12'}`
+                ${isSidebarOpen ? 'mr-4 w-auto h-auto ':' h-20 w-12'}`
               }>
-              <img src={logo} alt="logo" />
+              <img src={logo} alt="logo" className='min-h-40 min-w-40' />
               </div>
                
                  <div className="logo-left">

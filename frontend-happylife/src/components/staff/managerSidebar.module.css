@@ -3,6 +3,11 @@
     transition: width 1s ease; 
     max-height: 100vh;
 }
+.smallContainer {
+    background-color: white;
+    transition: width 1s ease; 
+    height: 100vh;
+}
 .container {
     /* width: 16%; */
     height: 100vh;

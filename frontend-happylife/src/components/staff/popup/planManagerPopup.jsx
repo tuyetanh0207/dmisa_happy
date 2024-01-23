@@ -45,6 +45,7 @@ const PlanManagerPopup = (props) => {
     setSelectedEnrollmentRow(null);
   };
   const handleEditOverviewBtnClick = () => {
+    console.log('hihi')
     setIsEditingOverview(!isEditingOverview);
     var updatedClaimScenarios = [...updatingPlan.claimScenarios, ""];
     var updatedDocumentTypes = [...updatingPlan.documentName, ""];
@@ -63,8 +64,24 @@ const PlanManagerPopup = (props) => {
     ];
     var updatedAdvertisements = [
       ...updatingPlan.planAdvertisement,
-      { title: "", featuresList: [{ featureName: "", featureDetails: [""] }] },
+      { title: "", featuresList: [] },
     ];
+    updatedAdvertisements.forEach((e, idx) => {
+      e.featuresList.forEach((ee, innerIdx) => {
+        updatedAdvertisements[
+          idx
+        ].featuresList[innerIdx].featureDetails = [...updatedAdvertisements[
+          idx
+        ].featuresList[innerIdx].featureDetails  , "" ];
+      })
+
+      updatedAdvertisements[
+        idx
+      ].featuresList = [...updatedAdvertisements[
+        idx
+      ].featuresList, {featureName: "", featureDetails: [""] }];
+    })
+    console.log('up', updatedAdvertisements)
     updatedAdvertisements[
       updatingPlan.planAdvertisement.length - 1
     ].featuresList = featureList;
