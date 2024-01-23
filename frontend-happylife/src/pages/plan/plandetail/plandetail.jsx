@@ -4,22 +4,27 @@ import Arrowcircleleft from '../../../assets/ArrowCircleLeft.png'
 import Review from './review'
 import Contact  from './contact'
 import Header from '../header.jsx'
+import Modal from './modal/modal.jsx'
 import { useEffect,useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { useSelector } from "react-redux";
 export default function Plandetail() {
-    //const user = useSelector((state) => state.auth.login.currentUser);
+    const user = useSelector((state) => state.auth.login.currentUser);
     const {planId} = useParams();
     console.log(planId);
     const [plansDetail, setPlansDetailAPI] = useState(null);
+    const [modalOpen,setModalOpen] = useState(false);
 
-    // const handleNotLogin = () =>{
-    //     if(!user){
-    //         console.log('Hello')
-    //     }
-    // }
+    const handleNotLogin = (event) =>{
+        
+        if(!user){
+            event.preventDefault();
+            setModalOpen(true);
+            console.log('Not Login');
+        }
+    }
     useEffect(() => {
         const fetchPlanDetailAPI = async () => {
             try {
@@ -34,13 +39,14 @@ export default function Plandetail() {
         };
     
         fetchPlanDetailAPI();
+        //handleNotLogin();
       }, [planId]);
 
 
-      console.log("plandetail:",plansDetail)
-      console.log("planName:",plansDetail?.planName)
-      console.log("planAbout:",plansDetail?.planAbout)
-      console.log("planType:",plansDetail?.planType)
+    //   console.log("plandetail:",plansDetail)
+    //   console.log("planName:",plansDetail?.planName)
+    //   console.log("planAbout:",plansDetail?.planAbout)
+    //   console.log("planType:",plansDetail?.planType)
 
     return (
         <div className=" bg-custom-blue-3">
@@ -94,22 +100,18 @@ export default function Plandetail() {
                     </div>
                     
                     <div className="pt-12 container mx-auto  max-w-6xl">
-                        {/* <div className="pb-7 flex items-center justify-between">
-                                <div></div>
-                                <div className="pt-2 pb-1 px-5 py-4  text-3xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">Totals: {plansDetail?.planPrice} VND</div>
-                        </div> */}
                         <div className="pb-7 flex items-center justify-between">
                             <Link to="/plan"  className="px-20 py-4 text-2xl flex flex-row bg-custom-blue-4 rounded border font-bold font-['IBM Plex Sans'] text-white border-indigo-500">
                                 <img src={Arrowcircleleft} alt="LOGO" className="pr-7 item-center filter brightness-0 invert " ></img>
                                 <p>Back to Plan </p>
                             </Link>
-                            <Link to="/buyplan"  className="px-20 py-4 text-2xl flex flex-row bg-custom-blue-4 rounded border font-bold font-['IBM Plex Sans'] text-white border-indigo-500">   
+                            <Link to="/buyplan" onClick={(event) => handleNotLogin(event)}  className="px-20 py-4 text-2xl flex flex-row bg-custom-blue-4 rounded border font-bold font-['IBM Plex Sans'] text-white border-indigo-500">   
                                 <img src={Shopingcar} alt="LOGO" className="pr-7 item-center filter brightness-0 invert " ></img>
                                 <p>Register Now</p>
                             </Link>
                         </div>
                     </div>
-                    
+                    {modalOpen && <Modal closeModal={() => {setModalOpen(false)}}/>}
                     {/* <div className="pt-10 container mx-auto ">
                         <div className="pb-10 flex flex-row justify-end">
                             <div className="basis-1/3">
@@ -143,10 +145,7 @@ export default function Plandetail() {
                 
             </div>
             {/* ))} */}
-            
 
-
-            
             <Review/>
             <div className="pt-14 pb-14 bg-custom-blue-3 mx-auto max-w-4xl">
                 <Contact/>
