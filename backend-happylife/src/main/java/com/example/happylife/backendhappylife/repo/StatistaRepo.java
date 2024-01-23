@@ -20,56 +20,56 @@ public interface StatistaRepo extends MongoRepository<Statista, ObjectId> {
 
 
     @Query("{ 'year' : ?0}")
-    @Update("{ '$inc' : { 'insuranceStatista.numOfInsuranceRegistration' : 1, 'monthStatistas.$[elem].insuranceStatista.numOfInsuranceRegistration' : 1} }")
-    void incrementNumOfInsuranceRegistration(Integer year, @Param("elem") Integer monthIndex, @Param("arrayFilters") List<Object> arrayFilters);
-//, 'monthStatistas.$[month-1].insuranceStatista.numOfInsuranceRegistration' : 1
+    @Update("{ '$inc' : { 'insuranceStatista.numOfInsuranceRegistration' : 1, 'monthStatistas.?1.insuranceStatista.numOfInsuranceRegistration' : 1} }")
+    void incrementNumOfInsuranceRegistration(Integer year, Integer monthIndex);
+//, 'monthStatistas.?1.insuranceStatista.numOfInsuranceRegistration' : 1
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'insuranceStatista.numOfExpiredRegistration' : 1, 'monthStatistas.$[month-1].insuranceStatista.numOfExpiredRegistration' : 1 } }")
+    @Update("{ '$inc' : { 'insuranceStatista.numOfExpiredRegistration' : 1, 'monthStatistas.?1.insuranceStatista.numOfExpiredRegistration' : 1 } }")
     void incrementNumOfExpiredRegistration(Integer year, Integer month);
 
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'insuranceStatista.numOfActiveRegistration' : 1, 'monthStatistas.$[month-1].insuranceStatista.numOfActiveRegistration' : 1} }")
+    @Update("{ '$inc' : { 'insuranceStatista.numOfActiveRegistration' : 1, 'monthStatistas.?1.insuranceStatista.numOfActiveRegistration' : 1} }")
     void incrementNumOfActiveRegistration(Integer year, Integer month);
 
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'insuranceStatista.numOfActiveRegistration' : -1, 'monthStatistas.$[month-1].insuranceStatista.numOfActiveRegistration' : -1} }")
+    @Update("{ '$inc' : { 'insuranceStatista.numOfActiveRegistration' : -1, 'monthStatistas.?1.insuranceStatista.numOfActiveRegistration' : -1} }")
     void decreaseNumOfActiveRegistration(Integer year, Integer month);
     // Increment 'totalAvenueFromInsuranceFee' in AvenueStatista by a specified value
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'claimStatista.numOfClaim' : 1, 'monthStatistas.$[month-1].claimStatista.numOfClaim' : 1 } }")
+    @Update("{ '$inc' : { 'claimStatista.numOfClaim' : 1, 'monthStatistas.?1.claimStatista.numOfClaim' : 1 } }")
     void incrementNumOfClaim(Integer year, Integer month);
 
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'claimStatista.numOfResolvedClaim' : 1, 'monthStatistas.$[month-1].claimStatista.numOfResolvedClaim' : 1} }")
+    @Update("{ '$inc' : { 'claimStatista.numOfResolvedClaim' : 1, 'monthStatistas.?1.claimStatista.numOfResolvedClaim' : 1} }")
     void incrementNumOfResolvedClaim(Integer year, Integer month);
 
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'claimStatista.numOfPendingClaim' : 1, 'monthStatistas.$[month-1].claimStatista.numOfPendingClaim' : 1 } }")
+    @Update("{ '$inc' : { 'claimStatista.numOfPendingClaim' : 1, 'monthStatistas.?1.claimStatista.numOfPendingClaim' : 1 } }")
     void incrementNumOfPendingClaim(Integer year, Integer month);
 
 
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'claimStatista.numOfPendingClaim' : -1, 'monthStatistas.$[month-1].claimStatista.numOfPendingClaim' : -1} }")
+    @Update("{ '$inc' : { 'claimStatista.numOfPendingClaim' : -1, 'monthStatistas.?1.claimStatista.numOfPendingClaim' : -1} }")
     void decreaseNumOfPendingClaim(Integer year, Integer month);
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'claimStatista.totalClaimAmount' : ?1, 'monthStatistas.$[month-1].claimStatista.totalClaimAmount' : ?1 } }")
+    @Update("{ '$inc' : { 'claimStatista.totalClaimAmount' : ?2, 'monthStatistas.?1.claimStatista.totalClaimAmount' : ?2 } }")
     void incrementTotalClaimAmount(Integer year, Integer month, double increment);
 
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'avenueStatista.totalAvenueFromInsuranceFee' : ?1, 'monthStatistas.$[month-1].avenueStatista.totalAvenueFromInsuranceFee' : ?1 } }")
+    @Update("{ '$inc' : { 'avenueStatista.totalAvenueFromInsuranceFee' : ?2, 'monthStatistas.?1.avenueStatista.totalAvenueFromInsuranceFee' : ?2 } }")
     void incrementTotalAvenueFromInsuranceFee(Integer year, Integer month, double increment);
     // Increment 'totalProfit' in AvenueStatista by a specified value
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'avenueStatista.totalProfit' : ?1, 'monthStatistas.$[month-1].avenueStatista.totalProfit': ?1 } }")
+    @Update("{ '$inc' : { 'avenueStatista.totalProfit' : ?2, 'monthStatistas.?1.avenueStatista.totalProfit': ?2 } }")
     void incrementTotalProfit(Integer year, Integer month, double increment);
 
     // Increment 'lossRatio' in RateStatista by a specified value
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'rateStatista.lossRatio' : ?1 } }")
+    @Update("{ '$inc' : { 'rateStatista.lossRatio' : ?2, 'monthStatistas.?1.rateStatista.lossRatio' : ?2} }")
     void incrementLossRatio(Integer year, Integer month, double increment);
 
     // Increment 'compensationPayoutRatio' in RateStatista by a specified value
     @Query("{ 'year' : ?0 }")
-    @Update("{ '$inc' : { 'rateStatista.compensationPayoutRatio' : ?1 } }")
+    @Update("{ '$inc' : { 'rateStatista.compensationPayoutRatio' : ?1, 'monthStatistas.?1.rateStatista.compensationPayoutRatio' : ?1} }")
     void incrementCompensationPayoutRatio(Integer year, Integer month, double increment);
 }

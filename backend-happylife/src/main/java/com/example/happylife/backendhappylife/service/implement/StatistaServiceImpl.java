@@ -56,11 +56,10 @@ public class StatistaServiceImpl implements StatistaService {
     public void updateStatistaByNewClaim(ClaimResDTO claimResDTO) {
 
         Integer year = Year.now().getValue();
-        Integer month = LocalDate.now().getMonthValue();
-        Statista statista = statistaRepo.findByYear(year);
+        Integer indexMonth = LocalDate.now().getMonthValue() - 1;
 
-        statistaRepo.incrementNumOfClaim(year,month);
-        statistaRepo.incrementNumOfPendingClaim(year, month);
+        statistaRepo.incrementNumOfClaim(year,indexMonth);
+        statistaRepo.incrementNumOfPendingClaim(year, indexMonth);
 
     }
 
@@ -68,9 +67,8 @@ public class StatistaServiceImpl implements StatistaService {
     public void updateStatistaByResolvedRegistration(RegisResDTO regisResDTO) {
         try {
             Integer year = Year.now().getValue();
-            Integer month = LocalDate.now().getMonthValue();
-            Statista statista = statistaRepo.findByYear(year);
-            System.out.println(month);
+            Integer indexMonth = LocalDate.now().getMonthValue() - 1;
+            System.out.println(indexMonth);
             if (regisResDTO.getApprovalStatus().equals("Approved")) {
                 /**
                  * rateStatista.lossRatio
@@ -81,16 +79,15 @@ public class StatistaServiceImpl implements StatistaService {
                  * rateOfPlans:[planId].lossRatio
                  * rateOfPlans:[planId].compensationPayoutRatio
                  */
-                List<Object> arrayFilters = Arrays.asList(Document.parse("{\"elem\": " + month + "}"));
-                statistaRepo.incrementNumOfInsuranceRegistration(year, month, arrayFilters);
-//                statistaRepo.incrementNumOfActiveRegistration(year, month);
-//
-//                statistaRepo.incrementTotalAvenueFromInsuranceFee(year, month, regisResDTO.getTotalFee());
-//                statistaRepo.incrementTotalProfit(year, month, regisResDTO.getTotalFee());
+                statistaRepo.incrementNumOfInsuranceRegistration(year,indexMonth);
+                statistaRepo.incrementNumOfActiveRegistration(year, indexMonth);
+
+                statistaRepo.incrementTotalAvenueFromInsuranceFee(year, indexMonth, regisResDTO.getTotalFee());
+                statistaRepo.incrementTotalProfit(year, indexMonth, regisResDTO.getTotalFee());
             }
             if (regisResDTO.getApprovalStatus().equals("Revoked")) {
-//                statistaRepo.incrementNumOfExpiredRegistration(year, month);
-//                statistaRepo.decreaseNumOfActiveRegistration(year, month);
+                statistaRepo.incrementNumOfExpiredRegistration(year, indexMonth);
+                statistaRepo.decreaseNumOfActiveRegistration(year, indexMonth);
             }
 
 
@@ -102,7 +99,7 @@ public class StatistaServiceImpl implements StatistaService {
     @Override
     public void updateStatistaByResolvedClaim(ClaimResDTO claimResDTO) {
         Integer year = Year.now().getValue();
-        Integer month = LocalDate.now().getMonthValue();
+        Integer indexMonth = LocalDate.now().getMonthValue() - 1;
 
         String status = claimResDTO.getStatus();
         if (status.equals("Approved")) {
@@ -110,9 +107,9 @@ public class StatistaServiceImpl implements StatistaService {
             rateStatista.lossRatio
             rateStatista.compensationPayoutRatio
 */
-            statistaRepo.incrementNumOfResolvedClaim(year, month);
-            statistaRepo.incrementTotalClaimAmount(year, month, claimResDTO.getClaimAmount());
-            statistaRepo.incrementTotalProfit(year, month, -claimResDTO.getClaimAmount());
+            statistaRepo.incrementNumOfResolvedClaim(year, indexMonth);
+            statistaRepo.incrementTotalClaimAmount(year, indexMonth, claimResDTO.getClaimAmount());
+            statistaRepo.incrementTotalProfit(year, indexMonth, -claimResDTO.getClaimAmount());
 
         }
     }

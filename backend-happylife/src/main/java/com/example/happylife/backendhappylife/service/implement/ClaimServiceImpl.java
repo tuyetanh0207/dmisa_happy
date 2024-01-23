@@ -96,6 +96,8 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceCreateDTO.setPaymentStatus("Pending");
                         invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
                         invoiceService.addInvoice(invoiceCreateDTO);
+
+                        statistaService.updateStatistaByResolvedClaim(claimVar.convertToClaimResDTO());
                     }
                     if (claim.getStatus().equals("In Process")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
@@ -109,6 +111,8 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceService.addInvoice(invoiceCreateDTO);
 
                         notificationCreateDTO.setNotiPrio("High");
+
+                        statistaService.updateStatistaByResolvedClaim(claimVar.convertToClaimResDTO());
                     }
 
 
