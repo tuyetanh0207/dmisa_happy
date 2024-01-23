@@ -7,7 +7,7 @@ import RegistrationManagerPopup from "../../../../components/staff/popup/regisMa
 import { statusArrayOfRegistration } from "../../../../resource/status";
 import gStyles from "../../../../style";
 import { createMessageForRegistration } from "../../../../supportFunctions";
-import {} from '@heroicons/react/24/solid'
+import {} from "@heroicons/react/24/solid";
 export const colTitlesInRegistration = [
   "No.",
   "Cus. Name",
@@ -70,22 +70,31 @@ const IMRegistration = () => {
     regis,
     approvalStatus
   ) => {
+    if (loadingBtns.includes(regisId)) {
+      return;
+    }
     setLoadingBtns((t) => [...t, regisId]);
     try {
-       await RegistrationAPI.updateStatusOfRegistration(
+      await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        {...regis,
-          approvalStatus}
-        ,
+        { ...regis, approvalStatus },
         { content: createMessageForRegistration("", false, approvalStatus) }
+      );
+     
+      setRegistrations((prevRegistrations) =>
+        prevRegistrations.map((registration) =>
+          registration.regisId === regisId
+            ? { ...registration, approvalStatus: approvalStatus }
+            : registration
+        )
       );
       setLoadingBtns((t) => t.filter((id) => id !== regisId));
     } catch (e) {
       console.log("", e);
     }
   };
-  
+
   const handleChangeFilterStatus = (status) => {
     setFilterStatus(status);
   };
@@ -150,7 +159,7 @@ const IMRegistration = () => {
         <tbody>
           {registrations?.map(
             (item, index) =>
-              (item.ApprovalStatus === filterStatus ||
+              (item.approvalStatus === filterStatus ||
                 filterStatus === "All") &&
               (startDate === "" || startDate <= item.createdAt) &&
               (endDate === "" || endDate >= item.createdAt.slice(0, 10)) && (
@@ -199,6 +208,8 @@ const IMRegistration = () => {
                         ? "text-custom-blue-2"
                         : item.approvalStatus === "Pending"
                         ? "text-custom-blue-3"
+                        : item.approvalStatus === "Paid"
+                        ? "text-custom-blue"
                         : "text-custom-red-2"
                     }`}
                   >
@@ -211,13 +222,14 @@ const IMRegistration = () => {
                       borderColor={gStyles.buttonBlue}
                       bgColor={gStyles.customBlue3}
                       borderRadius={"5px"}
-                      width={"6em"}
+                      paddingY={0}
+                      paddingX={4}
                       height={"2em"}
                       data={item}
                       handleSelectingRow={() => handleSelectingRow(item)}
                     />
                   </td>
-                 
+
                   {item.approvalStatus === "Pending" ? (
                     <>
                       <td className="border-t border-gray-300 px-2 py-2">

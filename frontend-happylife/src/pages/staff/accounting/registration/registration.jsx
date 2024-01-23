@@ -208,7 +208,8 @@ const AccRegistration = () => {
                       borderColor={gStyles.buttonBlue}
                       bgColor={gStyles.customBlue3}
                       borderRadius={"5px"}
-                      width={"6em"}
+                      paddingY={0}
+                      paddingX={4}
                       height={"2em"}
                       data={item}
                       handleSelectingRow={() => handleSelectingRow(item)}

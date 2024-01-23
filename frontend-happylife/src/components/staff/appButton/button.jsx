@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styles from "./button.module.css";
+import { EyeIcon } from "@heroicons/react/24/solid";
 const AppButton = (props) => {
   const {
     title,
@@ -30,12 +31,15 @@ const AppButton = (props) => {
   return (
     <button
       style={{ ...buttonStyle }}
-      className={`{$styles.button}`}
+      className={`{${styles.button}}`}
       onClick={() => handleSelectingRow(data)}
       disabled={loading === 1}
       onMouseEnter={onMouseOver}
     >
-      {loading === "1" ? <div className={styles.loader}></div> : title}
+      {loading === "1" ? <div className={styles.loader}></div> : 
+      title !=="View"?
+      title:
+      <EyeIcon className="h-5 w-5 text-custom-blue-3 ml-auto mr-auto"/>}
     </button>
   );
 };

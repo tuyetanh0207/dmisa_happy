@@ -21,6 +21,7 @@ export default function ClaimInvoiceTable(props) {
   const [tableInvoices, setTableInvoices] = useState(
     JSON.parse(JSON.stringify(invoices))
   );
+  const [realTable, setRealTable] = useState(JSON.parse(JSON.stringify(invoices)))
   const user = useSelector((state) => state.auth.login.currentUser);
 
   const [loadingBtns, setLoadingBtns] = useState("0");
@@ -42,6 +43,8 @@ export default function ClaimInvoiceTable(props) {
     });
     setLoadingBtns("0"); 
     setTableInvoices(res.data.claimInvoices);
+    setRealTable(res.data.claimInvoices)
+
     
   };
   const handleUpdateAttributeInRow = (event, colName, idx) => {
@@ -75,11 +78,12 @@ export default function ClaimInvoiceTable(props) {
 
     setTableInvoices(updatedInvoices);
     calculateInvoiceTable(updatedInvoices);
+
   };
   const handleCancelBtnClick = () => {
     console.log("invoices in cancel btn", invoices);
     setIsEditing(false);
-    setTableInvoices(invoices);
+    setTableInvoices(realTable);
   };
   const handleSaveBtnClick = () => {
     setLoadingBtns("1");

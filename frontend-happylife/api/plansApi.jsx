@@ -2,7 +2,7 @@ import {apiV1, get, put} from './generic'
 
 const PlanAPI = {
     getAllPlan: function( ) {
-        const url = `${apiV1}/plans/`;
+        const url = `${apiV1}/plans`;
         return get(url,"")
     },
     updateOnePlanByStaff: function(planId, data,token){

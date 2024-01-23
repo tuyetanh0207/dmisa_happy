@@ -373,7 +373,7 @@ const PlanManagerPopup = (props) => {
       const res = await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        {...data,approvalStatus }
+        {...regis,approvalStatus }
         ,
         { content: message }
       );
@@ -1061,7 +1061,8 @@ const PlanManagerPopup = (props) => {
                           borderColor={gStyles.buttonBlue}
                           bgColor={gStyles.customBlue3}
                           borderRadius={"5px"}
-                          width={"6em"}
+                          paddingY={0}
+                          paddingX={4}
                           height={"2em"}
                           data={item}
                           handleSelectingRow={() =>

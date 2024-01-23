@@ -53,15 +53,25 @@ const IMClaim = () => {
   }, [Claims]);
 
   const handleUpdateStatusOfClaim = async (claimId, claim, status) => {
+    if (loadingBtns.includes(claimId)) {
+      return;
+    }
     setLoadingBtns((t) => [...t, claimId]);
     try {
       await ClaimAPI.updateStatusOfClaim(
         user.token,
         claimId,
-        { ...claimId, status },
+        { ...claim, status },
         { content: createMessageForClaim("", false, status) }
       );
       setLoadingBtns((t) => t.filter((id) => id !== claimId));
+      setClaims((prevclaims) =>
+        prevclaims.map((claim) =>
+          claim.claimId === claimId
+            ? { ...claim, approvalStatus: status }
+            : claim
+        )
+      );
     } catch (e) {
       console.log("", e);
     }
@@ -187,7 +197,7 @@ const IMClaim = () => {
                     className={`border-t border-gray-300 px-2 py-2 font-bold ${
                       item.status === "Approved"
                         ? "text-custom-blue-2"
-                        : item.status === "Pending"
+                        : item.status.includes("Pending") 
                         ? "text-custom-blue-3"
                         : "text-custom-red-2"
                     }`}
@@ -201,32 +211,14 @@ const IMClaim = () => {
                       borderColor={gStyles.buttonBlue}
                       bgColor={gStyles.customBlue3}
                       borderRadius={"5px"}
-                      width={"6em"}
+                     paddingY={0}
+                     paddingX={4}
                       height={"2em"}
                       data={item}
                       handleSelectingRow={() => handleSelectingRow(item)}
                     />
                   </td>
-                  {/* <td className="border-t border-gray-300 px-2 py-2">
-                    <AppButton
-                      title="Pending"
-                      textColor={gStyles.buttonBlue}
-                      borderColor={gStyles.buttonBlue}
-                      bgColor={gStyles.customBlue3}
-                      borderRadius={"5px"}
-                      width={"6em"}
-                      height={"2em"}
-                      data={item}
-                      loading={loadingBtns.includes(item.claimId) ? "1" : ""}
-                      handleSelectingRow={() =>
-                        handleUpdateStatusOfClaim(
-                          item.claimId,
-                          item,
-                          "Pending Review"
-                        )
-                      }
-                    />
-                  </td> */}
+            
                   <td className="border-t border-gray-300 px-2 py-2">
                     <AppButton
                       title="Accept"
