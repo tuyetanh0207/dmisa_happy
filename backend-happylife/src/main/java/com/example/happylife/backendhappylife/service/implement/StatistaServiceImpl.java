@@ -107,9 +107,12 @@ public class StatistaServiceImpl implements StatistaService {
             rateStatista.lossRatio
             rateStatista.compensationPayoutRatio
 */
-            statistaRepo.incrementNumOfResolvedClaim(year, indexMonth);
-            statistaRepo.incrementTotalClaimAmount(year, indexMonth, claimResDTO.getClaimAmount());
-            statistaRepo.incrementTotalProfit(year, indexMonth, -claimResDTO.getClaimAmount());
+            if(claimResDTO.getClaimAmount()!=null){
+                statistaRepo.incrementNumOfResolvedClaim(year, indexMonth);
+                statistaRepo.incrementTotalClaimAmount(year, indexMonth, claimResDTO.getClaimAmount());
+                statistaRepo.incrementTotalProfit(year, indexMonth, -claimResDTO.getClaimAmount());
+            }
+
 
         }
     }

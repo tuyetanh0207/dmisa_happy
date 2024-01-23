@@ -94,7 +94,12 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceCreateDTO.setInvoiceType(InvoiceType.Claim_Payment);
                         invoiceCreateDTO.setClaimInfo(claimVar.convertClaimToRes());
                         invoiceCreateDTO.setPaymentStatus("Pending");
-                        invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        if(claimVar.getClaimAmount()==null){
+                            invoiceCreateDTO.setTotalPrice(0);
+                        } else{
+                            invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        }
+
                         invoiceService.addInvoice(invoiceCreateDTO);
 
                         statistaService.updateStatistaByResolvedClaim(claimVar.convertToClaimResDTO());
@@ -107,7 +112,11 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceCreateDTO.setPaymentStatus("Pending");
                         Instant dueDateInstant = instantNow.plus(Duration.ofDays(CONSTANT.DUE_DATE_REVIEW_DECISION_OF_CLAIM));
                         invoiceCreateDTO.setDueDate(dueDateInstant);
-                        invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        if(claimVar.getClaimAmount()==null){
+                            invoiceCreateDTO.setTotalPrice(0);
+                        } else{
+                            invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        }
                         invoiceService.addInvoice(invoiceCreateDTO);
 
                         notificationCreateDTO.setNotiPrio("High");
