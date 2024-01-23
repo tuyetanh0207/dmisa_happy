@@ -9,6 +9,7 @@ import styles from "./layout.module.css";
 import AccPlan from "./plan/plan";
 import AccRegistration from "./registration/registration";
 import AccDashboard from "./dashboard/dashboard";
+import { getAlphabetOfName } from "../../../supportFunctions";
 const AccountingLayout = ({ element, requiredRoles }) => {
   const location = useLocation();
   const toggleSidebar = () => {
@@ -23,14 +24,14 @@ const AccountingLayout = ({ element, requiredRoles }) => {
       navigate("/notfound");
     }
   });
-  const getAlphabetOfName = (name) => {
-    if (user) {
-      const arr = name.split(" ");
-      return arr[arr.length - 1].charAt(0);
-    } else {
-      return "";
-    }
-  };
+  // const getAlphabetOfName = (name) => {
+  //   if (user) {
+  //     const arr = name.split(" ");
+  //     return arr[arr.length - 1].charAt(0);
+  //   } else {
+  //     return "";
+  //   }
+  // };
 
   return (
     <div className={`${styles.container}`}>

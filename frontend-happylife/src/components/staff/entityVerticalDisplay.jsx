@@ -1,13 +1,18 @@
+import { getAlphabetOfName } from "../../supportFunctions";
+
 const EntityVerticalDisplay = (props) => {
   const {entityType, attributes, values} =props
   return (
       <div className="text-slight-back p-10">
             {/* avatar section */}
-            <div className="mb-10 flex items-center ml-20">
-              {values[0]!==""?
-              <img src="" className="relative left-6" alt=""/>
+            <div className="mb-10 flex items-center ml-20  ">
+              {values[0].includes(".png") || values[0].includes(".jpg")?
+              <img src={values[0]} className="relative left-6" alt=""/>
               :
-              <div className="relative right-6 w-20 h-20 bg-bgr-white border border-grey"/>}
+              <div className=" flex relative right-6 w-20 h-20 bg-bgr-white border border-grey text-custom-blue-2 text-[4em] font-bold items-center justify-center">
+                {getAlphabetOfName(values[0])}
+
+              </div>}
               <div className=" ">
                 <span className="text-[0.8em]">{attributes[1]}: <span className="font-semibold">{values[1]}</span></span>
                 <p className="font-bold text-md text-custom-blue-3">{values[2]}</p>
@@ -32,7 +37,8 @@ const EntityVerticalDisplay = (props) => {
                   // plan type display
                   values[index].map((e, idx)=>
                   <div key={e.typeName}>
-                    <div className="flex mb-7" ><p className="mr-1">{idx + 1} .Type Name:</p> <p>{e.typeName}</p></div>
+                    {/* <p className="mr-1">{idx + 1} .Type Name:</p> */}
+                    <div className="flex mb-7" > <p>{e.typeName}</p></div>
                   </div>
                   )
                   : 

@@ -70,3 +70,13 @@ export function createMessageForClaim(currentMsg, isLock, actionName) {
   }
   return message;
 }
+
+
+export const getAlphabetOfName = (name) => {
+  if (name) {
+    const arr = name.split(" ");
+    return arr[arr.length - 1].charAt(0);
+  } else {
+    return "";
+  }
+};

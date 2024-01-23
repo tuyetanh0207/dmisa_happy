@@ -3,7 +3,11 @@
 import React, { useState } from "react";
 import styles from "./regisManagerPopup.module.css";
 
-import { LockClosedIcon, LockOpenIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  LockClosedIcon,
+  LockOpenIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import { useSelector } from "react-redux";
@@ -20,10 +24,14 @@ const RegistrationManagerPopup = (props) => {
   const [message, setMessage] = useState("");
   const tabNames = ["Overview", "Documents", "Messages"];
   const [isLock, setIsLock] = useState(false);
+  const [numPages, setNumPages] = useState(null);
   const pageNumber = 1;
   const [loadingBtns, setLoadingBtns] = useState("0");
   const user = useSelector((state) => state.auth.login.currentUser);
-  console.log('mesage', message);
+  console.log("mesage", message);
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
   const [currentFile, setCurrentFile] = useState(
     data.documentUrls
       ? {
@@ -38,9 +46,7 @@ const RegistrationManagerPopup = (props) => {
       const res = await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        { ...data,
-          approvalStatus,
-        },
+        { ...data, approvalStatus },
         { content: message }
       );
       setLoadingBtns("0");
@@ -108,7 +114,7 @@ const RegistrationManagerPopup = (props) => {
                   "Contract ID",
                 ]}
                 values={[
-                  "",
+                  data.customerInfo.fullName,
                   data.customerInfo.id,
                   data.customerInfo.fullName,
                   data.customerInfo.fullName,
@@ -141,7 +147,10 @@ const RegistrationManagerPopup = (props) => {
                   "Plan Service Coverage",
                 ]}
                 values={[
-                  "",
+                  data.productInfo.planURL &&
+                  data.productInfo.planURL.length > 0
+                    ? data.productInfo.planURL[0]
+                    : data.productInfo.planName,
                   data.productInfo.planId,
                   data.productInfo.planName,
                   data.productInfo.planType,
@@ -163,14 +172,12 @@ const RegistrationManagerPopup = (props) => {
               {/* min images */}
               <div className={`${styles.pdf_container_left} w-1/5 mt-10`}>
                 <div>
-                  {
-                  data.documentUrls &&
+                  {data.documentUrls &&
                     data.documentUrls.map((doctype) =>
                       doctype.urls.map((doc, idx) => (
                         <div className="mb-2" key={idx}>
                           <Document
-                            //file={doc}
-                            file={"https://firebasestorage.googleapis.com/v0/b/dmisa-410407.appspot.com/o/8d0b765e-82e9-4e9a-bdda-89f44ec175e7-nhom4.pdf?alt=media"}
+                            file={doc}
                             className={styles.document_small}
                             onClick={() =>
                               setCurrentFile({
@@ -180,7 +187,7 @@ const RegistrationManagerPopup = (props) => {
                             }
                           >
                             <Page
-                              pageNumber={pageNumber}
+                              pageNumber={1}
                               renderTextLayer={false}
                               className={styles.page_small}
                             />
@@ -188,6 +195,7 @@ const RegistrationManagerPopup = (props) => {
                           <p>
                             {doctype.docCategory} {" - "} {idx}{" "}
                           </p>
+                          {/* <embed src={doc} width="1053px" height="550px" className='border-b-4' /> */}
                         </div>
                       ))
                     )}
@@ -201,12 +209,16 @@ const RegistrationManagerPopup = (props) => {
                 <Document
                   file={currentFile.url}
                   className={styles.document_large}
+                  onLoadSuccess={onDocumentLoadSuccess}
                 >
-                  <Page
-                    pageNumber={pageNumber}
-                    renderTextLayer={false}
-                    className={styles.page_large}
-                  />
+                  {Array.from({ length: numPages }, (_, index) => (
+                    <Page
+                      key={`page_${index + 1}`}
+                      pageNumber={index + 1}
+                      renderTextLayer={false}
+                      className={styles.page_large}
+                    />
+                  ))}
                 </Document>
               </div>
             </div>
@@ -243,7 +255,8 @@ const RegistrationManagerPopup = (props) => {
                 borderColor={"#53B271"}
                 bgColor={"#EBFAFA"}
                 borderRadius={"5px"}
-                width={"6em"}
+                paddingX={4}
+                paddingY={0}
                 height={"2em"}
                 onMouseOver={() =>
                   setMessage(
@@ -262,7 +275,8 @@ const RegistrationManagerPopup = (props) => {
                 borderColor={"#B93735"}
                 bgColor={"#F8D8D8"}
                 borderRadius={"5px"}
-                width={"6em"}
+                paddingX={4}
+                paddingY={0}
                 height={"2em"}
                 onMouseOver={() =>
                   setMessage(
@@ -286,10 +300,10 @@ const RegistrationManagerPopup = (props) => {
                 borderColor={"#B93735"}
                 bgColor={"#F8D8D8"}
                 borderRadius={"5px"}
-                width={"6em"}
+                paddingX={4}
+                paddingY={0}
                 height={"2em"}
-                onMouseOver={
-                  () =>
+                onMouseOver={() =>
                   setMessage(
                     createMessageForRegistration(message, isLock, "Revoked")
                   )
@@ -311,7 +325,8 @@ const RegistrationManagerPopup = (props) => {
                 borderColor={"#53B271"}
                 bgColor={"#EBFAFA"}
                 borderRadius={"5px"}
-                width={"6em"}
+                paddingX={4}
+                paddingY={0}
                 height={"2em"}
                 onMouseOver={() =>
                   setMessage(

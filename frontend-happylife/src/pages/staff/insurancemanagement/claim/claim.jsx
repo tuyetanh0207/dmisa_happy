@@ -52,30 +52,30 @@ const IMClaim = () => {
     }, 5000);
   }, [Claims]);
 
-  const handleUpdateStatusOfClaim = async (claimId, claim, status) => {
-    if (loadingBtns.includes(claimId)) {
-      return;
-    }
-    setLoadingBtns((t) => [...t, claimId]);
-    try {
-      await ClaimAPI.updateStatusOfClaim(
-        user.token,
-        claimId,
-        { ...claim, status },
-        { content: createMessageForClaim("", false, status) }
-      );
-      setLoadingBtns((t) => t.filter((id) => id !== claimId));
-      setClaims((prevclaims) =>
-        prevclaims.map((claim) =>
-          claim.claimId === claimId
-            ? { ...claim, approvalStatus: status }
-            : claim
-        )
-      );
-    } catch (e) {
-      console.log("", e);
-    }
-  };
+  // const handleUpdateStatusOfClaim = async (claimId, claim, status) => {
+  //   if (loadingBtns.includes(claimId)) {
+  //     return;
+  //   }
+  //   setLoadingBtns((t) => [...t, claimId]);
+  //   try {
+  //     await ClaimAPI.updateStatusOfClaim(
+  //       user.token,
+  //       claimId,
+  //       { ...claim, status },
+  //       { content: createMessageForClaim("", false, status) }
+  //     );
+  //     setLoadingBtns((t) => t.filter((id) => id !== claimId));
+  //     setClaims((prevclaims) =>
+  //       prevclaims.map((claim) =>
+  //         claim.claimId === claimId
+  //           ? { ...claim, approvalStatus: status }
+  //           : claim
+  //       )
+  //     );
+  //   } catch (e) {
+  //     console.log("", e);
+  //   }
+  // };
   const colTitle = [
     "No.",
     "Cus. Name",
@@ -218,43 +218,8 @@ const IMClaim = () => {
                       handleSelectingRow={() => handleSelectingRow(item)}
                     />
                   </td>
-            
-                  <td className="border-t border-gray-300 px-2 py-2">
-                    <AppButton
-                      title="Accept"
-                      textColor={"#53B271"}
-                      borderColor={"#53B271"}
-                      bgColor={"#EBFAFA"}
-                      borderRadius={"5px"}
-                      width={"6em"}
-                      height={"2em"}
-                      loading={loadingBtns.includes(item.claimId) ? "1" : ""}
-                      handleSelectingRow={() =>
-                        handleUpdateStatusOfClaim(
-                          item.claimId,
-                          item,
-                          "Approved"
-                        )
-                      }
-                    />
-                  </td>
-                  <td className="border-t border-gray-300 px-2 py-2">
-                    <AppButton
-                      title="Deny"
-                      textColor={"#B93735"}
-                      borderColor={"#B93735"}
-                      bgColor={"#F8D8D8"}
-                      borderRadius={"5px"}
-                      width={"6em"}
-                      height={"2em"}
-                      loading={loadingBtns.includes(item.claimId) ? "1" : ""}
-                      handleSelectingRow={() =>
-                        handleUpdateStatusOfClaim(item.claimId, 
-                          item,
-                          "Denied")
-                      }
-                    />
-                  </td>
+                  
+                  
                 </tr>
               )
           )}

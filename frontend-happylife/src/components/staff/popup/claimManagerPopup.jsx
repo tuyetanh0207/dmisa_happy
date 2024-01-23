@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import { LockClosedIcon, LockOpenIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  LockClosedIcon,
+  LockOpenIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import { useState } from "react";
 import { Document, Page } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
@@ -38,8 +42,7 @@ const ClaimManagerPopup = (props) => {
       const res = await ClaimAPI.updateStatusOfClaim(
         user.token,
         claimId,
-        {...data,
-        status},
+        { ...data, status },
         { content: message }
       );
       setLoadingBtns("0");
@@ -211,28 +214,30 @@ const ClaimManagerPopup = (props) => {
                       ))
                     )}
                   {data.claimInvoices &&
-                    data.claimInvoices.map((invoice, idxInvoice) =>
-                    invoice.urls && invoice.urls.map((doc, idxUrl) => (
-                        <div className="mb-2" key={idxInvoice + idxUrl}>
-                          <Document
-                            file={doc ? doc : ""}
-                            className={styles.document_small}
-                            onClick={() =>
-                              setCurrentFile({
-                                docName: `Invoice  ${idxInvoice} - ${idxUrl}`,
-                                url: doc,
-                              })
-                            }
-                          >
-                            <Page
-                              pageNumber={pageNumber}
-                              renderTextLayer={false}
-                              className={styles.page_small}
-                            />
-                          </Document>
-                          <p>{`Invoice  ${idxInvoice} - ${idxUrl}`} </p>
-                        </div>
-                      ))
+                    data.claimInvoices.map(
+                      (invoice, idxInvoice) =>
+                        invoice.urls &&
+                        invoice.urls.map((doc, idxUrl) => (
+                          <div className="mb-2" key={idxInvoice + idxUrl}>
+                            <Document
+                              file={doc ? doc : ""}
+                              className={styles.document_small}
+                              onClick={() =>
+                                setCurrentFile({
+                                  docName: `Invoice  ${idxInvoice} - ${idxUrl}`,
+                                  url: doc,
+                                })
+                              }
+                            >
+                              <Page
+                                pageNumber={pageNumber}
+                                renderTextLayer={false}
+                                className={styles.page_small}
+                              />
+                            </Document>
+                            <p>{`Invoice  ${idxInvoice} - ${idxUrl}`} </p>
+                          </div>
+                        ))
                     )}
                 </div>
 
@@ -277,13 +282,12 @@ const ClaimManagerPopup = (props) => {
         </div>
         {/* 2 buttons */}
         {/* <div className="flex"> */}
+
         <div className={`${styles.buttons} sm:pb-20`}>
-          {data.status === "Pending Review" ||
-          data.status === "Pending Additional Information" ||
-          data.status === "In Process" ||
-          data.status === "Approved" ||
-          data.status === "Denied" ||
-          data.status === "Payment Issued" ? (
+          
+          {(data.status === "Pending Review" ||
+            data.status === "Pending Additional Information" ||
+            data.status === "In Process") && (
             <>
               <AppButton
                 title="Require More Info"
@@ -292,7 +296,7 @@ const ClaimManagerPopup = (props) => {
                 bgColor={gStyles.customBlue3}
                 borderRadius={"5px"}
                 width={"6em"}
-                height={"2em"}
+                height={"4em"}
                 onMouseOver={() =>
                   setMessage(
                     createMessageForClaim(
@@ -308,6 +312,24 @@ const ClaimManagerPopup = (props) => {
                     data.claimId,
                     "Pending Additional Information"
                   )
+                }
+              />
+              <AppButton
+                title="Temporally Decide"
+                textColor={gStyles.buttonBlue}
+                borderColor={gStyles.buttonBlue}
+                bgColor={gStyles.customBlue3}
+                borderRadius={"5px"}
+                width={"6em"}
+                height={"4em"}
+                onMouseOver={() =>
+                  setMessage(
+                    createMessageForClaim(message, isLock, "In Process")
+                  )
+                }
+                loading={loadingBtns}
+                handleSelectingRow={() =>
+                  handleUpdateStatusOfClaim(data.claimId, "In Process")
                 }
               />
               <AppButton
@@ -327,25 +349,6 @@ const ClaimManagerPopup = (props) => {
                 }
               />
               <AppButton
-                title="Resolve Payment"
-                textColor={"#53B271"}
-                borderColor={"#53B271"}
-                bgColor={"#EBFAFA"}
-                borderRadius={"5px"}
-                width={"6em"}
-                height={"2em"}
-                onMouseOver={() =>
-                  setMessage(
-                    createMessageForClaim(message, isLock, "Payment Issued")
-                  )
-                }
-                loading={loadingBtns}
-                handleSelectingRow={() =>
-                  handleUpdateStatusOfClaim(data.claimId, "Payment Issued")
-                }
-              />
-
-              <AppButton
                 title="Deny"
                 textColor={"#B93735"}
                 borderColor={"#B93735"}
@@ -362,9 +365,31 @@ const ClaimManagerPopup = (props) => {
                 }
               />
             </>
-          ) : (
-            <></>
           )}
+          {data.status === "Approved" && (
+            <>
+              <AppButton
+                title="Resolve Payment"
+                textColor={"#53B271"}
+                borderColor={"#53B271"}
+                bgColor={"#EBFAFA"}
+                borderRadius={"5px"}
+                paddingX={4}
+                paddingY={0}
+                height={"2em"}
+                onMouseOver={() =>
+                  setMessage(
+                    createMessageForClaim(message, isLock, "Payment Issued")
+                  )
+                }
+                loading={loadingBtns}
+                handleSelectingRow={() =>
+                  handleUpdateStatusOfClaim(data.claimId, "Payment Issued")
+                }
+              />
+            </>
+          )}
+
           <div className="flex justify-center gap-4 items-center">
             <p>Message:</p>
             <textarea

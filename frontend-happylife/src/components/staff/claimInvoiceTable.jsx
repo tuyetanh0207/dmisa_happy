@@ -88,11 +88,12 @@ export default function ClaimInvoiceTable(props) {
   const handleSaveBtnClick = () => {
     setLoadingBtns("1");
     updateInvoicesInClaim();
+    setIsEditing(false);
   };
   const handleEditBtnClick = () => {
     if (isEditing === true) {
       setIsEditing(false);
-      setTableInvoices(invoices);
+      setTableInvoices(realTable);
     } else setIsEditing(true);
   };
   const handleUpdateClaimPercentageAllRownBtnClick = (rate) => {

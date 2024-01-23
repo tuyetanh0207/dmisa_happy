@@ -10,13 +10,18 @@ import { useSelector } from "react-redux";
 import PlanAPI from "../../../../api/plansApi";
 import PlanTypeComp from "../planTypeComp";
 import AppButton from "../appButton/button";
+import NoElementGif from "../../../assets/gifs/noElemnt.gif";
 import RegistrationAPI from "../../../../api/registrationApi";
 import { statusArrayOfRegistration } from "../../../resource/status";
 import { colTitlesInRegistration } from "../../../pages/staff/insurancemanagement/registration/registration";
 import RegistrationManagerPopup from "./regisManagerPopup";
+import { apiV1, baseUrl } from "../../../../api/generic";
+import axios from 'axios'
 const PlanManagerPopup = (props) => {
   const { data, onClose, onUpdate } = props;
-  const [updatingPlan, setUpdatingPlan] = useState(JSON.parse(JSON.stringify(data)));
+  const [updatingPlan, setUpdatingPlan] = useState(
+    JSON.parse(JSON.stringify(data))
+  );
   const [currentTab, setCurrentTab] = useState("Overview");
   const [isLoadingSavingOverview, setIsLoadingSavingOverview] = useState("0");
   const [isLoadingSavingImage, setIsLoadingSavingImage] = useState("0");
@@ -80,7 +85,7 @@ const PlanManagerPopup = (props) => {
       planAdvertisement: updatedAdvertisements,
       planDocuments: updatedDocuments,
     });
-    console.log('data', data)
+    console.log("data", data);
   };
   const handleEditImageBtnClick = () => {
     setIsEditingImage(!isEditingImage);
@@ -105,7 +110,7 @@ const PlanManagerPopup = (props) => {
             .filter((feat) => feat.featureName.trim() !== ""),
         }))
         .filter((adv) => adv.title.trim() !== "");
-   
+
       const nonEmptyDocuments = updatingPlan.planDocuments.filter(
         (doc) => doc.docUrl !== "" && doc.docTitle !== ""
       );
@@ -125,13 +130,12 @@ const PlanManagerPopup = (props) => {
         newPlan,
         user.token
       );
-   
 
       if (res) {
         setIsLoadingSavingOverview("0");
         setIsEditingOverview(false);
         setUpdatingPlan(res.data);
-        onUpdate();
+      //  onUpdate();
       }
     } catch (e) {
       console.log(e);
@@ -365,20 +369,33 @@ const PlanManagerPopup = (props) => {
   useEffect(() => {
     setTimeout(() => {
       fetchEnrollments();
-    }, 5000);
-  }, [enrollments]);
-  const handleUpdateStatusOfRegistration = async (regisId, regis, approvalStatus) => {
+    }, 100000);
+  }, []);
+  const handleUpdateStatusOfRegistration = async (
+    regisId,
+    regis,
+    approvalStatus
+  ) => {
+    if (IdOfEnrollmentisLoading.includes(regisId)) {
+      return;
+    }
     setIdOfEnrollmentisLoading((t) => [...t, regisId]);
+    console.log("regis", regis);
     try {
       const res = await RegistrationAPI.updateStatusOfRegistration(
         user.token,
         regisId,
-        {...regis,approvalStatus }
-        ,
+        { ...regis, approvalStatus },
         { content: message }
       );
       // setIsLoadingUpdateStatusOfEnrollement("0");
-
+      setEnrollments((prevenrollments) =>
+        prevenrollments.map((enrollment) =>
+          enrollment.regisId === regisId
+            ? { ...enrollment, approvalStatus: approvalStatus }
+            : enrollment
+        )
+      );
       setIdOfEnrollmentisLoading((t) =>
         t.filter((id) => id !== res.data.regisId)
       );
@@ -387,25 +404,22 @@ const PlanManagerPopup = (props) => {
     }
   };
   const findIndexOfImageInArray = (url) => {
-    return newImageArray.indexOf(url)
-  }
+    return newImageArray.indexOf(url);
+  };
   const handleClickImageWhenEditing = (idx, url) => {
-    if(findIndexOfImageInArray(url)>=0){
-      setNewImageArray([...newImageArray.filter((img) => img!= url)])
+    if (findIndexOfImageInArray(url) >= 0) {
+      setNewImageArray([...newImageArray.filter((img) => img != url)]);
     } else {
-      setNewImageArray([...newImageArray, url])
+      setNewImageArray([...newImageArray, url]);
     }
-
-  }
-  const  handleSaveImageBtnClick= async() => {
-   
+  };
+  const handleSaveImageBtnClick = async () => {
     try {
       setIsLoadingSavingImage("1");
       const newPlan = {
-        planURL: newImageArray
-      }
-      
-      
+        planURL: newImageArray,
+      };
+
       const res = await PlanAPI.updateOnePlanByStaff(
         data.planId,
         newPlan,
@@ -416,19 +430,66 @@ const PlanManagerPopup = (props) => {
       if (res) {
         setIsLoadingSavingImage("0");
         setIsEditingImage(false);
-        setUpdatingPlan({...res.data, planURL: res.data.planURL});
-        setNewImageArray([])
-        onUpdate();
+        setUpdatingPlan({ ...res.data, planURL: res.data.planURL });
+        setNewImageArray([]);
+      //  onUpdate();
       }
     } catch (e) {
       console.log(e);
     }
-
-  }
-  const  handleCancelImageBtnClick=() => {
-    setNewImageArray([])
-    setIsEditingImage(false)
+  };
+  const handleCancelImageBtnClick = () => {
+    setNewImageArray([]);
+    setIsEditingImage(false);
+  };
+  const [isOpeningUploadComp, setIsOpeningUploadComp] = useState(0);
+  const handleUploadBtnClick = () => {
+    setIsOpeningUploadComp(1);
+  };
+  const [files, setFiles] = useState([]);
+  const [isSavingUploadingImage, setIsSavingUploadingImage] = useState(0)
+  const handleFileChange = (event) => {
+    const inputFile = event.target.files;
+    console.log('inputfile:',inputFile);
+    console.log('inputfile:',inputFile[0].name);
     
+    setFiles(inputFile);
+    
+  };
+  const uploadNewImages = async ()  => {
+    if(isSavingUploadingImage===1){
+      return
+    }
+    setIsSavingUploadingImage(1)
+    const formData = new FormData();
+    const url = apiV1+ "/plans/update/"+data.planId+"/image-planUrl";
+    for (let i = 0; i < files.length; i++) {
+
+      formData.append('files', files[i]);
+    }
+    console.log(url)
+    axios.put(url, formData, 
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${user.token}`
+
+        }
+      })
+        .then(response => {
+          setUpdatingPlan({
+            ...updatingPlan,
+            planURL: response.data.planURL
+          })
+        
+          setIsSavingUploadingImage(0)
+          setIsOpeningUploadComp(0)
+          // Handle the response as needed
+        })
+        .catch(error => {
+          console.error('Error in uploading image planURL:', error);
+          // Handle errors
+        });
   }
   return (
     <div className={`${styles.popupOverlay}`} onClick={onClose}>
@@ -745,8 +806,11 @@ const PlanManagerPopup = (props) => {
                                 className="w-full"
                               >
                                 <div className="flex items-center relative mb-4 w-full">
-                                  <p className="w-12">  {idx + 1 + ". " + (idxFea + 1) + ". "}</p>
-                                
+                                  <p className="w-12">
+                                    {" "}
+                                    {idx + 1 + ". " + (idxFea + 1) + ". "}
+                                  </p>
+
                                   <input
                                     placeholder="Add more . . ."
                                     type="text"
@@ -819,7 +883,6 @@ const PlanManagerPopup = (props) => {
                               </div>
                             ))}
                           </div>
-                          
                         </div>
                       ))}
                     </div>
@@ -869,7 +932,7 @@ const PlanManagerPopup = (props) => {
 
                 <div className="flex mb-7">
                   <p className="mr-10 w-60">Plan Documents:</p>
-                  {isEditingOverview ===true? (
+                  {isEditingOverview === true ? (
                     <div className="w-full">
                       {updatingPlan.planDocuments.map((e, idx) => (
                         <div key={"documents_div" + idx} className="w-full">
@@ -923,25 +986,26 @@ const PlanManagerPopup = (props) => {
                     </div>
                   ) : (
                     <div>
-                      {isEditingOverview===false&&updatingPlan.planDocuments.map((e, idx) => (
-                        <div key={e}>
-                          <div className="">
-                            {idx + 1 + ". "}
-                            {e.docTitle}
+                      {isEditingOverview === false &&
+                        updatingPlan.planDocuments.map((e, idx) => (
+                          <div key={e}>
+                            <div className="">
+                              {idx + 1 + ". "}
+                              {e.docTitle}
+                            </div>
+                            <div className="w-80 h-10 overflow-hidden text-custom-blue-2 italic">
+                              <a
+                                href={e.docUrl}
+                                className={styles.ellipsis}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onMouseOver={handleMouseOver}
+                              >
+                                {e.docUrl}
+                              </a>
+                            </div>
                           </div>
-                          <div className="w-80 h-10 overflow-hidden text-custom-blue-2 italic">
-                            <a
-                              href={e.docUrl}
-                              className={styles.ellipsis}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onMouseOver={handleMouseOver}
-                            >
-                              {e.docUrl}
-                            </a>
-                          </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   )}
                 </div>
@@ -971,7 +1035,11 @@ const PlanManagerPopup = (props) => {
               className={`${styles.content}  sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
             >
               {updatingPlan.planType.map((type) => (
-                <PlanTypeComp data={type} key={type.typeName} className="mb-20" />
+                <PlanTypeComp
+                  data={type}
+                  key={type.typeName}
+                  className="mb-20"
+                />
               ))}
             </div>
           )}
@@ -1171,7 +1239,7 @@ const PlanManagerPopup = (props) => {
                               handleSelectingRow={() =>
                                 handleUpdateStatusOfRegistration(
                                   item.regisId,
-                                  item, 
+                                  item,
                                   "Approved",
                                   ""
                                 )
@@ -1199,34 +1267,97 @@ const PlanManagerPopup = (props) => {
               className={`${styles.content} block sm:h-[80%] lg:h-[80%] md:h-auto relative z-0 mt-[16px]`}
             >
               <div className="flex mb-10">
-                <PencilIcon
-                  className=" w-8 h-8 text-custom-blue-2 flex ml-auto"
-                  onClick={() => handleEditImageBtnClick()}
-                />
+                <div className="flex mb-10 ml-auto">
+                  <AppButton
+                    title="Upload more..."
+                    textColor={gStyles.buttonBlue}
+                    // borderColor={gStyles.buttonBlue}
+                    // bgColor={gStyles.customBlue3}
+                    borderRadius={"5px"}
+                    width={"8em"}
+                    height={"2em"}
+                    loading={loadingBtns}
+                    data={null}
+                    handleSelectingRow={() => handleUploadBtnClick()}
+                  />
+                  <PencilIcon
+                    className=" w-8 h-8 text-custom-blue-2 flex ml-4"
+                    onClick={() => handleEditImageBtnClick()}
+                  />
+                </div>
               </div>
-              <div className="grid gap-2 lg:grid-cols-3 sm:grid-cols-2">
-                {updatingPlan.planURL.map((e, idx) =>
-                  !isEditingImage ? (
-                    <div key={"img" + idx} className=" w-80 h-80">
-                      <img src={e} className="gap-2 w-80 h-80 " alt="" />
-                    </div>
-                  ) : (
-                    <div key={"img" + idx} className=" w-80 h-80 flex relative">
-                      <div className="rounded-[100%] overflow-hidden  border border-white border-1 w-7 h-7  flex items-center justify-center absolute right-4 top-4">
-                      <div className={` ${findIndexOfImageInArray(e)>= 0?"bg-blue-600 text-white ":"bg-white opacity-10 "} w-full h-full  flex items-center justify-center `}  >
-                        <p className="text-sm font-bold ">{findIndexOfImageInArray(e)>= 0?findIndexOfImageInArray(e)+1:""}</p>
-                      </div>
-                      </div>
+              {updatingPlan.planURL.length <= 0 ? (
+                <div className="flex items-center justify-center w-full">
+                  <div className="text-center">
+                    <p className="w-full">
+                      There is no photo to show here . . .
+                    </p>
+                    <div className="w-full mx-auto">
                       <img
-                        src={e}
-                        className="gap-2 w-80 h-80 bg-gray-600"
-                        alt=""
-                        onClick={() => handleClickImageWhenEditing(idx, e)}
+                        src={NoElementGif}
+                        className="w-50 h-50"
+                        alt="No Element"
                       />
                     </div>
-                  )
-                )}
-              </div>
+                  </div>
+                </div>
+              ):
+              <div className="grid gap-2 lg:grid-cols-3 sm:grid-cols-2">
+                {updatingPlan.planURL.length > 0 &&
+                  updatingPlan.planURL.map((e, idx) =>
+                    !isEditingImage ? (
+                      <div key={"img" + idx} className=" w-80 h-80">
+                        <img src={e} className="gap-2 w-80 h-80 " alt="" />
+                      </div>
+                    ) : (
+                      <div
+                        key={"img" + idx}
+                        className=" w-80 h-80 flex relative"
+                      >
+                        <div className="rounded-[100%] overflow-hidden  border border-white border-1 w-7 h-7  flex items-center justify-center absolute right-4 top-4">
+                          <div
+                            className={` ${
+                              findIndexOfImageInArray(e) >= 0
+                                ? "bg-blue-600 text-white "
+                                : "bg-white opacity-10 "
+                            } w-full h-full  flex items-center justify-center `}
+                          >
+                            <p className="text-sm font-bold ">
+                              {findIndexOfImageInArray(e) >= 0
+                                ? findIndexOfImageInArray(e) + 1
+                                : ""}
+                            </p>
+                          </div>
+                        </div>
+                        <img
+                          src={e}
+                          className="gap-2 w-80 h-80 bg-gray-600"
+                          alt=""
+                          onClick={() => handleClickImageWhenEditing(idx, e)}
+                        />
+                      </div>
+                    )
+                  )}
+              </div>}
+              {isOpeningUploadComp===1&&
+              <>
+               <input type="file" onChange={handleFileChange} multiple className='pt-10' />
+               <AppButton
+                title="Save"
+                textColor={gStyles.buttonBlue}
+                borderColor={gStyles.buttonBlue}
+                bgColor={gStyles.customBlue3}
+                borderRadius={"5px"}
+                width={"6em"}
+                height={"2em"}
+                loading={isSavingUploadingImage?"1":"0"}
+                handleSelectingRow={() =>
+                  uploadNewImages()
+                }
+              />
+              </>
+             }
+              
             </div>
           )}
         </div>
@@ -1274,9 +1405,7 @@ const PlanManagerPopup = (props) => {
                 width={"6em"}
                 height={"2em"}
                 loading={isLoadingSavingImage}
-                handleSelectingRow={() =>
-                  handleSaveImageBtnClick()
-                }
+                handleSelectingRow={() => handleSaveImageBtnClick()}
               />
 
               <AppButton
@@ -1288,9 +1417,7 @@ const PlanManagerPopup = (props) => {
                 width={"6em"}
                 height={"2em"}
                 loading={isLoadingSavingImage}
-                handleSelectingRow={() =>
-                  handleCancelImageBtnClick()
-                }
+                handleSelectingRow={() => handleCancelImageBtnClick()}
               />
             </>
           )}

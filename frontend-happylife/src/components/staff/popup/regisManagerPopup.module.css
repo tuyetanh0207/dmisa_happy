@@ -64,7 +64,6 @@
 .nav_above{
     position: sticky;
     top: 6%;
-    z-index: 200;
 }
 
 .document_small, .document_large  {
@@ -82,8 +81,10 @@
     height: auto !important;
     border: 1px solid #ccc;
     position: relative; 
-    display: flex; 
+    display: flex;
+    flex-direction: column; /* Set the direction to column */
     margin-bottom: 1em;
+    
    
 }
 .page_small, .page_large{
@@ -93,6 +94,9 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.4);
    
+}
+.page_large{
+    transform: translate(-50%, -50%) scale(1.5);
 }
 .page_large{
     position: absolute;
@@ -105,8 +109,11 @@
 .pdf_container_left, .pdf_container_right{
     overflow-y: auto;
     max-height: 94%;
+    
 }
-
+.pdf_container_right{
+    display: block;
+}
 
 .ellipsis {
     white-space: nowrap;
