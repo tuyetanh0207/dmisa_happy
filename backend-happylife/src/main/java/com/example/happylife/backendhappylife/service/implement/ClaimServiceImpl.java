@@ -198,9 +198,9 @@ public class ClaimServiceImpl implements ClaimService {
             System.out.println(regisId.toString());*/
 
             User user = new User().convertResToUser(userVar);
-            //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoIdAndRegisInfo_RegisId(user.getId().toString(),regisId.toString());
+            List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoIdAndRegisInfo_RegisId(user.getId().toString(),regisId.toString());
             //List<Claim> claimList = claimRepo.findByRegisInfo_RegisId(regisId.toString());
-            List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoId(user.getId().toString());
+            //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoId(user.getId().toString());
             //System.out.println(claimList.size());
 
             List<ClaimResDTO> claimResDTOS = claimList.stream()

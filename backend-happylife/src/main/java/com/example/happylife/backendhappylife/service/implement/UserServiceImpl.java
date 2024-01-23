@@ -64,14 +64,31 @@ public class UserServiceImpl implements UserService {
                 User existingUser = userRepo.findById(userId)
                         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
                 if (user.getFullName() != null) { existingUser.setFullName(user.getFullName());}
-                if (user.getDOB() != null) {existingUser.setDOB(user.getDOB());}
+                if (user.getDOB() != null) {
+                    throw new UserCreationException("User's DoB can't be null");
+                    //existingUser.setDOB(user.getDOB());
+                }
                 if(user.getGender() != null &&
                         !("Male").equals(user.getGender().trim()) &&
-                        !("Female").equals(user.getGender().trim())) { existingUser.setGender(user.getGender());}
-                if(user.getCitizenId() != null) {existingUser.setCitizenId(user.getCitizenId());}
-                if (user.getEmail() != null && !MyService.isValidEmail(user.getEmail())) {existingUser.setEmail(user.getEmail());}
-                if (user.getAddress() != null) {existingUser.setAddress(user.getAddress());}
-                if (user.getHealthStatus() != null) {existingUser.setHealthStatus(user.getHealthStatus());}
+                        !("Female").equals(user.getGender().trim())) {
+                    throw new UserCreationException("User's gender can't be null and it must be 'Male' or 'Female' ");
+                    // existingUser.setGender(user.getGender());
+                }
+                if(user.getCitizenId() != null) {
+                    throw new UserCreationException("User's citizenId can't be null");
+                    //existingUser.setCitizenId(user.getCitizenId());
+                }
+                if (user.getEmail() != null && !MyService.isValidEmail(user.getEmail())) {
+                    throw new UserCreationException("User's citizenId can't be null and it must be in the correct format");
+                    //existingUser.setEmail(user.getEmail());
+                }
+                if (user.getAddress() != null) {
+                    throw new UserCreationException("User's address can't be null");
+                    //existingUser.setAddress(user.getAddress());
+                }
+                /*if (user.getHealthStatus() != null) {
+                    existingUser.setHealthStatus(user.getHealthStatus());
+                }*/
                 Instant instantNow = Instant.now();
                 existingUser.setUpdatedAt(instantNow);
                 userRepo.save(existingUser);
