@@ -5,6 +5,9 @@ import Select from 'react-select'
 import axios from 'axios'
 //import {BsFillTrashFill,BsFillPencilFill} from 'react-icons/bs'
 import CreateClaimModal from './createclaimmodal.jsx'
+import Modalerror from './modalerror.jsx'
+import Modalerrorfile from './modalerrorfile.jsx'
+import Modalsuccess from './modalsuccess.jsx'
 import Addinvoiceclaim  from './addinvoiceclaim.jsx';
 import RegistrationAPI from '../../../api/registrationApi.jsx';
 import { useParams } from 'react-router-dom'
@@ -22,7 +25,11 @@ export default function CreateClaim() {
     const [hospitalName,setHospitalName] =useState('');
 
     const [modalOpen,setModalOpen] = useState(false);
+    const [modalErrorOpen,setModalErrorOpen] = useState(false);
+    const [modalErrorFileOpen,setModalErrorFileOpen] = useState(false);
+    const [modalSuccessOpen,setModalSuccessOpen] = useState(false);
     
+
     const [rows,setRows] = useState( [
 
     ]);
@@ -128,8 +135,16 @@ export default function CreateClaim() {
         console.log('regisID in submit:',regisId)
           const selectedRegistration = registrations.find(registration => registration.regisId === regisId);
             console.log('Select Regis:',selectedRegistration)
+            console.log('Select claimCategories:',claimCategories)
+            console.log('Select rows:',rows)
           if (!selectedRegistration) {
             console.error("Selected registration not found");
+            return;
+          }
+
+          if (claimCategories.length == 0 || rows.length == 0) {
+            console.log('Error: claimCategories or rows is null');
+            setModalErrorOpen(true);
             return;
           }
       
@@ -140,6 +155,8 @@ export default function CreateClaim() {
             claimInvoices:rows,
             hospitalName: hospitalName,
           };
+          console.log('hello')
+
 
         const url = 'http://localhost:8090/api/v1/claims/create';
         axios.post(url, claim, {
@@ -151,7 +168,7 @@ export default function CreateClaim() {
         .then(response => {
             console.log('Success:', response.data);
             const newClaimId = response.data.claimId;
-
+            
             //console.log('Current: ',curentRegistrations)
             console.log('123:', newClaimId);
 
@@ -185,12 +202,14 @@ export default function CreateClaim() {
                         console.log('Success:', response.data);
                         console.log('file: ',files);
                         console.log('FormData: ',formData)
+                        setModalSuccessOpen(true)
                         // Handle the response as needed
                       })
                       .catch(error => {
                         console.error('Error:', error);
                         console.log('file: ',files);
                         console.log('FormData: ',formData)
+                        setModalErrorFileOpen(true)
                         // Handle errors
                       });
                    
@@ -254,8 +273,10 @@ export default function CreateClaim() {
                         <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
                     </div>
                     {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}}  onSubmit={handleAddRow}  className="pt-5"/>}
-
-
+                    {modalErrorOpen && <Modalerror closeModal={() => {setModalErrorOpen(false)}}/>}
+                    {modalErrorFileOpen && <Modalerrorfile closeModal={() => {setModalErrorFileOpen(false)}}/>}
+                    {modalSuccessOpen && <Modalsuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
+                    
                     <input type="file" onChange={handleFileChange} multiple className='pt-10' />
                     <div className="flex items-center justify-between">
                             <div></div>
