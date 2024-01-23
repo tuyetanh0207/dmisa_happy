@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Modal from './modal/modal.jsx'
+import ModalSuccess from './modal/modalsuccess.jsx'
 import RegistrationAPI from "../../../../api/registrationApi.jsx";
 import Shopingcar from "../../../assets/shopingcar.png";
 // import SetupProxy from '../../../setupProxy.js'
 export default function Buyplan() {
   const user = useSelector((state) => state.auth.login.currentUser);
   const [isLogin, setIsLogin] = useState(false);
+  const [modalOpen,setModalOpen] = useState(false);
+  const [modalSuccessOpen,setModalSuccessOpen] = useState(false);
   const [plans, setPlansAPI] = useState([]);
 
   const [planID, setPlanID] = useState(); //planID
@@ -207,13 +211,12 @@ export default function Buyplan() {
       customerInfo: {
         id: user.userInfo.id,
         fullName: fullName,
-        //citizenId: citizenId,
-        citizenId: "0000000000000999",
+        citizenId: citizenId,
         phoneNumber: phoneNumber,
-        //gender: gender,
-        gender: "Male",
-        // dob: dob,
-        dob: "2002-07-09",
+        gender: gender,
+        //gender: "Male",
+        dob: dob,
+        //dob: "2002-07-09",
         email: email,
         address: address,
       },
@@ -221,7 +224,7 @@ export default function Buyplan() {
         planId: planID,
         planName: selectedPlan.planName,
         planAbout: selectedPlan.planAbout,
-        planDuration: 12,
+        planDuration: selectedPlan.planDuration,
         planDurationUnit: selectedPlan.planDurationUnit,
         planType: [
           {
@@ -282,19 +285,23 @@ export default function Buyplan() {
           })
           .then((response) => {
             console.log("Success:", response.data);
+            setModalSuccessOpen(true)
             console.log("file: ", files);
             console.log("FormData: ", formData);
+            
             // Handle the response as needed
           })
           .catch((error) => {
             console.error("Error:", error);
             console.log("file: ", files);
             console.log("FormData: ", formData);
+            setModalOpen(true);
             // Handle errors
           });
       })
       .catch((error) => {
         console.error("Error:", error);
+        setModalOpen(true);
       });
     // console.log('Current: ',curentRegistrations)
   };
@@ -508,7 +515,7 @@ export default function Buyplan() {
                             {selectedPlan?.planName}
                           </h5>
                           <p className="mb-3 text-2xl font-normal overflow-y-auto ">
-                            {/* {selectedPlan?.planAbout} */}
+                            {selectedPlan?.planSlogan}
                           </p>
                           <p className="mb-3 text-2xl font-normal">
                             {selectedPlan?.planType?.typeName}
@@ -722,6 +729,8 @@ export default function Buyplan() {
                 </button>
               </div>
             </form>
+            {modalOpen && <Modal closeModal={() => {setModalOpen(false)}}/>}
+            {modalSuccessOpen && <ModalSuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
           </div>
         </form>
         <div>current: {curentRegistrations}</div>
