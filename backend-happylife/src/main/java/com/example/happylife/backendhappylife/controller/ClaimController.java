@@ -7,6 +7,7 @@ import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStatusRes;
 import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
+import com.example.happylife.backendhappylife.DTO.auth.AuthenticationResponse;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
@@ -88,51 +89,60 @@ public class ClaimController {
     @PostMapping("/create") //API tạo mới một claim
     public ResponseEntity<?> addClaim(HttpServletRequest request,
                                       @RequestBody ClaimCreateDTO claimCreateDTO) {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER)
-        {
-            ClaimResDTO savedClaim = claimService.addClaim(claimCreateDTO);
-            return ResponseEntity.ok(savedClaim);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER)
+            {
+                ClaimResDTO savedClaim = claimService.addClaim(claimCreateDTO);
+                return ResponseEntity.ok(savedClaim);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     };
 
     @GetMapping("/{userId}") //API get toàn bộ một claim theo userId
     public ResponseEntity<?> getByUserId(HttpServletRequest request,
                                          @PathVariable ObjectId userId){
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        System.out.println(userResDTO.getRole());
-        System.out.println("Error : " + userResDTO.getId().toString());
-        System.out.println(userId.toString());
-        if(user.getRole() == Role.CUSTOMER ||
-            user.getRole() == Role.INSUARANCE_MANAGER ||
-            user.getRole() == Role.ACCOUNTANT)
-        {
-            return ResponseEntity.ok(claimService.getAllClaimByUserId(userResDTO,userId));
-        }
-        else {
-        return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            System.out.println(userResDTO.getRole());
+            System.out.println("Error : " + userResDTO.getId().toString());
+            System.out.println(userId.toString());
+            if(user.getRole() == Role.CUSTOMER ||
+                    user.getRole() == Role.INSUARANCE_MANAGER ||
+                    user.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(claimService.getAllClaimByUserId(userResDTO,userId));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
     @GetMapping("/{regisId}/getAllClaimsOfUserByRegis") //API get toàn bộ một claim theo regisId
     public ResponseEntity<?> getAllClaimsOfUserByRegis(HttpServletRequest request,
                                                         @PathVariable ObjectId regisId){
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        /*System.out.println(userResDTO.getRole());
-        System.out.println("Error : " + userResDTO.getId().toString());
-*/
-        if(userResDTO.getRole() == Role.CUSTOMER)
-        {
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(userResDTO.getRole() == Role.CUSTOMER)
+            {
 
-            return ResponseEntity.ok(claimService.getAllClaimByRegisId(regisId,userResDTO));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+                return ResponseEntity.ok(claimService.getAllClaimByRegisId(regisId,userResDTO));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
     //API for upload files and images
@@ -141,27 +151,32 @@ public class ClaimController {
                                                     @PathVariable ObjectId claimId,
                                                     @RequestParam("fileCounts") String fileCounts,
                                                     @RequestParam("files") MultipartFile[] files) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
-       /* User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();*/
-        //if(userResDTO)
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
-        // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimImageOrFileDocUrl(claimId,uploadedUrls,_fileCounts);
-        return ResponseEntity.ok(savedClaim);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
+            // Cập nhật thông tin vào Claim và lưu
+            ClaimResDTO savedClaim = claimService.updateClaimImageOrFileDocUrl(claimId,uploadedUrls,_fileCounts);
+            return ResponseEntity.ok(savedClaim);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
     @PutMapping(value = "/update/{claimId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
     public ResponseEntity<?> updateClaimFileDocUrl(@PathVariable ObjectId claimId,
                                                    @RequestParam("fileCounts") String fileCounts,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
-        // Cập nhật thông tin vào Claim và lưu
-        ClaimResDTO savedClaim = claimService.updateClaimImageOrFileDocUrl(claimId,uploadedUrls,_fileCounts);
-        return ResponseEntity.ok(savedClaim);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
+            // Cập nhật thông tin vào Claim và lưu
+            ClaimResDTO savedClaim = claimService.updateClaimImageOrFileDocUrl(claimId,uploadedUrls,_fileCounts);
+            return ResponseEntity.ok(savedClaim);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 }

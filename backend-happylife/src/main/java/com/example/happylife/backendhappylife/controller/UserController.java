@@ -87,16 +87,20 @@ public class UserController {
     public ResponseEntity<?> update(HttpServletRequest request,
                                     @PathVariable ObjectId userId,
                                     @RequestBody UserResDTO user){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO userRequest = userVar.convertFromUserToUserResDTO();
-        if(userVar.getRole() == Role.CUSTOMER ||
-                userVar.getRole() == Role.INSUARANCE_MANAGER ||
-                userVar.getRole() == Role.ACCOUNTANT)
-        {
-            return ResponseEntity.ok(userService.updateUser(userId, user, userRequest));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO userRequest = userVar.convertFromUserToUserResDTO();
+            if(userVar.getRole() == Role.CUSTOMER ||
+                    userVar.getRole() == Role.INSUARANCE_MANAGER ||
+                    userVar.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(userService.updateUser(userId, user, userRequest));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
 
@@ -105,43 +109,50 @@ public class UserController {
     public ResponseEntity<?> updateUserImageHealthStatus(HttpServletRequest request,
                                                          @PathVariable ObjectId userId,
                                                          @RequestParam("files") MultipartFile[] files) throws IOException {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(userResDTO.getRole() == Role.CUSTOMER ||
-                userResDTO.getRole() == Role.INSUARANCE_MANAGER ||
-                userResDTO.getRole() == Role.ACCOUNTANT)
-        {
-            ObjectMapper objectMapper = new ObjectMapper();
-            // Lưu các URL của file sau khi upload
-            List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
-            // Cập nhật thông tin vào Regis và lưu
-            UserResDTO savedUser = userService.updateUserHealthStatusFileOrImage(userId,userResDTO,uploadedUrls);
-            return ResponseEntity.ok(savedUser);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(userResDTO.getRole() == Role.CUSTOMER ||
+                    userResDTO.getRole() == Role.INSUARANCE_MANAGER ||
+                    userResDTO.getRole() == Role.ACCOUNTANT)
+            {
+                ObjectMapper objectMapper = new ObjectMapper();
+                // Lưu các URL của file sau khi upload
+                List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
+                // Cập nhật thông tin vào Regis và lưu
+                UserResDTO savedUser = userService.updateUserHealthStatusFileOrImage(userId,userResDTO,uploadedUrls);
+                return ResponseEntity.ok(savedUser);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     };
     @PutMapping(value = "/update/{userId}/files-HealthStatus", consumes = "multipart/form-data")
     public ResponseEntity<?> updateUserFileHealthStatus(HttpServletRequest request,
                                                    @PathVariable ObjectId userId,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
-
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(userResDTO.getRole() == Role.CUSTOMER ||
-                userResDTO.getRole() == Role.INSUARANCE_MANAGER ||
-                userResDTO.getRole() == Role.ACCOUNTANT)
-        {
-            ObjectMapper objectMapper = new ObjectMapper();
-            // Lưu các URL của file sau khi upload
-            List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
-            // Cập nhật thông tin vào Regis và lưu
-            UserResDTO savedUser = userService.updateUserHealthStatusFileOrImage(userId,userResDTO,uploadedUrls);
-            return ResponseEntity.ok(savedUser);
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(userResDTO.getRole() == Role.CUSTOMER ||
+                    userResDTO.getRole() == Role.INSUARANCE_MANAGER ||
+                    userResDTO.getRole() == Role.ACCOUNTANT)
+            {
+                ObjectMapper objectMapper = new ObjectMapper();
+                // Lưu các URL của file sau khi upload
+                List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
+                // Cập nhật thông tin vào Regis và lưu
+                UserResDTO savedUser = userService.updateUserHealthStatusFileOrImage(userId,userResDTO,uploadedUrls);
+                return ResponseEntity.ok(savedUser);
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     };
 }

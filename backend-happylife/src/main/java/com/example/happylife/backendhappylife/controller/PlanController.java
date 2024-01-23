@@ -91,53 +91,69 @@ public class PlanController {
     public ResponseEntity<?> updatePlanImageDocUrl(@PathVariable ObjectId planId,
                                                    @RequestParam("fileCounts") String fileCounts,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
-        // Cập nhật thông tin vào Regis và lưu
-        PlanResDTO savedPlan = planService.updatePlanImageOrFileDocUrl(planId,uploadedUrls,_fileCounts);
-        return ResponseEntity.ok(savedPlan);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
+            // Cập nhật thông tin vào Regis và lưu
+            PlanResDTO savedPlan = planService.updatePlanImageOrFileDocUrl(planId,uploadedUrls,_fileCounts);
+            return ResponseEntity.ok(savedPlan);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
     @PutMapping(value = "/update/{planId}/file-docUrl", consumes = "multipart/form-data") // Này Phúc sửa sau
     public ResponseEntity<?> updatePlanFileDocUrl(@PathVariable ObjectId planId,
                                                   @RequestParam("fileCounts") String fileCounts,
                                                   @RequestParam("files") MultipartFile[] files) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
-        // Cập nhật thông tin vào Regis và lưu
-        PlanResDTO savedPlan = planService.updatePlanImageOrFileDocUrl(planId,uploadedUrls,_fileCounts);
-        return ResponseEntity.ok(savedPlan);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<SectionFileCount> _fileCounts = objectMapper.readValue(fileCounts, new TypeReference<List<SectionFileCount>>() {});
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
+            // Cập nhật thông tin vào Regis và lưu
+            PlanResDTO savedPlan = planService.updatePlanImageOrFileDocUrl(planId,uploadedUrls,_fileCounts);
+            return ResponseEntity.ok(savedPlan);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
     //PlanURL
     @PutMapping(value = "/update/{planId}/image-planUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updatePlanImagePlanUrl(HttpServletRequest request,
                                                     @PathVariable ObjectId planId,
                                                     @RequestParam("files") MultipartFile[] files) throws IOException {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        //if(userResDTO)
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
-        // Cập nhật thông tin vào Claim và lưu
-        PlanResDTO savedPlan = planService.updatePlanImageOrFilePlanUrl(planId,uploadedUrls);
-        return ResponseEntity.ok(savedPlan);
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            //if(userResDTO)
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
+            // Cập nhật thông tin vào Claim và lưu
+            PlanResDTO savedPlan = planService.updatePlanImageOrFilePlanUrl(planId,uploadedUrls);
+            return ResponseEntity.ok(savedPlan);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 
     @PutMapping(value = "/update/{planId}/file-planUrl", consumes = "multipart/form-data")
     public ResponseEntity<?> updatePlanFilePlanUrl(HttpServletRequest request,
                                                    @PathVariable ObjectId planId,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        //if(userResDTO)
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
-        // Cập nhật thông tin vào Claim và lưu
-        PlanResDTO savedPlan = planService.updatePlanImageOrFilePlanUrl(planId,uploadedUrls);
-        return ResponseEntity.ok(savedPlan);
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            //if(userResDTO)
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
+            // Cập nhật thông tin vào Claim và lưu
+            PlanResDTO savedPlan = planService.updatePlanImageOrFilePlanUrl(planId,uploadedUrls);
+            return ResponseEntity.ok(savedPlan);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 
 
@@ -152,28 +168,40 @@ public class PlanController {
     //Lấy thông tin chi tiết 1 plan dựa trên planId
     @GetMapping("/{planId}")
     public ResponseEntity<?> getPlan(@PathVariable ObjectId planId){
-        PlanResDTO planResDTOS = planService.getPlan(planId);
-        return ResponseEntity.ok(planResDTOS);
+        try {
+            PlanResDTO planResDTOS = planService.getPlan(planId);
+            return ResponseEntity.ok(planResDTOS);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 
     //Lấy thông tin toàn bộ plan
     @GetMapping("")
-    public ResponseEntity<List<PlanResDTO>> getAllPlans() {
-        List<PlanResDTO> planResDTOS = planService.getAllPlans();
-        return ResponseEntity.ok(planResDTOS);
+    public ResponseEntity<?> getAllPlans() {
+        try {
+            List<PlanResDTO> planResDTOS = planService.getAllPlans();
+            return ResponseEntity.ok(planResDTOS);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 
     @GetMapping("/{regisId}/getPlanByRegisId")
     public ResponseEntity<?> getPlanByRegisId(HttpServletRequest request,
                                               @PathVariable ObjectId regisId){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO userRes = userVar.convertFromUserToUserResDTO();
-        if(userRes.getRole() == Role.CUSTOMER || userRes.getRole() == Role.INSUARANCE_MANAGER) {
-            return ResponseEntity.ok(planService.getPlanByRegisId(userRes, regisId));
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO userRes = userVar.convertFromUserToUserResDTO();
+            if(userRes.getRole() == Role.CUSTOMER || userRes.getRole() == Role.INSUARANCE_MANAGER) {
+                return ResponseEntity.ok(planService.getPlanByRegisId(userRes, regisId));
 
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
 
