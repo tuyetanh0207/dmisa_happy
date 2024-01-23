@@ -340,7 +340,7 @@ export default function Buyplan() {
 
   return (
     <div className=" bg-custom-blue-3 ">
-      <Header />
+      {/* <Header /> */}
       <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
         <form
           onSubmit={handleSubmit}
@@ -356,7 +356,8 @@ export default function Buyplan() {
                   type="text"
                   name="name"
                   id="name"
-                  value={isLogin ? user.userInfo.fullName : ""}
+                  // value={isLogin ? user.userInfo.fullName : ""}
+                  value={fullName}
                   className="block w-full h-10 px-4 border-0 py-2 text-lg text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Name"
                   onChange={(e) => setFullName(e.target.value)}
@@ -373,7 +374,8 @@ export default function Buyplan() {
                   type="text"
                   name="Citizen-ID"
                   id="Citizen-ID"
-                  value={isLogin ? user.userInfo.citizenId : ""}
+                  //value={isLogin ? user.userInfo.citizenId : ""}
+                  value={citizenId}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Citizen ID"
                   onChange={(e) => setCitizenId(e.target.value)}
@@ -389,7 +391,8 @@ export default function Buyplan() {
                   type="text"
                   name="Phone"
                   id="Phone "
-                  value={isLogin ? user.userInfo.phoneNumber : ""}
+                  //value={isLogin ? user.userInfo.phoneNumber : ""}
+                  value={phoneNumber}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Phone Number"
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -405,7 +408,8 @@ export default function Buyplan() {
                   type="text"
                   name="Gender"
                   id="Gender"
-                  value={isLogin ? user.userInfo.gender : ""}
+                  //value={isLogin ? user.userInfo.gender : ""}
+                  value={gender}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Gender"
                   onChange={(e) => setGender(e.target.value)}
@@ -421,7 +425,8 @@ export default function Buyplan() {
                   type="text"
                   name="BirthDate"
                   id="BirthDate"
-                  value={isLogin ? user.userInfo.dob.slice(0, 10) : ""}
+                  //value={isLogin ? user.userInfo.dob.slice(0, 10) : ""}
+                  value={dob.slice(0, 10)}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your BirthDate"
                   onChange={(e) => setDob(e.target.value)}
@@ -437,7 +442,8 @@ export default function Buyplan() {
                   type="text"
                   name="email"
                   id="email"
-                  value={isLogin ? user.userInfo.email : ""}
+                  //value={isLogin ? user.userInfo.email : ""}
+                  value={email}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Email"
                   onChange={(e) => setEmail(e.target.value)}
@@ -453,7 +459,8 @@ export default function Buyplan() {
                   type="text"
                   name="address"
                   id="address"
-                  value={isLogin ? user.userInfo.address : ""}
+                 // value={isLogin ? user.userInfo.address : ""}
+                 value={address}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Address"
                   onChange={(e) => setAddress(e.target.value)}

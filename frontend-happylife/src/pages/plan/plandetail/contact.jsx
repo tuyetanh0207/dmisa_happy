@@ -49,7 +49,7 @@ export default function Review() {
           .post(url, contact, {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
+              //Authorization: `Bearer ${user.token}`,
             },
           })
           .then((response) => {
@@ -68,7 +68,7 @@ export default function Review() {
     }, []);
 
   return (
-    <div className="pt-14 pb-14 bg-custom-blue-3 mx-auto max-w-4xl">
+    
       <div className="pt-6 pb-14 container mx-auto bg-white">
         <h1 className="pt-10 text-center text-4xl font-semibold font-serif text-custom-blue-3">Contact with Us</h1>
         
@@ -83,7 +83,8 @@ export default function Review() {
                     type="text"
                     name="name"
                     id="name"
-                    value={isLogin ? user.userInfo.fullName : ""}
+                    //value={isLogin ? user.userInfo.fullName : ""}
+                    value={fullName}
                     className="block w-full h-10 px-4 border-0 py-2 text-lg text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     placeholder="Your Name"
                     onChange={(e) => setFullName(e.target.value)}
@@ -100,7 +101,8 @@ export default function Review() {
                         type="text"
                         name="Phone"
                         id="Phone "
-                        value={isLogin ? user.userInfo.phoneNumber : ""}
+                        //value={isLogin ? user.userInfo.phoneNumber : ""}
+                        value={phoneNumber}
                         className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="Your Phone Number"
                         onChange={(e) => setPhoneNumber(e.target.value)}
@@ -116,7 +118,8 @@ export default function Review() {
                         type="text"
                         name="email"
                         id="email"
-                        value={isLogin ? user.userInfo.email : ""}
+                        //value={isLogin ? user.userInfo.email : ""}
+                        value={email}
                         className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="Your Email"
                         onChange={(e) => setEmail(e.target.value)}
@@ -152,7 +155,7 @@ export default function Review() {
         
       </div>
       
-    </div>
+    
   );
 }
 

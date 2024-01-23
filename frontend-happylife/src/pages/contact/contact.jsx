@@ -7,8 +7,8 @@ export default function Contact() {
       
       return(
         <div className="relative bg-custom-blue-3">
-          <div className="my-20 py-20 px-20 container mx-auto items-center bg-white">
-            <div className="grid grid-cols-2 ">
+          <div className=" py-20 px-20 container mx-auto items-center bg-white">
+            <div className=" grid grid-cols-2 ">
               <div className="">
                 <div className="py-20 px-20 flex flex-col gap-5">
                   <div className="text-5xl font-medium font-['IBM Plex Serif']">Where to Find</div>
@@ -50,7 +50,7 @@ export default function Contact() {
                   <div className="text-lg font-normal font-['IBM Plex Sans']">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repre henderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</div>
                 </div>
               </div>
-              <Contactinplan/>
+              <Contactinplan className=""/>
             </div>
           </div>
       </div>

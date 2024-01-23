@@ -8,12 +8,18 @@ import { useEffect,useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { useSelector } from "react-redux";
 export default function Plandetail() {
-    
+    //const user = useSelector((state) => state.auth.login.currentUser);
     const {planId} = useParams();
     console.log(planId);
     const [plansDetail, setPlansDetailAPI] = useState(null);
 
+    // const handleNotLogin = () =>{
+    //     if(!user){
+    //         console.log('Hello')
+    //     }
+    // }
     useEffect(() => {
         const fetchPlanDetailAPI = async () => {
             try {
@@ -38,7 +44,7 @@ export default function Plandetail() {
 
     return (
         <div className=" bg-custom-blue-3">
-            <Header/>
+            
             {/* {plansDetail.length > 0 && plansDetail.map((plan, index) => ( */}
             {/* {Array.isArray(plansDetail) && plansDetail?.map((plan, index) => ( */}
 
@@ -97,7 +103,7 @@ export default function Plandetail() {
                                 <img src={Arrowcircleleft} alt="LOGO" className="pr-7 item-center filter brightness-0 invert " ></img>
                                 <p>Back to Plan </p>
                             </Link>
-                            <Link to="/buyplan" className="px-20 py-4 text-2xl flex flex-row bg-custom-blue-4 rounded border font-bold font-['IBM Plex Sans'] text-white border-indigo-500">   
+                            <Link to="/buyplan"  className="px-20 py-4 text-2xl flex flex-row bg-custom-blue-4 rounded border font-bold font-['IBM Plex Sans'] text-white border-indigo-500">   
                                 <img src={Shopingcar} alt="LOGO" className="pr-7 item-center filter brightness-0 invert " ></img>
                                 <p>Register Now</p>
                             </Link>
@@ -138,8 +144,13 @@ export default function Plandetail() {
             </div>
             {/* ))} */}
             
+
+
+            
             <Review/>
-            <Contact/>
+            <div className="pt-14 pb-14 bg-custom-blue-3 mx-auto max-w-4xl">
+                <Contact/>
+            </div>
         </div>
         
 
