@@ -1,16 +1,14 @@
 package com.example.happylife.backendhappylife.controller;
 
-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.DTO.auth.AuthenticationRequest;
 import com.example.happylife.backendhappylife.DTO.auth.AuthenticationResponse;
-import com.example.happylife.backendhappylife.controller.auth.AuthenticationService;
+import com.example.happylife.backendhappylife.exception.UserCreationException;
+import com.example.happylife.backendhappylife.service.AuthenticationService;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
-import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.service.FireBaseService;
 import com.example.happylife.backendhappylife.service.UserService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import org.bson.types.ObjectId;
@@ -37,16 +35,28 @@ public class UserController {
     }
     // Dangerous
     @PostMapping("/auth/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody User request
     ){
-        return ResponseEntity.ok(service.register(request));
+        try {
+            AuthenticationResponse authenticationResponse = service.register(request);
+            return ResponseEntity.ok(authenticationResponse);
+        } catch (UserCreationException e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
+
     }
     @PostMapping("/auth/signin")
-    public ResponseEntity<AuthenticationResponse> authentication(
+    public ResponseEntity<?> authentication(
             @RequestBody AuthenticationRequest request
     ){
-        return ResponseEntity.ok(service.authentication(request));
+        try {
+            AuthenticationResponse authenticationResponse = service.authentication(request);
+            return ResponseEntity.ok(authenticationResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
+
     }
 
     @GetMapping("/{id}")
@@ -62,10 +72,6 @@ public class UserController {
         else {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
         }
-//        System.out.println("path id");
-//        System.out.println(id);
-//        System.out.println("user infor");
-//        System.out.println(user);
     }
     @GetMapping("")
     public List<UserResDTO> getUsers() {

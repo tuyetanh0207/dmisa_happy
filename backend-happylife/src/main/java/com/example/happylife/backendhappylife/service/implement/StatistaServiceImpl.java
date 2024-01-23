@@ -9,10 +9,13 @@ import com.example.happylife.backendhappylife.entity.Statista;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.StatistaRepo;
 import com.example.happylife.backendhappylife.service.StatistaService;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Year;
+import java.time.*;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class StatistaServiceImpl implements StatistaService {
@@ -47,45 +50,70 @@ public class StatistaServiceImpl implements StatistaService {
         return statistaRepo.save(statista).convertToDashboardResDTO();
     }
 
+
+
     @Override
-    public StatistaDashboardResDTO updateStatistaByNewRegistration(RegisResDTO regisResDTO) {
-        try{
-            Year currentYear = Year.now();
-            Statista statista = statistaRepo.findByYear(currentYear.getValue());
-            if(regisResDTO.getApprovalStatus().equals("Pending")){
+    public void updateStatistaByNewClaim(ClaimResDTO claimResDTO) {
 
-            }
-            return statista.convertToDashboardResDTO();
+        Integer year = Year.now().getValue();
+        Integer month = LocalDate.now().getMonthValue();
+        Statista statista = statistaRepo.findByYear(year);
 
+        statistaRepo.incrementNumOfClaim(year,month);
+        statistaRepo.incrementNumOfPendingClaim(year, month);
 
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error find Statista of this year.");
-        }
     }
 
     @Override
-    public StatistaDashboardResDTO updateStatistaByNewClaim(ClaimResDTO claimResDTO) {
-        return null;
-    }
-
-    @Override
-    public StatistaDashboardResDTO updateStatistaByResolvedRegistration(RegisResDTO regisResDTO) {
+    public void updateStatistaByResolvedRegistration(RegisResDTO regisResDTO) {
         try {
-            Year currentYear = Year.now();
-            Statista statista = statistaRepo.findByYear(currentYear.getValue());
-            if (regisResDTO.getApprovalStatus().equals("Pending")) {
-
+            Integer year = Year.now().getValue();
+            Integer month = LocalDate.now().getMonthValue();
+            Statista statista = statistaRepo.findByYear(year);
+            System.out.println(month);
+            if (regisResDTO.getApprovalStatus().equals("Approved")) {
+                /**
+                 * rateStatista.lossRatio
+                 * rateStatista.compensationPayoutRatio
+                 *
+                 *
+                 * rateOfPlans:[planId]
+                 * rateOfPlans:[planId].lossRatio
+                 * rateOfPlans:[planId].compensationPayoutRatio
+                 */
+                List<Object> arrayFilters = Arrays.asList(Document.parse("{\"elem\": " + month + "}"));
+                statistaRepo.incrementNumOfInsuranceRegistration(year, month, arrayFilters);
+//                statistaRepo.incrementNumOfActiveRegistration(year, month);
+//
+//                statistaRepo.incrementTotalAvenueFromInsuranceFee(year, month, regisResDTO.getTotalFee());
+//                statistaRepo.incrementTotalProfit(year, month, regisResDTO.getTotalFee());
             }
-            return statista.convertToDashboardResDTO();
+            if (regisResDTO.getApprovalStatus().equals("Revoked")) {
+//                statistaRepo.incrementNumOfExpiredRegistration(year, month);
+//                statistaRepo.decreaseNumOfActiveRegistration(year, month);
+            }
+
 
 
         }catch (Exception e) {
-            throw new RuntimeException("Error find Statista of this year.");
+            throw new RuntimeException("Error find Statista of this year." + e.getMessage());
         }
     }
     @Override
-    public StatistaDashboardResDTO updateStatistaByResolvedClaim(ClaimResDTO claimResDTO) {
-        return null;
+    public void updateStatistaByResolvedClaim(ClaimResDTO claimResDTO) {
+        Integer year = Year.now().getValue();
+        Integer month = LocalDate.now().getMonthValue();
+
+        String status = claimResDTO.getStatus();
+        if (status.equals("Approved")) {
+            /*
+            rateStatista.lossRatio
+            rateStatista.compensationPayoutRatio
+*/
+            statistaRepo.incrementNumOfResolvedClaim(year, month);
+            statistaRepo.incrementTotalClaimAmount(year, month, claimResDTO.getClaimAmount());
+            statistaRepo.incrementTotalProfit(year, month, -claimResDTO.getClaimAmount());
+
+        }
     }
 }

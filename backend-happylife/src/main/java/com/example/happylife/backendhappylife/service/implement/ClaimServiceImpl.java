@@ -18,6 +18,7 @@ import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
 import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.NotificationService;
+import com.example.happylife.backendhappylife.service.StatistaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class ClaimServiceImpl implements ClaimService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    private StatistaService statistaService;
 
     //Service for Manager
     @Override
@@ -144,8 +148,9 @@ public class ClaimServiceImpl implements ClaimService {
             }
             Instant instantNow = Instant.now();
             existingClaim.setUpdatedAt(instantNow);
-            claimRepo.save(existingClaim);
-            return existingClaim;
+            Claim savedClaim =  claimRepo.save(existingClaim);
+            statistaService.updateStatistaByResolvedClaim(savedClaim.convertToClaimResDTO());
+            return savedClaim;
 
 
         } catch (Exception e){
@@ -177,8 +182,11 @@ public class ClaimServiceImpl implements ClaimService {
             Instant instantNow = Instant.now();
             claim.setCreatedAt(instantNow);
             claim.setUpdatedAt(instantNow);
-            claimRepo.save(claim);
-            return claim.convertClaimToRes();
+            Claim savedClaim =  claimRepo.save(claim);
+
+            statistaService.updateStatistaByNewClaim(savedClaim.convertToClaimResDTO());
+
+            return savedClaim.convertClaimToRes();
         } catch (Exception e){
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }

@@ -21,10 +21,7 @@ import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
-import com.example.happylife.backendhappylife.service.ContractService;
-import com.example.happylife.backendhappylife.service.InvoiceService;
-import com.example.happylife.backendhappylife.service.NotificationService;
-import com.example.happylife.backendhappylife.service.RegistrationService;
+import com.example.happylife.backendhappylife.service.*;
 import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.ContractEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
@@ -61,6 +58,9 @@ public class RegistrationImpl implements RegistrationService {
 
     @Autowired
     private InvoiceService invoiceService;
+
+    @Autowired
+    private StatistaService statistaService;
 
 
     @Override
@@ -141,14 +141,18 @@ public class RegistrationImpl implements RegistrationService {
                         regisVar.setContractIdInfo(savedContract);
                         notificationCreateDTO.setNotiPrio("High");
 
+                        statistaService.updateStatistaByResolvedRegistration(regisVar.convertToRegisResDTO());
+
+
                     }
                     if (regis.getApprovalStatus().equals("Revoked")){
 
                         ContractResDTO oldContract = contractService.getContractByRegisId(authUser,regisId);
                         oldContract.setStatus(CONSTANT.CONTRACT_STATUS.get(0)); // cancel contract
                         contractService.updateContract(oldContract);
-
                         regisVar.setContractIdInfo(oldContract);
+
+                        statistaService.updateStatistaByResolvedRegistration(regisVar.convertToRegisResDTO());
 
                     }
                     notificationService.addAutoNoti(notificationCreateDTO);
@@ -246,8 +250,13 @@ public class RegistrationImpl implements RegistrationService {
 
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
-            registrationRepo.save(existingRegis);
-            return existingRegis.convertToRegisResDTO();
+            Registration savedRegis = registrationRepo.save(existingRegis);
+
+            if(savedRegis.getApprovalStatus().equals("Signed")){
+                statistaService.updateStatistaByResolvedRegistration(savedRegis.convertToRegisResDTO());
+            }
+
+            return savedRegis.convertToRegisResDTO();
         } catch (Exception e){
             throw  new UserCreationException("Error updating status of registration: "+ e.getMessage());
         }

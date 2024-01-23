@@ -12,12 +12,10 @@ public interface StatistaService {
 
     public StatistaDashboardResDTO createStatista(StatistaCreateDTO statistaCreateDTO);
 
-    public StatistaDashboardResDTO updateStatistaByNewRegistration(RegisResDTO regisResDTO);
+    public void updateStatistaByNewClaim(ClaimResDTO claimResDTO);
 
-    public StatistaDashboardResDTO updateStatistaByNewClaim(ClaimResDTO claimResDTO);
+    public void updateStatistaByResolvedRegistration(RegisResDTO regisResDTO);
 
-    public StatistaDashboardResDTO updateStatistaByResolvedRegistration(RegisResDTO regisResDTO);
-
-    public StatistaDashboardResDTO updateStatistaByResolvedClaim(ClaimResDTO claimResDTO);
+    public void updateStatistaByResolvedClaim(ClaimResDTO claimResDTO);
 
 }

@@ -1,4 +1,4 @@
-package com.example.happylife.backendhappylife.controller.auth;
+package com.example.happylife.backendhappylife.service;
 
 //import com.example.happylife.backendhappylife.DTO.auth.AuthenticationRequest;
 //import com.example.happylife.backendhappylife.DTO.auth.AuthenticationResponse;
@@ -95,8 +95,7 @@ public class AuthenticationService {
                     .build();
         } catch (AuthenticationException e) {
             // Handle authentication failure
-            System.out.println(e);
+            throw new UserCreationException("Invalid username or password.");
         }
-        return null;
     }
 }
