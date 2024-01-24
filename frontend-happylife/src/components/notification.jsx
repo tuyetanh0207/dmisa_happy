@@ -178,9 +178,6 @@ const notification = () => {
                 
                 ))}    
                 </div>
-                <button className={`${numberNotReadNoti === 0 ? 'hidden':'w-full h-[61px] text-black text-center bg-indigo-50 font-bold hover:text-blue-600 rounded-b-lg'}`}>
-                    View all
-                </button>
             </section>            
         </body>
     )

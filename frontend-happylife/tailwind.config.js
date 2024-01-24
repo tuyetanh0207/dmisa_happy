@@ -54,6 +54,9 @@ export default {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
       },
+      boxShadow: {
+        '3xl': '0 35px 60px -30px rgba(0, 0, 0, 0.3)',
+      },
 
 
     },

@@ -6,7 +6,7 @@ import Home from '../home/home'
 import Logo from '../../assets/LogoHalfScreen.png'
 import {Routes, Route, Link} from 'react-router-dom';
 import {useSelector} from 'react-redux'
-
+import PopupConfirm from '../../components/popConfirm'
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -14,6 +14,8 @@ const Login = () => {
     const dispatch = useDispatch();
     const [noti, setNoti] = useState('');
     const router = useNavigate();
+    const [isLoginSuccess, setIsLoginSuccess] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,20 +27,29 @@ const Login = () => {
         console.log('new User', newUser);
         try {
             const loginRes = await loginUser(newUser, dispatch, router);
-            console.log("res:",loginRes)
-        } catch (err) {
-            console.log("err:", err);
-           // setNoti("Tên đăng nhập hoặc mật khẩu không đúng.")
-            console.log(noti)
-        }
+            console.log("res:",loginRes);
+            if(loginRes?.data?.token){
+                setIsPopupOpen(false);
+                console.log("SET POPUP = true");
+            }
+            else {
+                setIsPopupOpen(true);
+                console.log("SET POPUP = false");
 
+            }
+            setNoti(loginRes);
+        } catch (err) {
+            console.log("err in login page:", err);
+           return err
+        }
     }
+    
+    console.log("res in login: ", isLoginSuccess)
 
     return(
     <div className='w-[1920px] h-[1080px] flex '>
-        <Link
-        to="/home"
-        >
+        {isPopupOpen === true && <PopupConfirm realtimeNoti={noti} isPopupOpen={isPopupOpen} setIsPopupOpen = {setIsPopupOpen} />} 
+        <Link to='/home'>
             <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
                 <img src={Logo}></img>
             </div>
@@ -50,7 +61,6 @@ const Login = () => {
                     <form className="font-sans  font-medium text-base"
                     onSubmit={handleSubmit}
                     >
-                        
                         <div>
                             <label className="ml-[100px]">
                                 Username    
@@ -102,7 +112,6 @@ const Login = () => {
                         </div>
                     </form>
                 </div>
-            {/* </div>    */}
         </div>
     </div>
 

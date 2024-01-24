@@ -33,6 +33,9 @@ import AccDashboard from './pages/staff/accounting/dashboard/dashboard.jsx';
 import AccPlan from './pages/staff/accounting/plan/plan.jsx';
 import AccRegistration from './pages/staff/accounting/registration/registration.jsx';
 // import '../pdfSetup'
+import PopConfirm from './components/popConfirm.jsx';
+import ClaimDetail from './pages/profile/claimDetail.jsx'
+
 export default function App() {
   // const [isLogin, setLogin] = useState(false)
 
@@ -57,7 +60,8 @@ export default function App() {
                 <Route path='/payment/:regisId' element ={<PaymentBank />} />
                 <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
                 <Route path='/contract/:regisId' element ={<Contract/>} />
-                
+                <Route path='/claimdetail' element ={<ClaimDetail/>} />
+
                 <Route path='/createclaim' element={<CreateClaim/>}/>
                 <Route
                   path="/staff/insuarancemanagement/*"

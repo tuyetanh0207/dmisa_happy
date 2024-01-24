@@ -15,7 +15,7 @@ const registrationteaser = (props) =>{
 
     <div className='relative'>
 
-      <div className='flex justify-center items-center relative h-[317px] w-[1415px] bg-white rounded-lg border border-gray-200 flex'>
+      <div className='flex justify-center items-center relative h-[317px] w-[1415px] bg-white rounded-t-lg border border-gray-200 flex'>
             <div className='w-[532px] h-[317px]'>
                 <img src={props.realtimeRegis.productInfo.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
                 </img>
@@ -108,22 +108,29 @@ const registrationteaser = (props) =>{
       <div>
         {
           props.realtimeRegis.message != null  && (arrrowClickStatus === false ?  (
-            <img src={DownArrowBlack} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[59px] mt-[40px] absolute z-40'></img>
+            
+         <button className='w-[50px] h-[50px] flex items-center justify-center ml-[30px] mt-[26px] absolute z-40'>
+            <img src={DownArrowBlack} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='p-3'>
+            </img>
+        </button>
           ) : (
-            <img src={DownArrowBlack} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='ml-[59px] mt-[40px] absolute z-40 rotate-180'></img >
-          )
+            <button className='w-[50px] h-[50px] flex items-center justify-center ml-[30px] mt-[26px] absolute z-40'>
+            <img src={DownArrowBlack} alt='Down Arrow' onClick= {()=> {setToggle(!toggle), setArrowClickStatus(!arrrowClickStatus)}} className='p-3'></img >
+        </button>
+        )
         )}
-      <div className={`w-[1415px] ${toggle===true ? 'h-auto max-h-[200px]':'100px' } 
-      ${props.realtimeRegis.approvalStatus === 'Paid' ? 'bg-green-100':''}
+        
+      <div className={`w-[1415px] ${toggle===true ? 'h-auto max-h-[200px]':'100px' }     
+      ${props.realtimeRegis.approvalStatus === 'Paid' ? 'bg-[#E6F4E7]':''}
       ${props.realtimeRegis.approvalStatus === 'Pending' ? 'bg-sky-100' : ''}
-      ${props.realtimeRegis.approvalStatus === 'Unpaid' ? 'bg-rose-200':''}
+      ${props.realtimeRegis.approvalStatus === 'Signed' ? 'bg-rose-200':''}
       ${props.realtimeRegis.approvalStatus === 'Approved' ? 'bg-orange-100':'bg-orange-100'}
-      overflow-y-auto`}>
+      overflow-y-auto rounded-b-lg`}>
         {props.realtimeRegis.message != null &&
             (
-                <div className='w-[1415px] h-[100px] flex items-center border-b-2 border-gray'>
+                <div className='w-[1415px] h-[100px] flex items-center border-b-[1px] border-slate-400'>
 
-                    <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
+                    <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px] '>
                     {/* Your contract has been successfully registered 0 */}
                     { moment(props.realtimeRegis.message.slice().reverse()[0].dateMessage).format('DD/MM/YYYY')} | {props.realtimeRegis.message.slice().reverse()[0].content} 
                     {/* {props.realtimeRegis.message.content} */}
@@ -132,7 +139,7 @@ const registrationteaser = (props) =>{
         )}
         {props.realtimeRegis.message !=null &&
         props.realtimeRegis.message.slice().reverse().slice(1).map((msg, index) => (
-                <div className={`${toggle === true ? '':'hidden'} w-[1415px] h-[100px] flex items-center border-b-2 border-gray`} key={index}>
+                <div className={`${toggle === true ? '':'hidden'} w-[1415px] h-[100px] flex items-center border-b-[1px] border-slate-400`} key={index}>
                     <div className='ml-[111px] text-slate-900 text-lg font-medium font-["IBM Plex Sans"] leading-[30px]'>
                     {moment(msg.dateMessage).format('DD/MM/YYYY')} | {msg.content}
                     </div>

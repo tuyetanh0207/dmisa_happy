@@ -71,13 +71,6 @@ const information = () => {
             e.preventDefault();
             console.log('update user')
             const newUser = {
-                // fullName: "Nguyễn Văn B",
-                // gender: "Nam",
-                // DOB: "1990-01-01",
-                // phoneNumber: "0344193909",
-                // citizenId: "123456789",
-                // email: "nguyenvana@example.com",
-                // address: "123 Đường B, Quận C, Thành phố D"
                 fullName: fullName,
                 gender: gender,
                 DOB: dob,
