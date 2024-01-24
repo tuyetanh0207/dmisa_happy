@@ -92,10 +92,9 @@ const contract = () => {
                     >
                         <button
                         onClick={handleAccept}
+                        className='w-[231px] h-12 px-6 py-3 bg-indigo-500 rounded border-2 border-indigo-500'
                         >
-                            <div className="w-[231px] h-12 px-6 py-3 bg-indigo-500 rounded border-2 border-indigo-500 justify-center items-center gap-2.5 inline-flex">
-                                <div className="text-center text-white text-base font-bold font-['IBM Plex Sans'] leading-normal">Accept</div>
-                            </div>
+                            <div className="text-center text-white text-base font-bold leading-normal">Accept</div>
                         </button>
                     </Link>
                     <button>

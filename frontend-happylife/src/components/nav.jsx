@@ -54,6 +54,16 @@ const Nav = () => {
   if(pathname.includes('/staff')) return <></>
 
 
+  const handleFirstLetterOfLastWord = (name) =>{
+    const words = name?.split(" ");
+    // Get the last word
+    const lastWord = words[words.length - 1];
+    
+    // Get the first letter of the last word
+    const firstLetterOfLastWord = lastWord.charAt(0);  
+    return firstLetterOfLastWord;
+  }
+
   return (
   <div>
   {pathname.includes('login') || pathname.includes('signup') ? 
@@ -90,9 +100,9 @@ const Nav = () => {
               >
               <button
               //onClick={() => handleRightNavClick(item.name)}
-              className={`${user1.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
+              className={`${user1?.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
               >
-                T 
+                {handleFirstLetterOfLastWord(user1?.userInfo?.fullName)}
               </button>
               </Link>
             </div>

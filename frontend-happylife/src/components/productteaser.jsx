@@ -7,6 +7,10 @@ import {useSelector} from 'react-redux'
 import { useEffect } from 'react';
 import ClaimAPI from '../../api/claimApi'
 import moment from 'moment'
+import EyeIcon from '../assets/EyeIcon.png'
+import {Routes, Route, Link} from 'react-router-dom';
+
+
 const productteaser = (props) => {
   // this is for claim detail toggle (above) 
   const [toggle, setToggle] = useState(false)
@@ -100,6 +104,9 @@ const productteaser = (props) => {
                     <thead className="text-base text-gray-700 uppercase bg-white sticky top-0">
                       <tr className='text-center'>
                         <th className="px-6 py-4 ">
+                                Detail
+                        </th>
+                        <th className="px-6 py-4 ">
                                 Claim Amount
                         </th>
                         <th className="px-6 py-4">
@@ -117,22 +124,31 @@ const productteaser = (props) => {
                     <tbody >
                     {realtimeClaim.map((claim, index) => (
                             <tr className="bg-white border-b text-center items-center  mb-[50px]">
-                                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                {claim.claimAmount}
+                                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                  <Link to={`/claimdetail/${props.realtimeRegis.regisId}`}>
+                                    <button className='w-auto h-auto p-2'>
+                                      <img src={EyeIcon} alt="Detail" />
+                                    </button>
+                                  </Link>
                                 </th>
+                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
+                                {claim?.claimAmount}
+
+                                </td>
                                 <td className="px-6 py-4">
-                                {moment(claim.updatedAt).format('DD/MM/YYYY')}
+                                {moment(claim?.updatedAt).format('DD/MM/YYYY')}
                                 </td>
                                 <td className="px-6 py-4  ">
                                 
                                   <div className={`w-[150px] h-[44px]  inline-flex items-center justify-center rounded
-                                         ${claim.status === 'Approved' ? ' border bg-teal-50 border-green-300 text-green-400':''}
-                                         ${claim.status === 'Pending' ? 'border bg-sky-100 border-sky-300 text-sky-400' : ''}
-                                         ${claim.status === 'Denied' ? 'border bg-rose-200 border-red-700 text-red-700 ':''}
-                                         ${claim.status === 'Payment Issued' ? 'border bg-rose-200 border-red-700 text-red-700':''}
-                                         ${claim.status === 'In Process' ? 'border bg-yellow-100 border-yellow-300 text-yellow-400':''}
-                                         ${claim.status === 'Pending Additional Information' ? 'border bg-orange-100 border-orange-300 text-orange-400':''}
+                                         ${claim?.status === 'Approved' ? ' border bg-teal-50 border-green-300 text-green-400':''}
+                                         ${claim?.status === 'Pending Review' ? 'border bg-sky-100 border-sky-300 text-sky-400' : ''}
+                                         ${claim?.status === 'Denied' ? 'border bg-rose-200 border-red-700 text-red-700 ':''}
+                                         ${claim?.status === 'Payment Issued' ? 'border bg-rose-200 border-red-700 text-red-700':''}
+                                         ${claim?.status === 'In Process' ? 'border bg-yellow-100 border-yellow-300 text-yellow-400':''}
+                                         ${claim?.status === 'Pending Additional Information' ? 'border bg-orange-100 border-orange-300 text-orange-400':''}
                                    `}> 
+                                   {claim?.status}
                                  {/* <div className='w-[150px] h-[44px]  inline-flex items-center justify-center rounded border bg-orange-100 border-orange-300 text-orange-400'>
                                  Pending Additional Information
 
@@ -145,8 +161,10 @@ const productteaser = (props) => {
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className='flex justify-center'>
+                                    
                                     <div className='w-auto h-auto max-w-[400px] max-h-[200px] overflow-y-auto text-justify'>
-                                        {claim.message}         
+                                      {claim?.message?.[0]?.content}
+                                         
                                   </div>
                                     </div>
                                 </td>

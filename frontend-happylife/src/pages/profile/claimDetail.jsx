@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux';
 import UserAPI from '../../../api/userApi';
-import Avartar from '../../assets/avatar.png' 
+import Avartar from '../../assets/avatar.png';
+import ClaimAPI from '../../../api/claimApi'
+import { useParams } from 'react-router-dom';
+
+
 const claimDetail = (props) => {
     const user1 = useSelector((state) =>state.auth.login.currentUser);
     const [realtimeUser, setRealtimeUser] = useState({});
@@ -74,12 +78,45 @@ const claimDetail = (props) => {
 
 
 
+    /* v----------------- FETCH REGIS-CLAIMLIST -----------------v */
+    /* v----------------- FETCH REGIS-CLAIMLIST -----------------v */
+    /* v----------------- FETCH REGIS-CLAIMLIST -----------------v */
+
+  // Get regisId by url
+  const { regisId } = useParams();
+  // Get claim by regis of user
+  const [realtimeClaim, setRealtimeClaim] = useState([]);
+  const fetchClaim = async () => {
+    try{
+      const res = await ClaimAPI.getAllClaimsOfUserByRegis(user1?.token, regisId);
+      setRealtimeClaim(res.data);
+      console.log('res realtimeClaim by regis in ClaimDetail:', res.data);
+
+    }
+    catch (error){
+      console.log("error in claim of regis in ClaimDetail page", error);
+    }
+  }
+  useEffect(() => {
+    fetchClaim();
+  },[])
+  
+    /* ^----------------- FETCH REGIS-CLAIMLIST -----------------^ */
+    /* ^----------------- FETCH REGIS-CLAIMLIST -----------------^ */
+    /* ^----------------- FETCH REGIS-CLAIMLIST -----------------^ */
+
+
   return (
+    
+
+
     <div className=" flex justify-center items-center h-auto min-h-[1180px] bg-slate-50 my-auto flex-col">   
         <form className="w-[1415px] h-auto min-h-[800px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base mt-[100px] mb-[100px]">
             <div className='flex justify-center mt-[50px] mb-[32px]'>
-              <div className="w-[1046px] text-center text-blue-950 text-5xl font-medium font-serif leading-[56px]">
-                Claim Detail
+              <div className="w-[987px] rounded-lg text-center text-blue-950 text-5xl font-medium font-serif leading-[56px]">
+                  <div className='text-center text-4xl font-bold p-[30px] bg-teal-100 mb-[20px]'>
+                        Claim Detail
+                    </div>
               </div>
              
             </div>
@@ -142,7 +179,7 @@ const claimDetail = (props) => {
                         {address}
                         </div>
                     </div>
-                    
+                                        
                     <div className='mb-[42px]'>
                         <div>
                             <label className='ml-[214px] mr-[454px] '>Plan Type</label>
@@ -157,7 +194,7 @@ const claimDetail = (props) => {
                         </div>
                         
                     </div>
-                    
+
                     <div>
                         <label className='ml-[214px]'>
                             Plan Service Coverage
@@ -211,8 +248,10 @@ const claimDetail = (props) => {
 
                         </div>
                     </div>
-                    <div className='text-center text-4xl p-[30px]'>
-                      INVOICE
+                    <div className='flex justify-center'>
+                      <div className='w-[987px] rounded-lg font-serif font-bold text-center text-4xl p-[30px] bg-teal-100 mt-[20px]'>
+                        Invoice
+                      </div>
                     </div>
                     <div className='w-full flex flex-col items-center'>
                         <div className='w-[987px] h-auto max-h-[500px] pb-[100px] overflow-y-auto'>
@@ -254,6 +293,7 @@ const claimDetail = (props) => {
             </div>
         </form>
         </div>
+       
     )
 }
 
