@@ -719,10 +719,9 @@ export default function Buyplan() {
                   <div>
                     <div>
                       <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
-                          Choose Optional Benefit
+                          Hopital Document
                         </label>
-                        
-
+  
                       <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
                     </div>
                   </div>

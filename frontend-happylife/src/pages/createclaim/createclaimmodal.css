@@ -18,12 +18,13 @@
     padding: 0% 4% 2% 4%;
     border-radius: 8px;
     height: 40%;
+    width: 30% ;
     box-sizing: border-box;
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
     gap: 10px; /* Adjust the gap between buttons as needed */
-    min-width: 50%;
+   
   }
   

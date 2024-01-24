@@ -11,6 +11,7 @@ import Modalsuccess from './modalsuccess.jsx'
 import Addinvoiceclaim  from './addinvoiceclaim.jsx';
 import RegistrationAPI from '../../../api/registrationApi.jsx';
 import { useParams } from 'react-router-dom'
+import Send from '../../assets/send.png'
 
 export default function CreateClaim() { 
     const user = useSelector((state) => state.auth.login.currentUser);
@@ -236,8 +237,8 @@ export default function CreateClaim() {
           <form onSubmit={handleSubmit} className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 ">
                   <div className="sm:col-span-full">   
-                        <label className="block text-xl font-medium leading-6 text-gray-900">
-                          Reason
+                        <label className="block text-xl text-slate-900 font-medium font-['IBM Plex Sans'] leading-7">
+                          Your Reason
                         </label>
                         <div className="mt-2">
                         <input
@@ -250,14 +251,16 @@ export default function CreateClaim() {
                         />
                         </div>
                   </div>
-                  <div className="pt-10 ">
-
-                        <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
-                    </div>
+                  <div className="sm:col-span-full ">
+                      <label className="block text-xl text-slate-900 font-medium font-['IBM Plex Sans'] leading-7">
+                        Plan Category
+                      </label>
+                      <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
+                  </div>
 
                     <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
-                            Hospital Name
+                          Your Hospital 
                         </label>
                         <div className="mt-2">
                         <input
@@ -269,22 +272,38 @@ export default function CreateClaim() {
                             onChange={(e)=>setHospitalName(e.target.value)}
                         />
                     </div>
-                    {/* claimInvoices table */}
-                    <Addinvoiceclaim rows={rows} deleteRow={handleDeleteRow}/>
-                    <div className="flex justify-center pt-5">
-                        <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
+                    <div className=" sm:col-span-full">   
+                        <label className="pt-8 block text-xl font-medium leading-6 text-gray-900">
+                          Claim Invoices 
+                        </label>
+                        <Addinvoiceclaim rows={rows} deleteRow={handleDeleteRow}/>
+                        
                     </div>
+                    
+                    {/* claimInvoices table */}
+                    
+                    <div className="flex justify-center pt-5">
+                        <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-blue-700 border-2 border-blue-600 bg-white hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">+</button>
+                    </div>
+
                     {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}}  onSubmit={handleAddRow}  className="pt-5"/>}
                     
                     {modalErrorOpen && <Modalerror closeModal={() => {setModalErrorOpen(false)}}/>}
                     {modalErrorFileOpen && <Modalerrorfile closeModal={() => {setModalErrorFileOpen(false)}}/>}
                     {modalSuccessOpen && <Modalsuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
                     
-                    <input type="file" onChange={handleFileChange} multiple className='pt-10' />
-                    <div className="flex items-center justify-between">
-                            <div></div>
-                            <button  className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
-                                <p className="pl-6">Sent</p>
+                    <div>
+                      <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                          Hopital Document
+                        </label>
+  
+                      <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
+                    </div>
+                    <div className="pt-10 flex items-center justify-center">
+                          
+                            <button  className="gap-5 px-32 py-6 text-2xl text-white flex flex-row bg-indigo-500 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
+                            <img src={Send} className=" w-[25px]"  />
+                              Sent Claim 
                             </button>
                         </div>
                   </div>
