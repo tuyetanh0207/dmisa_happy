@@ -31,14 +31,14 @@ export default function Plan() {
   
     return (
       <div className="bg-custom-blue-3">
-        <div className="pt-20 pb-20 container-sm mx-auto  items-center ">
-          <div className="mx-auto px-32 w-3/4 grid grid-cols-1 gap-10 ">
+        <div className="pt-20 pb-20 container-sm mx-auto items-center ">
+          <div className="mx-auto px-32 w-3/5  grid grid-cols-1 gap-10 ">
             { plans.map((plan, index) => (
               <div key={index} className=" px-5 rounded-lg flex flex-col">
                 <div>
                   <input type="hidden" value="3" />
                   <div className=''>
-                    <img src={Insurance} alt="LOGO" className=" py-5 rounded-lg w-full h-1/2 " />
+                    <img src={Insurance} alt="LOGO" className=" py-5 rounded-lg w-full h-[40%] " />
                   </div>
                   
                   <div className="pt-5 px-10 text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">{plan.planName}</div>

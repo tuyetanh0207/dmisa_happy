@@ -8,6 +8,7 @@ import Modal from './modal/modal.jsx'
 import ModalSuccess from './modal/modalsuccess.jsx'
 import RegistrationAPI from "../../../../api/registrationApi.jsx";
 import Shopingcar from "../../../assets/shopingcar.png";
+import {NumberFormatExample} from '../../../supportFunctions.jsx'
 // import SetupProxy from '../../../setupProxy.js'
 export default function Buyplan() {
   const user = useSelector((state) => state.auth.login.currentUser);
@@ -49,7 +50,7 @@ export default function Buyplan() {
       { fee: 0, isSelected: false, currentIndex: 0 },
       { fee: 0, isSelected: false, currentIndex: 0 },
     ]);
-  const [planTotalFee, setPlanTotalFee] = useState(0);
+  const [planTotalFee, setPlanTotalFee] = useState(null);
 
   const handlePlanChange = (e) => {
     const planId = e.target.value;
@@ -83,7 +84,7 @@ export default function Buyplan() {
     sumTotalFee(_selectedAgeGroup.fee, _feeOfSelectedOptionalBenefits);
   };
 
-  let optionalSpecialInsuranceAmount;
+  
 
   const handleSelectSpecialOptionPlan = (event, outerIndex) => {
     event.preventDefault();
@@ -303,6 +304,7 @@ export default function Buyplan() {
         console.error("Error:", error);
         setModalOpen(true);
       });
+      
     // console.log('Current: ',curentRegistrations)
   };
 
@@ -335,6 +337,7 @@ export default function Buyplan() {
     fetchUserInfo();
     fetchPlan(); // Fetch plans
   }, []);
+   
 
   //   console.log("PLANS:", plans);
   //console.log("planID:",planID);
@@ -346,9 +349,10 @@ export default function Buyplan() {
   //console.log("Select plan.type:",selectPlan.planId);
 
   return (
-    <div className=" bg-custom-blue-3 ">
+    <div className="py-20 bg-custom-blue-3 ">
       {/* <Header /> */}
-      <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
+      <div className="mt-14 pt-6 pb-14 container w-5/6 mx-auto bg-white">
+      <div className="py-10 w-auto text-center text-blue-950 text-5xl font-medium font-['IBM Plex Serif'] leading-[56px]">Fill Your Information to Buy Plan</div>
         <form
           onSubmit={handleSubmit}
           className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  "
@@ -481,7 +485,7 @@ export default function Buyplan() {
               </label>
               <select
                 value={planID}
-                className="sm:col-start-1 col-end-7 block w-full border-0 py-3 text-custom-blue-3 shadow-sm ring-1 ring-inset ring-custom-blue- placeholder:text-custom-blue-3 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm"
+                className="sm:col-start-1 col-end-7 block w-full border-0 py-3 text-custom-blue-3 shadow-sm ring-1 ring-inset ring-custom-blue placeholder:text-xl placeholder:text-custom-blue-3 focus:ring-2 focus:ring-inset focus:ring-blue-900 sm:text-sm"
                 onChange={handlePlanChange}
               >
                 {plans?.map((plan, index) => (
@@ -489,6 +493,7 @@ export default function Buyplan() {
                     key={index}
                     value={plan.planId}
                     selected={plan.planId === planID}
+                    
                   >
                     {plan.planName}
                   </option>
@@ -496,7 +501,7 @@ export default function Buyplan() {
               </select>
 
               {planID && (
-                <div className="pt-12 ">
+                <div className="py-20 ">
                   {selectedPlan && (
                     <Link
                       to={`/plan/${planID}`}
@@ -537,20 +542,20 @@ export default function Buyplan() {
                       </div>
                     </Link>
                   )}
-
+                  {/* ------------------------------------------- */}
                   {selectedPlan && (
                     <div>
-                      <label className="block text-xl font-medium leading-6 text-gray-900">
+                      <label className="border-t-4 mt-8 pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
                         Choose Plan Type
                       </label>
                       <div className="grid grid-cols-4 gap-4">
                         {selectedPlan?.planType?.map((item, index) => (
-                          <div key={index} className=" text-center">
+                          <div key={index} className="rounded-[10px] border-2  border-neutral-200 text-center">
                             <button
                               value={item.typeName}
                               onClick={() => handlePlanTypeNameChange(item)}
-                              className={`border-gray-600 border-2 rounded-lg w-full h-full ${
-                                selectedPlanType === item ? "bg-gray-200" : ""
+                              className={`border-gray-600 border-2 rounded-lg w-full h-full py-2 hover:text-white border border-blue-700 hover:bg-indigo-500 ${
+                                selectedPlanType === item ? "bg-indigo-500 text-white" : ""
                               }`}
                             >
                               {item.typeName}
@@ -569,22 +574,22 @@ export default function Buyplan() {
 
                       {selectedPlanType && (
                         <div>
-                          <p className="mb-3 text-2xl font-normal">
+                          <p className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
                             Selected Benefits:
                           </p>
                           {selectedPlanType?.benefits?.map((benefit, index) => (
-                            <div key={index} className="text-xl font-normal">
-                              <div>{benefit.benefitName}</div>
+                            <div key={index} className=" py-5 rounded-[10px]  border-neutral-200 text-center">
+                              <div className="text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">{benefit.benefitName}</div>
                               {/* <div>{benefit.dependencies}</div> */}
 
                               <div className="pt-10 grid grid-cols-4 gap-4">
                                 {benefit?.feeType?.map((item3, index) => (
                                   <button
                                     key={index}
-                                    className={`border-gray-600 border-2 rounded-lg w-full h-full ${
+                                    className={`border-gray-600 border-2 rounded-lg w-full h-full py-2 px-2 hover:text-white border border-blue-700 hover:bg-indigo-500 ${
                                       selectedAgeGroup?.startAge ===
                                       item3.startAge
-                                        ? "bg-gray-200"
+                                        ? "bg-indigo-500 text-white "
                                         : ""
                                     }`}
                                     onClick={() => handleChangeAgeGroup(item3)}
@@ -593,7 +598,7 @@ export default function Buyplan() {
                                       From {item3.startAge}-{item3.endAge} age{" "}
                                     </div>
                                     <div>
-                                      {item3.fee} {benefit.unit}
+                                      {NumberFormatExample(item3.fee)} {benefit.unit}
                                     </div>
                                   </button>
                                 ))}
@@ -606,15 +611,15 @@ export default function Buyplan() {
 
                       {selectedPlan && (
                         <div>
-                          <label className="pt-10 block text-xl font-medium leading-6 text-gray-900">
+                          <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
                             Choose Optional Benefit
                           </label>
-                          <div className="grid grid-cols-4 gap-4">
+                          <div className="grid grid-cols-2 gap-4">
                             {selectedPlan?.optionalBenefits?.map(
                               (item, index) => (
                                 <div key={index} className="text-xl">
                                   <div className="">
-                                    <div className="flex flex-row items-center ">
+                                    <div className="flex flex-row items-center gap-5 ">
                                       <input
                                         type="checkbox"
                                         value={item.benefitName}
@@ -631,19 +636,30 @@ export default function Buyplan() {
                                         className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                       ></input>
                                       {/* <input id={index} type="checkbox" value={item.benefitName} onChange={(e)=>handleOptionalBenefitChange(e,index)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input> */}
-                                      <div className="flex flex-col items-center ">
-                                        <label className="ms-2 font-medium text-gray-900 dark:text-gray-300">
+                                      <div className="flex flex-col   ">
+                                        <label className={`ms-2 font-normal   dark:text-gray-300 ${
+                                          feeOfSelectedOptionalBenefit[index]
+                                            .isSelected === true
+                                            ? "text-indigo-500 text-xl font-medium font-['Inter']"
+                                            : ""
+                                          } `}>
                                           {item.benefitName}
                                         </label>
                                         {/* {selectedOptionalBenefits.map((a,i)=><div key={i}>{a}</div>)} */}
-                                        <div>
+                                        <div className={`ms-2 font-normal   dark:text-gray-300 ${
+                                          feeOfSelectedOptionalBenefit[index]
+                                            .isSelected === true
+                                            ? "text-indigo-500 text-xl font-medium font-['Inter']"
+                                            : ""
+                                          } `}>
                                           {item.dependencies == "age" &&
                                             item?.feeType?.map(
                                               (item2, index) => (
-                                                <div key={index}>
+                                                <div key={index} >
                                                   {selectedAgeGroup?.startAge ===
                                                     item2.startAge && (
-                                                    <div>{item2.fee}</div>
+                                                    <div>{NumberFormatExample(item2.fee)} {item.unit}</div>
+                                                    
                                                   )}
                                                 </div>
                                               )
@@ -677,8 +693,9 @@ export default function Buyplan() {
                                                       <br />
                                                       <div>
                                                         {" "}
-                                                        Mức giá: {
-                                                          item2.fee
+                                                        .Mức giá: {
+                                                          NumberFormatExample(item2.fee)
+                                                        
                                                         }{" "}
                                                       </div>
                                                     </option>
@@ -701,15 +718,18 @@ export default function Buyplan() {
                   )}
                   <div>
                     <div>
-                      <input type="file" onChange={handleFileChange} multiple />
-                      {/* <input type="text" placeholder="File Counts" onChange={handleFileCountChange} /> */}
-                      {/* <button onClick={handleUpload}>Upload</button> */}
+                      <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                          Choose Optional Benefit
+                        </label>
+                        
+
+                      <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div></div>
                     <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">
-                      Totals: {planTotalFee} VND
+                      Totals:{NumberFormatExample(planTotalFee)} VND
                     </div>
                   </div>
                 </div>
@@ -733,8 +753,7 @@ export default function Buyplan() {
             {modalSuccessOpen && <ModalSuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
           </div>
         </form>
-        <div>current: {curentRegistrations}</div>
-        <div>{optionalSpecialInsuranceAmount}</div>
+      
       </div>
     </div>
   );

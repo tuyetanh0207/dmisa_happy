@@ -228,9 +228,11 @@ export default function CreateClaim() {
         }, [regisId]); 
     
     return(
-        <div className=" bg-custom-blue-3 ">
+        <div className="py-20 bg-custom-blue-3 ">
         
-        <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
+        <div className="mt-10 pt-6 pb-14 container mx-auto bg-white">
+          <div className="py-10 w-auto text-center text-blue-950 text-5xl font-medium font-['IBM Plex Serif'] leading-[56px]">Send Your Claim</div>
+
           <form onSubmit={handleSubmit} className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 ">
                   <div className="sm:col-span-full">   
@@ -273,6 +275,7 @@ export default function CreateClaim() {
                         <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
                     </div>
                     {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}}  onSubmit={handleAddRow}  className="pt-5"/>}
+                    
                     {modalErrorOpen && <Modalerror closeModal={() => {setModalErrorOpen(false)}}/>}
                     {modalErrorFileOpen && <Modalerrorfile closeModal={() => {setModalErrorFileOpen(false)}}/>}
                     {modalSuccessOpen && <Modalsuccess closeModal={() => {setModalSuccessOpen(false)}}/>}

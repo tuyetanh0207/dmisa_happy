@@ -47,7 +47,7 @@ export default function Contact() {
                     </div>
                     
                   </div>
-                  <div className="text-lg font-normal font-['IBM Plex Sans']">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repre henderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</div>
+                  <div className="text-xl font-normal font-['IBM Plex Sans']">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
                 </div>
               </div>
               <Contactinplan className=""/>

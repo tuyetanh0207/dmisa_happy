@@ -50,9 +50,9 @@ export default function Plandetail() {
 
 
     return (
-        <div className="py-20 bg-custom-blue-3">
+        <div className="py-20 bg-custom-blue-3 w-full">
             
-            <div  className='py-20 mb-20 container mx-auto bg-white'>
+            <div  className='py-20 mb-20 container mx-auto bg-white w-full'>
                 <h1 className="pb-14  text-center text-5xl font-semibold font-serif text-custom-blue">{plansDetail?.planName}</h1>
                 <div className="pt-6 pb-14 container mx-auto  max-w-6xl">
                     <div className="pb-5 flex items-center justify-between">
@@ -189,32 +189,7 @@ export default function Plandetail() {
                         </div>
                     </div>
                     {modalOpen && <Modal closeModal={() => {setModalOpen(false)}}/>}
-                    {/* <div className="pt-10 container mx-auto ">
-                        <div className="pb-10 flex flex-row justify-end">
-                            <div className="basis-1/3">
-                                <Link to="/plan">
-                                    <div className="px-7 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
-                                        <div className="justify-start items-center flex">
-                                            <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
-                                                <p>Back to Plan page</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Link>
-                                
-                            </div>
-                            <div className="basis-1/3"></div>
-                            <div className="basis-1/3 flex justify-end">
-                                <Link to="/buyplan" className="px-24 py-4 absolute bg-indigo-50 rounded border border-indigo-500 items-center inline-flex">
-                                    <div className="justify-end items-center flex">
-                                        <div className="text-right text-indigo-500 text-2xl font-bold font-['IBM Plex Sans'] leading-normal">
-                                            <p>Register</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    </div> */}
+
 
 
  
