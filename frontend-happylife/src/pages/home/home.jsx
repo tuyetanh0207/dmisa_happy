@@ -9,11 +9,15 @@ import VTP from '../../images/VTP.jpg';
 import NTTA from '../../images/NTTA.jpg';
 import House from '../../images/house.png';
 import HeartAttack from '../../images/heart-attack.png';
+import Run from '../../images/run.png';
+import FamilyPractice from '../../images/family.png';
+import ChildrenPractice from '../../images/children.png';
 import './style.css'
 import {
   HeartIcon,
   HomeIcon
 } from "@heroicons/react/24/outline";
+import { Children } from 'react';
 
 export default function Home() {
       
@@ -43,9 +47,7 @@ export default function Home() {
           <div class="flex flex-col lg:flex-row lg:-mx-8">
             <div class="w-full lg:w-1/2 lg:px-8">
               <h2 class="text-3xl leading-tight font-bold mt-4">Welcome to the HappyLife Insurance</h2>
-              <p class="text-lg mt-4 font-semibold">Protection and Peace of Mind Tailored for You</p>
-              <p class="mt-2 leading-relaxed">Donec convallis sollicitudin facilisis. Integer nisl ligula, accumsan non tincidunt ac, 
-              imperdiet in enim. Donec efficitur ullamcorper metus, eu venenatis nunc. Nam eget neque tempus, mollis sem a, faucibus mi.</p>
+              <p class="mt-2 leading-relaxed">Welcome to HappyLife Insurance, your trusted partner in securing a joyful and worry-free future. Our tailored insurance solutions prioritize your peace of mind and financial well-being. Explore our offerings and let us accompany you on the path to a happy and secure life.</p>
             </div>
 
             <div class="w-full lg:w-1/2 lg:px-8 mt-12 lg:mt-0">
@@ -131,7 +133,7 @@ export default function Home() {
         <section class="relative bg-[#F5F9FD] px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-16 lg:py-32">
           <div class="flex flex-col lg:flex-row lg:-mx-8">
             <div class="w-full lg:w-1/2 lg:px-8">
-              <h2 class="text-3xl leading-tight font-bold mt-4 mb-4">Why choose HappyLife?</h2>
+              <h2 class="text-4xl leading-tight font-bold mt-4 mb-4">Why choose HappyLife?</h2>
               <p class="mt-2 leading-relaxed mb-10">Choose HappyLife Insurance for personalized, comprehensive coverage tailored to your unique needs. 
               With a proven track record, our experienced team is dedicated to your peace of mind and overall satisfaction. Trust us for more than just 
               a policy – choose a partner committed to your lasting security</p>
@@ -140,13 +142,89 @@ export default function Home() {
 
             <div class="w-full md:max-w-md md:mx-auto lg:w-1/2 lg:px-8 mt-12 mt:md-0">
               <div class="bg-gray-400 w-full h-72 rounded-lg">
-                <img src={Family} alt="happy-family" class="f-height mx-auto"/>
+                <img src={Family} alt="happy-family" class="f-height mx-auto rounded-lg"/>
               </div>
 
               <p class="italic text-sm mt-2 text-center">Aenean ante nisi, gravida non mattis semper.</p>
             </div>
           </div>
         </section>
+
+        {/* Article Section */}
+        <div class="container my-24 mx-auto md:px-6">
+          <section class="mb-32">
+            <h2 class="mb-16 text-center text-4xl font-bold">Our Value</h2>
+
+            <div class="mb-16 flex flex-wrap">
+              <div class="mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-6/12 lg:pr-6">
+                <div class="ripple relative overflow-hidden rounded-lg bg-cover bg-[50%] bg-no-repeat shadow-lg dark:shadow-black/20">
+                  <img src={ChildrenPractice} class="w-full" alt="Louvre" />
+                  <a href="#!">
+                    <div
+                      class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.2)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pl-6 center">
+                <h3 class="mb-4 text-2xl font-bold">We value what makes us us</h3>
+                <p class="mb-6 text-neutral-500 dark:text-neutral-300">
+                Our workplace ideal center around the belief that every individual means something special and every possible connection bonds something new. We foster a culture of inclusivity and creativity, ensuring people of all backgrounds, experiences and perspectives are represented.
+                </p>
+                <p class="text-neutral-500 dark:text-neutral-300">
+                Our venture is the combined effort of intellectual capabilities and commercial solutions, dedicated to serve the society at large. We mobilize the best in A-list contemporary with quantum ideas to execute and own the entrepreneurship sought after.
+                </p>
+              </div>
+            </div>
+
+            <div class="mb-16 flex flex-wrap lg:flex-row-reverse">
+              <div class="mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-6/12 lg:pl-6">
+                <div class="ripple relative overflow-hidden rounded-lg bg-cover bg-[50%] bg-no-repeat shadow-lg dark:shadow-black/20">
+                  <img src={Run} class="w-full" alt="Louvre" />
+                  <a href="#!">
+                    <div
+                      class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.2)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pr-6">
+                <h3 class="mb-4 text-2xl font-bold">We know our business</h3>
+                <p class="mb-6 text-neutral-500 dark:text-neutral-300">
+                  We aim to champion the business of venture capital by being the trusted vessel for financiers and engineers. Our venture has a long lifetime, and it is a broad arc over inter-industry values and cross-domain trends. 
+                </p>
+                <p class="text-neutral-500 dark:text-neutral-300">
+                  Our vision for our workplace is one that is centered on integrity and respect and with values that bring forward excellence in all of us each and every day. We are committed to creating a culture where diverse voices and perspectives are encouraged, and where all employees are equally supported in developing their careers — where people can truly be themselves and feel they can achieve their best.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap">
+              <div class="mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-6/12 lg:pr-6">
+                <div class="ripple relative overflow-hidden rounded-lg bg-cover bg-[50%] bg-no-repeat shadow-lg dark:shadow-black/20">
+                  <img src={FamilyPractice} class="w-full" alt="Louvre" />
+                  <a href="#!">
+                    <div
+                      class="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.2)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100">
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pl-6">
+                <h3 class="mb-4 text-2xl font-bold">We inspire excellence</h3>
+                <p class="mb-6 text-neutral-500 dark:text-neutral-300">
+                  We approach our work with craftsmanship and our global network with care. We want to ensure that everything we touch and everyone we see are recognized in our legacy. The impact we create with entrepreneurs will sustain independently.
+                </p>
+                <p class="text-neutral-500 dark:text-neutral-300">
+                  Our culture is one of our top priorities and we are focused on implementing people- first policies and programs equitably throughout our global organization. As we continue to invest in systems, tools and processes to strengthen our company, what’s most important is the continued investment in our people.
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
 
         {/* CTA Section */}
         <section class="bg-[#182256]">
@@ -318,6 +396,7 @@ export default function Home() {
             </div>
           </section>
         </div>
+        
         
         
 
