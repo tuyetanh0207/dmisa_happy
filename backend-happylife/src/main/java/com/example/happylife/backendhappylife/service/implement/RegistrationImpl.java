@@ -36,10 +36,7 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -277,6 +274,11 @@ public class RegistrationImpl implements RegistrationService {
 
             Instant instantNow= Instant.now();
             regis.setApprovalStatus("Pending");
+            Message mes = new Message();
+            mes.setContent("Your registration is pending. Please wait for the manager to confirm the registration!");
+            mes.setDateMessage(instantNow);
+            regis.setMessage(new ArrayList<>());
+            regis.getMessage().add(mes);
             regis.setCreatedAt(instantNow);
             regis.setUpdatedAt(instantNow);
 

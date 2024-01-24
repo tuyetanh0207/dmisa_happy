@@ -88,6 +88,7 @@ public class UserController {
                                     @PathVariable ObjectId userId,
                                     @RequestBody UserResDTO user){
         try {
+            System.out.println("DoB get : " + user.getDOB());
             User userVar = (User) request.getAttribute("userDetails");
             UserResDTO userRequest = userVar.convertFromUserToUserResDTO();
             if(userVar.getRole() == Role.CUSTOMER ||
