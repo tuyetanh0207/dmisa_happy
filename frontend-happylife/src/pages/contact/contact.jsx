@@ -11,7 +11,7 @@ export default function Contact() {
             <div className=" grid grid-cols-2 ">
               <div className="">
                 <div className="py-20 px-20 flex flex-col gap-5">
-                  <div className="text-5xl font-medium font-['IBM Plex Serif']">Where to Find</div>
+                  <div className="text-5xl font-semibold font-['IBM Plex Serif']">Where to Find</div>
                   <div className="text-5xl text-custom-blue-3 font-medium font-['IBM Plex Serif']">HappyLife</div>
                   <div className="text-2xl font-normal font-['IBM Plex Sans']">Quis risus sed vulputate odio ut. Vitae elementum curabitur vitae nunc sed velit dignissim sodales. Orci ac auctor augue mauris augue neque gravida</div>
                   <div className="py-4 flex flex-col gap-5">
