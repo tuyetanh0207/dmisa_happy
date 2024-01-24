@@ -6,6 +6,7 @@ import com.example.happylife.backendhappylife.entity.Contact;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ContactRepo;
 import com.example.happylife.backendhappylife.service.ContactService;
+import com.example.happylife.backendhappylife.service.MyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,12 @@ public class ContactServiceImpl implements ContactService {
             if (contact.getEmail() == null && contact.getPhoneNumber() == null) {
                 throw new UserCreationException("At least have one Email or PhoneNumber");
             }
+            if (!MyService.isValidEmail(contact.getEmail()) && contact.getEmail() != null) {
+                throw new UserCreationException("Email is invalid");
+            }
+            if (!MyService.isValidPhoneNumber(contact.getPhoneNumber()) && contact.getPhoneNumber() != null) {
+                throw new UserCreationException("Phone number is invalid");
+            }
             if(contact.getMessage() == null) {
                 throw new UserCreationException("Message is required");
             }
@@ -45,6 +52,9 @@ public class ContactServiceImpl implements ContactService {
             }
             if(contact.getCustomerName() == null){
                 throw new UserCreationException("Customer name is required");
+            }
+            if(!MyService.isValidEmail(contact.getEmail())){
+                throw new UserCreationException("Email must have right format");
             }
             Instant instantNow = Instant.now();
             contact.setCreatedAt(instantNow);
