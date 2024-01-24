@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux';
 import UserAPI from '../../../api/userApi';
 import Avartar from '../../assets/avatar.png' 
+import axios from 'axios'
 const information = () => {
     const user1 = useSelector((state) =>state.auth.login.currentUser);
     const [realtimeUser, setRealtimeUser] = useState({});
@@ -62,6 +63,71 @@ const information = () => {
         const formattedDate = `${day}/${month}/${year}`;
       };
 
+    const [files, setFiles] = useState([]);
+    const [isImageFile, setIsImageFile] = useState(false);
+    let url1;
+
+    const handleFileChange = (event) => {
+        const inputFile = event.target.files;
+        console.log('inputfile:',inputFile);
+        console.log('inputfile:',inputFile[0].name);
+        if (inputFile[0].name.includes('.pdf') == true){
+            console.log('inputfile:',inputFile[0].name.includes('.pdf'));
+            setIsImageFile(false);
+        } else {
+            setIsImageFile(true);
+        }
+        setFiles(inputFile);
+        
+      };  
+    const handleUpdateFile = async (e) => {
+        {
+            e.preventDefault();
+            //const fileCounts = [{section:"user:",fileCount:files.length}];
+
+            console.log('true/false: ',isImageFile)
+            if(isImageFile==true){
+                url1 =`http://localhost:8090/api/v1/users/update/${user1?.userInfo?.id}/image-HealthStatus`;
+            }
+            else {
+                url1 =`http://localhost:8090/api/v1/users/update/${user1?.userInfo?.id}/files-HealthStatus`;
+            }
+            console.log('URL: ',url1)
+            const formData = new FormData();
+
+            //formData.append('fileCounts', JSON.stringify(fileCounts))
+            for (let i = 0; i < files.length; i++) {
+
+              formData.append('files', files[i]);
+            }
+
+            //console.log('file url: ',fileURL)
+            axios.put(url1, formData, 
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${user1?.token}`
+              }
+            })
+              .then(response => {
+                console.log('Success:', response.data);
+                console.log('file: ',files);
+                console.log('FormData: ',formData)
+
+                // Handle the response as needed
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                console.log('file: ',files);
+                console.log('FormData: ',formData)
+                console.log('user: ',user1?.userInfo?.id)
+
+                // Handle errors
+              });
+
+
+        }
+    }
     
 
     // **** UPDATE USER **** //
@@ -207,6 +273,13 @@ const information = () => {
                         >
                         </input>
                     </div>
+                    <div>
+                        <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                          Hopital Document
+                        </label>
+                        <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
+                    </div>
+                    <button type="button" onClick={handleUpdateFile} className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Default</button>
                     {/* <div>
                         <label className='ml-[214px]'>
                             Health status
