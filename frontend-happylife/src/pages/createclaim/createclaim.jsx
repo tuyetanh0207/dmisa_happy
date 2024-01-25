@@ -293,11 +293,10 @@ export default function CreateClaim() {
                     {modalSuccessOpen && <Modalsuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
                     
                     <div>
-                      <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                        <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
                           Hopital Document
                         </label>
-  
-                      <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
+                        <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
                     </div>
                     <div className="pt-10 flex items-center justify-center">
                           
