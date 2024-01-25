@@ -2,6 +2,8 @@ import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
 import Select from 'react-select'
 import axios from 'axios'
+import Modalsuccess from '../../contact/modalsuccess.jsx'
+import Modalerror from '../../contact/modalerror.jsx'
 export default function Review() {
     const user = useSelector((state) => state.auth.login.currentUser);
     const [isLogin, setIsLogin] = useState(false);
@@ -12,6 +14,8 @@ export default function Review() {
     const [serviceType,setServiceType] = useState("");
     const [message,setMessage] = useState("");
 
+    const [modalSuccessOpen,setModalSuccessOpen] = useState(false);
+    const [modalErrorOpen,setModalErrorOpen] = useState(false);
 
     const serviceTypeList = [
         {value:"Tư vấn mua bảo hiểm",label:"Tư vấn mua bảo hiểm"},
@@ -36,6 +40,10 @@ export default function Review() {
       const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////");
+        if(fullName==""||phoneNumber==""||email==""||serviceType==""||message==""){
+            setModalErrorOpen(true)
+            return;
+        }
         const contact = {
             customerName:fullName,
             phoneNumber:phoneNumber,
@@ -54,6 +62,7 @@ export default function Review() {
           })
           .then((response) => {
             console.log("Success:", response.data);
+            setModalSuccessOpen(true);
           })
 
           .catch((error) => {
@@ -141,15 +150,17 @@ export default function Review() {
                             Message
                         </label>
                         <div className="mt-2">
-                            <input
+                            <textarea
                             type="text"
-                            name="time"
-                            id="time"
                             className="block w-full h-32 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             onChange={(e) => setMessage(e.target.value)}
                             />
                         </div>
                     </div>
+
+
+                    {modalSuccessOpen && <Modalsuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
+                    {modalErrorOpen && <Modalerror closeModal={() => {setModalErrorOpen(false)}}/>}
             <button  className="mt-10 bg-button-blue text-white text-xl font-semibold font-serif rounded text-center w-full h-14">Make an Appointment</button>
         </form>
         

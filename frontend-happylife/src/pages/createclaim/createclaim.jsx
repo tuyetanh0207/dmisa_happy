@@ -310,25 +310,6 @@ export default function CreateClaim() {
              
                  
           </form>
-
-                                                
-          {/* test get registion */}
-          {/* {registrations?.map((item, index) => (
-            <div key={index}>
-                <div className="border-t border-gray-300 pl-8 pr-2 py-2">{index + 1}</div>
-                <div >{item.customerInfo.fullName}</div>
-                <div >{item.customerInfo.phoneNumber}</div>
-                
-                <div >{item.customerInfo.dob}</div>
-                <div >{item.customerInfo.address}</div>
-                <div >{item.productInfo.planName}</div>
-                <div >{item.productInfo.planServiceCoverage}</div>
-                <div >{item.productInfo.planDuration + " " + item.productInfo.planDurationUnit + "s"}</div>
-                
-            </div>
-            ))} */}
-
-            
         </div>
         
       </div>
