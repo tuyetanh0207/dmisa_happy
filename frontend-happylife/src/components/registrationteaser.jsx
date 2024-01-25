@@ -3,22 +3,56 @@ import Arrow from '../assets/Arrow.png'
 import DownArrowBlack from '../assets/DownArrowBlack.png'
 import ShoppingCart from '../assets/ShoppingCart.png'
 import React, {useState} from 'react'
+import { useEffect } from 'react'
 //import { useNavigate } from 'react-router-dom'
 import PlanDetail from '../pages/plan/plandetail/plandetail'
 import {Routes, Route, Link} from 'react-router-dom';
 import moment from 'moment'
+import PlanAPI from '../../api/plansApi';
+import { useSelector } from 'react-redux';
 
 const registrationteaser = (props) =>{
    const [toggle, setToggle] = useState(false)
    const [arrrowClickStatus, setArrowClickStatus] = useState(false) 
+   const user1 = useSelector((state) =>state.auth.login.currentUser);
+
+   
+//Get plan by regis id
+    const [realtimePlan, setRealtimePlan] = useState([]);
+    const fetchPlan = async () => {
+      try{
+
+        // const regisId = realtimeInvoice.regisInfo?.regisId;
+
+        // if (regisId) {
+        //     // Giá trị regisId hợp lệ, thực hiện gọi API
+        //     const res = await PlanAPI.getPlanByRegisId({ regisId }, user1?.token);
+        // } else {
+        //     console.error("regisId is undefined or null. Unable to call API.");
+        // }
+
+        const res = await PlanAPI.getPlanByRegisId(props?.realtimeRegis?.regisId, user1?.token);
+        console.log('FETCH PLAN SUCCESS!');
+        setRealtimePlan(res.data);
+
+        console.log('res', res.data);
+      }
+      catch (error){
+        console.log("error in fetchPlan", error);
+      }
+    }
+    useEffect(() => {
+        fetchPlan();
+    },[])
+    console.log('FETCH PLAN: ', realtimePlan);
+    
    return ( 
 
     <div className='relative'>
 
       <div className='flex justify-center items-center relative h-[317px] w-[1415px] bg-white rounded-t-lg border border-gray-200 flex'>
             <div className='w-[532px] h-[317px]'>
-                <img src={props.realtimeRegis.productInfo.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
-                </img>
+                <img src={realtimePlan.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'></img>
                 {/* <img src={props.realtimeRegis.productInfo.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
                 </img> */}
             </div> 
