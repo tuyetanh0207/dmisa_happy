@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface ClaimService {
     //Claim addClaim(UserResDTO authUser, Claim claim);
-    List<Claim> getAllClaim();
+    List<ClaimResDTO> getAllClaim();
     
-    Claim updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg);
+    ClaimResDTO updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg);
 
     //Service for Customer
     ClaimResDTO addClaim(ClaimCreateDTO claimCreateDTO);
@@ -24,7 +24,7 @@ public interface ClaimService {
 
     List<ClaimResDTO> getAllClaimByUserId(UserResDTO user, ObjectId userId);
 
-    Claim updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim);
+    ClaimResDTO updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim);
 
     //Service for image and files
     //ClaimResDTO updateClaimImageDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);

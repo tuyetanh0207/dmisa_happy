@@ -14,9 +14,9 @@ import java.util.List;
 
 @Service
 public interface RegistrationService {
-    public List<Registration> getRegistrations(UserResDTO user);
+    public List<RegisResDTO> getRegistrations(UserResDTO user);
 
-    Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO);
+    RegisResDTO updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO);
 
     List<RegisResDTO> getEnrollOfPlan(UserResDTO authUser, ObjectId planId, List<String> approvalStatusList);
 

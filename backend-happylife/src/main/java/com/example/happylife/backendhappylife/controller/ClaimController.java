@@ -48,9 +48,7 @@ public class ClaimController {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         if (userResDTO.getRole() == Role.INSUARANCE_MANAGER || userResDTO.getRole()==Role.ACCOUNTANT){
-            List<ClaimResDTO> claimResDTOs  = claimService.getAllClaim().stream()
-                    .map(claim -> claim.convertClaimToRes())
-                    .collect(Collectors.toList());
+            List<ClaimResDTO> claimResDTOs  = claimService.getAllClaim();
             return ResponseEntity.ok(claimResDTOs);
         }
         else {
@@ -65,9 +63,8 @@ public class ClaimController {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         ObjectId objectIdClaimId = new ObjectId(claimId);
-        Claim claimToSave = claimService.updateClaimStatus(userResDTO, objectIdClaimId, claim.getClaim(), claim.getMessage());
-        ClaimResDTO claimRes = claimToSave.convertClaimToRes();
-        return ResponseEntity.ok(claimRes);
+        ClaimResDTO claimToSave = claimService.updateClaimStatus(userResDTO, objectIdClaimId, claim.getClaim(), claim.getMessage());
+        return ResponseEntity.ok(claimToSave);
     }
     @PutMapping("/staff/{claimId}/update")
     public ResponseEntity<?> updateClaimByStaff(HttpServletRequest request,
@@ -77,9 +74,9 @@ public class ClaimController {
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
         ObjectId objectIdClaimId = new ObjectId(claimId);
         if (userResDTO.getRole()==Role.INSUARANCE_MANAGER || userResDTO.getRole()==Role.ACCOUNTANT){
-            Claim claimToSave = claimService.updateClaimByStaff(userResDTO, objectIdClaimId, claimUpdateStaffDTO);
-            ClaimResDTO claimRes = claimToSave.convertClaimToRes();
-            return ResponseEntity.ok(claimRes);
+            ClaimResDTO claimToSave = claimService.updateClaimByStaff(userResDTO, objectIdClaimId, claimUpdateStaffDTO);
+
+            return ResponseEntity.ok(claimToSave);
         } else {
            // return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Param is invalid");
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("Your account is not of staff.");

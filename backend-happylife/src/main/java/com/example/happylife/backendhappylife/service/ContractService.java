@@ -12,8 +12,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 public interface ContractService {
-    List<Contract> getAllContract(User user);
-    //Contract addContract(Contract contract);
+
     ContractResDTO addContract(ContractCreateDTO contractDto);
 
 
@@ -33,9 +32,6 @@ public interface ContractService {
     ContractResDTO updateContractImageOrFileContentUrl(ObjectId contractId,
                                                        List<String> uploadedUrls);
 
-/*    ContractResDTO updateContractImageContentUrl(ObjectId contractId,
-                                                 List<String> uploadedUrls);*/
 
-    //Service for image and files
 
 }

@@ -64,10 +64,12 @@ public class RegistrationImpl implements RegistrationService {
 
 
     @Override
-    public List<Registration> getRegistrations(UserResDTO user) {
+    public List<RegisResDTO> getRegistrations(UserResDTO user) {
         try {
             if (user.getRole()== Role.INSUARANCE_MANAGER|| user.getRole() == Role.ACCOUNTANT ){
-                List<Registration> registrations = registrationRepo.findAll();
+                List<RegisResDTO> registrations = registrationRepo.findAll().stream()
+                        .map(regis -> regis.convertToRegisResDTO())
+                        .collect(Collectors.toList());
                 return registrations;
             }
             else {
@@ -80,7 +82,7 @@ public class RegistrationImpl implements RegistrationService {
     }
 
     @Override
-    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
+    public RegisResDTO updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
         try {
             //thêm một dòng để convert DTO sang entity
             RegisResDTO regis = regisUpdateStatusDTO.getRegis();
@@ -156,7 +158,7 @@ public class RegistrationImpl implements RegistrationService {
 
                     }
                     notificationService.addAutoNoti(notificationCreateDTO);
-                    return registrationRepo.save(regisVar);
+                    return registrationRepo.save(regisVar).convertToRegisResDTO();
                 } else{
                     throw  new UserCreationException("Error updating status of registration: status is invalid.");
                 }

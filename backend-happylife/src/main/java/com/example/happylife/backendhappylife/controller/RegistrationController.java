@@ -45,24 +45,26 @@ public class RegistrationController {
     public ResponseEntity<List<RegisResDTO>> getRegistrations(HttpServletRequest request){
         User userVar = (User) request.getAttribute("userDetails");
         UserResDTO user = userVar.convertFromUserToUserResDTO();
-        List<RegisResDTO> regisResDTOS = registrationService.getRegistrations(user).stream()
-                .map(registration -> registration.convertToRegisResDTO())
-                .collect(Collectors.toList());
+        List<RegisResDTO> regisResDTOS = registrationService.getRegistrations(user);
         return ResponseEntity.ok(regisResDTOS);
     }
 
 
     @PutMapping("/{id}/update-status")
-    public ResponseEntity<RegisUpdateDTO> updateRegisStatus(@PathVariable ObjectId id,
+    public ResponseEntity<?> updateRegisStatus(@PathVariable ObjectId id,
                                                             HttpServletRequest request,
                                                             @RequestBody RegisUpdateStatusDTO regisUpdateDTO){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO user = userVar.convertFromUserToUserResDTO();
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO user = userVar.convertFromUserToUserResDTO();
 
 
-        Registration savedRegis = registrationService.updateRegisStatus(user,id,regisUpdateDTO);
-        RegisUpdateDTO regisUpdDTO = savedRegis.convertToRegisUpdateDTO();
-        return ResponseEntity.ok(regisUpdDTO);
+            RegisResDTO savedRegis = registrationService.updateRegisStatus(user,id,regisUpdateDTO);
+            return ResponseEntity.ok(savedRegis);
+        } catch (Exception e){
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
+
     }
     @GetMapping("/enroll")
     public ResponseEntity<?> getEnrollOfPlan(

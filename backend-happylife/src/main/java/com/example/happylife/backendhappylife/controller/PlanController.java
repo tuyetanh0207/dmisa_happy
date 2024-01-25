@@ -53,10 +53,8 @@ public class PlanController {
 
             }
             Plan plan = new Plan();
-            Plan planCreated = plan.convertCreToPlan(planCreateDTO);
-            Plan savedPlan = planService.addPlan(user, planCreated);
-            PlanResDTO resPlan = savedPlan.convertToPlanResDTO();
-            return ResponseEntity.ok(resPlan);
+            PlanResDTO savedPlan = planService.addPlan(user, planCreateDTO);
+            return ResponseEntity.ok(savedPlan);
         } catch (UserCreationException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e){
@@ -75,11 +73,8 @@ public class PlanController {
             if (user.getRole()!= Role.INSUARANCE_MANAGER){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Only manager can do it!" );
             }
-            Plan plan = new Plan();
-            Plan planUpdated = plan.convertUpdToPlan(planUpdateDTO);
-            Plan savedPlan = planService.updatePlan(planUpdated, planId);
-            PlanUpdateDTO planUpdDTO = savedPlan.convertToPlanUpdateDTO();
-            return ResponseEntity.ok(planUpdDTO);
+            PlanResDTO savedPlan = planService.updatePlan(planUpdateDTO, planId);
+            return ResponseEntity.ok(savedPlan);
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
@@ -159,8 +154,15 @@ public class PlanController {
 
     //Xóa 1 Plan dựa trên planId
     @DeleteMapping("/delete/{planId}")
-    public Plan deletePlan(@PathVariable ObjectId PlanId){
-        return planService.deletePlan(PlanId);
+    public ResponseEntity<?> deletePlan(@PathVariable ObjectId PlanId){
+        try {
+            planService.deletePlan(PlanId);
+            return ResponseEntity.ok("Delete plan successfully!");
+
+        }catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
+
     };
 
     //API for Customer

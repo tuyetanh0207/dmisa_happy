@@ -38,20 +38,6 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    // Service for Manager
-    @Override
-    public List<Contract> getAllContract(User user) {
-        try{
-            if(user.getRole() == Role.INSUARANCE_MANAGER){
-                List<Contract> contracts = contractRepo.findAll();
-                return contracts;
-            }
-        }
-        catch(Exception e){
-            throw new UserCreationException("Error to get: " + e.getMessage());
-        }
-        return null;
-    }
     @Override
     public ContractResDTO addContract(ContractCreateDTO contractDto){
         Contract contract = new Contract().convertCreToContract(contractDto);
