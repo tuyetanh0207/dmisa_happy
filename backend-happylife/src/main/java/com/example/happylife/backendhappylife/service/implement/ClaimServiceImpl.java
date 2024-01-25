@@ -45,9 +45,11 @@ public class ClaimServiceImpl implements ClaimService {
 
     //Service for Manager
     @Override
-    public List<Claim> getAllClaim() {
+    public List<ClaimResDTO> getAllClaim() {
         try{
-            List<Claim> claims = claimRepo.findAll();
+            List<ClaimResDTO> claims = claimRepo.findAll().stream()
+                    .map(claim -> claim.convertClaimToRes())
+                    .collect(Collectors.toList());
             return claims;
         } catch (Exception e){
             throw new UserCreationException("Error geting claims:" + e.getMessage());
@@ -55,7 +57,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public Claim updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg) {
+    public ClaimResDTO updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg) {
         try {
             if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT) {
                 Instant instantNow = Instant.now();
@@ -126,7 +128,7 @@ public class ClaimServiceImpl implements ClaimService {
 
 
                     notificationService.addAutoNoti(notificationCreateDTO);
-                    return claimRepo.save(claimVar);
+                    return claimRepo.save(claimVar).convertClaimToRes();
                 } else {
                     throw new UserCreationException("Error updating status of claim: status is invalid.");
                 }
@@ -140,7 +142,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public Claim updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim){
+    public ClaimResDTO updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim){
         Claim existingClaim = claimRepo.findById(claimId)
                 .orElseThrow(() ->new EntityNotFoundException("Claim not found with id: " + claimId));
         try {
@@ -163,7 +165,7 @@ public class ClaimServiceImpl implements ClaimService {
             existingClaim.setUpdatedAt(instantNow);
             Claim savedClaim =  claimRepo.save(existingClaim);
             statistaService.updateStatistaByResolvedClaim(savedClaim.convertToClaimResDTO());
-            return savedClaim;
+            return savedClaim.convertClaimToRes();
 
 
         } catch (Exception e){
