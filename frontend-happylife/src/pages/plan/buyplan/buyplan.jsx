@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Modal from './modal/modal.jsx'
+import Modalerror from './modal/modalerror.jsx'
 import ModalSuccess from './modal/modalsuccess.jsx'
 
 import Shopingcar from "../../../assets/shopingcar.png";
@@ -13,6 +14,7 @@ export default function Buyplan() {
   const user = useSelector((state) => state.auth.login.currentUser);
 
   const [modalOpen,setModalOpen] = useState(false);
+  const [modalErrorOpen,setModalErrorOpen] = useState(false);
   const [modalSuccessOpen,setModalSuccessOpen] = useState(false);
   const [plans, setPlansAPI] = useState([]);
 
@@ -298,7 +300,7 @@ export default function Buyplan() {
       })
       .catch((error) => {
         console.error("Error:", error);
-        setModalOpen(true);
+        setModalErrorOpen(true);
       });
       
     // console.log('Current: ',curentRegistrations)
@@ -727,6 +729,7 @@ export default function Buyplan() {
               </div>
             </form>
             {modalOpen && <Modal closeModal={() => {setModalOpen(false)}}/>}
+            {modalErrorOpen && <Modalerror closeModal={() => {setModalErrorOpen(false)}}/>}
             {modalSuccessOpen && <ModalSuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
           </div>
         </form>
