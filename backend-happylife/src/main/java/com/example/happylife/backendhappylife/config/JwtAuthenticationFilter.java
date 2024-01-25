@@ -1,5 +1,6 @@
 package com.example.happylife.backendhappylife.config;
 
+import com.example.happylife.backendhappylife.exception.UserCreationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,20 +38,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
         userPhoneNumber = jwtService.extractUsername(jwt);
         if(userPhoneNumber!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userPhoneNumber);
-            if(jwtService.isTokenValid(jwt, userDetails)){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                // set the entire UserDetails object in request attributes
-                request.setAttribute("userDetails", userDetails);
-                filterChain.doFilter(request, response);
+            try {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userPhoneNumber);
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    // set the entire UserDetails object in request attributes
+                    request.setAttribute("userDetails", userDetails);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+            } catch (UserCreationException e) {
+                // You might want to return an HTTP 401 Unauthorized status or another appropriate response
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } catch (Exception e) {
+                // Handle other exceptions
+                // Log the exception or respond with an appropriate error
+                logger.error("Error during JWT authentication", e);
+                // You might want to return an HTTP 500 Internal Server Error status or another appropriate response
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         }
     }
