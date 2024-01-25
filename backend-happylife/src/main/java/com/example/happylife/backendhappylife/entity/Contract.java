@@ -52,6 +52,7 @@ public class Contract {
         contract.setStatus(dto.getStatus());
         contract.setRegisInfo(dto.getRegisInfo());
         contract.setContent(dto.getContent());
+        contract.setCreatedAt(dto.getCreatedAt());
         return contract;
     }
     public Contract convertCreToContract(ContractCreateDTO dto) {
@@ -69,6 +70,7 @@ public class Contract {
         dto.setStatus(this.status);
         dto.setRegisInfo(this.regisInfo);
         dto.setContent(this.content);
+        dto.setCreatedAt(this.createdAt);
         return dto;
     }
     public ContractCreateDTO convertToContractCreDTO() {
