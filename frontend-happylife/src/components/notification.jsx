@@ -170,16 +170,14 @@ const notification = () => {
                             
                         </div>
                         
-                        <p className='text-sm'>{item.notiContent}</p>
+                        <p className='text-base'>{item.notiContent}</p>
+                        <p className='text-right text-sm italic font-normal pr-[10px]'>20/11/2022</p>
                         </div>
                     </div>
                     
                 
                 ))}    
                 </div>
-                <button className={`${numberNotReadNoti === 0 ? 'hidden':'w-full h-[61px] text-black text-center bg-indigo-50 font-bold hover:text-blue-600 rounded-b-lg'}`}>
-                    View all
-                </button>
             </section>            
         </body>
     )

@@ -13,18 +13,19 @@ import InvoiceAPI from '../../../api/invocieApi'
 import { useParams } from 'react-router-dom';
 import RatingIcon from '../../assets/RateIcon.png';
 import PlanAPI from '../../../api/plansApi'
+import {NumberFormat} from '../../supportFunctions.jsx'
 
 const paymentBank = () => {
     const route = useNavigate();
     const { regisId } = useParams();
-    const user1 = useSelector((state) => state.auth.login.currentUser);
-    // Get invoice data by regis id
-    const [realtimeInvoice, setRealtimeInvoice] = useState({});
-    //console.log("TESSSSTTTTTTT: realtimeInvoice: ", realtimeInvoice)
-    //console.log("TESSSSTTTTTTT: regisInfo - regisid: ", realtimeInvoice.regisInfo?.regisId);
- 
+    const { planId } = useParams();
 
-    //console.log("REGISTRATION ID: ", regisId)
+    const user1 = useSelector((state) => state.auth.login.currentUser);
+
+    const [realtimeInvoice, setRealtimeInvoice] = useState({});
+    const [realtimePlan, setRealtimePlan] = useState({});
+
+    // Get invoice data by regis id
     const fetchInvoice = async () => {
         try{
           const res = await InvoiceAPI.getInvoiceByRegisId(regisId, user1?.token);
@@ -40,7 +41,27 @@ const paymentBank = () => {
         fetchInvoice();
       },[])  
 
-    console.log("REALTIME INVOICE: ",realtimeInvoice);
+      //const [planId, setPlanId] = useState('');
+
+      const fetchPlan = async () => {
+        try{
+            console.log("TEST PLANID: ", planId);
+
+          const res = await PlanAPI.getPlanByPlanId(planId, user1?.token);
+          setRealtimePlan(res.data);
+          console.log('res plan is: ', res.data);
+    
+        }
+        catch (error){
+          console.log("error in fetchPlan", error);
+        }
+      }
+      useEffect(() => {
+        fetchPlan();
+      },[])  
+
+
+    // console.log("REALTIME realtimeInvoice.regisInfo.productInfo.planId: ",realtimeInvoice.regisInfo?.productInfo?.planId);
 
 
     const handlePayNow = async (e) => {
@@ -99,7 +120,7 @@ const paymentBank = () => {
     // console.log('FETCH PLAN: ', realtimePlan);
 
     return(
-        <div className='w-[1920px] h-[1210px] bg-slate-50 flex justify-center items-center'>
+        <div className='w-auto h-[1210px] bg-slate-50 flex justify-center items-center'>
             <div className="w-[710px] h-[932px] bg-white rounded-lg border-2 border-slate-50 flex justify-center">
                 <div className='w-[572px] h-[459px] p-12 mt-[74px] rounded-lg border flex-col justify-start items-start gap-9 inline-flex'>
                     <div className="w-[476px] h-14 flex-col justify-start items-start gap-2 inline-flex">
@@ -157,36 +178,38 @@ const paymentBank = () => {
                         <div className='w-[476px] h-[0px] border border-zinc-400'></div>
                     </div>
                     <div className='flex'>
-                        <div className="w-[132px] h-24 bg-stone-300">
-                            <img src={realtimeInvoice.regisInfo?.productInfo?.planURL} alt="" />
+                        <div className="w-[132px] h-24">
+                            {/* <img src={Logo} alt="tesst" /> */}
+                            <img src={realtimePlan?.planURL} alt="" />
                         </div>
                         <div className='pl-[30px]'>
                             <h5 className="w-[391px] h-16 text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">
-                                {realtimeInvoice.regisInfo?.productInfo?.planName}
+                                {realtimePlan?.planName}
                                 {/* HappyLife Gold */}
                                 </h5>
                             <div>
                                 <img src={RatingIcon} alt="Rating" />
                             </div>
-    
+                            
                         </div>
                     </div>
                     
-                    <p className="text-2xl">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repre henderit.</p>
+                    <p className="text-2xl">{realtimePlan?.planSlogan}</p>
                     
                     <div>
                     <h5 className="text-2xl font-medium text-custom-blue-3">Benefit </h5>
-                        <ul className="pl-7 text-xl list-image-store">
-                            <li> Ut enim ad minim veniam</li>
-                            <li> Ut enim ad minim veniam</li>
-                            <li> Ut enim ad minim veniam</li>
-                            <li> Ut enim ad minim veniam</li>
+                        <ul className="pl-7 text-xl list-image-store w-[716px] h-auto  min-h-[100px] max-h-[200px] overflow-y-auto w-auto max-w-[450px]  overflow-x-auto">
+                        {realtimeInvoice?.regisInfo?.productInfo?.optionalBenefits?.map((bf, index)=>(
+                                
+                                <li>{bf.benefitName}</li>
+
+                            ))}
                         </ul>
                     </div>
                     <div className="w-[476px] h-[1px] border border-zinc-400"></div>
                     <div className='flex'>
-                        <div className="w-[155.59px] h-[31px] text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">Total</div>
-                        <div className="w-[412px] h-16 text-right text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">50.000.000 vnđ</div>
+                        <div className="w-[155.59px] h-[31px] text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-7">Total:</div>
+                        <div className="w-[412px] h-16 pr-[100px] text-right text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9"> {NumberFormat(realtimeInvoice?.totalPrice)} VND</div>
                     </div>
                 </div>
             </div>

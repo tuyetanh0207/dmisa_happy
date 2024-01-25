@@ -54,6 +54,16 @@ const Nav = () => {
   if(pathname.includes('/staff')) return <></>
 
 
+  const handleFirstLetterOfLastWord = (name) =>{
+    const words = name?.split(" ");
+    // Get the last word
+    const lastWord = words[words.length - 1];
+    
+    // Get the first letter of the last word
+    const firstLetterOfLastWord = lastWord.charAt(0);  
+    return firstLetterOfLastWord;
+  }
+
   return (
   <div>
   {pathname.includes('login') || pathname.includes('signup') ? 
@@ -61,8 +71,10 @@ const Nav = () => {
     <></>
   ):(
   <>
-   <nav className=' mx-auto  h-20 bg-custom-blue flex justify-between items-center px-8  border-[0.25px] border-blue-500'>
-    <img src={logoTitle} alt="LOGO" className='ml-[226px]'></img>  
+   <nav className=' mx-auto  h-20 bg-custom-blue flex justify-between items-center px-8  border-[0.25px] border-blue-500 pl-[130px] pr-[130px]'>
+    <Link to='/home'>
+      <img src={logoTitle} alt="LOGO" className=''></img>
+    </Link>  
     <div className='flex space-x-76px place-content-center text-white font-sans font-medium font text-xl'>
      {navigation.map((item)=>(
        <Link
@@ -88,9 +100,9 @@ const Nav = () => {
               >
               <button
               //onClick={() => handleRightNavClick(item.name)}
-              className={`${user1.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
+              className={`${user1?.token ? '' : ''} bg-button-blue text-white px-4 py-2 rounded items-center rounded-full ml-[100px] z-30`}
               >
-                T 
+                {handleFirstLetterOfLastWord(user1?.userInfo?.fullName)}
               </button>
               </Link>
             </div>

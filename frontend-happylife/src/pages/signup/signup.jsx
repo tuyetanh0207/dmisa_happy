@@ -56,14 +56,19 @@ const signup = () => {
   };
   
   return (
-    <div className='w-[1920px] h-[1080px] flex '>
-         <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
-            <img src={Logo}></img>
-        </div>
-        <div className="righthalf w-[960px] h-[1080px] bg-slate-50 flex items-center justify-center">
-            <div className="w-[750px] h-[930px] bg-white rounded-lg border border-gray-200">
-                <h2 className="text-center text-header-blue text-[40px] font-serif font-semibold mt-[31px] mb-[33px]">Create an account</h2>
-                <form className="font-sans  font-medium text-base"
+    <div className='w-screen h-screen flex'>
+         <Link
+         to="/home"
+         className='w-[50%] h-[100%]'
+         >
+            <div className="flex w-[100%] h-[100%] bg-blue-950 border border-indigo-500 flex items-center justify-center">
+                <img src={Logo} className='w-[50%] h-[45%]'></img>
+            </div>
+         </Link>
+        <div className="righthalf  w-[50%] h-[100%]  bg-slate-50 flex items-center justify-center">
+            <div className="w-auto h-auto bg-white rounded-lg border border-gray-200 ">
+                <h2 className="text-center text-[30px] font-serif font-semibold mx-[150px] pt-[20px] pb-2">Create an account</h2>
+                <form className="font-sans font-medium text-xs"
                     onSubmit={(e) =>{
                         e.preventDefault();
                         if (password !== confirmPassword){
@@ -74,142 +79,151 @@ const signup = () => {
                     }}}
                 >
                     <div>
-                        <label className="ml-[116px]">
+                        <label className="ml-[86px]">
                             Username (Phone number)
                         </label>
                     </div>
                     <div className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[15px] border border-input-border-grey border-solid rounded p-[10px]"
+                        <input className="text-black w-[400px] h-auto border border-input-border-grey border-solid rounded p-[10px] mb-2"
                         id='phonenumber'
                         placeholder='User name'
                         onChange={(e)=>setPhoneNumber(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
                     <div>
-                        <label className="ml-[116px] ">
+                        <label className="ml-[86px] ">
                             Full Name
                         </label>
                     </div>
                     <div  className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[12px] border border-input-border-grey rounded p-[10px]"
+                        <input className="text-black w-[400px] h-auto border border-input-border-grey rounded p-[10px] mb-2"
                         id='fullname'
                         placeholder='Full name'
                         onChange={(e)=>setFullName(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
                     <div>
-                        <label className="ml-[116px] ">
+                        <label className="ml-[86px] ">
                             Password
                         </label>
                     </div>
                     <div  className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[12px] border border-input-border-grey rounded"
+                        <input className="text-black text-xs w-[400px]  h-auto border border-input-border-grey rounded p-[10px] mb-2"
                         id='password'
                         type="password" 
                         placeholder='Password'
                         onChange={(e)=>setPassword(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
                     <div>
-                        <label className="ml-[116px] ">
+                        <label className="ml-[86px] ">
                             Confirm password
                         </label>
                     </div>
                     <div  className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[12px] border border-input-border-grey rounded"
+                        <input className="text-black text-xs  w-[400px] h-auto border border-input-border-grey rounded mb-2"
                         id='confirmpassword'
                         type="password" 
                         placeholder='Confirm password'
                         onChange={(e)=>setConfirmPassword(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
 
 
                     <div>
-                        <label className="ml-[116px]">
+                        <label className="ml-[86px]">
                             Gender 
                         </label>
-                        <label className="ml-[215px]">
+                        <label className="ml-[170px]">
                             Birthday
                         </label>
                         
                     </div>
                     <div>
                         <select id="gender" name="gender" 
-                        className='text-black w-[253px] h-[48px] mb-[12px] ml-[116px] border border-input-border-grey rounded'
+                        className='text-black text-xs  w-[190px] h-auto ml-[86px] border border-input-border-grey rounded mb-2'
                         onChange={(e)=>setGender(e.target.value)}
+                        required
                         >
                             <option value="Male" label="Male"></option>
                             <option value="Female" label="Female"></option>
                         </select>
-                        <input className="text-black w-[253px] h-[48px] mb-[12px] ml-[13px] border border-input-border-grey rounded"
+                        <input className="text-black text-xs  w-[190px] h-auto ml-[20px] border border-input-border-grey rounded mb-2"
                         id='dob'
                         type="date"
                         value={dob}
                         onChange={(e)=>setDob(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
                     <div>
-                        <label className="ml-[116px] ">
+                        <label className="ml-[86px] ">
                             Citizen ID
                         </label>
                     </div>
                     <div  className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[12px] border border-input-border-grey rounded p-[10px]"
+                        <input className="text-black w-[400px] h-auto  border border-input-border-grey rounded p-[10px] mb-2"
                         id='citizenid'
                         placeholder='Citizen ID'
                         onChange={(e)=>setCitizenID(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
                     <div>
-                        <label className="ml-[116px] ">
+                        <label className="ml-[86px] ">
                             Email
                         </label>
                     </div>
                     <div  className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[12px] border border-input-border-grey rounded p-[10px]" 
+                        <input className="text-black w-[400px] h-auto  border border-input-border-grey rounded p-[10px] mb-2" 
                         id='email'
                         placeholder='Email'
                         onChange={(e)=>setEmail(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
                     
                     <div>
-                        <label className="ml-[116px]">
+                        <label className="ml-[86px]">
                             Address
                         </label>
                     </div>
                     <div  className="flex items-center justify-center">
-                        <input className="text-black w-[519px] h-[48px] mb-[27px] border border-input-border-grey rounded p-[10px]" 
+                        <input className="text-black w-[400px] h-auto  border border-input-border-grey rounded p-[10px] mb-4" 
                         id='address'
                         placeholder='Address'
                         onChange={(e)=>setAddress(e.target.value)}
+                        required
                         >
                         </input>
                     </div>
 
-                    <div className="flex items-center justify-center font-bold text-xl">
-                    <button className="bg-button-blue w-[520px] h-[56px] mb-[20px] text-white rounded-lg"
+                    <div className="flex items-center justify-center font-bold text-xl mb-2">
+                    <button className="bg-button-blue w-[400px] h-auto py-[10px]  text-white rounded-lg"
                     //onClick={()=>handleSubmit}
                     >
                         Create
                     </button>
 
                     </div>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center mb-[20px]'>
                             <label className='text-gray-500 text-base font-normal leading-tight mr-[4px] mt-[3px]'>
                                 Already have an account?
                             </label>
                             <Link key='login' to='/login'>
                                 <button 
-                                className='text-blue-600 text-base font-medium leading-tight'>
+                                className='text-blue-600 text-base font-medium leading-tight mt-1'>
                                     Log in
                                 </button>
                             </Link>

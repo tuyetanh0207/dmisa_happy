@@ -16,6 +16,14 @@ const ClaimAPI = {
     updateClaimByStaff: function (token, claimId, claim){
         const url = `${apiV1}/claims/staff/${claimId}/update`;
         return put(url, claim ,token);
+    }, 
+    getAllClaimsOfUserByRegis: function (token, regisId){
+        const url = `${apiV1}/claims/${regisId}/getAllClaimsOfUserByRegis`;
+        return get(url, token);
+    },
+    getClaimByClaimId: function (token, claimId){
+        const url = `${apiV1}/claims/${claimId}/getInfo`;
+        return get(url,token);
     }
 }
 export default ClaimAPI;

@@ -130,7 +130,8 @@ export default function CreateClaim() {
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
         
-          const regisID = "65abb268b85d687fe9d64067"; 
+          const regisID = "65abb268b85d687fe9d64067";
+        //const regisID = "65ae2509acd69653df000676";
           const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
             console.log('Select Regis:',selectedRegistration)
           if (!selectedRegistration) {

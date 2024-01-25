@@ -31,11 +31,11 @@ const registration = () => {
   createdAt
   approvalStatus
   */ 
-  console.log('realtimeRegis', realtimeRegis);
+  //console.log('realtimeRegis', realtimeRegis);
   //console.log('MESSAGE:', realtimeRegis[8].message[1]);
   //console.log('TEST: ', realtimeRegis.approvalStatus)
   return (
-    <div className='screen flex flex items-center flex-col bg-bgr-white my-auto'>
+    <div className='screen flex items-center flex-col bg-bgr-white my-auto '>
       {realtimeRegis.map((regis, index) => (
              <div key={index} className='mt-[30px] mb-[50px]'>
              <Registrationteaser realtimeRegis = {regis} index={index}/>
