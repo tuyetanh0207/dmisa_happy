@@ -1,0 +1,90 @@
+Index: backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationUpdateHandler.java
+===================================================================
+diff --git a/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationUpdateHandler.java b/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationUpdateHandler.java
+deleted file mode 100644
+--- a/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationUpdateHandler.java	(revision 5e99342c0a0fe1fe83e7461e3ec3c09a74074fdb)
++++ /dev/null	(revision 5e99342c0a0fe1fe83e7461e3ec3c09a74074fdb)
+@@ -1,25 +0,0 @@
+-package com.example.happylife.backendhappylife.service.handlerEvent.handlerService;
+-
+-import com.example.happylife.backendhappylife.DTO.RegistrationDTO.RegisResDTO;
+-import com.example.happylife.backendhappylife.entity.Registration;
+-import com.example.happylife.backendhappylife.service.RegistrationService;
+-import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.context.event.EventListener;
+-import org.springframework.stereotype.Component;
+-
+-@Component
+-public class RegistrationUpdateHandler {
+-    @Autowired
+-    private RegistrationService registrationService;
+-    @EventListener (condition = "#event.method.toString() == 'updateStatus'")
+-    public void onRegistrationStatusUpdated(RegistrationEvent event) {
+-        registrationService.updateRegisStatusOfCustomer(event.getRegistration().getRegisId(), event.getRegistration().convertToRegisUpdateDTO());
+-    }
+-    @EventListener (condition = "#event.method.toString() == 'getPlanWithRegisId'")
+-    public void onRegistrationGet(RegistrationEvent event) {
+-        Registration existingRegis = new Registration().convertToRegis(registrationService.getRegisByIdRegisForEvent(event.getRegistration().getRegisId()));
+-        //if(event.getCallback() != null){event.getCallback().onRegistrationRetrieved(existingRegis);}
+-        event.getCallback().onRegistrationRetrieved(existingRegis);
+-    }
+-}
+Index: backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.happylife.backendhappylife.service.handlerEvent.handlerService;\r\n\r\nimport com.example.happylife.backendhappylife.service.RegistrationService;\r\nimport com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.context.event.EventListener;\r\nimport org.springframework.stereotype.Component;\r\n\r\n@Component\r\npublic class RegistrationHandler {\r\n    @Autowired\r\n    private RegistrationService registrationService;\r\n    @EventListener\r\n    public void onRegistrationStatusUpdated(RegistrationEvent event) {\r\n        registrationService.updateRegisStatusOfCustomer(event.getRegistration().getRegisId(), event.getRegistration().convertToRegisUpdateDTO());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationHandler.java b/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationHandler.java
+--- a/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationHandler.java	(revision 5e99342c0a0fe1fe83e7461e3ec3c09a74074fdb)
++++ b/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/handlerEvent/handlerService/RegistrationHandler.java	(date 1706181132267)
+@@ -1,5 +1,6 @@
+ package com.example.happylife.backendhappylife.service.handlerEvent.handlerService;
+ 
++import com.example.happylife.backendhappylife.entity.Registration;
+ import com.example.happylife.backendhappylife.service.RegistrationService;
+ import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.RegistrationEvent;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -10,8 +11,14 @@
+ public class RegistrationHandler {
+     @Autowired
+     private RegistrationService registrationService;
+-    @EventListener
++    @EventListener (condition = "#event.method.toString() == 'updateStatus'")
+     public void onRegistrationStatusUpdated(RegistrationEvent event) {
+         registrationService.updateRegisStatusOfCustomer(event.getRegistration().getRegisId(), event.getRegistration().convertToRegisUpdateDTO());
+     }
++    @EventListener (condition = "#event.method.toString() == 'getPlanWithRegisId'")
++    public void onRegistrationGet(RegistrationEvent event) {
++        Registration existingRegis = new Registration().convertToRegis(registrationService.getRegisByIdRegisForEvent(event.getRegistration().getRegisId()));
++        //if(event.getCallback() != null){event.getCallback().onRegistrationRetrieved(existingRegis);}
++        event.getCallback().onRegistrationRetrieved(existingRegis);
++    }
+ }
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/backend-happylife/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_X\" default=\"true\" project-jdk-name=\"openjdk-21\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 5e99342c0a0fe1fe83e7461e3ec3c09a74074fdb)
++++ b/.idea/misc.xml	(date 1706181132334)
+@@ -1,3 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
+   <component name="MavenProjectsManager">
+@@ -7,7 +8,7 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="openjdk-21" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="openjdk-21" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
