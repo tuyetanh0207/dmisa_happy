@@ -1,26 +1,25 @@
 import Insurance from "../../../assets/Insurance.jpg";
-import Header from "../header.jsx";
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Modal from './modal/modal.jsx'
 import ModalSuccess from './modal/modalsuccess.jsx'
-import RegistrationAPI from "../../../../api/registrationApi.jsx";
+
 import Shopingcar from "../../../assets/shopingcar.png";
 import {NumberFormatExample} from '../../../supportFunctions.jsx'
 // import SetupProxy from '../../../setupProxy.js'
 export default function Buyplan() {
   const user = useSelector((state) => state.auth.login.currentUser);
-  const [isLogin, setIsLogin] = useState(false);
+
   const [modalOpen,setModalOpen] = useState(false);
   const [modalSuccessOpen,setModalSuccessOpen] = useState(false);
   const [plans, setPlansAPI] = useState([]);
 
   const [planID, setPlanID] = useState(); //planID
 
-  //const [registrations, setRegistrations] = useState(null);
-  const [curentRegistrations, setCurentRegistrations] = useState("");
+
 
   //user
   const [fullName, setFullName] = useState("");
@@ -30,8 +29,7 @@ export default function Buyplan() {
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  // const [healthStatus,setHealthStatus] =useState('');
-  //const [address,setAddress] =useState('');
+
   //plan
   const [selectedPlan, setSelectedPlan] = useState({});
   const [selectedPlanType, setSelectedPlanType] = useState(null);
@@ -337,20 +335,11 @@ export default function Buyplan() {
     fetchUserInfo();
     fetchPlan(); // Fetch plans
   }, []);
-   
-
-  //   console.log("PLANS:", plans);
-  //console.log("planID:",planID);
-  // console.log("registrations:",registrations);
-  //   console.log("User:", user);
-  // console.log("UserLogin:",user.userInfo.fullName);
-  // console.log("UserID:",user.userInfo.id);
-  //console.log("Select plan:",selectPlan);
-  //console.log("Select plan.type:",selectPlan.planId);
+  
 
   return (
     <div className="py-20 bg-custom-blue-3 ">
-      {/* <Header /> */}
+
       <div className="mt-14 pt-6 pb-14 container w-5/6 mx-auto bg-white">
       <div className="py-10 w-auto text-center text-blue-950 text-5xl font-medium font-['IBM Plex Serif'] leading-[56px]">Fill Your Information to Buy Plan</div>
         <form
@@ -367,7 +356,6 @@ export default function Buyplan() {
                   type="text"
                   name="name"
                   id="name"
-                  // value={isLogin ? user.userInfo.fullName : ""}
                   value={fullName}
                   className="block w-full h-10 px-4 border-0 py-2 text-lg text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Name"
@@ -385,7 +373,6 @@ export default function Buyplan() {
                   type="text"
                   name="Citizen-ID"
                   id="Citizen-ID"
-                  //value={isLogin ? user.userInfo.citizenId : ""}
                   value={citizenId}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Citizen ID"
@@ -402,7 +389,6 @@ export default function Buyplan() {
                   type="text"
                   name="Phone"
                   id="Phone "
-                  //value={isLogin ? user.userInfo.phoneNumber : ""}
                   value={phoneNumber}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Phone Number"
@@ -419,7 +405,6 @@ export default function Buyplan() {
                   type="text"
                   name="Gender"
                   id="Gender"
-                  //value={isLogin ? user.userInfo.gender : ""}
                   value={gender}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Gender"
@@ -436,7 +421,6 @@ export default function Buyplan() {
                   type="text"
                   name="BirthDate"
                   id="BirthDate"
-                  //value={isLogin ? user.userInfo.dob.slice(0, 10) : ""}
                   value={dob.slice(0, 10)}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your BirthDate"
@@ -453,7 +437,6 @@ export default function Buyplan() {
                   type="text"
                   name="email"
                   id="email"
-                  //value={isLogin ? user.userInfo.email : ""}
                   value={email}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Email"
@@ -470,7 +453,6 @@ export default function Buyplan() {
                   type="text"
                   name="address"
                   id="address"
-                 // value={isLogin ? user.userInfo.address : ""}
                  value={address}
                   className="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Your Address"
@@ -580,8 +562,6 @@ export default function Buyplan() {
                           {selectedPlanType?.benefits?.map((benefit, index) => (
                             <div key={index} className=" py-5 rounded-[10px]  border-neutral-200 text-center">
                               <div className="text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">{benefit.benefitName}</div>
-                              {/* <div>{benefit.dependencies}</div> */}
-
                               <div className="pt-10 grid grid-cols-4 gap-4">
                                 {benefit?.feeType?.map((item3, index) => (
                                   <button
