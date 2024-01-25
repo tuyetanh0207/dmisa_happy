@@ -35,22 +35,22 @@ public class ContactServiceImpl implements ContactService {
     public ContactResDTO addContact(ContactCreateDTO contactCreateDTO){
         Contact contact = new Contact().convertCreToContact(contactCreateDTO);
         try {
-            if (contact.getEmail() == null && contact.getPhoneNumber() == null) {
+            if (contact.getEmail().isEmpty() && contact.getPhoneNumber().isEmpty()) {
                 throw new UserCreationException("At least have one Email or PhoneNumber");
             }
-            if (!MyService.isValidEmail(contact.getEmail()) && contact.getEmail() != null) {
+            if (!MyService.isValidEmail(contact.getEmail()) && contact.getEmail().isEmpty()) {
                 throw new UserCreationException("Email is invalid");
             }
-            if (!MyService.isValidPhoneNumber(contact.getPhoneNumber()) && contact.getPhoneNumber() != null) {
+            if (!MyService.isValidPhoneNumber(contact.getPhoneNumber()) && contact.getPhoneNumber().isEmpty()) {
                 throw new UserCreationException("Phone number is invalid");
             }
-            if(contact.getMessage() == null) {
+            if(contact.getMessage().isEmpty()) {
                 throw new UserCreationException("Message is required");
             }
-            if(contact.getServiceType() == null){
+            if(contact.getServiceType().isEmpty()){
                 throw new UserCreationException("ServiceType is required");
             }
-            if(contact.getCustomerName() == null){
+            if(contact.getCustomerName().isEmpty()){
                 throw new UserCreationException("Customer name is required");
             }
             if(!MyService.isValidEmail(contact.getEmail())){

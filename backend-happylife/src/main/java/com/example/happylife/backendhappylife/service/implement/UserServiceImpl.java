@@ -65,8 +65,11 @@ public class UserServiceImpl implements UserService {
             if (userRequestVar.getId().equals(userId)) {
                 User existingUser = userRepo.findById(userId)
                         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-                if (user.getFullName() == null) {
+                if (user.getFullName().isEmpty()) {
                     throw new UserCreationException("User's full name can't be null");
+                }
+                if (!user.getPhoneNumber().equals(existingUser.getPhoneNumber())){
+                    throw new UserCreationException("User's phone number can't updated");
                 }
                     //existingUser.setFullName(user.getFullName());}
                 if (user.getDOB() == null) {
@@ -83,11 +86,11 @@ public class UserServiceImpl implements UserService {
                     throw new UserCreationException("User's citizenId can't be null");
                     //existingUser.setCitizenId(user.getCitizenId());
                 }
-                if (user.getEmail() == null || !MyService.isValidEmail(user.getEmail())) {
+                if (user.getEmail().isEmpty() || !MyService.isValidEmail(user.getEmail())) {
                     throw new UserCreationException("User's email can't be null and it must be in the correct format");
                     //existingUser.setEmail(user.getEmail());
                 }
-                if (user.getAddress() == null) {
+                if (user.getAddress().isEmpty()) {
                     throw new UserCreationException("User's address can't be null");
                     //existingUser.setAddress(user.getAddress());
                 }

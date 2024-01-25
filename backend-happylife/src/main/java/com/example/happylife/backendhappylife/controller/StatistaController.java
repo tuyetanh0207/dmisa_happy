@@ -36,7 +36,7 @@ public class StatistaController {
     ) {
         User user = (User) request.getAttribute("userDetails");
         UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if ( userResDTO.getRole()==Role.ACCOUNTANT){
+        if ( userResDTO.getRole()==Role.ACCOUNTANT || userResDTO.getRole()==Role.INSUARANCE_MANAGER){
             try {
                 StatistaDashboardResDTO statistaDashboardResDTO = statistaService.getStatistaInDashboardByYear(year);
                 return ResponseEntity.ok(statistaDashboardResDTO);

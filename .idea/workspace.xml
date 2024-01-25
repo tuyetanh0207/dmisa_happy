@@ -5,7 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="429a218a-a88d-4a64-9907-0a82f7e3009d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/Testing/AddClaimTesting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/Testing/AddContactTesting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/Testing/CreateRegisTesting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/Testing/SigninTesting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/Testing/SignupTesting.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/Testing/UpdateTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_19_2024_6_21_PM__Changes_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_21_2024_7_54_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_1_21_2024_7_54_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/StatistaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/StatistaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/ContactServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/ContactServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/service/implement/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,16 +30,31 @@
   <component name="ExportToHTMLSettings">
     <option name="OUTPUT_DIRECTORY" value="D:\SourceCodeGit\dmisa_happy\htmlReport" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="sprint3" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JavaAutoRunManager">
+    <enabled-run-configurations>
+      <run-configuration type="JUnit" name="com.example.happylife.backendhappylife in backend-happylife" />
+    </enabled-run-configurations>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
@@ -36,15 +66,36 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.AddClaimTesting.addClaimWithoutClaimCategories.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AddContactTesting.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CreateRegisTesting.addNewRegisWithOutChooseAgeRange.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CreateRegisTesting.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SigninTesting.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SigningTesting.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SignupTesting.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SignupTesting.registerWithEmptyEmail.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UpdateTesting.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UpdateTesting.updateUserWithEmptyDateOfBirth.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UpdateTesting.updateUserWithEmptyFullName.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UpdateTesting.updateUserWithWrongDateFormat.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.com.example.happylife.backendhappylife in backend-happylife.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.com.example.happylife.backendhappylife.controller in backend-happylife.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.test.loginWithEmptyUsername.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.test.testSecuredEndpointWithMockUser.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.BackendHappylifeApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.BackendHappylifeApplication.executor&quot;: &quot;Coverage&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sprint4.Phuc&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sprint4&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/SourceCodeGit/dmisa_happy&quot;,
@@ -52,21 +103,94 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.jest.jest_package&quot;: &quot;&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;987bc6ab878523d76a08bf6a5f23346d&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Spring Boot.BackendHappylifeApplication">
-    <configuration name="com.example.happylife.backendhappylife.controller in backend-happylife" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AddClaimTesting.addClaimWithoutClaimCategories">
+    <configuration name="AddClaimTesting.addClaimWithoutClaimCategories" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="backend-happylife" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.happylife.backendhappylife.Testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.happylife.backendhappylife.Testing" />
+      <option name="MAIN_CLASS_NAME" value="com.example.happylife.backendhappylife.Testing.AddClaimTesting" />
+      <option name="METHOD_NAME" value="addClaimWithoutClaimCategories" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AddContactTesting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="backend-happylife" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.happylife.backendhappylife.Testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.happylife.backendhappylife.Testing" />
+      <option name="MAIN_CLASS_NAME" value="com.example.happylife.backendhappylife.Testing.AddContactTesting" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreateRegisTesting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="backend-happylife" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.happylife.backendhappylife.Testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.happylife.backendhappylife.Testing" />
+      <option name="MAIN_CLASS_NAME" value="com.example.happylife.backendhappylife.Testing.CreateRegisTesting" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreateRegisTesting.addNewRegisWithOutChooseAgeRange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="backend-happylife" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.happylife.backendhappylife.Testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.happylife.backendhappylife.Testing" />
+      <option name="MAIN_CLASS_NAME" value="com.example.happylife.backendhappylife.Testing.CreateRegisTesting" />
+      <option name="METHOD_NAME" value="addNewRegisWithOutChooseAgeRange" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.example.happylife.backendhappylife in backend-happylife" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="backend-happylife" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.happylife.backendhappylife.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+        <pattern>
+          <option name="PATTERN" value="com.example.happylife.backendhappylife.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.example.happylife.backendhappylife.controller" />
+      <option name="PACKAGE_NAME" value="com.example.happylife.backendhappylife" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -80,11 +204,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.AddClaimTesting.addClaimWithoutClaimCategories" />
+      <item itemvalue="JUnit.AddContactTesting" />
+      <item itemvalue="JUnit.CreateRegisTesting" />
+      <item itemvalue="JUnit.CreateRegisTesting.addNewRegisWithOutChooseAgeRange" />
+      <item itemvalue="JUnit.com.example.happylife.backendhappylife in backend-happylife" />
+      <item itemvalue="Spring Boot.BackendHappylifeApplication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.com.example.happylife.backendhappylife.controller in backend-happylife" />
-        <item itemvalue="JUnit.com.example.happylife.backendhappylife.controller in backend-happylife" />
-        <item itemvalue="JUnit.com.example.happylife.backendhappylife.controller in backend-happylife" />
+        <item itemvalue="JUnit.com.example.happylife.backendhappylife in backend-happylife" />
+        <item itemvalue="JUnit.AddClaimTesting.addClaimWithoutClaimCategories" />
+        <item itemvalue="JUnit.CreateRegisTesting" />
+        <item itemvalue="JUnit.CreateRegisTesting.addNewRegisWithOutChooseAgeRange" />
+        <item itemvalue="JUnit.AddContactTesting" />
       </list>
     </recent_temporary>
   </component>
@@ -133,6 +267,9 @@
       <workItem from="1706095512560" duration="2105000" />
       <workItem from="1706155481949" duration="1240000" />
       <workItem from="1706163218528" duration="4125000" />
+      <workItem from="1706183926787" duration="376000" />
+      <workItem from="1706184312240" duration="10950000" />
+      <workItem from="1706198772662" duration="16000" />
     </task>
     <servers />
   </component>
@@ -140,9 +277,13 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/dmisa_happy$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1705818825453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/dmisa_happy$com_example_happylife_backendhappylife_controller_in_backend_happylife.ic" NAME="com.example.happylife.backendhappylife.controller in backend-happylife Coverage Results" MODIFIED="1705658959255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/dmisa_happy$com_example_happylife_backendhappylife_controller_in_backend_happylife.ic" NAME="com.example.happylife.backendhappylife.controller in backend-happylife Coverage Results" MODIFIED="1706184328250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.example.happylife.backendhappylife.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/dmisa_happy$BackendHappylifeApplication.ic" NAME="BackendHappylifeApplication Coverage Results" MODIFIED="1706184389166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/dmisa_happy$com_example_happylife_backendhappylife_in_backend_happylife.ic" NAME="com.example.happylife.backendhappylife in backend-happylife Coverage Results" MODIFIED="1706185335268" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.example.happylife.backendhappylife.controller.*</FILTER>
+      <FILTER>com.example.happylife.backendhappylife.service.*</FILTER>
     </SUITE>
   </component>
 </project>

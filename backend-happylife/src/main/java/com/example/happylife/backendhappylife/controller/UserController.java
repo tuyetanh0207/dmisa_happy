@@ -23,7 +23,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.PATCH})
 @RestController
-@RequestMapping("/api/v1/users")
+    @RequestMapping("/api/v1/users")
 public class UserController {
     @Autowired
     private UserService userService;

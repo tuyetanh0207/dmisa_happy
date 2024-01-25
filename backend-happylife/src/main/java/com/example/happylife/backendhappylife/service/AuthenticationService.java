@@ -29,29 +29,29 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private  final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(User request) {
-        if (request.getFullName() == null) {
+        if (request.getFullName().isEmpty()) {
             throw new UserCreationException("Full name is required.");
         }
-        if (request.getCitizenId() == null) {
+        if (request.getCitizenId().isEmpty()) {
             throw new UserCreationException("CitizenId is required.");
         }
         if (request.getGender() == null || !(request.getGender().equals("Male") || request.getGender().equals("Female"))) {
             throw new UserCreationException("Invalid gender. Please specify 'Male' or 'Female'.");
         }
-        if (request.getPhoneNumber() == null || !MyService.isValidPhoneNumber(request.getPhoneNumber()) || request.getPhoneNumber().length() != 10 || userRepo.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
+        if (request.getPhoneNumber().isEmpty() || !MyService.isValidPhoneNumber(request.getPhoneNumber()) || request.getPhoneNumber().length() != 10 || userRepo.findByPhoneNumber(request.getPhoneNumber()).isPresent()) {
             throw new UserCreationException("Invalid phone number format or this phone number has already existed.");
         }
-        if (request.getEmail() == null||  !MyService.isValidEmail(request.getEmail()) || !MyService.isValidEmail(request.getEmail())) {
+        if (request.getEmail().isEmpty()||  !MyService.isValidEmail(request.getEmail()) || !MyService.isValidEmail(request.getEmail())) {
             throw new UserCreationException("Invalid email format or this email has already existed.");
         }
         ZonedDateTime thresholdDate = ZonedDateTime.parse("-0001-11-30T00:00:00.000+00:00");
         if (request.getDOB() == null || request.getDOB().before(Date.from(thresholdDate.toInstant()))) {
             throw new UserCreationException("Date of birth is required.");
         }
-        if (request.getPassword() == null) {
+        if (request.getPassword().isEmpty()) {
             throw new UserCreationException("Password is required.");
         }
-        if(request.getAddress()==null ){
+        if(request.getAddress().isEmpty() ){
             throw new UserCreationException("Address is required.");
         }
         try {
