@@ -63,6 +63,8 @@ export default function App() {
                 <Route path='/claimdetail/:claimId' element ={<ClaimDetail/>} />
 
                 <Route path='/createclaim' element={<CreateClaim/>}/>
+                
+                <Route path='/createclaim/:regisId' element={<CreateClaim/>}/>
                 <Route
                   path="/staff/insuarancemanagement/*"
                   element={

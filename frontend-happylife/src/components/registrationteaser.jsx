@@ -49,7 +49,7 @@ const registrationteaser = (props) =>{
                         <div className="w-[106px] mr-[22px] h-12 px-6 py-3 bg-teal-50 rounded border border-green-300 justify-center items-center gap-2.5 inline-flex">
                             <div className="text-center text-green-400 text-base font-bold font-['IBM Plex Sans'] leading-normal">Paid</div>
                         </div>
-                        <Link to="/plan">
+                        <Link to={`/createclaim/${props.realtimeRegis.regisId}`}>
                             <button>
                                 <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
                                     <div className='text-white font-bold leading-normal'>Create Claim</div>

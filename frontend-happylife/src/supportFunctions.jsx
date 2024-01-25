@@ -80,7 +80,8 @@ export const getAlphabetOfName = (name) => {
     return "";
   }
 };
-export function NumberFormat(number) {
+
+export function NumberFormatExample(number) {
   if(number==null){
     return number;
   } else {

@@ -3,17 +3,37 @@ import { useEffect,useState } from 'react'
 import { useSelector } from 'react-redux';
 import Select from 'react-select'
 import axios from 'axios'
+//import {BsFillTrashFill,BsFillPencilFill} from 'react-icons/bs'
+import CreateClaimModal from './createclaimmodal.jsx'
+import Modalerror from './modalerror.jsx'
+import Modalerrorfile from './modalerrorfile.jsx'
+import Modalsuccess from './modalsuccess.jsx'
+import Addinvoiceclaim  from './addinvoiceclaim.jsx';
 import RegistrationAPI from '../../../api/registrationApi.jsx';
+import { useParams } from 'react-router-dom'
+import Send from '../../assets/send.png'
 
 export default function CreateClaim() { 
     const user = useSelector((state) => state.auth.login.currentUser);
-    //const regisID = "65a157175e0d7f1fdb6f512d";
+
+    const {regisId} = useParams();
+    console.log('regisID:',regisId)
     const [registrations, setRegistrations] = useState(null);
-    const [claims, setClaims] = useState(null);
+    //const [claims, setClaims] = useState(null);
     const [content,setContent] =useState('');
-    const [invoice,setInvoice] = useState([]);
-    const [amount,setAmount] =useState(0); 
+    //const [invoice,setInvoice] = useState([]);
+    //const [amount,setAmount] =useState(0); 
     const [hospitalName,setHospitalName] =useState('');
+
+    const [modalOpen,setModalOpen] = useState(false);
+    const [modalErrorOpen,setModalErrorOpen] = useState(false);
+    const [modalErrorFileOpen,setModalErrorFileOpen] = useState(false);
+    const [modalSuccessOpen,setModalSuccessOpen] = useState(false);
+    
+
+    const [rows,setRows] = useState( [
+
+    ]);
 
     const categoriesOption = [
         {value:"Bảo hiểm sức khỏe căn bản",label:"Bảo hiểm sức khỏe căn bản"},
@@ -47,23 +67,23 @@ export default function CreateClaim() {
             });
         
     }
-    const fetchClaims =async () => {
-        const url = `http://localhost:8090/api/v1/claims/${user.userInfo.id}`;
-        axios.get(url, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.token}`
-            }
-        })
-            .then(response => {
-                console.log('Claim:', response.data);
-                setClaims(response.data)
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    // const fetchClaims =async () => {
+    //     const url = `http://localhost:8090/api/v1/claims/${user.userInfo.id}`;
+    //     axios.get(url, {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${user.token}`
+    //         }
+    //     })
+    //         .then(response => {
+    //             console.log('Claim:', response.data);
+    //             setClaims(response.data)
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
         
-    }
+    // }
     const [files, setFiles] = useState([]);
     const [isImageFile, setIsImageFile] = useState(false);
     let url1;
@@ -83,18 +103,6 @@ export default function CreateClaim() {
     
   };
     const handleClaimCategoriesChange = (selectCategories) => {
-        // event.preventDefault()
-        // try{
-        //     const regisID = "65a157175e0d7f1fdb6f512d"; 
-        //     const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
-        //     //const selectedClaimCategories = event.target.value;
-        //     if(selectedRegistration){
-        //         setClaimCategories(selectedRegistration.claimCategories)
-        //     }
-        // }catch(error){console.error('Error:', error);}
-        // setClaimCategories(selectOption)
-
-
         const selectedValues = selectCategories.map(option => option.value);
         setClaimCategories(selectedValues);
         console.log('Select Categories:',selectCategories)
@@ -113,29 +121,31 @@ export default function CreateClaim() {
         // console.log('choose', selectCategories);
     }
 
-    // const handleInvoiceInsert = (e) =>{
-    //     const insertInvoice = e.target.value
-    //     if (insertInvoice) {
-    //         setSelectedOneOptionBenefits((prev)=>[
-    //             ...prev,{
-    //                 amount: insertInvoice.amount,
-    //                 date: selectedOptionalBenefit.dependencies,
-              
-    //             }
-    //         ]);
-    //     }
-    // }
+
+    const handleDeleteRow = (targetIndex) => {
+        setRows(rows.filter((_,index) => index !== targetIndex))
+    }
+
+    const handleAddRow = (newRow) => {
+        setRows([...rows,newRow])
+    }
 
     const handleSubmit = async(e)=>{
         e.preventDefault();
         console.log("//////////////////////////////////////////////////////////")
-        
-          const regisID = "65abb268b85d687fe9d64067";
-        //const regisID = "65ae2509acd69653df000676";
-          const selectedRegistration = registrations.find(registration => registration.regisId === regisID);
+        console.log('regisID in submit:',regisId)
+          const selectedRegistration = registrations.find(registration => registration.regisId === regisId);
             console.log('Select Regis:',selectedRegistration)
+            console.log('Select claimCategories:',claimCategories)
+            console.log('Select rows:',rows)
           if (!selectedRegistration) {
             console.error("Selected registration not found");
+            return;
+          }
+
+          if (claimCategories.length == 0 || rows.length == 0) {
+            console.log('Error: claimCategories or rows is null');
+            setModalErrorOpen(true);
             return;
           }
       
@@ -143,15 +153,11 @@ export default function CreateClaim() {
             regisInfo: selectedRegistration,
             claimCategories: claimCategories,
             content: content,
-            claimInvoices: [
-                {
-                    invoiceDate:null,
-                    amount: amount,
-                    status: "Pending"
-                }
-            ],
+            claimInvoices:rows,
             hospitalName: hospitalName,
           };
+          console.log('hello')
+
 
         const url = 'http://localhost:8090/api/v1/claims/create';
         axios.post(url, claim, {
@@ -163,7 +169,7 @@ export default function CreateClaim() {
         .then(response => {
             console.log('Success:', response.data);
             const newClaimId = response.data.claimId;
-
+            
             //console.log('Current: ',curentRegistrations)
             console.log('123:', newClaimId);
 
@@ -197,12 +203,14 @@ export default function CreateClaim() {
                         console.log('Success:', response.data);
                         console.log('file: ',files);
                         console.log('FormData: ',formData)
+                        setModalSuccessOpen(true)
                         // Handle the response as needed
                       })
                       .catch(error => {
                         console.error('Error:', error);
                         console.log('file: ',files);
                         console.log('FormData: ',formData)
+                        setModalErrorFileOpen(true)
                         // Handle errors
                       });
                    
@@ -216,19 +224,21 @@ export default function CreateClaim() {
     
         useEffect(() => {
             fetchRegistrations();
-            fetchClaims();
+            // fetchClaims();
            
-        }, []); 
+        }, [regisId]); 
     
     return(
-        <div className=" bg-custom-blue-3 ">
+        <div className="py-20 bg-custom-blue-3 ">
         
-        <div className="mt-14   pt-6 pb-14 container mx-auto bg-white">
+        <div className="mt-10 pt-6 pb-14 container mx-auto bg-white">
+          <div className="py-10 w-auto text-center text-blue-950 text-5xl font-medium font-['IBM Plex Serif'] leading-[56px]">Send Your Claim</div>
+
           <form onSubmit={handleSubmit} className="pt-6 pb-4  container mx-auto pl-24 pr-24 max-w-6xl  ">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 ">
                   <div className="sm:col-span-full">   
-                        <label className="block text-xl font-medium leading-6 text-gray-900">
-                          Reason
+                        <label className="block text-xl text-slate-900 font-medium font-['IBM Plex Sans'] leading-7">
+                          Your Reason
                         </label>
                         <div className="mt-2">
                         <input
@@ -241,27 +251,16 @@ export default function CreateClaim() {
                         />
                         </div>
                   </div>
-                  <div className="pt-10 ">
+                  <div className="sm:col-span-full ">
+                      <label className="block text-xl text-slate-900 font-medium font-['IBM Plex Sans'] leading-7">
+                        Plan Category
+                      </label>
+                      <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
+                  </div>
 
-                        <Select options={categoriesOption} onChange={handleClaimCategoriesChange} isMulti/>
-                    </div>
-                    {/* <div className="flex flex-row items-center ">
-                        {categoriesOption?.map((item,index) => (
-                            <div key={index}>
-                                    <input type="checkbox" value={item.value} onChange={() => handleClaimCategoriesChange(item.value)} checked={claimCategories.includes(item.value)} className="w-8 h-8 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
-                                                    
-                                        <div className="flex flex-col items-center ">
-                                            <label  className="ms-2 font-medium text-gray-900 dark:text-gray-300">{item.value}</label>              
-                                                                                
-                                        </div>
-                            </div>
-                            
-                        ))}
-                                
-                    </div> */}
                     <div className="sm:col-span-full">   
                         <label className="block text-xl font-medium leading-6 text-gray-900">
-                            Hospital Name
+                          Your Hospital 
                         </label>
                         <div className="mt-2">
                         <input
@@ -273,50 +272,37 @@ export default function CreateClaim() {
                             onChange={(e)=>setHospitalName(e.target.value)}
                         />
                     </div>
-                    {/* claimInvoices */}
-
-
-                    <div className="relative overflow-x-auto pt-10">
-                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3 w-1/2">
-                                        Invoices Date
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 w-1/2">
-                                        Amount
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <input
-                                            type="date" name="date" id="date"
-                                            className="block w-1/2 h-10 px-4 border-0 py-2 "
-                                            placeholder='yyyy/mm/dd'
-                                            
-                                        />
-                                    </th>
-                                    <th className="px-4 py-4 border-t border-gray-300 text-center">
-                                        <input
-                                            type="text" name="name" id="name"
-                                            className="block h-10 px-4 border-0 py-2 "
-                                            placeholder='Amount'
-                                            //onChange={(e)=>setAmount(e.target.value)}
-                                        />
-                                    </th>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div className=" sm:col-span-full">   
+                        <label className="pt-8 block text-xl font-medium leading-6 text-gray-900">
+                          Claim Invoices 
+                        </label>
+                        <Addinvoiceclaim rows={rows} deleteRow={handleDeleteRow}/>
+                        
+                    </div>
+                    
+                    {/* claimInvoices table */}
+                    
+                    <div className="flex justify-center pt-5">
+                        <button type="button" onClick={ () => setModalOpen(true)} className=" flex justify-center text-blue-700 border-2 border-blue-600 bg-white hover:bg-blue-700 hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">+</button>
                     </div>
 
-
-                    <input type="file" onChange={handleFileChange} multiple className='pt-10' />
-                    <div className="flex items-center justify-between">
-                            <div></div>
-                            <button  className="px-32 py-6 text-2xl flex flex-row bg-indigo-50 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
-                                <p className="pl-6">Sent</p>
+                    {modalOpen && <CreateClaimModal closeModal={() => {setModalOpen(false)}}  onSubmit={handleAddRow}  className="pt-5"/>}
+                    
+                    {modalErrorOpen && <Modalerror closeModal={() => {setModalErrorOpen(false)}}/>}
+                    {modalErrorFileOpen && <Modalerrorfile closeModal={() => {setModalErrorFileOpen(false)}}/>}
+                    {modalSuccessOpen && <Modalsuccess closeModal={() => {setModalSuccessOpen(false)}}/>}
+                    
+                    <div>
+                        <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                          Hopital Document
+                        </label>
+                        <input className ="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-blue-400 focus:outline-none dark:bg-blue-700 dark:border-gray-600 dark:placeholder-blue-400" type="file" onChange={handleFileChange} multiple />
+                    </div>
+                    <div className="pt-10 flex items-center justify-center">
+                          
+                            <button  className="gap-5 px-32 py-6 text-2xl text-white flex flex-row bg-indigo-500 rounded border font-bold font-['IBM Plex Sans'] text-custom-blue-3 border-indigo-500">
+                            <img src={Send} className=" w-[25px]"  />
+                              Sent Claim 
                             </button>
                         </div>
                   </div>
@@ -324,25 +310,6 @@ export default function CreateClaim() {
              
                  
           </form>
-
-                                                
-          {/* test get registion */}
-          {/* {registrations?.map((item, index) => (
-            <div key={index}>
-                <div className="border-t border-gray-300 pl-8 pr-2 py-2">{index + 1}</div>
-                <div >{item.customerInfo.fullName}</div>
-                <div >{item.customerInfo.phoneNumber}</div>
-                
-                <div >{item.customerInfo.dob}</div>
-                <div >{item.customerInfo.address}</div>
-                <div >{item.productInfo.planName}</div>
-                <div >{item.productInfo.planServiceCoverage}</div>
-                <div >{item.productInfo.planDuration + " " + item.productInfo.planDurationUnit + "s"}</div>
-                
-            </div>
-            ))} */}
-
-            
         </div>
         
       </div>

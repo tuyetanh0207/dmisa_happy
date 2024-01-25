@@ -94,4 +94,3 @@ export const patch = function (url, data, token) {
         })
     );
   };
-  
