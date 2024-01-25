@@ -7,7 +7,7 @@ import Modal from './modal/modal.jsx'
 import ModalSuccess from './modal/modalsuccess.jsx'
 
 import Shopingcar from "../../../assets/shopingcar.png";
-import {NumberFormatExample} from '../../../supportFunctions.jsx'
+import {NumberFormat} from '../../../supportFunctions.jsx'
 // import SetupProxy from '../../../setupProxy.js'
 export default function Buyplan() {
   const user = useSelector((state) => state.auth.login.currentUser);
@@ -576,7 +576,7 @@ export default function Buyplan() {
                                       From {item3.startAge}-{item3.endAge} age{" "}
                                     </div>
                                     <div>
-                                      {NumberFormatExample(item3.fee)} {benefit.unit}
+                                      {NumberFormat(item3.fee)} {benefit.unit}
                                     </div>
                                   </button>
                                 ))}
@@ -636,7 +636,7 @@ export default function Buyplan() {
                                                 <div key={index} >
                                                   {selectedAgeGroup?.startAge ===
                                                     item2.startAge && (
-                                                    <div>{NumberFormatExample(item2.fee)} {item.unit}</div>
+                                                    <div>{NumberFormat(item2.fee)} {item.unit}</div>
                                                     
                                                   )}
                                                 </div>
@@ -672,7 +672,7 @@ export default function Buyplan() {
                                                       <div>
                                                         {" "}
                                                         .Mức giá: {
-                                                          NumberFormatExample(item2.fee)
+                                                          NumberFormat(item2.fee)
                                                         
                                                         }{" "}
                                                       </div>
@@ -706,7 +706,7 @@ export default function Buyplan() {
                   <div className="flex items-center justify-between">
                     <div></div>
                     <div className="pt-10 pb-10 px-0 py-4  text-2xl  font-bold font-['IBM Plex Sans'] text-custom-blue-3">
-                      Totals:{NumberFormatExample(planTotalFee)} VND
+                      Totals:{NumberFormat(planTotalFee)} VND
                     </div>
                   </div>
                 </div>

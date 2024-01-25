@@ -81,7 +81,7 @@ export const getAlphabetOfName = (name) => {
   }
 };
 
-export function NumberFormatExample(number) {
+export function NumberFormat(number) {
   if(number==null){
     return number;
   } else {
