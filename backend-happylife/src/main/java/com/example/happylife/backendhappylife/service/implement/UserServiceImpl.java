@@ -68,13 +68,8 @@ public class UserServiceImpl implements UserService {
                 if (user.getFullName() == null) {
                     throw new UserCreationException("User's full name can't be null");
                 }
-                System.out.println("exist : " +  existingUser.getDOB());
-
                     //existingUser.setFullName(user.getFullName());}
-                System.out.println("convert usser : " + user.getDOB());
-
                 if (user.getDOB() == null) {
-                    System.out.println("CitizenId : " + user.getDOB());
                     throw new UserCreationException("User's DoB can't be null");
                     //existingUser.setDOB(user.getDOB());
                 }
