@@ -35,7 +35,7 @@ export default function Home() {
               <div>
                 <h1 class="text-white text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">A better life starts with good health.</h1>
                 <p class="text-white text-xl md:text-2xl leading-snug mt-4">Welcome to HappyLife Insurance, where trust and comfort take top priority in safeguarding your future.</p>
-                <a href="#" class="px-8 py-4 bg-[#5576F5] text-white rounded inline-block mt-8 font-semibold">Book
+                <a href="/plan" class="px-8 py-4 bg-[#5576F5] text-white rounded inline-block mt-8 font-semibold">Book
                   Appointment</a>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function Home() {
               <p class="mt-2 leading-relaxed mb-10">Choose HappyLife Insurance for personalized, comprehensive coverage tailored to your unique needs. 
               With a proven track record, our experienced team is dedicated to your peace of mind and overall satisfaction. Trust us for more than just 
               a policy – choose a partner committed to your lasting security</p>
-              <a href="#" class="text-white bg-[#5576F5] font-bold rounded-lg px-5 py-2.5 mr-2 mb-2">Discover now</a>
+              <a href="/aboutus" class="text-white bg-[#5576F5] font-bold rounded-lg px-5 py-2.5 mr-2 mb-2">Discover now</a>
             </div>
 
             <div class="w-full md:max-w-md md:mx-auto lg:w-1/2 lg:px-8 mt-12 mt:md-0">
@@ -232,7 +232,7 @@ export default function Home() {
                 <div class="mx-auto text-center">
                     <h2 class="mb-4 text-4xl tracking-tight font-extrabold leading-tight text-white">Protect your happiness with HappyLife Insurance.</h2>
                     <p class="mb-6 font-light text-white md:text-lg">Secure your happiness with HappyLife Insurance today – choose personalized protection for a worry-free tomorrow.</p>
-                    <a href="#" class="text-white bg-[#5576F5] font-bold rounded-lg px-5 py-2.5 mr-2 mb-2">Get a quote now!</a>
+                    <a href="/plan" class="text-white bg-[#5576F5] font-bold rounded-lg px-5 py-2.5 mr-2 mb-2">Get a quote now!</a>
                 </div>
             </div>
         </section>
