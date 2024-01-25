@@ -30,7 +30,7 @@ const Login = () => {
             console.log("res:",loginRes);
             if(loginRes?.data?.token){
                 setIsPopupOpen(false);
-                console.log("SET POPUP = true");
+                //console.log("SET POPUP = true");
             }
             else {
                 setIsPopupOpen(true);
