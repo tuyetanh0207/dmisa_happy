@@ -1,6 +1,8 @@
 package com.example.happylife.backendhappylife.service.implement;
 
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanCreateDTO;
 import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanResDTO;
+import com.example.happylife.backendhappylife.DTO.PlanDTO.PlanUpdateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Enum.RegistrationEventEnum;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
@@ -31,14 +33,14 @@ public class PlanServiceImpl implements PlanService {
     @Autowired
     private ApplicationEventPublisher publisher;
     @Override
-    public Plan deletePlan(ObjectId PlanId) {
+    public void deletePlan(ObjectId PlanId) {
         Plan Plan = planRepo.findById(PlanId).get();
         planRepo.delete(Plan);
-        return Plan;
     }
 
     @Override
-    public Plan addPlan(UserResDTO user, Plan plan) {
+    public PlanResDTO addPlan(UserResDTO user, PlanCreateDTO plan) {
+        Plan newPlan = new Plan().convertCreToPlan(plan);
         try {
             if (plan.getPlanName() == null || plan.getPlanName().isEmpty()) {
                 throw new UserCreationException("Plan name is required.");
@@ -53,16 +55,16 @@ public class PlanServiceImpl implements PlanService {
                 throw new UserCreationException("Plan duration is required.");
             }
             Instant instantNow = Instant.now();
-            plan.setPlanCreatedAt(instantNow);
-            plan.setPlanUpdatedAt(instantNow);
-            return planRepo.save(plan);
+            newPlan.setPlanCreatedAt(instantNow);
+            newPlan.setPlanUpdatedAt(instantNow);
+            return planRepo.save(newPlan).convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error creating new Plan: " + e.getMessage());
         }
     }
 
     @Override
-    public Plan updatePlan(Plan planUpdate, ObjectId planId) {
+    public PlanResDTO updatePlan(PlanUpdateDTO planUpdate, ObjectId planId) {
         Plan existingPlan = planRepo.findById(planId)
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found with id: " + planId));
 
@@ -116,7 +118,7 @@ public class PlanServiceImpl implements PlanService {
             Instant instantNow = Instant.now();
             existingPlan.setPlanUpdatedAt(instantNow);
             planRepo.save(existingPlan);
-            return existingPlan;
+            return existingPlan.convertToPlanResDTO();
         } catch (Exception e) {
             throw new UserCreationException("Error update Plan: " + e.getMessage());
         }

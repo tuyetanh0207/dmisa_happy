@@ -57,21 +57,43 @@ public class UserServiceImpl implements UserService {
     //Service for Customer
     @Override
     public UserResDTO updateUser(ObjectId userId, UserResDTO userResDTO, UserResDTO userRequest) {
+        System.out.println(" Not convert usser : " + userResDTO.getDOB());
+
         User user = new User().convertResToUser(userResDTO);
         User userRequestVar = new User().convertResToUser(userRequest);
         try{
             if (userRequestVar.getId().equals(userId)) {
                 User existingUser = userRepo.findById(userId)
                         .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-                if (user.getFullName() != null) { existingUser.setFullName(user.getFullName());}
-                if (user.getDOB() != null) {existingUser.setDOB(user.getDOB());}
-                if(user.getGender() != null &&
-                        !("Male").equals(user.getGender().trim()) &&
-                        !("Female").equals(user.getGender().trim())) { existingUser.setGender(user.getGender());}
-                if(user.getCitizenId() != null) {existingUser.setCitizenId(user.getCitizenId());}
-                if (user.getEmail() != null && !MyService.isValidEmail(user.getEmail())) {existingUser.setEmail(user.getEmail());}
-                if (user.getAddress() != null) {existingUser.setAddress(user.getAddress());}
-                if (user.getHealthStatus() != null) {existingUser.setHealthStatus(user.getHealthStatus());}
+                if (user.getFullName() == null) {
+                    throw new UserCreationException("User's full name can't be null");
+                }
+                    //existingUser.setFullName(user.getFullName());}
+                if (user.getDOB() == null) {
+                    throw new UserCreationException("User's DoB can't be null");
+                    //existingUser.setDOB(user.getDOB());
+                }
+                if(user.getGender() == null ||
+                        (!("Male").equals(user.getGender().trim()) &&
+                        !("Female").equals(user.getGender().trim()))) {
+                    throw new UserCreationException("User's gender can't be null and it must be 'Male' or 'Female' ");
+                    // existingUser.setGender(user.getGender());
+                }
+                if(user.getCitizenId().isEmpty()) {
+                    throw new UserCreationException("User's citizenId can't be null");
+                    //existingUser.setCitizenId(user.getCitizenId());
+                }
+                if (user.getEmail() == null || !MyService.isValidEmail(user.getEmail())) {
+                    throw new UserCreationException("User's email can't be null and it must be in the correct format");
+                    //existingUser.setEmail(user.getEmail());
+                }
+                if (user.getAddress() == null) {
+                    throw new UserCreationException("User's address can't be null");
+                    //existingUser.setAddress(user.getAddress());
+                }
+                /*if (user.getHealthStatus() != null) {
+                    existingUser.setHealthStatus(user.getHealthStatus());
+                }*/
                 Instant instantNow = Instant.now();
                 existingUser.setUpdatedAt(instantNow);
                 userRepo.save(existingUser);
@@ -79,10 +101,9 @@ public class UserServiceImpl implements UserService {
             }
             else{
                 throw new UserCreationException("User don't have permission to change the information");
-
             }
         } catch (Exception e) {
-            throw new UserCreationException("Error updating Contract: " + e.getMessage());
+            throw new UserCreationException("Error updating user: " + e.getMessage());
         }
 
     }

@@ -5,21 +5,20 @@ import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimCreateDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimResDTO;
 import com.example.happylife.backendhappylife.DTO.ClaimDTO.ClaimUpdateStaffDTO;
 import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceCreateDTO;
-import com.example.happylife.backendhappylife.DTO.InvoiceDTO.InvoiceResDTO;
 import com.example.happylife.backendhappylife.DTO.NotificationDTO.NotificationCreateDTO;
 import com.example.happylife.backendhappylife.DTO.UserDTO.UserResDTO;
 import com.example.happylife.backendhappylife.entity.Claim;
 import com.example.happylife.backendhappylife.entity.Enum.InvoiceType;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
-import com.example.happylife.backendhappylife.entity.Invoice;
 import com.example.happylife.backendhappylife.entity.Object.Message;
 import com.example.happylife.backendhappylife.entity.Object.SectionFileCount;
-import com.example.happylife.backendhappylife.entity.Registration;
+import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.exception.UserCreationException;
 import com.example.happylife.backendhappylife.repo.ClaimRepo;
 import com.example.happylife.backendhappylife.service.ClaimService;
 import com.example.happylife.backendhappylife.service.InvoiceService;
 import com.example.happylife.backendhappylife.service.NotificationService;
+import com.example.happylife.backendhappylife.service.StatistaService;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,11 +40,16 @@ public class ClaimServiceImpl implements ClaimService {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private StatistaService statistaService;
+
     //Service for Manager
     @Override
-    public List<Claim> getAllClaim() {
+    public List<ClaimResDTO> getAllClaim() {
         try{
-            List<Claim> claims = claimRepo.findAll();
+            List<ClaimResDTO> claims = claimRepo.findAll().stream()
+                    .map(claim -> claim.convertClaimToRes())
+                    .collect(Collectors.toList());
             return claims;
         } catch (Exception e){
             throw new UserCreationException("Error geting claims:" + e.getMessage());
@@ -56,7 +57,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public Claim updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg) {
+    public ClaimResDTO updateClaimStatus(UserResDTO authUser, ObjectId claimId, ClaimResDTO claim, Message msg) {
         try {
             if (authUser.getRole() == Role.INSUARANCE_MANAGER || authUser.getRole() == Role.ACCOUNTANT) {
                 Instant instantNow = Instant.now();
@@ -95,8 +96,15 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceCreateDTO.setInvoiceType(InvoiceType.Claim_Payment);
                         invoiceCreateDTO.setClaimInfo(claimVar.convertClaimToRes());
                         invoiceCreateDTO.setPaymentStatus("Pending");
-                        invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        if(claimVar.getClaimAmount()==null){
+                            invoiceCreateDTO.setTotalPrice(0);
+                        } else{
+                            invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        }
+
                         invoiceService.addInvoice(invoiceCreateDTO);
+
+                        statistaService.updateStatistaByResolvedClaim(claimVar.convertToClaimResDTO());
                     }
                     if (claim.getStatus().equals("In Process")) {
                         // Tạo InvoiceCreateDTO và gọi phương thức tạo hóa đơn
@@ -106,15 +114,21 @@ public class ClaimServiceImpl implements ClaimService {
                         invoiceCreateDTO.setPaymentStatus("Pending");
                         Instant dueDateInstant = instantNow.plus(Duration.ofDays(CONSTANT.DUE_DATE_REVIEW_DECISION_OF_CLAIM));
                         invoiceCreateDTO.setDueDate(dueDateInstant);
-                        invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        if(claimVar.getClaimAmount()==null){
+                            invoiceCreateDTO.setTotalPrice(0);
+                        } else{
+                            invoiceCreateDTO.setTotalPrice(claim.getClaimAmount());
+                        }
                         invoiceService.addInvoice(invoiceCreateDTO);
 
                         notificationCreateDTO.setNotiPrio("High");
+
+                        statistaService.updateStatistaByResolvedClaim(claimVar.convertToClaimResDTO());
                     }
 
 
                     notificationService.addAutoNoti(notificationCreateDTO);
-                    return claimRepo.save(claimVar);
+                    return claimRepo.save(claimVar).convertClaimToRes();
                 } else {
                     throw new UserCreationException("Error updating status of claim: status is invalid.");
                 }
@@ -128,7 +142,7 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
-    public Claim updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim){
+    public ClaimResDTO updateClaimByStaff(UserResDTO authUser, ObjectId claimId, ClaimUpdateStaffDTO claim){
         Claim existingClaim = claimRepo.findById(claimId)
                 .orElseThrow(() ->new EntityNotFoundException("Claim not found with id: " + claimId));
         try {
@@ -149,8 +163,9 @@ public class ClaimServiceImpl implements ClaimService {
             }
             Instant instantNow = Instant.now();
             existingClaim.setUpdatedAt(instantNow);
-            claimRepo.save(existingClaim);
-            return existingClaim;
+            Claim savedClaim =  claimRepo.save(existingClaim);
+            statistaService.updateStatistaByResolvedClaim(savedClaim.convertToClaimResDTO());
+            return savedClaim.convertClaimToRes();
 
 
         } catch (Exception e){
@@ -182,25 +197,54 @@ public class ClaimServiceImpl implements ClaimService {
             Instant instantNow = Instant.now();
             claim.setCreatedAt(instantNow);
             claim.setUpdatedAt(instantNow);
-            claimRepo.save(claim);
-            return claim.convertClaimToRes();
+            Claim savedClaim =  claimRepo.save(claim);
+
+            statistaService.updateStatistaByNewClaim(savedClaim.convertToClaimResDTO());
+
+            return savedClaim.convertClaimToRes();
         } catch (Exception e){
             throw  new UserCreationException("Error to request the new claim : "+ e.getMessage());
         }
     }
+    @Override
+    public List<ClaimResDTO> getAllClaimByRegisId(ObjectId regisId, UserResDTO userVar) {
+        try{
+            /*System.out.println(userVar.getId().toString());
+            System.out.println(regisId.toString());*/
+
+            User user = new User().convertResToUser(userVar);
+            List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoIdAndRegisInfo_RegisId(user.getId().toString(),regisId.toString());
+            //List<Claim> claimList = claimRepo.findByRegisInfo_RegisId(regisId.toString());
+            //List<Claim> claimList = claimRepo.findByRegisInfo_CustomerInfoId(user.getId().toString());
+            //System.out.println(claimList.size());
+
+            List<ClaimResDTO> claimResDTOS = claimList.stream()
+                                            .map(Claim::convertClaimToRes).
+                                            collect(Collectors.toList());
+            return claimResDTOS;
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's claims: " + e.getMessage());
+        }
+    }
     //Service for Both
     @Override
-    public List<ClaimResDTO> getAllClaimByUserId(UserResDTO user, ObjectId userId) {
+    public List<ClaimResDTO> getAllClaimByUserId(UserResDTO userVar, ObjectId userId) {
         try{
-            if(user.getId().equals(userId.toString())){
-                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfoId(userId.toString());
+            User user = new User().convertResToUser(userVar);
+            if(user.getId().equals(userId)){
+              /*  System.out.println(user.getId().toString());
+                System.out.println(user.toString());
+*/
+                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo_Id(userId);
+               // System.out.println(claims.size());
+
                 List<ClaimResDTO> claimsRes = claims.stream()
                         .map(Claim::convertClaimToRes)
                         .collect(Collectors.toList());
                 return claimsRes;
             }
             else if(user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT){
-                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfoId(userId.toString());
+                List<Claim> claims = claimRepo.findByRegisInfo_CustomerInfo_Id(userId);
                 List<ClaimResDTO> claimsRes = claims.stream()
                         .map(Claim::convertClaimToRes)
                         .collect(Collectors.toList());
@@ -339,6 +383,27 @@ public class ClaimServiceImpl implements ClaimService {
             return claimResDTO;
         } catch (Exception e) {
             throw new UserCreationException("Error update Claim: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public ClaimResDTO getClaimByClaimId(ObjectId claimId,
+                                               UserResDTO user){
+        try{
+            User userVar = new User().convertResToUser(user);
+            Claim existingClaim = claimRepo.findById(claimId)
+                    .orElseThrow(() ->new EntityNotFoundException("Claim not found with id: " + claimId));
+            if(userVar.getId().toString().equals(existingClaim.getRegisInfo().getCustomerInfo().getId())){
+                return existingClaim.convertClaimToRes();
+            }
+            else if(user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT){
+                return existingClaim.convertClaimToRes();
+            }
+            else{
+                throw new UserCreationException("User need authorication to access this function");
+            }
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's claims: " + e.getMessage());
         }
     }
 }

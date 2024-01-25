@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,20 +38,6 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    // Service for Manager
-    @Override
-    public List<Contract> getAllContract(User user) {
-        try{
-            if(user.getRole() == Role.INSUARANCE_MANAGER){
-                List<Contract> contracts = contractRepo.findAll();
-                return contracts;
-            }
-        }
-        catch(Exception e){
-            throw new UserCreationException("Error to get: " + e.getMessage());
-        }
-        return null;
-    }
     @Override
     public ContractResDTO addContract(ContractCreateDTO contractDto){
         Contract contract = new Contract().convertCreToContract(contractDto);
@@ -67,6 +54,7 @@ public class ContractServiceImpl implements ContractService {
             Instant instantNow = Instant.now();
             contract.setCreatedAt(instantNow);
             contract.setUpdatedAt(instantNow);
+            contract.setContent(Arrays.asList("https://firebasestorage.googleapis.com/v0/b/dmisa-410407.appspot.com/o/InsuranceContract.pdf?alt=media&token=cd28a638-4db5-4c9a-b990-32866a57f513"));
             contractRepo.save(contract);
             return contract.convertToContractResDTO();
         } catch (Exception e) {
@@ -139,6 +127,9 @@ public class ContractServiceImpl implements ContractService {
                 regis.setMessage(messageList);
                 Registration regisUpd = new Registration().convertToRegis(regis);
                 RegistrationEventEnum method = RegistrationEventEnum.updateStatus;
+                //System.out.println("Size of Message : " + regisUpd.getMessage().size());
+                //System.out.println("Message : " + regisUpd.getMessage());
+
                 publisher.publishEvent(new RegistrationEvent(regisUpd, method));
 
                 Notification noti = new Notification();

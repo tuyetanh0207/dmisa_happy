@@ -21,10 +21,7 @@ import com.example.happylife.backendhappylife.entity.Registration;
 import com.example.happylife.backendhappylife.entity.Enum.Role;
 import com.example.happylife.backendhappylife.entity.User;
 import com.example.happylife.backendhappylife.repo.RegistrationRepo;
-import com.example.happylife.backendhappylife.service.ContractService;
-import com.example.happylife.backendhappylife.service.InvoiceService;
-import com.example.happylife.backendhappylife.service.NotificationService;
-import com.example.happylife.backendhappylife.service.RegistrationService;
+import com.example.happylife.backendhappylife.service.*;
 import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.ContractEvent;
 import jakarta.persistence.EntityNotFoundException;
 import org.bson.types.ObjectId;
@@ -39,10 +36,7 @@ import com.example.happylife.backendhappylife.exception.UserCreationException;
 
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,12 +56,17 @@ public class RegistrationImpl implements RegistrationService {
     @Autowired
     private InvoiceService invoiceService;
 
+    @Autowired
+    private StatistaService statistaService;
+
 
     @Override
-    public List<Registration> getRegistrations(UserResDTO user) {
+    public List<RegisResDTO> getRegistrations(UserResDTO user) {
         try {
             if (user.getRole()== Role.INSUARANCE_MANAGER|| user.getRole() == Role.ACCOUNTANT ){
-                List<Registration> registrations = registrationRepo.findAll();
+                List<RegisResDTO> registrations = registrationRepo.findAll().stream()
+                        .map(regis -> regis.convertToRegisResDTO())
+                        .collect(Collectors.toList());
                 return registrations;
             }
             else {
@@ -80,7 +79,7 @@ public class RegistrationImpl implements RegistrationService {
     }
 
     @Override
-    public Registration updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
+    public RegisResDTO updateRegisStatus(UserResDTO authUser, ObjectId regisId, RegisUpdateStatusDTO regisUpdateStatusDTO) {
         try {
             //thêm một dòng để convert DTO sang entity
             RegisResDTO regis = regisUpdateStatusDTO.getRegis();
@@ -141,18 +140,22 @@ public class RegistrationImpl implements RegistrationService {
                         regisVar.setContractIdInfo(savedContract);
                         notificationCreateDTO.setNotiPrio("High");
 
+                        statistaService.updateStatistaByResolvedRegistration(regisVar.convertToRegisResDTO());
+
+
                     }
                     if (regis.getApprovalStatus().equals("Revoked")){
 
                         ContractResDTO oldContract = contractService.getContractByRegisId(authUser,regisId);
                         oldContract.setStatus(CONSTANT.CONTRACT_STATUS.get(0)); // cancel contract
                         contractService.updateContract(oldContract);
-
                         regisVar.setContractIdInfo(oldContract);
+
+                        statistaService.updateStatistaByResolvedRegistration(regisVar.convertToRegisResDTO());
 
                     }
                     notificationService.addAutoNoti(notificationCreateDTO);
-                    return registrationRepo.save(regisVar);
+                    return registrationRepo.save(regisVar).convertToRegisResDTO();
                 } else{
                     throw  new UserCreationException("Error updating status of registration: status is invalid.");
                 }
@@ -228,18 +231,31 @@ public class RegistrationImpl implements RegistrationService {
             Registration existingRegis = registrationRepo.findById(regisId)
                     .orElseThrow(() -> new EntityNotFoundException("Regis not found with id: " + regisId));
             existingRegis.setApprovalStatus(updRegis.getApprovalStatus());
-
+            System.out.println("Try to add mess !!!");
             List<Message> messageList = new ArrayList<>();
-            if(existingRegis.getMessage() == null) messageList.addAll(updRegis.getMessage());
+            if(existingRegis.getMessage() == null) {
+                System.out.println("Try to add all !!!");
+                messageList.addAll(updRegis.getMessage());
+            }
             else {
+                System.out.println("Try to add mess !!!");
+
                 messageList = existingRegis.getMessage();
                 messageList.addAll(updRegis.getMessage());
             }
             existingRegis.setMessage(messageList);
+            System.out.println("Size of Message : " + existingRegis.getMessage().size());
+            System.out.println("Message : " + existingRegis.getMessage());
+
             Instant instantNow = Instant.now();
             existingRegis.setUpdatedAt(instantNow);
-            registrationRepo.save(existingRegis);
-            return existingRegis.convertToRegisResDTO();
+            Registration savedRegis = registrationRepo.save(existingRegis);
+
+            if(savedRegis.getApprovalStatus().equals("Signed")){
+                statistaService.updateStatistaByResolvedRegistration(savedRegis.convertToRegisResDTO());
+            }
+
+            return savedRegis.convertToRegisResDTO();
         } catch (Exception e){
             throw  new UserCreationException("Error updating status of registration: "+ e.getMessage());
         }
@@ -260,6 +276,11 @@ public class RegistrationImpl implements RegistrationService {
 
             Instant instantNow= Instant.now();
             regis.setApprovalStatus("Pending");
+            Message mes = new Message();
+            mes.setContent("Your registration is pending. Please wait for the manager to confirm the registration!");
+            mes.setDateMessage(instantNow);
+            regis.setMessage(new ArrayList<>());
+            regis.getMessage().add(mes);
             regis.setCreatedAt(instantNow);
             regis.setUpdatedAt(instantNow);
 

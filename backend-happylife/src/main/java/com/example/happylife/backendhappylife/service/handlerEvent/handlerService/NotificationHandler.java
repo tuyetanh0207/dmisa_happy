@@ -1,8 +1,6 @@
 package com.example.happylife.backendhappylife.service.handlerEvent.handlerService;
 
-import com.example.happylife.backendhappylife.service.ContractService;
 import com.example.happylife.backendhappylife.service.NotificationService;
-import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.ContractEvent;
 import com.example.happylife.backendhappylife.service.handlerEvent.classEvent.NotificationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -13,8 +11,10 @@ public class NotificationHandler {
     @Autowired
     private NotificationService notificationService;
 
-   /* @EventListener
+    @EventListener
     public void onNotificationCreated(NotificationEvent event) {
-        notificationService.(event.getContract().convertToContractResDTO());
-    }*/
+        System.out.println("Id event : " + event.getNotificationEvent());
+
+        notificationService.addNotiAuto(event.getNotificationEvent().convertToNotificationResDTO());
+    }
 }

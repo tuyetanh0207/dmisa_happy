@@ -150,7 +150,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 regis.setRegisId(regisId.toString());
                 regis.setApprovalStatus("Paid");
                 Message mes = new Message();
-                mes.setContent("Bạn đã thanh toán thành công!");
+                mes.setContent("You have pay the invoice successfully!");
                 mes.setDateMessage(instantNow);
                 List<Message> messageList = new ArrayList<>();
                 messageList.add(mes);
@@ -164,7 +164,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
                 Notification noti = new Notification();
                 noti.setNotiTitle("Thông báo đã thanh toán thành công!");
-                noti.setNotiContent("Bạn đã thanh toán thành công!");
+                noti.setNotiContent("You have pay the invoice successfully!");
                 noti.setUserInfo(authUser.getId());
                 publisher.publishEvent(new NotificationEvent(noti));
 

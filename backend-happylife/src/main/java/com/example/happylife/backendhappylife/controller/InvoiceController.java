@@ -32,44 +32,56 @@ public class InvoiceController {
     @GetMapping("/{userId}") //API get toàn bộ một invoice theo userId
     public ResponseEntity<?> getByUserId(HttpServletRequest request,
                                          @PathVariable ObjectId userId){
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER ||
-                user.getRole() == Role.INSUARANCE_MANAGER ||
-                user.getRole() == Role.ACCOUNTANT)
-        {
-            return ResponseEntity.ok(invoiceService.getInvoiceofUserById(userResDTO,userId));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER ||
+                    user.getRole() == Role.INSUARANCE_MANAGER ||
+                    user.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(invoiceService.getInvoiceofUserById(userResDTO,userId));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
     @PutMapping("/{invoiceId}/Cash")
     public ResponseEntity<?> updateInvoice(HttpServletRequest request,
                                            @PathVariable ObjectId invoiceId,
                                            @RequestBody InvoiceUpdateDTO invoiceUpdateDTO) {
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO user = userVar.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER) {
-           return ResponseEntity.ok(invoiceService.updateInvoice(user,invoiceId,invoiceUpdateDTO));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO user = userVar.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER) {
+                return ResponseEntity.ok(invoiceService.updateInvoice(user,invoiceId,invoiceUpdateDTO));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     };
     @GetMapping("/{regisId}/getByRegisId") //API get 1 regis của một user thông qua regisId
     public ResponseEntity<?> getByRegisId(HttpServletRequest request,
                                           @PathVariable ObjectId regisId){
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER ||
-                user.getRole() == Role.INSUARANCE_MANAGER ||
-                user.getRole() == Role.ACCOUNTANT)
-        {
-            return ResponseEntity.ok(invoiceService.getInvoiceByRegisId(userResDTO,regisId));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER ||
+                    user.getRole() == Role.INSUARANCE_MANAGER ||
+                    user.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(invoiceService.getInvoiceByRegisId(userResDTO,regisId));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
 }

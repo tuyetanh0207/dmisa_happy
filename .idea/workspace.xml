@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="429a218a-a88d-4a64-9907-0a82f7e3009d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/controller/auth/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/entity/Plan.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-happylife/src/main/java/com/example/happylife/backendhappylife/entity/Plan.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +42,11 @@
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.BackendHappylifeApplication.executor&quot;: &quot;Run&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sprint3.be.PhucHCMUS&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sprint4.Phuc&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/SourceCodeGit/dmisa_happy&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -87,6 +88,13 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-f644763e9732-c0c073db" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -106,6 +114,25 @@
       <workItem from="1705813674753" duration="1299000" />
       <workItem from="1705815740294" duration="6850000" />
       <workItem from="1705829778538" duration="2635000" />
+      <workItem from="1705860662421" duration="3010000" />
+      <workItem from="1705866332582" duration="3899000" />
+      <workItem from="1705870391463" duration="855000" />
+      <workItem from="1705871318807" duration="1862000" />
+      <workItem from="1705899879351" duration="18000" />
+      <workItem from="1705900167720" duration="1194000" />
+      <workItem from="1705911317659" duration="222000" />
+      <workItem from="1705914911615" duration="564000" />
+      <workItem from="1705916714851" duration="212000" />
+      <workItem from="1705986321957" duration="11136000" />
+      <workItem from="1706013686779" duration="1638000" />
+      <workItem from="1706025304451" duration="1982000" />
+      <workItem from="1706082961880" duration="1556000" />
+      <workItem from="1706089898864" duration="2480000" />
+      <workItem from="1706093094154" duration="171000" />
+      <workItem from="1706093444578" duration="446000" />
+      <workItem from="1706095512560" duration="2105000" />
+      <workItem from="1706155481949" duration="1240000" />
+      <workItem from="1706163218528" duration="4125000" />
     </task>
     <servers />
   </component>

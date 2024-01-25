@@ -50,72 +50,93 @@ public class ContractController {
     }
     //API for Customer
     @PutMapping("/update/{contractId}/status") //API update status của một contract
-    public ResponseEntity<ContractResDTO> updateContract(HttpServletRequest request,
+    public ResponseEntity<?> updateContract(HttpServletRequest request,
                                                          @PathVariable ObjectId contractId,
                                                          @RequestBody ContractResDTO contractResDTO){
-        User userVar = (User) request.getAttribute("userDetails");
-        UserResDTO user = userVar.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER){
-            return ResponseEntity.ok(contractService.updateContractStatus(contractResDTO,contractId, user));
+        try {
+            User userVar = (User) request.getAttribute("userDetails");
+            UserResDTO user = userVar.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER){
+                return ResponseEntity.ok(contractService.updateContractStatus(contractResDTO,contractId, user));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
-        return null;
-    }
+    };
     @GetMapping("/{userId}") //API get toàn bộ contract theo userId
     public ResponseEntity<?> getByUserId(HttpServletRequest request,
                                          @PathVariable ObjectId userId){
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER ||
-                user.getRole() == Role.INSUARANCE_MANAGER ||
-                user.getRole() == Role.ACCOUNTANT)
-        {
-            return ResponseEntity.ok(contractService.getContractByUserId(userId,userResDTO));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER ||
+                    user.getRole() == Role.INSUARANCE_MANAGER ||
+                    user.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(contractService.getContractByUserId(userId,userResDTO));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
     @GetMapping("/{regisId}/getById") //API get 1 regis của một user thông qua regisId
     public ResponseEntity<?> getByRegisId(HttpServletRequest request,
                                           @PathVariable ObjectId regisId){
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        if(user.getRole() == Role.CUSTOMER ||
-                user.getRole() == Role.INSUARANCE_MANAGER ||
-                user.getRole() == Role.ACCOUNTANT)
-        {
-            return ResponseEntity.ok(contractService.getContractByRegisId(userResDTO,regisId));
-        }
-        else {
-            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER ||
+                    user.getRole() == Role.INSUARANCE_MANAGER ||
+                    user.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(contractService.getContractByRegisId(userResDTO,regisId));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     }
 
     //API for upload image and file
     @PutMapping(value = "/update/{contractId}/image-contentUrl", consumes = "multipart/form-data") // Update contract theo contractId các image ở content
-    public ResponseEntity<?> updateClaimImageContentUrl(HttpServletRequest request,
+    public ResponseEntity<?> updateContractImageContentUrl(HttpServletRequest request,
                                                         @PathVariable ObjectId contractId,
                                                         @RequestParam("files") MultipartFile[] files) throws IOException {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        //if(userResDTO)
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
-        // Cập nhật thông tin vào Claim và lưu
-        ContractResDTO savedContract = contractService.updateContractImageOrFileContentUrl(contractId,uploadedUrls);
-        return ResponseEntity.ok(savedContract);
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
+            // Cập nhật thông tin vào Claim và lưu
+            ContractResDTO savedContract = contractService.updateContractImageOrFileContentUrl(contractId,uploadedUrls);
+            return ResponseEntity.ok(savedContract);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
-    @PutMapping(value = "/update/{claimId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
-    public ResponseEntity<?> updateClaimFileContentUrl(HttpServletRequest request,
+    @PutMapping(value = "/update/{contractId}/file-docUrl", consumes = "multipart/form-data") // Update Claim theo claimId các files ở DocumentURl
+    public ResponseEntity<?> updateContractFileContentUrl(HttpServletRequest request,
                                                        @PathVariable ObjectId contractId,
                                                        @RequestParam("files") MultipartFile[] files) throws IOException {
-        User user = (User) request.getAttribute("userDetails");
-        UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-        //if(userResDTO)
-        // Lưu các URL của file sau khi upload
-        List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
-        // Cập nhật thông tin vào Claim và lưu
-        ContractResDTO savedContract = contractService.updateContractImageOrFileContentUrl(contractId,uploadedUrls);
-        return ResponseEntity.ok(savedContract);
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            //if(userResDTO)
+            // Lưu các URL của file sau khi upload
+            List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);
+            // Cập nhật thông tin vào Claim và lưu
+            ContractResDTO savedContract = contractService.updateContractImageOrFileContentUrl(contractId,uploadedUrls);
+            return ResponseEntity.ok(savedContract);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 }

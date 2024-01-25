@@ -12,8 +12,6 @@ import java.util.List;
 public interface InvoiceService {
     InvoiceResDTO addInvoice(InvoiceCreateDTO invoice);
 
-    //Invoice updateInvoice(UserResDTO authUser, ObjectId invoiceId, Invoice invoice);
-
     //Service for Customer
     List<InvoiceResDTO> getInvoiceofUserById(UserResDTO userVar, ObjectId userId);
 

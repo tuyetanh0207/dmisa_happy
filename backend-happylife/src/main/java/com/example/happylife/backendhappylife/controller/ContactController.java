@@ -42,8 +42,12 @@ public class ContactController {
     //API for Customer
     @PostMapping("/create") //API tạo mới một contact
     public ResponseEntity<?> addContact(@RequestBody ContactCreateDTO contactCreateDTO) {
-        ContactResDTO savedContact = contactService.addContact(contactCreateDTO);
-        return ResponseEntity.ok(savedContact);
+        try {
+            ContactResDTO savedContact = contactService.addContact(contactCreateDTO);
+            return ResponseEntity.ok(savedContact);
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
     };
 
 }
