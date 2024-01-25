@@ -7,42 +7,12 @@ const AccDashboard = () => {
 
   const [statista, setStatista] = useState({});
 
-  // const [totalAvenueFromInsuranceFee, setTotalAvenueFromInsuranceFee] = useState({});
-  // const [totalProfit, setTotalProfit] = useState({});
-
-  // const [numOfClaim, setNumOfClaim] = useState({});
-  // const [numOfPendingClaim, setNumOfPendingClaim] = useState({});
-  // const [numOfResolvedClaim, setNumOfResolvedClaim] = useState({});
-  // const [totalClaimAmount, setTotalClaimAmount] = useState({});
-
-  // const [numOfActiveRegistration, setNumOfActiveRegistration] = useState({});
-  // const [numOfExpiredRegistration, setNumOfExpiredRegistration] = useState({});
-  // const [numOfInsuranceRegistration, setNumOfInsuranceRegistration] = useState({});
-
-  // const [compensationPayoutRatio, setCompensationPayoutRatio] = useState({});
-  // const [lossRatio, setLossRatio] = useState({});
-
   const fetchStatista = async () => {
     try {
       const res = await StatistaAPI.getStatista(user.token);
       console.log(res);
 
       setStatista(res?.data)
-
-      // setLossRatio(res.data?.rateStatista.lossRatio);
-      // setCompensationPayoutRatio(res.data?.rateStatista.compensationPayoutRatio);
-
-      // setNumOfInsuranceRegistration(res.data?.insuranceStatista.numOfInsuranceRegistration);
-      // setNumOfExpiredRegistration(res.data?.insuranceStatista.numOfExpiredRegistration);
-      // setNumOfActiveRegistration(res.data?.insuranceStatista.numOfActiveRegistration);
-
-      // setTotalClaimAmount(res.data?.claimStatista.totalClaimAmount);
-      // setNumOfResolvedClaim(res.data?.numOfResolvedClaim);
-      // setNumOfPendingClaim(res.data?.claimStatista.numOfPendingClaim);
-      // setNumOfClaim(res.data?.claimStatista.numOfClaim);
-
-      // setTotalAvenueFromInsuranceFee(res.data?.avenueStatista.totalAvenueFromInsuranceFee);
-      // setTotalProfit(res.data?.avenueStatista.totalProfit);
 
     } catch (err) {
       console.log("error in fetchStatista", err);

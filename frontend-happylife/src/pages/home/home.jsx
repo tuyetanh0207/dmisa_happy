@@ -151,9 +151,9 @@ export default function Home() {
         </section>
 
         {/* Article Section */}
-        <div class="container my-24 mx-auto md:px-6">
+        <div class="container my-24 mx-auto md:px-24">
           <section class="mb-32">
-            <h2 class="mb-16 text-center text-4xl font-bold">Our Value</h2>
+            <h2 class="mb-16 text-center text-4xl font-bold">Our Values</h2>
 
             <div class="mb-16 flex flex-wrap">
               <div class="mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-6/12 lg:pr-6">
@@ -167,18 +167,22 @@ export default function Home() {
                 </div>
               </div>
 
-              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pl-6 center">
-                <h3 class="mb-4 text-2xl font-bold">We value what makes us us</h3>
-                <p class="mb-6 text-neutral-500 dark:text-neutral-300">
-                Our workplace ideal center around the belief that every individual means something special and every possible connection bonds something new. We foster a culture of inclusivity and creativity, ensuring people of all backgrounds, experiences and perspectives are represented.
-                </p>
-                <p class="text-neutral-500 dark:text-neutral-300">
-                Our venture is the combined effort of intellectual capabilities and commercial solutions, dedicated to serve the society at large. We mobilize the best in A-list contemporary with quantum ideas to execute and own the entrepreneurship sought after.
-                </p>
+              <div class="w-full shrink-0 grow-0 lg:w-6/12 lg:pl-6 flex flex-col">
+                <div class="basis-1/3"></div>
+                <div class="basis-1/3">
+                  <h3 class="mb-4 text-2xl font-bold">We value what makes us us</h3>
+                  <p class="mb-6 text-neutral-500 dark:text-neutral-300">
+                  Our workplace ideal center around the belief that every individual means something special and every possible connection bonds something new. We foster a culture of inclusivity and creativity, ensuring people of all backgrounds, experiences and perspectives are represented.
+                  </p>
+                  <p class="text-neutral-500 dark:text-neutral-300">
+                  Our venture is the combined effort of intellectual capabilities and commercial solutions, dedicated to serve the society at large. We mobilize the best in A-list contemporary with quantum ideas to execute and own the entrepreneurship sought after.
+                  </p>
+                 </div>
+                <div class="basis-1/3"></div>
               </div>
             </div>
 
-            <div class="mb-16 flex flex-wrap lg:flex-row-reverse">
+            <div class="mb-16 flex flex-wrap lg:flex-row-reverse ">
               <div class="mb-6 w-full shrink-0 grow-0 basis-auto lg:mb-0 lg:w-6/12 lg:pl-6">
                 <div class="ripple relative overflow-hidden rounded-lg bg-cover bg-[50%] bg-no-repeat shadow-lg dark:shadow-black/20">
                   <img src={Run} class="w-full" alt="Louvre" />
@@ -190,14 +194,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pr-6">
-                <h3 class="mb-4 text-2xl font-bold">We know our business</h3>
-                <p class="mb-6 text-neutral-500 dark:text-neutral-300">
-                  We aim to champion the business of venture capital by being the trusted vessel for financiers and engineers. Our venture has a long lifetime, and it is a broad arc over inter-industry values and cross-domain trends. 
-                </p>
-                <p class="text-neutral-500 dark:text-neutral-300">
-                  Our vision for our workplace is one that is centered on integrity and respect and with values that bring forward excellence in all of us each and every day. We are committed to creating a culture where diverse voices and perspectives are encouraged, and where all employees are equally supported in developing their careers — where people can truly be themselves and feel they can achieve their best.
-                </p>
+              <div class="w-full shrink-0 grow-0 flex flex-col lg:w-6/12 lg:pr-6">
+              <div class="basis-1/3"></div>
+                <div class="basis-1/3">
+                  <h3 class="mb-4 text-2xl font-bold">We know our business</h3>
+                  <p class="mb-6 text-neutral-500 dark:text-neutral-300">
+                    We aim to champion the business of venture capital by being the trusted vessel for financiers and engineers. Our venture has a long lifetime, and it is a broad arc over inter-industry values and cross-domain trends. 
+                  </p>
+                  <p class="text-neutral-500 dark:text-neutral-300">
+                    Our vision for our workplace is one that is centered on integrity and respect and with values that bring forward excellence in all of us each and every day. We are committed to creating a culture where diverse voices and perspectives are encouraged, and where all employees are equally supported in developing their careers — where people can truly be themselves and feel they can achieve their best.
+                  </p>
+                 </div>
+                <div class="basis-1/3"></div>
               </div>
             </div>
 
@@ -213,14 +221,18 @@ export default function Home() {
                 </div>
               </div>
 
-              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pl-6">
-                <h3 class="mb-4 text-2xl font-bold">We inspire excellence</h3>
-                <p class="mb-6 text-neutral-500 dark:text-neutral-300">
-                  We approach our work with craftsmanship and our global network with care. We want to ensure that everything we touch and everyone we see are recognized in our legacy. The impact we create with entrepreneurs will sustain independently.
-                </p>
-                <p class="text-neutral-500 dark:text-neutral-300">
-                  Our culture is one of our top priorities and we are focused on implementing people- first policies and programs equitably throughout our global organization. As we continue to invest in systems, tools and processes to strengthen our company, what’s most important is the continued investment in our people.
-                </p>
+              <div class="w-full shrink-0 grow-0 basis-auto lg:w-6/12 lg:pl-6 flex flex-col">
+              <div class="basis-1/3"></div>
+                <div class="basis-1/3">
+                  <h3 class="mb-4 text-2xl font-bold">We inspire excellence</h3>
+                  <p class="mb-6 text-neutral-500 dark:text-neutral-300">
+                    We approach our work with craftsmanship and our global network with care. We want to ensure that everything we touch and everyone we see are recognized in our legacy. The impact we create with entrepreneurs will sustain independently.
+                  </p>
+                  <p class="text-neutral-500 dark:text-neutral-300">
+                    Our culture is one of our top priorities and we are focused on implementing people- first policies and programs equitably throughout our global organization. As we continue to invest systems, tools and processes to strengthen our company, what’s most important is the continued investment in our people.
+                  </p>
+                 </div>
+                <div class="basis-1/3"></div>
               </div>
             </div>
           </section>
