@@ -39,7 +39,7 @@ const Footer = ({navigationRight, setCurrent}) => {
                             <div className="basis-1/3 py-5 text-white text-xl font-medium font-['IBM Plex Sans'] leading-7 ">Quick Links</div>
                             <div className="basis-2/3 gap-3  flex flex-col ">
                                 <Link to="/home" className="text-white text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">Home</Link>
-                                <Link to="/about" className="text-white text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">About</Link>
+                                <Link to="/aboutus" className="text-white text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">About</Link>
                                 <Link to="/plan" className="text-white text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">Plan</Link>
                                 <Link to="/contact" className="text-white text-lg font-normal font-['IBM Plex Sans'] leading-[30px]">Contact</Link>
                             </div>

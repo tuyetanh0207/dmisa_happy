@@ -5,10 +5,8 @@ import Healthinsurance1 from '../../../assets/healthinsurance1.png'
 import Healthinsurance2 from '../../../assets/healthinsurance2.png'
 import Healthinsurance3 from '../../../assets/healthinsurance3.png'
 import Healthinsurance4 from '../../../assets/healthinsurance4.png'
-import HealthinsurancePicture1 from '../../../assets/insurantFamily.jpg'
 import HealthinsurancePicture2 from '../../../assets/insurantFamily2.jpg'
 import HealthinsurancePicture3 from '../../../assets/insurantFamily3.jpg'
-import HealthinsurancePicture4 from '../../../assets/insurantFamily4.jpg'
 import HealthinsurancePicture5 from '../../../assets/insurantFamily5.webp'
 
 import chevronright from '../../../assets/chevronright.svg'
@@ -58,7 +56,7 @@ export default function Plandetail() {
     return (
         <div className="py-20 bg-custom-blue-3 w-full">
             
-            <div  className='py-20 mb-20 container mx-auto bg-white w-full'>
+            <div  className='py-20 mb-20 container mx-auto bg-white w-[90%]'>
                 <h1 className="pb-14  text-center text-5xl font-semibold font-serif text-custom-blue">{plansDetail?.planName}</h1>
                 <div className="pt-6 pb-14 container mx-auto  max-w-6xl">
                     <div className="pb-5 flex items-center justify-between">
