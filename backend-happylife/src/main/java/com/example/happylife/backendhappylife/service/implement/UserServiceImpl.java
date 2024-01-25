@@ -79,8 +79,7 @@ public class UserServiceImpl implements UserService {
                     throw new UserCreationException("User's gender can't be null and it must be 'Male' or 'Female' ");
                     // existingUser.setGender(user.getGender());
                 }
-                if(user.getCitizenId() == null) {
-                    System.out.println("CitizenId : " + user.getCitizenId());
+                if(user.getCitizenId().isEmpty()) {
                     throw new UserCreationException("User's citizenId can't be null");
                     //existingUser.setCitizenId(user.getCitizenId());
                 }
