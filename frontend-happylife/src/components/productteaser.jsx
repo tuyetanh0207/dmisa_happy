@@ -9,6 +9,7 @@ import ClaimAPI from '../../api/claimApi'
 import moment from 'moment'
 import EyeIcon from '../assets/EyeIcon.png'
 import {Routes, Route, Link} from 'react-router-dom';
+import PlanAPI from '../../api/plansApi';
 
 
 const productteaser = (props) => {
@@ -18,15 +19,32 @@ const productteaser = (props) => {
   // this is for message toggle (bottom)
   const [toggleMessage, setToggleMessage] = useState(false)
   const [arrrow2ClickStatus, setArrow2ClickStatus] = useState(false)
-
-  // Get data of user
   const user1 = useSelector((state) =>state.auth.login.currentUser);
+  const [realtimePlan, setRealtimePlan] = useState();
+
   
   // Get claim by regis of user
   const [realtimeClaim, setRealtimeClaim] = useState([]);
+console.log('pro', props)
+
+  const fetchPlan = async () => {
+    try{
+      const res = await PlanAPI.getPlanByRegisId(props?.realtimeRegis?.regisId, user1?.token);
+      console.log('FETCH PLAN SUCCESS!');
+      setRealtimePlan(res.data);
+
+      console.log('res plan', res.data);
+    }
+    catch (error){
+      console.log("error in fetchPlan", error);
+    }
+  }
+  useEffect(() => {
+      fetchPlan();
+  },[])
   const fetchClaim = async () => {
     try{
-      const res = await ClaimAPI.getAllClaimsOfUserByRegis(user1?.token, props?.realtimeRegis.regisId);
+      const res = await ClaimAPI.getAllClaimsOfUserByRegis(user1?.token, props?.realtimeRegis?.regisId);
       setRealtimeClaim(res.data);
       console.log('res realtimeClaim by regis in Claim:', res.data);
 
@@ -43,7 +61,9 @@ const productteaser = (props) => {
   return (
     <div className='relative'>
         <div className='flex justify-center relative h-auto min-h-[317px] w-[1415px] bg-white rounded-lg border-x-5 border-gray-200 '>
-          <img src={props.realtimeRegis.productInfo.planURL} alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
+          <img 
+          src={realtimePlan?.planURL[0]}
+           alt='Insurance Logo' className='rounded-lg w-[532px] h-[317px] absolute inset-y-0 left-0'>
           </img> 
           <div className='flex flex-col ml-[450px] mt-[38px]'>
             <h1 className='font-semibold text-2xl mb-[20px]'>{props.realtimeRegis.productInfo.planName}</h1>

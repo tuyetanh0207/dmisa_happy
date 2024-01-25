@@ -152,7 +152,7 @@ const notification = () => {
                     </div> 
                     
                 </div>
-                {realtimeNoti.map((item)=>(  
+                {realtimeNoti.slice().reverse().map((item)=>(  
                     <div className='flex pt-[46px] pb-[46px] pl-[14px] pr-[14px] border-b'>
                         {NotiIcon.map((arr) => (
                             arr.notiType === item.notiType ? (
@@ -171,7 +171,7 @@ const notification = () => {
                         </div>
                         
                         <p className='text-base'>{item.notiContent}</p>
-                        <p className='text-right text-sm italic font-normal pr-[10px]'>20/11/2022</p>
+                        <p className='text-right text-sm italic font-normal pr-[10px]'>{item.createdAt?item.createdAt.slice(0,10): ""}</p>
                         </div>
                     </div>
                     

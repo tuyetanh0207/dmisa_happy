@@ -35,8 +35,8 @@ export default function Home() {
               <div>
                 <h1 class="text-white text-4xl md:text-5xl xl:text-6xl font-bold leading-tight">A better life starts with good health.</h1>
                 <p class="text-white text-xl md:text-2xl leading-snug mt-4">Welcome to HappyLife Insurance, where trust and comfort take top priority in safeguarding your future.</p>
-                <a href="/plan" class="px-8 py-4 bg-[#5576F5] text-white rounded inline-block mt-8 font-semibold">Book
-                  Appointment</a>
+                <a href="/plan" class="px-8 py-4 bg-[#5576F5] text-white rounded inline-block mt-8 font-semibold">
+                  See our product</a>
               </div>
             </div>
           </section>

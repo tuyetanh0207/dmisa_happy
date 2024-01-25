@@ -38,7 +38,7 @@ export default function Plan() {
                 <div>
                   <input type="hidden" value="3" />
                   <div className=''>
-                    <img src={Insurance} alt="LOGO" className=" py-5 rounded-lg w-full h-[40%] " />
+                    <img src={plan?.planURL[0]} alt="LOGO" className=" py-5 rounded-lg w-full h-[40%] " />
                   </div>
                   
                   <div className="pt-5 px-10 text-slate-900 text-4xl font-medium font-['IBM Plex Sans'] leading-9">{plan.planName}</div>
