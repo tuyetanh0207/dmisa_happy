@@ -36,7 +36,7 @@ const registration = () => {
   //console.log('TEST: ', realtimeRegis.approvalStatus)
   return (
     <div className='screen flex items-center flex-col bg-bgr-white my-auto '>
-      {realtimeRegis.map((regis, index) => (
+      {realtimeRegis.slice().reverse().map((regis, index) => (
              <div key={index} className='mt-[30px] mb-[50px]'>
              <Registrationteaser realtimeRegis = {regis} index={index}/>
            </div>

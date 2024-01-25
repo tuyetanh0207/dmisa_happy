@@ -132,13 +132,14 @@ const paymentBank = () => {
                             Pay With: 
                         </div>
                         <div>
-                            <input type="radio" id="card" name="options" className="h-4 w-4 mb-[2px] text-indigo-600 border-gray-300 rounded-full focus:ring-indigo-500"/>
+                            <input type="radio" id="card" name="options"  className="h-4 w-4 mb-[2px] text-indigo-600 border-gray-300 rounded-full focus:ring-indigo-500"/>
                             <label htmlFor="option1" className="ml-2 text-gray-700">Card</label>
                             <input type="radio" id="bank" name="options" className="ml-[19px] mb-[2px]  h-4 w-4 text-indigo-600 border-gray-300 rounded-full focus:ring-indigo-500"/>
                             <label htmlFor="option2" className="ml-2 text-gray-700">Bank</label>
                         </div>
                         <div>
                             <select id="bankname" name="bankname" 
+                            required
                             className='w-[476px] h-[46px] px-4 py-[11px] rounded border border-zinc-400 justify-center items-center gap-[282px] inline-flex'
                             >
                                 <option value="" label="Access bank"></option>
@@ -149,7 +150,9 @@ const paymentBank = () => {
                         <div className="text-zinc-950 text-lg font-medium">
                             Enter Your Bank Account Number
                         </div>
-                        <input  className='w-[476px] h-[46px] px-4 py-[11px] rounded border border-zinc-400 justify-center items-center gap-[282px] inline-flex'
+                        <input  
+                        required
+                        className='w-[476px] h-[46px] px-4 py-[11px] rounded border border-zinc-400 justify-center items-center gap-[282px] inline-flex'
                          placeholder='Your bank account number'
                         >
                         </input>
