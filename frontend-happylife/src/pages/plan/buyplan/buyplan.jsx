@@ -255,7 +255,7 @@ export default function Buyplan() {
       .then((response) => {
         console.log("Success:", response.data);
         const newRegisId = response.data.regisId;
-        setCurentRegistrations(newRegisId);
+        
         //console.log('Current: ',curentRegistrations)
         console.log("123:", newRegisId);
 
@@ -320,7 +320,7 @@ export default function Buyplan() {
   };
 
   const fetchUserInfo = async () => {
-    setIsLogin(true);
+
 
     setFullName(user.userInfo.fullName);
     setCitizenId(user.userInfo.citizenId);
@@ -536,7 +536,7 @@ export default function Buyplan() {
                             <button
                               value={item.typeName}
                               onClick={() => handlePlanTypeNameChange(item)}
-                              className={`border-gray-600 border-2 rounded-lg w-full h-full py-2 hover:text-white border border-blue-700 hover:bg-indigo-500 ${
+                              className={`border-gray-600 border-2 rounded-lg w-full h-full py-2 hover:text-white hover:border-blue-700 hover:bg-indigo-500 ${
                                 selectedPlanType === item ? "bg-indigo-500 text-white" : ""
                               }`}
                             >
@@ -556,17 +556,17 @@ export default function Buyplan() {
 
                       {selectedPlanType && (
                         <div>
-                          <p className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                          <p className="pt-14 pb-6 block text-xl text-slate-900  font-medium font-['IBM Plex Sans'] leading-7">
                             Selected Benefits:
                           </p>
                           {selectedPlanType?.benefits?.map((benefit, index) => (
                             <div key={index} className=" py-5 rounded-[10px]  border-neutral-200 text-center">
-                              <div className="text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">{benefit.benefitName}</div>
+                              <div className="text-xl text-slate-900  font-medium font-['IBM Plex Sans'] leading-7">{benefit.benefitName}</div>
                               <div className="pt-10 grid grid-cols-4 gap-4">
                                 {benefit?.feeType?.map((item3, index) => (
                                   <button
                                     key={index}
-                                    className={`border-gray-600 border-2 rounded-lg w-full h-full py-2 px-2 hover:text-white border border-blue-700 hover:bg-indigo-500 ${
+                                    className={`border-gray-600 border-2 rounded-lg w-full h-full py-2 px-2 hover:text-white hover:border-blue-700 hover:bg-indigo-500 ${
                                       selectedAgeGroup?.startAge ===
                                       item3.startAge
                                         ? "bg-indigo-500 text-white "
@@ -591,7 +591,7 @@ export default function Buyplan() {
 
                       {selectedPlan && (
                         <div>
-                          <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                          <label className="pt-14 pb-6 block text-xl text-slate-900  font-medium font-['IBM Plex Sans'] leading-7">
                             Choose Optional Benefit
                           </label>
                           <div className="grid grid-cols-2 gap-4">
@@ -698,7 +698,7 @@ export default function Buyplan() {
                   )}
                   <div>
                     <div>
-                      <label className="pt-14 pb-6 block text-xl text-slate-900 text-base font-medium font-['IBM Plex Sans'] leading-7">
+                      <label className="pt-14 pb-6 block text-xl text-slate-900 font-medium font-['IBM Plex Sans'] leading-7">
                           Hopital Document
                         </label>
   

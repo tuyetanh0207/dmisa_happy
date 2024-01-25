@@ -5,6 +5,12 @@ import Healthinsurance1 from '../../../assets/healthinsurance1.png'
 import Healthinsurance2 from '../../../assets/healthinsurance2.png'
 import Healthinsurance3 from '../../../assets/healthinsurance3.png'
 import Healthinsurance4 from '../../../assets/healthinsurance4.png'
+import HealthinsurancePicture1 from '../../../assets/insurantFamily.jpg'
+import HealthinsurancePicture2 from '../../../assets/insurantFamily2.jpg'
+import HealthinsurancePicture3 from '../../../assets/insurantFamily3.jpg'
+import HealthinsurancePicture4 from '../../../assets/insurantFamily4.jpg'
+import HealthinsurancePicture5 from '../../../assets/insurantFamily5.webp'
+
 import chevronright from '../../../assets/chevronright.svg'
 import Download from '../../../assets/download.png'
 import Review from './review'
@@ -76,7 +82,7 @@ export default function Plandetail() {
                 </div>
                 
                 <div className="flex items-center justify-center ">
-                    <img src={Insurance} alt="LOGO" className="item-center" ></img>
+                    <img src={HealthinsurancePicture2} style={{ width: '70%', height: '30%' }} alt="LOGO" className="item-center" ></img>
                 </div>
 
                 <div className="pt-6 pb-14 container mx-auto  max-w-6xl">
@@ -107,7 +113,7 @@ export default function Plandetail() {
                         ))}
                         </div>
                         <div className=" p-4">
-                            <img src={Insurance} alt="LOGO" className="item-center" ></img>
+                            <img src={HealthinsurancePicture5} style={{ width: '100%', height: '100%' }} alt="LOGO" className="item-center" ></img>
                         </div>
                         
                     </div>
@@ -171,7 +177,7 @@ export default function Plandetail() {
                             
                         </div>
                         <div className=" p-4">
-                            <img src={Insurance} alt="LOGO" className="item-center" ></img>
+                            <img src={HealthinsurancePicture3} alt="LOGO" className="item-center" ></img>
                         </div>
                         
                     </div>
