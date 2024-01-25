@@ -143,7 +143,7 @@ export default function CreateClaim() {
             return;
           }
 
-          if (claimCategories.length == 0 || rows.length == 0) {
+          if (claimCategories.length == 0 || rows.length == 0 ||content == ""|| hospitalName == "") {
             console.log('Error: claimCategories or rows is null');
             setModalErrorOpen(true);
             return;
