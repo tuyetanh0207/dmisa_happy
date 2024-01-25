@@ -120,8 +120,8 @@ public class PlanController {
                                                     @PathVariable ObjectId planId,
                                                     @RequestParam("files") MultipartFile[] files) throws IOException {
         try {
-            User user = (User) request.getAttribute("userDetails");
-            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+           /* User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();*/
             //if(userResDTO)
             // Lưu các URL của file sau khi upload
             List<String> uploadedUrls = firebaseStorageService.uploadImages(files);
@@ -138,8 +138,8 @@ public class PlanController {
                                                    @PathVariable ObjectId planId,
                                                    @RequestParam("files") MultipartFile[] files) throws IOException {
         try {
-            User user = (User) request.getAttribute("userDetails");
-            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            /*User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();*/
             //if(userResDTO)
             // Lưu các URL của file sau khi upload
             List<String> uploadedUrls = firebaseStorageService.uploadFiles(files);

@@ -87,7 +87,6 @@ public class Claim {
         @Temporal(TemporalType.DATE)
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
         private Date invoiceDate;
-        @Column(nullable = false)
         private float amount;
         @Column(nullable = false)
         private String status;

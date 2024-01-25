@@ -385,4 +385,25 @@ public class ClaimServiceImpl implements ClaimService {
             throw new UserCreationException("Error update Claim: " + e.getMessage());
         }
     }
+
+    @Override
+    public ClaimResDTO getClaimByClaimId(ObjectId claimId,
+                                               UserResDTO user){
+        try{
+            User userVar = new User().convertResToUser(user);
+            Claim existingClaim = claimRepo.findById(claimId)
+                    .orElseThrow(() ->new EntityNotFoundException("Claim not found with id: " + claimId));
+            if(userVar.getId().toString().equals(existingClaim.getRegisInfo().getCustomerInfo().getId())){
+                return existingClaim.convertClaimToRes();
+            }
+            else if(user.getRole() == Role.INSUARANCE_MANAGER || user.getRole() == Role.ACCOUNTANT){
+                return existingClaim.convertClaimToRes();
+            }
+            else{
+                throw new UserCreationException("User need authorication to access this function");
+            }
+        } catch (Exception e) {
+            throw new UserCreationException("Error getting user's claims: " + e.getMessage());
+        }
+    }
 }

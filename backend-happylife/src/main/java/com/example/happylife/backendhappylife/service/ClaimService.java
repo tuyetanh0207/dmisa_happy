@@ -31,4 +31,7 @@ public interface ClaimService {
     ClaimResDTO updateClaimImageOrFileDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
 
     ClaimResDTO updateClaimFilesDocUrl(ObjectId claimId, List<String> uploadedUrls, List<SectionFileCount> sectionFileCounts);
+
+    ClaimResDTO getClaimByClaimId(ObjectId claimId,
+                                  UserResDTO user);
 }

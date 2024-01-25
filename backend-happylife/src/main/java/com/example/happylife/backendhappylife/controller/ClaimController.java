@@ -108,9 +108,6 @@ public class ClaimController {
         try {
             User user = (User) request.getAttribute("userDetails");
             UserResDTO userResDTO = user.convertFromUserToUserResDTO();
-            System.out.println(userResDTO.getRole());
-            System.out.println("Error : " + userResDTO.getId().toString());
-            System.out.println(userId.toString());
             if(user.getRole() == Role.CUSTOMER ||
                     user.getRole() == Role.INSUARANCE_MANAGER ||
                     user.getRole() == Role.ACCOUNTANT)
@@ -176,4 +173,23 @@ public class ClaimController {
             return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
         }
     };
+    @GetMapping("/{claimId}/getInfo")
+    public ResponseEntity<?> getByClaimId(HttpServletRequest request,
+                                         @PathVariable ObjectId claimId){
+        try {
+            User user = (User) request.getAttribute("userDetails");
+            UserResDTO userResDTO = user.convertFromUserToUserResDTO();
+            if(user.getRole() == Role.CUSTOMER ||
+                    user.getRole() == Role.INSUARANCE_MANAGER ||
+                    user.getRole() == Role.ACCOUNTANT)
+            {
+                return ResponseEntity.ok(claimService.getClaimByClaimId(claimId,userResDTO));
+            }
+            else {
+                return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body("You need authenticated account to access this info.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status((HttpStatus.BAD_REQUEST)).body(e.getMessage());
+        }
+    }
 }
