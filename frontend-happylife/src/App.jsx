@@ -57,10 +57,10 @@ export default function App() {
                 <Route path='/signup' element ={<Signup/>} />            
                 <Route path='/plan/:planId' element ={<Plandetail/>} />
                 <Route path='/buyplan' element ={<Buyplan/>} />
-                <Route path='/payment/:regisId' element ={<PaymentBank />} />
+                <Route path='/payment/:regisId/:planId' element ={<PaymentBank />} />
                 <Route path='/paymentconfirm' element ={<PaymentConfirm/>} />
                 <Route path='/contract/:regisId' element ={<Contract/>} />
-                <Route path='/claimdetail/:regisId' element ={<ClaimDetail/>} />
+                <Route path='/claimdetail/:claimId' element ={<ClaimDetail/>} />
 
                 <Route path='/createclaim' element={<CreateClaim/>}/>
                 <Route

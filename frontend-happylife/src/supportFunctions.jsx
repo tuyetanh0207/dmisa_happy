@@ -70,3 +70,13 @@ export function createMessageForClaim(currentMsg, isLock, actionName) {
   }
   return message;
 }
+
+export function NumberFormat(number) {
+  if(number==null){
+    return number;
+  } else {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  }
+
+}

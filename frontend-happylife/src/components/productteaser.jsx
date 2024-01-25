@@ -125,7 +125,7 @@ const productteaser = (props) => {
                     {realtimeClaim.map((claim, index) => (
                             <tr className="bg-white border-b text-center items-center  mb-[50px]">
                                 <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                  <Link to={`/claimdetail/${props.realtimeRegis.regisId}`}>
+                                  <Link to={`/claimdetail/${claim?.claimId}`}>
                                     <button className='w-auto h-auto p-2'>
                                       <img src={EyeIcon} alt="Detail" />
                                     </button>

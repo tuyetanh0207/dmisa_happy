@@ -15,8 +15,13 @@ const UserAPI = {
         return get(url, token)
     },
     updateUser: function(newUser, userId, token){
-        const url = `${apiV1}/users/${userId}/update`;
-        return put(url,newUser,token);
+        try{
+            const url = `${apiV1}/users/${userId}/update`;
+            return put(url,newUser,token);
+        }
+        catch(err){    
+            return err;
+        }
     }
 }
 

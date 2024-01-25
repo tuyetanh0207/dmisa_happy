@@ -47,40 +47,42 @@ const Login = () => {
     console.log("res in login: ", isLoginSuccess)
 
     return(
-    <div className='w-[1920px] h-[1080px] flex '>
-        {isPopupOpen === true && <PopupConfirm realtimeNoti={noti} isPopupOpen={isPopupOpen} setIsPopupOpen = {setIsPopupOpen} />} 
-        <Link to='/home'>
-            <div className="flex w-[960px] h-[1080px] bg-blue-950 border border-indigo-500 flex items-center justify-center">
-                <img src={Logo}></img>
+    <div className='w-screen h-screen flex'>
+        {isPopupOpen === true && <PopupConfirm realtimeNoti={noti} isPopupOpen={isPopupOpen} setIsPopupOpen = {setIsPopupOpen} popupState={false}/>} 
+        <Link to='/home' className=' w-[50%] h-[100%]'>
+            <div className="flex w-[100%] h-[100%] bg-blue-950 border border-indigo-500 flex items-center justify-center">
+                <img src={Logo} className='w-[50%] h-[45%]'></img>
             </div>
         </Link>
-        <div className="righthalf w-[960px] h-[1080px] bg-slate-50 flex items-center justify-center">
+        <div className="righthalf w-[50%] h-[100%] bg-slate-50 flex items-center justify-center">
             {/* <div className="h-screen flex items-center justify-center h-[631px] bg-bgr-white mx-auto">  */}
-                <div className="w-[720px] h-[663px] bg-white rounded-lg border border-gray-200">
-                    <h2 className="text-center text-blue-950 text-4xl leading-[56px] font-serif font-semibold mb-6 mt-[105px] mb-[47]">Log in into your account</h2>
+                <div className="w-auto h-auto bg-white rounded-lg border border-gray-200">
+                    <h2 className="text-center text-blue-950 text-4xl leading-[56px] font-serif font-semibold mb-6 mt-[47px] mb-[47] mx-[50px]">Log in into your account</h2>
                     <form className="font-sans  font-medium text-base"
                     onSubmit={handleSubmit}
                     >
                         <div>
-                            <label className="ml-[100px]">
+                        <div>
+                            <label className="pl-[75px]">
                                 Username    
                             </label>
                         </div>
                         <div className="flex items-center justify-center">
-                            <input className="text-black w-[519px] h-[48px] mb-[44px] border border-neutral-200 border-solid rounded p-[10px]"
+                            <input className="text-black w-[400px] h-[48px] mb-[16px] border border-neutral-200 border-solid rounded p-[10px]"
                             id='username' 
                             onChange={(e)=> setUsername(e.target.value)}
                             required
                             >
                             </input>
                         </div>
+                        </div>
                         <div>
-                            <label className="ml-[100px] ">
+                            <label className="ml-[75px] ">
                                 Password
                             </label>
                         </div>
                         <div  className="flex items-center justify-center">
-                            <input className="text-black w-[519px] h-[48px] mb-[12px] border border-neutral-200 rounded p-[10px]"
+                            <input className="text-black w-[400px] h-[48px] mb-[12px] border border-neutral-200 rounded p-[10px]"
                             type="password" 
                             id ='password' 
                             onChange={(e)=> setPassword(e.target.value)}
@@ -89,17 +91,17 @@ const Login = () => {
                             </input>
                         </div>
                         
-                        <div className="ml-[100px] font-normal italic text-[#5576F5]">
+                        <div className="ml-[75px] font-normal italic text-[#5576F5]">
                             Forgot password?
                         </div>  
                         <div className="flex items-center justify-center font-bold text-xl">
                         <button 
-                           className="bg-button-blue w-[519px] h-[56px] mt-[29px] mb-[22px] text-white rounded-lg">
+                           className="bg-button-blue w-[400px] h-[56px] mt-[29px] mb-[22px] text-white rounded-lg">
                            Sign in
                            
                         </button>
                         </div>
-                        <div className='flex justify-center'>
+                        <div className='flex justify-center mb-[47px]'>
                             <label className='text-gray-500 text-base font-normal leading-tight mr-[4px] mt-[2px]'>
                                 Don't have an account?
                             </label>

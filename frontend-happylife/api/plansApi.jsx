@@ -12,6 +12,10 @@ const PlanAPI = {
     getPlanByRegisId: function(regisId, token){
         const url = `${apiV1}/plans/${regisId}/getPlanByRegisId`;
         return get(url, token)
+    },
+    getPlanByPlanId: function(planId, token){
+        const url = `${apiV1}/plans/${planId}`;
+        return get(url, token)
     }
 
 }

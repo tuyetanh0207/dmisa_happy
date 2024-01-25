@@ -4,6 +4,7 @@ import UserAPI from '../../../api/userApi';
 import Avartar from '../../assets/avatar.png';
 import ClaimAPI from '../../../api/claimApi'
 import { useParams } from 'react-router-dom';
+import {Routes, Route, Link} from 'react-router-dom';
 
 
 const claimDetail = (props) => {
@@ -83,13 +84,13 @@ const claimDetail = (props) => {
     /* v----------------- FETCH REGIS-CLAIMLIST -----------------v */
 
   // Get regisId by url
-  const { regisId } = useParams();
+  const { claimId } = useParams();
   // Get claim by regis of user
-  const [realtimeClaim, setRealtimeClaim] = useState([]);
-  const fetchClaim = async () => {
+  const [realtimeClaimDetail, setRealtimeClaimDetail] = useState({});
+  const fetchClaimDetail = async () => {
     try{
-      const res = await ClaimAPI.getAllClaimsOfUserByRegis(user1?.token, regisId);
-      setRealtimeClaim(res.data);
+      const res = await ClaimAPI.getClaimByClaimId(user1?.token, claimId);
+      setRealtimeClaimDetail(res.data);
       console.log('res realtimeClaim by regis in ClaimDetail:', res.data);
 
     }
@@ -98,21 +99,30 @@ const claimDetail = (props) => {
     }
   }
   useEffect(() => {
-    fetchClaim();
+    fetchClaimDetail();
   },[])
   
     /* ^----------------- FETCH REGIS-CLAIMLIST -----------------^ */
     /* ^----------------- FETCH REGIS-CLAIMLIST -----------------^ */
     /* ^----------------- FETCH REGIS-CLAIMLIST -----------------^ */
 
-
+// console.log("TEST PLAN TYPE",realtimeClaimDetail?.regisInfo?.productInfo?.planType?.[0]?.typeName)
+    const test = [1,2,3,4,5,6,7,8,9]
   return (
     
 
 
     <div className=" flex justify-center items-center h-auto min-h-[1180px] bg-slate-50 my-auto flex-col">   
         <form className="w-[1415px] h-auto min-h-[800px] bg-white rounded-lg border border-gray-200 font-sans font-medium text-base mt-[100px] mb-[100px]">
-            <div className='flex justify-center mt-[50px] mb-[32px]'>
+          <Link to='/profile/claims'>
+              <div className='w-[1415px] pl-[100px] pr-[100px] flex justify-end mt-[50px]'>
+                
+                <button className='w-[50px] h-[50px] rounded-full border-2 bg-red-100 border-red-500 flex items-center justify-center'>
+                  <div className='font-serif text-red-600'>X</div>
+                </button>
+              </div>
+            </Link>
+            <div className='flex justify-center mt-[30px] mb-[32px]'>
               <div className="w-[987px] rounded-lg text-center text-blue-950 text-5xl font-medium font-serif leading-[56px]">
                   <div className='text-center text-4xl font-bold p-[30px] bg-teal-100 mb-[20px]'>
                         Claim Detail
@@ -188,8 +198,10 @@ const claimDetail = (props) => {
                         </div>
                         <div className='flex justify-center gap-x-[67px]'>
                             <div className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
+                             {realtimeClaimDetail?.regisInfo?.productInfo?.planType?.[0]?.typeName}
                             </div>
                             <div className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
+                              {realtimeClaimDetail?.regisInfo?.productInfo?.planDuration} {realtimeClaimDetail?.regisInfo?.productInfo?.planDurationUnit} 
                             </div>
                         </div>
                         
@@ -202,6 +214,7 @@ const claimDetail = (props) => {
                     </div>
                     <div className='flex justify-center'>
                         <div className='w-[987px] h-12 mb-[42px] bg-white rounded border border-neutral-200 p-[10px]'>
+                          {realtimeClaimDetail?.regisInfo?.productInfo?.planServiceCoverage}
                         </div>
                     </div>
                     <div>
@@ -209,7 +222,7 @@ const claimDetail = (props) => {
                             Plan Optional Benefit
                         </label>
                     </div>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center mb-[42px]'>
                         <div className='w-[987px] h-auto max-h-[500px] sticky bg-white rounded border border-neutral-200 p-[10px] overflow-y-auto'>
                           <div className='mb-[42px]'>
                               <div>
@@ -222,32 +235,40 @@ const claimDetail = (props) => {
                                     </div>
                                 </div>
                               </div>
-
                               <div className='flex flex-col gap-y-8'>
-                                <div className='flex justify-center gap-x-4 text-center'>
-                                    <div className="w-[400px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
-                                    HEALTHI INSURANCH
-                                    </div>
-                                    <div className="w-[400px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
-                                      10000000 VND
-                                    </div>
-                                </div>
+                              {realtimeClaimDetail?.regisInfo?.productInfo?.optionalBenefits?.map((bf)=>(
                                 <div className='flex justify-center gap-x-4 text-center'>
                                   <div className="w-[400px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
-                                    HEALTHI INSURANCH
+                                  HEALTHI INSURANCH
                                   </div>
                                   <div className="w-[400px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
                                     10000000 VND
                                   </div>
-                                </div>
-                              </div>
-                              
-                              
-                              
+                            </div>
+                              ))}
+                              </div>                              
                           </div>
 
                         </div>
                     </div>
+
+                    <div className='mb-[42px]'>
+                        <div>
+                            <label className='ml-[214px] mr-[384px] '>Claim Total Request</label>
+                        
+                            <label>Claim Amount</label>
+                        </div>
+                        <div className='flex justify-center gap-x-[67px]'>
+                            <div className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
+                             {realtimeClaimDetail?.claimTotalRequest}
+                            </div>
+                            <div className="w-[460px] h-12 bg-white rounded border border-neutral-200 p-[10px]">
+                              {realtimeClaimDetail?.claimAmount} VND 
+                            </div>
+                        </div>
+                        
+                    </div>
+
                     <div className='flex justify-center'>
                       <div className='w-[987px] rounded-lg font-serif font-bold text-center text-4xl p-[30px] bg-teal-100 mt-[20px]'>
                         Invoice
@@ -277,13 +298,17 @@ const claimDetail = (props) => {
                               </thead>
                             
                               <tbody>
+                              {realtimeClaimDetail?.claimInvoices?.map((invoice)=>(
                                 <tr className="bg-white border-b text-center items-center  mb-6  ">
-                                  <td className="px-6 py-4" >HAHA </td>
-                                  <td className="px-6 py-4">HAHA </td>
-                                  <td className="px-6 py-4">HOHO</td>
-                                  <td className="px-6 py-4">HIHi</td>
-                                  <td className="px-6 py-4">HIHi</td>
+                               
+                                  <td className="px-6 py-4" >{invoice?.invoiceDate}</td>
+                                  <td className="px-6 py-4">{invoice?.amount}</td>
+                                  <td className="px-6 py-4">{invoice?.claimPercentage}</td>
+                                  <td className="px-6 py-4">{invoice?.claimAmount}</td>
+                                  <td className="px-6 py-4">{invoice?.status}</td>
+                                
                                 </tr>
+                                ))}
                               </tbody>
                           </table>
                         </div>

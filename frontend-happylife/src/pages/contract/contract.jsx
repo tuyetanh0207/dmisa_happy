@@ -32,6 +32,7 @@ const contract = () => {
       fetchContract();
     },[])  
     
+
     const handleAccept = async (e) => {
         e.preventDefault();
         console.log('update contract status')
@@ -58,13 +59,23 @@ const contract = () => {
         }
     }
 
+    //Chuyển đổi date thành dạng dd/mm/yyyy
+    const formatISODateToDDMMYYYY = (isoDate) => {
+        const dateObj = new Date(isoDate);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+      
+        return `${day}/${month}/${year}`;
+    };
+    console.log("TEST", realtimeContract?.createdAt)
   return (
 
     <div className="w-auto h-[1210px] bg-slate-50 flex justify-center items-center">
-        <div className="w-[1415px] h-[965px] bg-white rounded-lg border-2 border-gray-200">
+        <div className="w-[80%] h-[80%] bg-white rounded-lg border-2 border-gray-200">
             <div className="mt-[71px] mb-[37px] text-blue-950 text-5xl text-center font-medium font-serif leading-[56px]">Terms and Conditions</div>
             <div className='flex justify-center items-center  gap-x-[584px] '>
-                <a href={InsuranceContract}  download="InsuranceContract">
+                <a href={realtimeContract?.content?.[0].content}  download="InsuranceContract">
                     <button className='w-auto' download = {InsuranceContract}>
 
                         <div className="w-auto h-12 px-6 py-3 bg-indigo-50 rounded border justify-center items-center gap-2.5 inline-flex">
@@ -76,7 +87,8 @@ const contract = () => {
                 <div className="w-auto h-12 px-6 py-3 bg-indigo-50 rounded border justify-center items-center gap-2.5 inline-flex">
                     <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">
                         {/* \{realtimeContract.updatedAt] */}
-                        Last updated: Dec 21th 2023</div>
+                        Last updated: {formatISODateToDDMMYYYY(realtimeContract?.createdAt)}
+                        </div>
                 </div>
             </div>
             <div className='flex justify-center items-center mt-[38px]'>
@@ -97,11 +109,13 @@ const contract = () => {
                             <div className="text-center text-white text-base font-bold leading-normal">Accept</div>
                         </button>
                     </Link>
+                    <Link to ='/profile/registration'>
                     <button>
                         <div className="w-[231px] h-12 px-6 py-3 bg-indigo-500 bg-opacity-0 rounded border-2 border-indigo-500 justify-center items-center gap-2.5 inline-flex">
-                            <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">Decline</div>
+                            <div className="text-center text-indigo-500 text-base font-bold font-['IBM Plex Sans'] leading-normal">Cancel</div>
                         </div>
                     </button>
+                    </Link>
                 </div>
            </div>
 

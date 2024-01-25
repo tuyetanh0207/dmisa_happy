@@ -63,7 +63,7 @@ const registrationteaser = (props) =>{
                             <div className="text-center text-red-700 text-base font-bold font-['IBM Plex Sans'] leading-normal">Unpaid</div>
                         </div>
                         <Link
-                        to={`/payment/${props.realtimeRegis.regisId}`}
+                        to={`/payment/${props.realtimeRegis.regisId}/${props.realtimeRegis.productInfo.planId}`}
                         >
                         <button>
                             <div className="w-[162px] h-12 mt-[7px] bg-indigo-500 rounded border border-indigo-500 items-center justify-center inline-flex">
